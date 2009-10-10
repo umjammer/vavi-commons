@@ -1,0 +1,16 @@
+#
+# Copyright (c) 2003 by Naohide Sano, All rights reserved.
+#
+# Written by Naohide Sano
+#
+# ant properties for vavi TM Original Edition
+#
+# @author	Naohide Sano
+# @version	0.00	031213	nsano	initial version
+#
+
+dir.windows=c:/windows
+maven.repo=c:/Document\ and\ Settings/nsano/.maven/repository
+passphrase=foobar
+dir.home=c:/home/nsano
+jks.password=foobar

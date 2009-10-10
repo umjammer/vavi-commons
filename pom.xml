@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>vavi</groupId>
+  <artifactId>vavi-commons</artifactId>
+  <name>Vavi Commons API</name>
+  <organization>
+    <name></name>
+  </organization>
+  <version>1.0.0</version>
+  <url>http://www.vavisoft.com/</url>
+  <description></description>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <encoding>Windows-31J</encoding>
+          <compilerVersion>1.5</compilerVersion>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <repositories>
+  </repositories>
+  <dependencies>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>4.5</version>
+  		<scope>test</scope>
+  		<optional>false</optional>
+  	</dependency>
+  </dependencies>
+</project>

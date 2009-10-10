@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<html lang="ja">
+
+<head>
+<link rev="MADE" href="mailto:vavivavi@yahoo.co.jp" />
+<link rel="INDEX" href="orverview.html" />
+<meta http-equiv="Content-Type" content="text/html; charset=shift_jis" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link rel="stylesheet" type="text/css" href="../../vavi.css" />
+<title>vavi.util</title>
+<!--
+ * Copyright (c) 2001 by Naohide Sano, All rights reserved.
+ *
+ * Written by Naohide Sano
+ *
+ * @author	<a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ *
+ * @version	0.00	010823	nsano	initial version
+-->
+</head>
+
+<body>
+
+<p>
+さまざまなユーティリティを提供します．
+{@link vavi.util.Debug} クラスは大変便利です．
+</p>
+
+<h2>
+デバッグ手法
+</h2>
+
+<ul>
+    <li><h3>デバッグ情報を表示する</h3>
+
+<pre>
+Debug.println(...);
+</pre>
+
+    </li>
+
+    <li><h3>既存のクラスをオーバライドする</h3>
+
+<pre>
+JTree tree= new JTree() {
+
+    public void addTreeSelectionListener(TreeSelectionListener l) {
+        super.addTreeSelectionListener(l);
+Debug.println(Debug.DEBUG, ...);
+    }
+}
+</pre>
+
+    </li>
+
+    <li><h3>現在デバッグしているところだけを表示する</h3>
+
+<pre>
+Debug.println(Lebel.SPECIAL, ...);
+
+% java -Ddebug.lebel=0 foo ...
+</pre>
+    </li>
+
+    <li><h3>呼び出しメソッドを表示する</h3>
+
+<pre>
+Debug.println(... Debug.getCallerMethod() ...);
+
+Debug.println(... Debug.getCallerMethod(3) ...);
+
+Debug.println(... Debug.getTopCallerMethod("vavi") ...);
+</pre>
+
+    </li>
+
+    <li><h3>デバッグコードを取り除く</h3>
+    </li>
+</ul>
+
+
+<h2>これから実装すること</h2>
+
+<ul>
+  <li><del>StringUtil.paramString に aaa$bbb$Ccc=class aaa.bbb.Ccc とかある、なに？</del> ... inner class</li>
+</ul>
+
+</body>
+
+</html>

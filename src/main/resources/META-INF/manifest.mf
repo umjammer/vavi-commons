@@ -1,0 +1,28 @@
+Specification-Version: 0.0
+Specification-Title: Vavi API
+Implementation-Version: 0.0.0_00
+Implementation-Title: Vavi API
+Created-By: 0.0.0_00 (Vavisoft.com)
+Implementation-Vendor: Vavisoft.com
+Specification-Vendor: Vavisoft.com
+
+Name: vavi/swing/JBeansTabbedPane.class
+Java-Bean: True
+
+Name: vavi/swing/JFileChooserTextField.class
+Java-Bean: True
+
+Name: vavi/swing/JFileChooserHistoryComboBox.class
+Java-Bean: True
+
+Name: vavi/swing/JFontChooser.class
+Java-Bean: True
+
+Name: vavi/swing/JHistoryComboBox.class
+Java-Bean: True
+
+Name: vavi/swing/JTreeComboBox.class
+Java-Bean: True
+
+Name: vavi/swing/JVolume.class
+Java-Bean: True
