@@ -14,6 +14,8 @@ import java.lang.StringBuilder;
  * “ú–{Œê•¶š‚Ì•½‰¼–¼‚ÆƒJƒ^ƒJƒi‚Ì‘ŠŒİ•ÏŠ·‚ÆC
  * ”¼Šp‚Æ‘SŠp•¶š‚Ì‘ŠŒİ•ÏŠ·‚ğs‚¢‚Ü‚·D
  * 
+ * TODO StringNormalizer#normalize
+ * 
  * @author Takashi Okamoto
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.20 T.O original version <br>
@@ -323,14 +325,14 @@ Debug.println((int) ret.charAt(i));
         "‚`‚a‚b‚c‚d‚e‚f‚g‚h‚i‚j‚k‚l‚m‚n‚o‚p‚q‚r‚s‚t‚u‚v‚w‚x‚y" +
         "‚‚‚‚ƒ‚„‚…‚†‚‡‚ˆ‚‰‚Š‚‹‚Œ‚‚‚‚‚‘‚’‚“‚”‚•‚–‚—‚˜‚™‚š" +
         "‚O‚P‚Q‚R‚S‚T‚U‚V‚W‚X" +
-        "@ijghfHDCopmn";
+        "@ijghfDCopmnQ•";
 
     /** */
     private static final String halfTable =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
             "abcdefghijklmnopqrstuvwxyz" +
             "0123456789" +
-            " ()\"\"'?.,{}[]";
+            " ()\"\"'.,{}[]_&";
 
     /** */
     public static String toFull2(String str) {

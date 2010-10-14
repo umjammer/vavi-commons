@@ -1,7 +1,7 @@
 /*
- * $Id: CsvDialect.java 0 2008/01/24 14:17:10 sano-n $
- * 
- * Copyright (C) 2008 KLab Inc. All Rights Reserved.
+ * Copyright (c) 2008 by Naohide Sano, All rights reserved.
+ *
+ * Programmed by Naohide Sano
  */
 
 package vavi.beans;
@@ -17,7 +17,7 @@ import java.security.PrivilegedExceptionAction;
 /**
  * BeanUtil.
  *
- * @author <a href="mailto:sano-n@klab.org">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:17:10 $ $Author: sano-n $
  */
 public abstract class BeanUtil {
@@ -25,7 +25,14 @@ public abstract class BeanUtil {
 //  private static Log logger = LogFactory.getLog(CsvUtil.class);
 
     /**
+     * 初めに通常に読めるフィールドで取得します。
+     * 次に Getter メソッド(Bean命名規則, booleanの場合isFooあり)で取得します。
+     * 最後に private フィールドを強制的に取得します。
+     * 
      * TODO use {@link java.beans.Introspector} ??? or {@link org.apache.commons.beanutils.BeanUtils}
+     * 
+     * @param field 対象となるフィールド定義
+     * @param bean 取得対象のオブジェクト
      */
     public static Object getFieldValue(Field field, Object bean) {
         Class<?> beanClass = bean.getClass();
@@ -56,15 +63,23 @@ public abstract class BeanUtil {
 //                  throw new IllegalStateException("no access method for: " + fieldName); 
                 }
             } catch (InvocationTargetException e2) {
-                throw (RuntimeException) new IllegalStateException().initCause(e); 
+                throw new IllegalStateException(e); 
             } catch (IllegalAccessException e2) {
-                throw (RuntimeException) new IllegalStateException().initCause(e); 
+                throw new IllegalStateException(e); 
             }
         } 
     }
 
     /**
+     * 初めに通常に読めるフィールドで設定します。
+     * 次に Setter メソッドで設定します。
+     * 最後に private フィールドを強制的に設定します。
+     * 
      * TODO use {@link java.beans.Introspector} ??? or {@link org.apache.commons.beanutils.BeanUtils}
+     * 
+     * @param field 対象となるフィールド定義
+     * @param bean 設定対象のオブジェクト
+     * @param value 設定する値
      */
     public static void setFieldValue(Field field, Object bean, Object value) {
         Class<?> beanClass = bean.getClass();
@@ -81,9 +96,9 @@ public abstract class BeanUtil {
                 setPrivateFieldValue(field, bean, value);
 //              throw new IllegalStateException("no access method for: " + fieldName); 
             } catch (InvocationTargetException e2) {
-                throw (RuntimeException) new IllegalStateException().initCause(e); 
+                throw new IllegalStateException(e); 
             } catch (IllegalAccessException e2) {
-                throw (RuntimeException) new IllegalStateException().initCause(e); 
+                throw new IllegalStateException(e); 
             }
         } 
     }
@@ -106,9 +121,9 @@ public abstract class BeanUtil {
             Field accessibleField = getPrivateField(field.getDeclaringClass(), field.getName());
             return accessibleField.get(bean);
         } catch (IllegalAccessException e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e); 
+            throw new IllegalStateException(e); 
         } catch (PrivilegedActionException e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e); 
+            throw new IllegalStateException(e); 
         }
     }
 
@@ -118,9 +133,9 @@ public abstract class BeanUtil {
             Field accessibleField = getPrivateField(field.getDeclaringClass(), field.getName());
             accessibleField.set(bean, value);
         } catch (IllegalAccessException e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e); 
+            throw new IllegalStateException(e); 
         } catch (PrivilegedActionException e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e); 
+            throw new IllegalStateException(e); 
         }
     }
 }

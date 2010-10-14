@@ -19,7 +19,7 @@ import vavi.util.Debug;
 /**
  * Bit 単位で読み込むストリームです．
  * 
- * @todo 中途半端なビット
+ * TODO 中途半端なビット
  * TODO endian 処理あってるよね？
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
