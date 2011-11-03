@@ -9,7 +9,9 @@ package vavi.io;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteOrder;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -18,9 +20,10 @@ import junit.framework.TestCase;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 040919 nsano initial version <br>
  */
-public class BitOutputStreamTest extends TestCase {
+public class BitOutputStreamTest {
 
     /** */
+    @Test
     public void test_4Bit_BE_1() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BitOutputStream bos = new BitOutputStream(baos); // 4bit BigEndian
@@ -31,6 +34,7 @@ public class BitOutputStreamTest extends TestCase {
     }
 
     /** */
+    @Test
     public void test_4Bit_BE_2() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BitOutputStream bos = new BitOutputStream(baos); // 4bit BigEndian
@@ -45,6 +49,7 @@ public class BitOutputStreamTest extends TestCase {
      * 01 | 11 | 10 | 01 | -> 01 | 11 | 10 | 01 |
      * </pre>
      */
+    @Test
     public void test_2Bit_BE() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BitOutputStream bos = new BitOutputStream(baos, 2); // 2bit BigEndian
@@ -61,6 +66,7 @@ public class BitOutputStreamTest extends TestCase {
      * 01 | 11 | 10 | 01 | -> | 01 | 10 | 11 | 01
      * </pre>
      */
+    @Test
     public void test_2Bit_LE() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BitOutputStream bos = new BitOutputStream(baos, 2, ByteOrder.LITTLE_ENDIAN); // 2bit LittleEndian
@@ -73,6 +79,7 @@ public class BitOutputStreamTest extends TestCase {
     }
 
     /** */
+    @Test
     public void test_4Bit_LE_1() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BitOutputStream bos = new BitOutputStream(baos, 4, ByteOrder.LITTLE_ENDIAN); // 4bit LittleEndian
@@ -83,6 +90,7 @@ public class BitOutputStreamTest extends TestCase {
     }
 
     /** */
+    @Test
     public void test_4Bit_LE_2() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BitOutputStream bos = new BitOutputStream(baos, 4, ByteOrder.LITTLE_ENDIAN); // 4bit LittleEndian

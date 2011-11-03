@@ -117,16 +117,16 @@ if (bits != 4 && bits != 2) {
 
     /** */
     public void flush() throws IOException {
-Debug.println("stacked bits: " + stackedBits);
+//Debug.println("stacked bits: " + stackedBits);
         super.flush();
-    }
-
-    /** */
-    public void close() throws IOException {
         if (stackedBits != 0) {
 Debug.println("stacked bits: " + stackedBits + " flushed.");
             out.write(current);
         }
+    }
+
+    /** */
+    public void close() throws IOException {
         super.close();
     }
 

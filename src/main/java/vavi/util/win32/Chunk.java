@@ -30,8 +30,8 @@ import vavi.util.StringUtil;
  *          1.00 030121 nsano refactoring <br>
  *          1.01 030122 nsano add class prefix related <br>
  *          1.02 030122 nsano add toString <br>
- *          1.03 030606 nsano chnage error trap in #readFrom <br>
- *          1.03 030711 nsano chnage #readFrom <br>
+ *          1.03 030606 nsano change error trap in #readFrom <br>
+ *          1.03 030711 nsano change #readFrom <br>
  */
 public abstract class Chunk {
     /** */
