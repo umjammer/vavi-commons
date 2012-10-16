@@ -10,7 +10,8 @@
 #
 
 dir.windows=c:/windows
-maven.repo=c:/Document\ and\ Settings/nsano/.maven/repository
+maven.repo=c:/Document\ and\ Settings/foo/.maven/repository
 passphrase=foobar
-dir.home=c:/home/nsano
+dir.home=c:/home/foo
 jks.password=foobar
+encoding=UTF-8

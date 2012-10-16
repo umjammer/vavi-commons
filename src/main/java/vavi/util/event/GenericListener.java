@@ -10,7 +10,7 @@ import java.util.EventListener;
 
 
 /**
- * ”Ä—p‚ÌƒŠƒXƒiƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚·D
+ * æ±ç”¨ã®ãƒªã‚¹ãƒŠã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 030318 nsano initial version <br>
@@ -18,9 +18,9 @@ import java.util.EventListener;
 public interface GenericListener extends EventListener {
 
     /**
-     * ƒCƒxƒ“ƒg‚ª”­s‚³‚ê‚½‚ÉŒÄ‚Î‚ê‚Ü‚·D
+     * ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºè¡Œã•ã‚ŒãŸæ™‚ã«å‘¼ã°ã‚Œã¾ã™ï¼
      * 
-     * @param ev ”Ä—pƒCƒxƒ“ƒg
+     * @param ev æ±ç”¨ã‚¤ãƒ™ãƒ³ãƒˆ
      */
     void eventHappened(GenericEvent ev);
 }

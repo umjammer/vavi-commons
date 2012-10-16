@@ -10,8 +10,8 @@ import java.util.Calendar;
 
 
 /**
- * Win32 ‚Ì“ú•tŠÖ˜A‚Ì\‘¢‘Ì‚ğˆµ‚¤‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·D
- * ‰½‚Å‚±‚ñ‚È‚É‚¢‚Á‚Ï‚¢‚ ‚é‚Ì? ‚³‚·‚ª M$A“ˆêŠ´–³‚¢‚Ë‚¥B
+ * Win32 ã®æ—¥ä»˜é–¢é€£ã®æ§‹é€ ä½“ã‚’æ‰±ã†ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ï¼
+ * ä½•ã§ã“ã‚“ãªã«ã„ã£ã±ã„ã‚ã‚‹ã®? ã•ã™ãŒ M$ã€çµ±ä¸€æ„Ÿç„¡ã„ã­ã‡ã€‚
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 030211 nsano initial version <br>
@@ -34,7 +34,7 @@ public final class DateUtil {
     private DateUtil() {}
 
     /**
-     * FILETIME (long) ‚©‚ç java long (msec since 1970/1/1) ‚ğæ“¾‚µ‚Ü‚·D
+     * FILETIME (long) ã‹ã‚‰ java long (msec since 1970/1/1) ã‚’å–å¾—ã—ã¾ã™ï¼
      */
     public static final long filetimeToLong(long filetime) {
 
@@ -57,7 +57,7 @@ public final class DateUtil {
     }
 
     /**
-     * DATE (double) ‚©‚ç java long (msec since 1970/1/1) ‚ğæ“¾‚µ‚Ü‚·D
+     * DATE (double) ã‹ã‚‰ java long (msec since 1970/1/1) ã‚’å–å¾—ã—ã¾ã™ï¼
      */
     public static final long dateToLong(double date) {
         Calendar calendar = Calendar.getInstance();
@@ -67,12 +67,12 @@ public final class DateUtil {
     }
 
     /**
-     * DOS DATE (int) ‚Æ DOS TIME (int) ‚©‚ç
-     * java long (msec since 1970/1/1) ‚ğæ“¾‚µ‚Ü‚·D
-     * @param	date	ãˆÊ‚©‚ç 7 bit ‚ª 1980 ”N‚©‚ç‚Ì”N”C4 bit ‚ªŒC
-     *			c‚è‚Ì 5 bit ‚ª“ú‚ğ•\‚·
-     * @param	time	ãˆÊ‚©‚ç 5 bit ‚ªŠÔC6 bit ‚ª•ªC
-     *			c‚è‚Ì 5 bit ‚ª•b‚ğ 2 ‚ÅŠ„‚Á‚½‚à‚Ì
+     * DOS DATE (int) ã¨ DOS TIME (int) ã‹ã‚‰
+     * java long (msec since 1970/1/1) ã‚’å–å¾—ã—ã¾ã™ï¼
+     * @param	date	ä¸Šä½ã‹ã‚‰ 7 bit ãŒ 1980 å¹´ã‹ã‚‰ã®å¹´æ•°ï¼Œ4 bit ãŒæœˆï¼Œ
+     *			æ®‹ã‚Šã® 5 bit ãŒæ—¥ã‚’è¡¨ã™
+     * @param	time	ä¸Šä½ã‹ã‚‰ 5 bit ãŒæ™‚é–“ï¼Œ6 bit ãŒåˆ†ï¼Œ
+     *			æ®‹ã‚Šã® 5 bit ãŒç§’ã‚’ 2 ã§å‰²ã£ãŸã‚‚ã®
      */
     public static final long dosDateTimeToLong(int date, int time) {
 

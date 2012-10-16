@@ -24,12 +24,12 @@ import java.io.FileOutputStream;
 
 
 /**
- * .ini ‚ğˆµ‚¤‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·D
+ * .ini ã‚’æ‰±ã†ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ï¼
  * 
- * Properties ƒNƒ‰ƒX‚ÌŠg’£ƒNƒ‰ƒX‚Æ‚µ‚Äˆµ‚¤‚½‚ßƒvƒƒpƒeƒB‚ÌƒL[–¼‚Í
- * "ƒZƒNƒVƒ‡ƒ“–¼" + "." + "ƒL[–¼" ‚Æ‚µ‚Äˆµ‚Á‚Ä‚­‚¾‚³‚¢D
+ * Properties ã‚¯ãƒ©ã‚¹ã®æ‹¡å¼µã‚¯ãƒ©ã‚¹ã¨ã—ã¦æ‰±ã†ãŸã‚ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ã‚­ãƒ¼åã¯
+ * "ã‚»ã‚¯ã‚·ãƒ§ãƒ³å" + "." + "ã‚­ãƒ¼å" ã¨ã—ã¦æ‰±ã£ã¦ãã ã•ã„ï¼
  * 
- * ’ˆÓFƒvƒƒpƒeƒB‚Ì‡˜AƒRƒƒ“ƒg‚Í•Û‘¶‚³‚ê‚Ü‚¹‚ñB
+ * æ³¨æ„ï¼šãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®é †åºã€ã‚³ãƒ¡ãƒ³ãƒˆã¯ä¿å­˜ã•ã‚Œã¾ã›ã‚“ã€‚
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 020502 nsano initial version <br>
@@ -41,7 +41,7 @@ public class WindowsProperties extends Properties {
     private Vector sections = new Vector();
 
     /**
-     * .ini ‚ÌƒXƒgƒŠ[ƒ€‚ğ“Ç‚İ‚İ‚Ü‚·D
+     * .ini ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public void load(InputStream in) throws IOException {
 
@@ -81,9 +81,9 @@ Debug.println("outside section: " + s);
     }
 
     /**
-     * ƒZƒNƒVƒ‡ƒ“‚ğˆµ‚¤‚½‚ßƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ü‚·D
-     * @param	key	"ƒZƒNƒVƒ‡ƒ“–¼" + "." + "ƒL[–¼"
-     * @throws	IllegalArgumentException ƒZƒNƒVƒ‡ƒ“–¼‚ª–³‚¢‚Æ‚«
+     * ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã‚’æ‰±ã†ãŸã‚ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¾ã™ï¼
+     * @param	key	"ã‚»ã‚¯ã‚·ãƒ§ãƒ³å" + "." + "ã‚­ãƒ¼å"
+     * @throws	IllegalArgumentException ã‚»ã‚¯ã‚·ãƒ§ãƒ³åãŒç„¡ã„ã¨ã
      */
     public Object setProperty(String key, String value) {
         int p = key.indexOf('.');
@@ -99,8 +99,8 @@ Debug.println("outside section: " + s);
     }
 
     /**
-     * .ini Œ`®‚ÅƒXƒgƒŠ[ƒ€‚É‘‚«‚İ‚Ü‚·D
-     * ’ˆÓFƒvƒƒpƒeƒB‚Ì‡˜AƒRƒƒ“ƒg‚Í•Û‘¶‚³‚ê‚Ü‚¹‚ñB
+     * .ini å½¢å¼ã§ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«æ›¸ãè¾¼ã¿ã¾ã™ï¼
+     * æ³¨æ„ï¼šãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®é †åºã€ã‚³ãƒ¡ãƒ³ãƒˆã¯ä¿å­˜ã•ã‚Œã¾ã›ã‚“ã€‚
      */
     public void store(OutputStream out, String header) throws IOException {
 
@@ -135,7 +135,7 @@ Debug.println("prop: " + key + "=" + value);
     }
     
     /**
-     * ŠY“–ƒZƒNƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚ğ‚ğíœ‚µ‚Ü‚·D
+     * è©²å½“ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ã‚’å‰Šé™¤ã—ã¾ã™ï¼
      */
     public void removePropertiesOfSection(String section) {
         Enumeration e = this.propertyNames();

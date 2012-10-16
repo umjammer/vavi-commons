@@ -18,7 +18,7 @@ import javax.swing.JFileChooser;
 
 
 /**
- * Regex ‚ÅƒtƒBƒ‹ƒ^‚ğ‚©‚¯‚éƒtƒ@ƒCƒ‹ƒtƒBƒ‹ƒ^‚Å‚·D
+ * Regex ã§ãƒ•ã‚£ãƒ«ã‚¿ã‚’ã‹ã‘ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ã‚£ãƒ«ã‚¿ã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 010910 nsano initial version <br>
@@ -26,31 +26,31 @@ import javax.swing.JFileChooser;
  */
 public class RegexFileFilter extends javax.swing.filechooser.FileFilter implements FileFilter {
 
-    /** ƒpƒ^[ƒ“‚Ì”z—ñ */
+    /** ãƒ‘ã‚¿ãƒ¼ãƒ³ã®é…åˆ— */
     private List<String> regexs = new ArrayList<String>(1);
 
-    /** ƒtƒBƒ‹ƒ^‚Ìà–¾ */
+    /** ãƒ•ã‚£ãƒ«ã‚¿ã®èª¬æ˜ */
     private String description;
 
     /**
-     * ƒtƒ@ƒCƒ‹ƒtƒBƒ‹ƒ^‚ğì¬‚µ‚Ü‚·D
+     * ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ã‚£ãƒ«ã‚¿ã‚’ä½œæˆã—ã¾ã™ï¼
      */
     public RegexFileFilter() {
     }
 
     /**
-     * w’è‚µ‚½ƒpƒ^[ƒ“‚Ìƒtƒ@ƒCƒ‹ƒtƒBƒ‹ƒ^‚ğì¬‚µ‚Ü‚·D
+     * æŒ‡å®šã—ãŸãƒ‘ã‚¿ãƒ¼ãƒ³ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ã‚£ãƒ«ã‚¿ã‚’ä½œæˆã—ã¾ã™ï¼
      * 
-     * @param regex ƒpƒ^[ƒ“
+     * @param regex ãƒ‘ã‚¿ãƒ¼ãƒ³
      */
     public RegexFileFilter(String regex) {
         regexs.add(regex);
     }
 
     /**
-     * w’è‚µ‚½ƒpƒ^[ƒ“‚Ìƒtƒ@ƒCƒ‹ƒtƒBƒ‹ƒ^‚ğì¬‚µ‚Ü‚·D
+     * æŒ‡å®šã—ãŸãƒ‘ã‚¿ãƒ¼ãƒ³ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ã‚£ãƒ«ã‚¿ã‚’ä½œæˆã—ã¾ã™ï¼
      * 
-     * @param regex ƒpƒ^[ƒ“
+     * @param regex ãƒ‘ã‚¿ãƒ¼ãƒ³
      */
     public RegexFileFilter(String regex, String description) {
         regexs.add(regex);
@@ -58,23 +58,23 @@ public class RegexFileFilter extends javax.swing.filechooser.FileFilter implemen
     }
 
     /**
-     * ƒtƒBƒ‹ƒ^‚Ìà–¾‚ğİ’è‚µ‚Ü‚·D
+     * ãƒ•ã‚£ãƒ«ã‚¿ã®èª¬æ˜ã‚’è¨­å®šã—ã¾ã™ï¼
      */
     public void setDescription(String description) {
         this.description = description;
     }
 
     /**
-     * ƒpƒ^[ƒ“‚ğ’Ç‰Á‚µ‚Ü‚·D
+     * ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¿½åŠ ã—ã¾ã™ï¼
      */
     public void addPattern(String regex) {
         regexs.add(regex);
     }
 
     /**
-     * w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ğƒtƒBƒ‹ƒ^‚ªó‚¯•t‚¯‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·D
-     * ƒpƒ^[ƒ“‚ª–³‚¢ê‡‚ÆAƒfƒBƒŒƒNƒgƒŠ‚Í true ‚ğ•Ô‚µ‚Ü‚·B
-     * @param file ‘ÎÛ‚Ìƒtƒ@ƒCƒ‹
+     * æŒ‡å®šã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ•ã‚£ãƒ«ã‚¿ãŒå—ã‘ä»˜ã‘ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã—ã¾ã™ï¼
+     * ãƒ‘ã‚¿ãƒ¼ãƒ³ãŒç„¡ã„å ´åˆã¨ã€ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯ true ã‚’è¿”ã—ã¾ã™ã€‚
+     * @param file å¯¾è±¡ã®ãƒ•ã‚¡ã‚¤ãƒ«
      */
     public boolean accept(File file) {
 
@@ -104,7 +104,7 @@ Debug.println("no pattern");
     }
 
     /**
-     * ƒtƒBƒ‹ƒ^‚Ìà–¾‚ğ•Ô‚µ‚Ü‚·D
+     * ãƒ•ã‚£ãƒ«ã‚¿ã®èª¬æ˜ã‚’è¿”ã—ã¾ã™ï¼
      */
     public String getDescription() {
         if (description != null) {

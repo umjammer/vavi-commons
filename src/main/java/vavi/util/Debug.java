@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 
 /**
- * ƒfƒoƒbƒO‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·D
+ * ãƒ‡ãƒãƒƒã‚°ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 010821 nsano initial version <br>
@@ -40,15 +40,15 @@ import java.util.logging.Logger;
 public final class Debug {
 
     /**
-     * Š®‘S‚ÉƒfƒoƒbƒOƒR[ƒh‚ğæ‚èœ‚­ê‡‚ÍˆÈ‰º‚ğ false ‚É
-     * ‚µ‚Ä‚·‚×‚Ä‚ğÄƒRƒ“ƒpƒCƒ‹‚µ‚Ä‚­‚¾‚³‚¢D
+     * å®Œå…¨ã«ãƒ‡ãƒãƒƒã‚°ã‚³ãƒ¼ãƒ‰ã‚’å–ã‚Šé™¤ãå ´åˆã¯ä»¥ä¸‹ã‚’ false ã«
+     * ã—ã¦ã™ã¹ã¦ã‚’å†ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã—ã¦ãã ã•ã„ï¼
      */
     private static final boolean isDebug = true;
 //    private static final boolean isDebug = false;
 
     //-------------------------------------------------------------------------
 
-    /** ƒfƒoƒbƒOî•ñ‚Ìo—ÍæƒXƒgƒŠ[ƒ€ */
+    /** ãƒ‡ãƒãƒƒã‚°æƒ…å ±ã®å‡ºåŠ›å…ˆã‚¹ãƒˆãƒªãƒ¼ãƒ  */
     private static Logger logger = Logger.getLogger(Debug.class.getName());
 
     /** */
@@ -75,15 +75,15 @@ e.printStackTrace(System.err);
     }
     
     /**
-     * ƒAƒNƒZƒX‚Å‚«‚Ü‚¹‚ñD
+     * ã‚¢ã‚¯ã‚»ã‚¹ã§ãã¾ã›ã‚“ï¼
      */
     private Debug() {}
     
     /**
-     * ‰üs•t‚«‚ÅƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ü‚·D
+     * æ”¹è¡Œä»˜ãã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã—ã¾ã™ï¼
      *
-     * @param	level	‚±‚ÌƒƒbƒZ[ƒW‚Ì•\¦ƒŒƒxƒ‹
-     * @param	message	•\¦ƒƒbƒZ[ƒW
+     * @param	level	ã“ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è¡¨ç¤ºãƒ¬ãƒ™ãƒ«
+     * @param	message	è¡¨ç¤ºãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     public static final void println(Level level, Object message) {
         if (isDebug) {
@@ -96,10 +96,10 @@ e.printStackTrace(System.err);
     }
     
     /**
-     * ‰üs•t‚«‚ÅƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ü‚·D
+     * æ”¹è¡Œä»˜ãã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã—ã¾ã™ï¼
      *
-     * @param	level	‚±‚ÌƒƒbƒZ[ƒW‚Ì•\¦ƒŒƒxƒ‹
-     * @param	message	•\¦ƒƒbƒZ[ƒW
+     * @param	level	ã“ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è¡¨ç¤ºãƒ¬ãƒ™ãƒ«
+     * @param	message	è¡¨ç¤ºãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      * @see	#print(Level, Object)
      */
     public static final void println(Level level, boolean message) {
@@ -109,10 +109,10 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ‰üs•t‚«‚ÅƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ü‚·D
+     * æ”¹è¡Œä»˜ãã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã—ã¾ã™ï¼
      *
-     * @param	level	‚±‚ÌƒƒbƒZ[ƒW‚Ì•\¦ƒŒƒxƒ‹
-     * @param	message	•\¦ƒƒbƒZ[ƒW
+     * @param	level	ã“ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è¡¨ç¤ºãƒ¬ãƒ™ãƒ«
+     * @param	message	è¡¨ç¤ºãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      * @see	#println(Level, Object)
      */
     public static final void println(Level level, int message) {
@@ -122,9 +122,9 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ‰üs•t‚«‚ÅƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ü‚·D
+     * æ”¹è¡Œä»˜ãã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã—ã¾ã™ï¼
      *
-     * @param	message	•\¦ƒƒbƒZ[ƒW
+     * @param	message	è¡¨ç¤ºãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      * @see	#println(Level, Object)
      */
     public static final void println(Object message) {
@@ -134,9 +134,9 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ‰üs•t‚«‚ÅƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ü‚·D
+     * æ”¹è¡Œä»˜ãã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã—ã¾ã™ï¼
      *
-     * @param	message	•\¦ƒƒbƒZ[ƒW
+     * @param	message	è¡¨ç¤ºãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      * @see	#println(Level, Object)
      */
     public static final void println(int message) {
@@ -146,9 +146,9 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ‰üs•t‚«‚ÅƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ü‚·D
+     * æ”¹è¡Œä»˜ãã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã—ã¾ã™ï¼
      *
-     * @param	message	•\¦ƒƒbƒZ[ƒW
+     * @param	message	è¡¨ç¤ºãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      * @see	#println(Level, Object)
      */
     public static final void println(char message) {
@@ -158,9 +158,9 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ‰üs•t‚«‚ÅƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ü‚·D
+     * æ”¹è¡Œä»˜ãã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã—ã¾ã™ï¼
      *
-     * @param	message	•\¦ƒƒbƒZ[ƒW
+     * @param	message	è¡¨ç¤ºãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      * @see	#println(Level, Object)
      */
     public static final void println(boolean message) {
@@ -170,9 +170,9 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ‰üs•t‚«‚ÅƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ü‚·D
+     * æ”¹è¡Œä»˜ãã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã—ã¾ã™ï¼
      *
-     * @param	message	•\¦ƒƒbƒZ[ƒW
+     * @param	message	è¡¨ç¤ºãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      * @see	#println(Level, Object)
      */
     public static final void println(double message) {
@@ -182,10 +182,10 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ü‚·.
+     * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã—ã¾ã™.
      *
-     * @param	level	‚±‚ÌƒƒbƒZ[ƒW‚Ì•\¦ƒŒƒxƒ‹
-     * @param	message	•\¦ƒƒbƒZ[ƒW
+     * @param	level	ã“ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è¡¨ç¤ºãƒ¬ãƒ™ãƒ«
+     * @param	message	è¡¨ç¤ºãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      */
     public static final void print(Level level, Object message) {
         if (isDebug) {
@@ -198,9 +198,9 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ƒƒbƒZ[ƒW‚ğo—Í‚µ‚Ü‚·D
+     * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã—ã¾ã™ï¼
      *
-     * @param	message	•\¦ƒƒbƒZ[ƒW
+     * @param	message	è¡¨ç¤ºãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
      * @see	#println(Level, Object)
      */
     public static final void print(Object message) {
@@ -210,7 +210,7 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ƒfƒoƒbƒOƒ‚[ƒh‚È‚çƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğo—Í‚µ‚Ü‚·D
+     * ãƒ‡ãƒãƒƒã‚°ãƒ¢ãƒ¼ãƒ‰ãªã‚‰ã‚¹ã‚¿ãƒƒã‚¯ãƒˆãƒ¬ãƒ¼ã‚¹ã‚’å‡ºåŠ›ã—ã¾ã™ï¼
      * @param	e	exception
      */
     public static final void printStackTrace(Throwable e) {
@@ -220,28 +220,28 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ƒoƒCƒg”z—ñ‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
+     * ãƒã‚¤ãƒˆé…åˆ—ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
      */
     public static final void dump(byte[] buf) {
         dump(new ByteArrayInputStream(buf));
     }
 
     /**
-     * ƒoƒCƒg”z—ñ‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
+     * ãƒã‚¤ãƒˆé…åˆ—ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
      */
     public static final void dump(byte[] buf, int length) {
         dump(new ByteArrayInputStream(buf), length);
     }
 
     /**
-     * ƒoƒCƒg”z—ñ‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
+     * ãƒã‚¤ãƒˆé…åˆ—ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
      */
     public static final void dump(byte[] buf, int offset, int length) {
         dump(new ByteArrayInputStream(buf, offset, length));
     }
 
     /**
-     * ƒXƒgƒŠ[ƒ€‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
+     * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
      */
     public static final void dump(InputStream is) {
         StringBuilder sb = new StringBuilder();
@@ -251,8 +251,8 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * §ŒÀ•t‚ÅƒXƒgƒŠ[ƒ€‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
-     * @param length §ŒÀ‚·‚é’·‚³
+     * åˆ¶é™ä»˜ã§ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
+     * @param length åˆ¶é™ã™ã‚‹é•·ã•
      */
     public static final void dump(InputStream is, int length) {
         StringBuilder sb = new StringBuilder();
@@ -272,12 +272,12 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * Œ»İÀs’†‚ÌƒvƒƒOƒ‰ƒ€‚Ìî•ñ‚ğæ“¾‚µ‚Ü‚·D
+     * ç¾åœ¨å®Ÿè¡Œä¸­ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ï¼
      * <p>
-     * g—p—áF
+     * ä½¿ç”¨ä¾‹ï¼š
      * <pre>
      * <tt>
-     * Debug.println("ŒÄ‚ÑŒ³‚Ìƒƒ\ƒbƒh‚Í" + Debug.getCallerMethod() + "‚Å‚·");
+     * Debug.println("å‘¼ã³å…ƒã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯" + Debug.getCallerMethod() + "ã§ã™");
      * </tt>
      * </pre>
      * <p>
@@ -287,11 +287,11 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * Œ»İÀs’†‚ÌƒvƒƒOƒ‰ƒ€‚Ìî•ñ‚ğæ“¾‚µ‚Ü‚·D
-     * @param	depth	ŒÄ‚Ño‚µŒ³‚Ì[‚³C0 ˆÈã‚ğw’è‚·‚éD
-     * ‘ÎÛƒƒ\ƒbƒh‚ğ’¼ÚŒÄ‚Ôê‡‚Í 0C
-     * ‘ÎÛƒƒ\ƒbƒh‚ğŒÄ‚Ôƒƒ\ƒbƒh‚ğŒÄ‚Ôê‡‚Í 1C
-     * ‚Ì‚æ‚¤‚Éw’è‚·‚éB
+     * ç¾åœ¨å®Ÿè¡Œä¸­ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®æƒ…å ±ã‚’å–å¾—ã—ã¾ã™ï¼
+     * @param	depth	å‘¼ã³å‡ºã—å…ƒã®æ·±ã•ï¼Œ0 ä»¥ä¸Šã‚’æŒ‡å®šã™ã‚‹ï¼
+     * å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç›´æ¥å‘¼ã¶å ´åˆã¯ 0ï¼Œ
+     * å¯¾è±¡ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶å ´åˆã¯ 1ï¼Œ
+     * ã®ã‚ˆã†ã«æŒ‡å®šã™ã‚‹ã€‚
      */
     public static final String getCallerMethod(int depth) {
         StackTraceElement ste = getStackTraceElement(depth);
@@ -299,7 +299,7 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ƒtƒH[ƒ}ƒbƒg‚µ‚½ StackTraceElement ‚Ì•¶š—ñ‚ğ•Ô‚µ‚Ü‚·D
+     * ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã—ãŸ StackTraceElement ã®æ–‡å­—åˆ—ã‚’è¿”ã—ã¾ã™ï¼
      * @param	ste	StackTraceElement
      */
     private static final String format(StackTraceElement ste) {
@@ -322,7 +322,7 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ‚±‚ÌƒNƒ‰ƒX‚Ì‚ÌŒÄ‚Ño‚µŒ³ƒƒ\ƒbƒh‚ğ•Ô‚µ‚Ü‚·D
+     * ã“ã®ã‚¯ãƒ©ã‚¹ã®ã®å‘¼ã³å‡ºã—å…ƒãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿”ã—ã¾ã™ï¼
      */
     private static final StackTraceElement getStackTraceElement(int depth) {
         Throwable t = new Throwable();
@@ -342,9 +342,9 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * w’è‚³‚ê‚½ƒpƒbƒP[ƒW–¼‚ÌŒÄ‚Ño‚µŒ³ƒƒ\ƒbƒh‚ÌÅãˆÊ‚Ì•¶š—ñ‚ğ•Ô‚µ‚Ü‚·D
-     * <code>vavi.xxx</code> ƒpƒbƒP[ƒW‚ğ—á‚Æ‚·‚ê‚Î <code>
-     * getTopCallerMethod("vavi")</code> ‚Æw’è‚µ‚Ü‚·D
+     * æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒƒã‚±ãƒ¼ã‚¸åã®å‘¼ã³å‡ºã—å…ƒãƒ¡ã‚½ãƒƒãƒ‰ã®æœ€ä¸Šä½ã®æ–‡å­—åˆ—ã‚’è¿”ã—ã¾ã™ï¼
+     * <code>vavi.xxx</code> ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’ä¾‹ã¨ã™ã‚Œã° <code>
+     * getTopCallerMethod("vavi")</code> ã¨æŒ‡å®šã—ã¾ã™ï¼
      */
     public static final String getTopCallerMethod(String packageName) {
 

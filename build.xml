@@ -48,7 +48,7 @@
 
   <!-- javac all vavi -->
   <target name="compile" depends="prepare" description="コンパイル">
-    <javac debug="on" target="1.5" encoding="MS932" destdir="${dir.build}">
+    <javac debug="on" target="1.5" encoding="${encoding}" destdir="${dir.build}">
       <classpath refid="project.class.path" />
       <src path="src/main/java" />
     </javac>
@@ -59,7 +59,7 @@
       </fileset>
     </copy>
 
-    <javac debug="on" target="1.5" encoding="MS932" destdir="target/test-classes">
+    <javac debug="on" target="1.5" encoding="${encoding}" destdir="target/test-classes">
       <classpath>
         <path refid="project.class.path" />
         <pathelement location="${dir.build}" />

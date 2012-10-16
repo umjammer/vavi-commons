@@ -66,18 +66,18 @@ public abstract class Chunk {
     }
 
     /**
-     * ƒXƒgƒŠ[ƒ€ƒf[ƒ^‚ğƒVƒŠƒAƒ‰ƒCƒY‚·‚éƒƒ\ƒbƒh‚Å‚·B
-     * ƒIƒuƒWƒFƒNƒg“à‚Ìƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÉƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ä‚­‚¾‚³‚¢B
-     * @throws NullPointerException {@link #setData(InputStream)} ‚ğÀ‘•‚µ‚Ä‚¢‚È‚¢ê‡ {@link #data} ‚ª null
+     * ã‚¹ãƒˆãƒªãƒ¼ãƒ ãƒ‡ãƒ¼ã‚¿ã‚’ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå†…ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã«ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ãã ã•ã„ã€‚
+     * @throws NullPointerException {@link #setData(InputStream)} ã‚’å®Ÿè£…ã—ã¦ã„ãªã„å ´åˆ {@link #data} ãŒ null
      */
     public InputStream getData() throws IOException {
         return new ByteArrayInputStream(data);
     }
 
     /**
-     * ƒXƒgƒŠ[ƒ€ƒf[ƒ^‚ğƒfƒVƒŠƒAƒ‰ƒCƒY‚·‚éƒƒ\ƒbƒh‚Å‚·B
-     * ƒIƒuƒWƒFƒNƒg“à‚Ìƒf[ƒ^‚ğ–„‚ß‚é‚½‚ß‚ÉƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ä‚­‚¾‚³‚¢B
-     * {@link Chunk} ƒNƒ‰ƒX‚ÌÀ‘•‚Å‚Í {@link #data} ‚Í fill ‚³‚ê‚Ü‚¹‚ñB
+     * ã‚¹ãƒˆãƒªãƒ¼ãƒ ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ‡ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå†…ã®ãƒ‡ãƒ¼ã‚¿ã‚’åŸ‹ã‚ã‚‹ãŸã‚ã«ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ãã ã•ã„ã€‚
+     * {@link Chunk} ã‚¯ãƒ©ã‚¹ã®å®Ÿè£…ã§ã¯ {@link #data} ã¯ fill ã•ã‚Œã¾ã›ã‚“ã€‚
      */
     public void setData(InputStream is) throws IOException {
 
@@ -126,15 +126,15 @@ public abstract class Chunk {
         sb.append(clazz.getName());
         sb.append("[");
 
-        // private ƒƒ\ƒbƒhAƒtƒB[ƒ‹ƒh‚Ìæ“¾‚É‚Í getDeclared...
-        // ‚ğg‚¢‚Ü‚·B
+        // private ãƒ¡ã‚½ãƒƒãƒ‰ã€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å–å¾—ã«ã¯ getDeclared...
+        // ã‚’ä½¿ã„ã¾ã™ã€‚
         Field[] fields = clazz.getDeclaredFields();
 
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
 
-            // private ƒtƒB[ƒ‹ƒh‚Ìæ“¾‚É‚ÍAaccessible ƒtƒ‰ƒO‚ğ
-            // true ‚É‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
+            // private ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å–å¾—ã«ã¯ã€accessible ãƒ•ãƒ©ã‚°ã‚’
+            // true ã«ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
             field.setAccessible(true);
 
             String name = field.getName();
@@ -219,7 +219,7 @@ chunk.print();
 
     /** */
     protected static String getOuterClassName(String name) {
-        int p = name.lastIndexOf('$');	// TODO $ ‚ÍÀ‘•ˆË‘¶???
+        int p = name.lastIndexOf('$');	// TODO $ ã¯å®Ÿè£…ä¾å­˜???
         if (p == -1) {
             throw new IllegalStateException("not inner class: " + name);
         }

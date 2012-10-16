@@ -13,7 +13,7 @@ import java.io.InputStream;
 
 
 /**
- * Little Endian ƒoƒCƒgƒI[ƒ_‚Å“Ç‚İ‚ŞƒXƒgƒŠ[ƒ€‚Å‚·D
+ * Little Endian ãƒã‚¤ãƒˆã‚ªãƒ¼ãƒ€ã§èª­ã¿è¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 020507 nsano initial version <br>
@@ -23,7 +23,7 @@ import java.io.InputStream;
 public class LittleEndianDataInputStream extends FilterInputStream implements LittleEndianDataInput {
 
     /**
-     * Little Endian ƒoƒCƒgƒI[ƒ_‚Å“Ç‚İ‚ŞƒXƒgƒŠ[ƒ€‚ğì¬‚µ‚Ü‚·D
+     * Little Endian ãƒã‚¤ãƒˆã‚ªãƒ¼ãƒ€ã§èª­ã¿è¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ä½œæˆã—ã¾ã™ï¼
      */
     public LittleEndianDataInputStream(InputStream in) {
         super(in);
@@ -32,7 +32,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
     // ----
 
     /**
-     * 16bit “Ç‚İ‚İ‚Ü‚·D
+     * 16bit èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public short readShort() throws IOException {
 
@@ -47,7 +47,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
     }
 
     /**
-     * 32bit “Ç‚İ‚İ‚Ü‚·D
+     * 32bit èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public int readInt() throws IOException {
 
@@ -59,7 +59,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
     }
 
     /**
-     * 64bit “Ç‚İ‚İ‚Ü‚·D
+     * 64bit èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public long readLong() throws IOException {
 
@@ -109,14 +109,14 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
     }
 
     /**
-     * boolean “Ç‚İ‚İ‚Ü‚·D
+     * boolean èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public boolean readBoolean() throws IOException {
         throw new UnsupportedOperationException("not implemented"); // TODO not implemented
     }
 
     /**
-     * unsigned 16bit “Ç‚İ‚İ‚Ü‚·D
+     * unsigned 16bit èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public int readUnsignedShort() throws IOException {
 
@@ -131,7 +131,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
     }
 
     /**
-     * unsigned byte “Ç‚İ‚İ‚Ü‚·D
+     * unsigned byte èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public int readUnsignedByte() throws IOException {
         int r = in.read();
@@ -143,28 +143,28 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
     }
 
     /**
-     * float “Ç‚İ‚İ‚Ü‚·D
+     * float èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public float readFloat() throws IOException {
         return Float.intBitsToFloat(readInt());
     }
 
     /**
-     * double “Ç‚İ‚İ‚Ü‚·D
+     * double èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public double readDouble() throws IOException {
         return Double.longBitsToDouble(readLong());
     }
 
     /**
-     * char “Ç‚İ‚İ‚Ü‚·D
+     * char èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public char readChar() throws IOException {
         throw new UnsupportedOperationException("not implemented"); // TODO not implemented
     }
 
     /**
-     * byte “Ç‚İ‚İ‚Ü‚·D
+     * byte èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public byte readByte() throws IOException {
         int r = in.read();

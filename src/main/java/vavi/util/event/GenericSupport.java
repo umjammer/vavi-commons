@@ -11,7 +11,7 @@ import javax.swing.event.EventListenerList;
 
 
 /**
- * ”Ä—pƒCƒxƒ“ƒg‹@\‚Ì‚ÌŠî–{À‘•ƒNƒ‰ƒX‚Å‚·D
+ * æ±ç”¨ã‚¤ãƒ™ãƒ³ãƒˆæ©Ÿæ§‹ã®ã®åŸºæœ¬å®Ÿè£…ã‚¯ãƒ©ã‚¹ã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 030318 nsano initial version <br>
@@ -21,17 +21,17 @@ public class GenericSupport implements Serializable {
     /** The generic listeners */
     private EventListenerList listenerList = new EventListenerList();
 
-    /** GenericListener ‚ğ’Ç‰Á‚µ‚Ü‚·D */
+    /** GenericListener ã‚’è¿½åŠ ã—ã¾ã™ï¼ */
     public void addGenericListener(GenericListener l) {
         listenerList.add(GenericListener.class, l);
     }
 
-    /** GenericListener ‚ğíœ‚µ‚Ü‚·D */
+    /** GenericListener ã‚’å‰Šé™¤ã—ã¾ã™ï¼ */
     public void removeGenericListener(GenericListener l) {
         listenerList.remove(GenericListener.class, l);
     }
 
-    /** ”Ä—pƒCƒxƒ“ƒg‚ğ”­s‚µ‚Ü‚·D */
+    /** æ±ç”¨ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºè¡Œã—ã¾ã™ï¼ */
     public void fireEventHappened(GenericEvent ev) {
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {

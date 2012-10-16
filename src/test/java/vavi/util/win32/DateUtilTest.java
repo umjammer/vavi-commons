@@ -19,7 +19,7 @@ import junit.framework.TestCase;
  */
 public class DateUtilTest extends TestCase {
 
-    /** milli sec �؎̂� */
+    /** milli sec 切捨て */
     public void testFiletimeToLong() {
         long actual = DateUtil.filetimeToLong(127056483573732704L);
         Calendar calendar = Calendar.getInstance();
@@ -27,7 +27,7 @@ public class DateUtilTest extends TestCase {
         assertEquals(calendar.getTimeInMillis() / 1000, actual / 1000);
     }
 
-    /** milli sec �؎̂� */
+    /** milli sec 切捨て */
     public void testDateToLong() {
         long actual = DateUtil.dateToLong(37565.911458333336);
         Calendar calendar = Calendar.getInstance();
@@ -35,7 +35,7 @@ public class DateUtilTest extends TestCase {
         assertEquals(calendar.getTimeInMillis() / 1000, actual / 1000);
     }
 
-    /** milli sec �؎̂� */
+    /** milli sec 切捨て */
     public void testDosDateTimeToLong() {
         long actual = DateUtil.dosDateTimeToLong(1, 1);
         assertEquals(312822002078L / 1000, actual / 1000);

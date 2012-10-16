@@ -11,7 +11,7 @@ import java.util.logging.LogManager;
 
 
 /**
- * ƒfƒoƒbƒO‚ÌƒRƒ“ƒtƒBƒOƒŒ[ƒVƒ‡ƒ“ƒNƒ‰ƒX‚Å‚·D
+ * ãƒ‡ãƒãƒƒã‚°ã®ã‚³ãƒ³ãƒ•ã‚£ã‚°ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 021104 nsano initial version <br>

@@ -14,6 +14,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -64,8 +69,8 @@ public class WAVE extends RIFF {
         System.err.println("---- data ----");
     }
 
-    /** */
-    private boolean dealBigSize = true;
+    /** TODO now construction */
+    private boolean dealBigSize = false;
 
     //-------------------------------------------------------------------------
 
@@ -207,15 +212,15 @@ public class WAVE extends RIFF {
         private byte[] wave;
 
         /** */
-//        private ByteBuffer buffer;
+        private MappedByteBuffer buffer;
 
         /**
          * Gets data.
-         * getData() ÇÕÉIÅ[ÉoÉâÉCÉhÇ≈Ç´Ç»Ç¢ÅD
+         * getData() „ÅØ„Ç™„Éº„Éê„É©„Ç§„Éâ„Åß„Åç„Å™„ÅÑÔºé
          */
         public byte[] getWave() {
-            if (dealBigSize) {
-                return null;
+            if (dealBigSize && buffer != null) {
+                return buffer.array();
             } else {
                 return wave;
             }
@@ -228,10 +233,9 @@ public class WAVE extends RIFF {
 
         /** */
         public void setData(InputStream is) throws IOException {
-            if (dealBigSize) {
-//                ReadableByteChannel inputChannel = Channels.newChannel(is);
-//                buffer = inputChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) inputChannel.size());
-
+            if (dealBigSize && is instanceof FileInputStream) {
+                FileChannel inputChannel = FileInputStream.class.cast(is).getChannel();
+                buffer = inputChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) inputChannel.size());
             } else {
                 wave = new byte[(int) getLength()];
                 int l = 0;

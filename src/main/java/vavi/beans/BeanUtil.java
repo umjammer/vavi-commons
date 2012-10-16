@@ -25,14 +25,14 @@ public abstract class BeanUtil {
 //  private static Log logger = LogFactory.getLog(CsvUtil.class);
 
     /**
-     * ‰‚ß‚É’Êí‚É“Ç‚ß‚éƒtƒB[ƒ‹ƒh‚Åæ“¾‚µ‚Ü‚·B
-     * Ÿ‚É Getter ƒƒ\ƒbƒh(Bean–½–¼‹K‘¥, boolean‚Ìê‡isFoo‚ ‚è)‚Åæ“¾‚µ‚Ü‚·B
-     * ÅŒã‚É private ƒtƒB[ƒ‹ƒh‚ğ‹­§“I‚Éæ“¾‚µ‚Ü‚·B
+     * åˆã‚ã«é€šå¸¸ã«èª­ã‚ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã§å–å¾—ã—ã¾ã™ã€‚
+     * æ¬¡ã« Getter ãƒ¡ã‚½ãƒƒãƒ‰(Beanå‘½åè¦å‰‡, booleanã®å ´åˆisFooã‚ã‚Š)ã§å–å¾—ã—ã¾ã™ã€‚
+     * æœ€å¾Œã« private ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’å¼·åˆ¶çš„ã«å–å¾—ã—ã¾ã™ã€‚
      * 
      * TODO use {@link java.beans.Introspector} ??? or {@link org.apache.commons.beanutils.BeanUtils}
      * 
-     * @param field ‘ÎÛ‚Æ‚È‚éƒtƒB[ƒ‹ƒh’è‹`
-     * @param bean æ“¾‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg
+     * @param field å¯¾è±¡ã¨ãªã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å®šç¾©
+     * @param bean å–å¾—å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static Object getFieldValue(Field field, Object bean) {
         Class<?> beanClass = bean.getClass();
@@ -71,15 +71,15 @@ public abstract class BeanUtil {
     }
 
     /**
-     * ‰‚ß‚É’Êí‚É“Ç‚ß‚éƒtƒB[ƒ‹ƒh‚Åİ’è‚µ‚Ü‚·B
-     * Ÿ‚É Setter ƒƒ\ƒbƒh‚Åİ’è‚µ‚Ü‚·B
-     * ÅŒã‚É private ƒtƒB[ƒ‹ƒh‚ğ‹­§“I‚Éİ’è‚µ‚Ü‚·B
+     * åˆã‚ã«é€šå¸¸ã«èª­ã‚ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã§è¨­å®šã—ã¾ã™ã€‚
+     * æ¬¡ã« Setter ãƒ¡ã‚½ãƒƒãƒ‰ã§è¨­å®šã—ã¾ã™ã€‚
+     * æœ€å¾Œã« private ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’å¼·åˆ¶çš„ã«è¨­å®šã—ã¾ã™ã€‚
      * 
      * TODO use {@link java.beans.Introspector} ??? or {@link org.apache.commons.beanutils.BeanUtils}
      * 
-     * @param field ‘ÎÛ‚Æ‚È‚éƒtƒB[ƒ‹ƒh’è‹`
-     * @param bean İ’è‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg
-     * @param value İ’è‚·‚é’l
+     * @param field å¯¾è±¡ã¨ãªã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å®šç¾©
+     * @param bean è¨­å®šå¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param value è¨­å®šã™ã‚‹å€¤
      */
     public static void setFieldValue(Field field, Object bean, Object value) {
         Class<?> beanClass = bean.getClass();

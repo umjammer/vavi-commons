@@ -10,7 +10,7 @@ import java.util.EventObject;
 
 
 /**
- * ”Ä—p‚ÌƒCƒxƒ“ƒg‚Å‚·D
+ * æ±ç”¨ã®ã‚¤ãƒ™ãƒ³ãƒˆã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 030318 nsano initial version <br>

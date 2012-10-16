@@ -14,7 +14,7 @@ import java.util.StringTokenizer;
 
 
 /**
- * ƒNƒ‰ƒXŠÖ˜A‚Ìƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·D
+ * ã‚¯ãƒ©ã‚¹é–¢é€£ã®ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 020517 nsano initial version <br>
@@ -26,11 +26,11 @@ public final class ClassUtil {
     private ClassUtil() {}
 
     /**
-     * •¶š—ñ‚©‚çƒNƒ‰ƒX‚ğæ“¾‚µ‚Ü‚·D
-     * TODO ‚È‚ñ‚©‚Ç‚Á‚©‚É‚ ‚è‚»‚¤D
+     * æ–‡å­—åˆ—ã‹ã‚‰ã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã—ã¾ã™ï¼
+     * TODO ãªã‚“ã‹ã©ã£ã‹ã«ã‚ã‚Šãã†ï¼
      * 
-     * @param className ƒvƒŠƒ~ƒeƒBƒuŒ^‚à‚»‚Ì‚Ü‚Üw’è‚Å‚«‚Ü‚·D
-     *                  ‹t‚É java.lang ‚Í”F¯‚µ‚È‚¢‚Ì‚Å‘‚¢‚Ä‚­‚¾‚³‚¢D
+     * @param className ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã‚‚ãã®ã¾ã¾æŒ‡å®šã§ãã¾ã™ï¼
+     *                  é€†ã« java.lang ã¯èªè­˜ã—ãªã„ã®ã§æ›¸ã„ã¦ãã ã•ã„ï¼
      */
     public static Class<?> forName(String className)
         throws ClassNotFoundException {
@@ -63,9 +63,9 @@ public final class ClassUtil {
     }
 
     /**
-     * •¶š—ñ‚©‚çƒRƒ“ƒXƒgƒ‰ƒNƒ^—p‚Ìˆø”Œ^‚ÌƒNƒ‰ƒX‚ÌƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·D
-     * @param	line	ƒfƒŠƒ~ƒ^‚Í { ',', '\t', ' ' }
-     *			ƒvƒŠƒ~ƒeƒBƒuŒ^‚Í‚»‚Ì‚Ü‚Ü‘‚­D int, long ...
+     * æ–‡å­—åˆ—ã‹ã‚‰ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç”¨ã®å¼•æ•°å‹ã®ã‚¯ãƒ©ã‚¹ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ï¼
+     * @param	line	ãƒ‡ãƒªãƒŸã‚¿ã¯ { ',', '\t', ' ' }
+     *			ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã¯ãã®ã¾ã¾æ›¸ãï¼ int, long ...
      */
     public static Class<?>[] getArgumentTypes(String line)
         throws ClassNotFoundException {
@@ -80,9 +80,9 @@ public final class ClassUtil {
     }
 
     /**
-     * •¶š—ñ‚©‚çƒRƒ“ƒXƒgƒ‰ƒNƒ^—p‚Ìˆø”‚ÌƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·D
-     * @param	line	ƒfƒŠƒ~ƒ^‚Í { ',', '\t', ' ' }
-     *			null ‚Í‚»‚Ì‚Ü‚Ü‘‚­D null
+     * æ–‡å­—åˆ—ã‹ã‚‰ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç”¨ã®å¼•æ•°ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã¾ã™ï¼
+     * @param	line	ãƒ‡ãƒªãƒŸã‚¿ã¯ { ',', '\t', ' ' }
+     *			null ã¯ãã®ã¾ã¾æ›¸ãï¼ null
      */
     static Object[] getArguments(String line, Class<?>[] argTypes)
         throws InstantiationException,
@@ -115,11 +115,11 @@ public final class ClassUtil {
                 args[j] = new Short(arg);
             } else if (argTypes[j] == Void.TYPE) {
                 throw new IllegalArgumentException(arg + " for void");
-            } else if (argTypes[j] == String.class) {           // “Á•Ê
+            } else if (argTypes[j] == String.class) {           // ç‰¹åˆ¥
                 args[j] = new StringInstantiator().newInstance(arg);
-            } else if (argTypes[j] == java.awt.Color.class) {   // “Á•Ê
+            } else if (argTypes[j] == java.awt.Color.class) {   // ç‰¹åˆ¥
                 args[j] = new ColorInstantiator().newInstance(arg);
-            } else {    // TODO Ä‹A‚Ì•¶–@‚Å‚à‚æ‚³‚»‚¤D
+            } else {    // TODO å†å¸°ã®æ–‡æ³•ã§ã‚‚ã‚ˆã•ãã†ï¼
                 args[j] = argTypes[j].newInstance();
             }
         }
@@ -128,12 +128,12 @@ public final class ClassUtil {
     }
 
     /**
-     * V‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µ‚Ü‚·D
-     * @param	className	ƒvƒŠƒ~ƒeƒBƒuŒ^‚à‚»‚Ì‚Ü‚Üw’è‚Å‚«‚Ü‚·D
-     * @param	argTypes	ƒfƒŠƒ~ƒ^‚Í { ',', '\t', ' ' }
-     *				ƒvƒŠƒ~ƒeƒBƒuŒ^‚Í‚»‚Ì‚Ü‚Ü‘‚­D int, long ...
-     * @param	args		ƒfƒŠƒ~ƒ^‚Í { ',', '\t', ' ' }
-     *				null ‚Í‚»‚Ì‚Ü‚Ü‘‚­D null
+     * æ–°ã—ã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã¾ã™ï¼
+     * @param	className	ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã‚‚ãã®ã¾ã¾æŒ‡å®šã§ãã¾ã™ï¼
+     * @param	argTypes	ãƒ‡ãƒªãƒŸã‚¿ã¯ { ',', '\t', ' ' }
+     *				ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã¯ãã®ã¾ã¾æ›¸ãï¼ int, long ...
+     * @param	args		ãƒ‡ãƒªãƒŸã‚¿ã¯ { ',', '\t', ' ' }
+     *				null ã¯ãã®ã¾ã¾æ›¸ãï¼ null
      */
     public static Object newInstance(String className,
                                      String argTypes,
@@ -171,8 +171,8 @@ public final class ClassUtil {
     }
 
     /**
-     * ƒvƒŠƒ~ƒeƒBƒuŒ^‚©‚çƒ‰ƒbƒp[ƒNƒ‰ƒX‚ğæ“¾‚µ‚Ü‚·B
-     * @param primitiveClass int.class “™
+     * ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã‹ã‚‰ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @param primitiveClass int.class ç­‰
      */
     public Class<?> getWrapperClass(Class<?> primitiveClass) {
         Object array = Array.newInstance(primitiveClass, 1);

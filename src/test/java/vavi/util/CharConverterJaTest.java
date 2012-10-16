@@ -38,19 +38,19 @@ public class CharConverterJaTest extends TestCase {
     }
 
     /** */
-    String halfKana = "±²³´µ";
+    String halfKana = "ã‚¢ã‚¤ã‚¦ã‚¨ã‚ª";
     /** */
-    String fullHira = "‚ ‚¢‚¤‚¦‚¨";
+    String fullHira = "ã‚ã„ã†ãˆãŠ";
     /** */
-    String fullKana = "ƒAƒCƒEƒGƒI";
+    String fullKana = "ã‚¢ã‚¤ã‚¦ã‚¨ã‚ª";
     /** */
-    String halfDakuon = "¶Ş·Ş¸Ş¹ŞºŞ»Ş¼Ş½Ş¾Ş¿ŞÀŞÁŞÂŞÃŞÄŞÊŞËŞÌŞÍŞÎŞ";
+    String halfDakuon = "ã‚¬ã‚®ã‚°ã‚²ã‚´ã‚¶ã‚¸ã‚ºã‚¼ã‚¾ãƒ€ãƒ‚ãƒ…ãƒ‡ãƒ‰ãƒãƒ“ãƒ–ãƒ™ãƒœ";
     /** */
-    String fullDakuon = "ƒKƒMƒOƒQƒSƒUƒWƒYƒ[ƒ]ƒ_ƒaƒdƒfƒhƒoƒrƒuƒxƒ{";
+    String fullDakuon = "ã‚¬ã‚®ã‚°ã‚²ã‚´ã‚¶ã‚¸ã‚ºã‚¼ã‚¾ãƒ€ãƒ‚ãƒ…ãƒ‡ãƒ‰ãƒãƒ“ãƒ–ãƒ™ãƒœ";
     /** */
-    String halfHandakuon = "ÊßËßÌßÍßÎß";
+    String halfHandakuon = "ãƒ‘ãƒ”ãƒ—ãƒšãƒ";
     /** */
-    String fullHandakuon = "ƒpƒsƒvƒyƒ|";
+    String fullHandakuon = "ãƒ‘ãƒ”ãƒ—ãƒšãƒ";
 
     /** */
     public void testToKatakana() throws Exception {
@@ -65,7 +65,7 @@ public class CharConverterJaTest extends TestCase {
     /** */
     String halfANS = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
     /** */
-    String fullANS = "I\uff02”“•\uff07ij–{C|D^‚O‚P‚Q‚R‚S‚T‚U‚V‚W‚XFGƒ„H—‚`‚a‚b‚c‚d‚e‚f‚g‚h‚i‚j‚k‚l‚m‚n‚o‚p‚q‚r‚s‚t‚u‚v‚w‚x‚ym_nOQM‚‚‚‚ƒ‚„‚…‚†‚‡‚ˆ‚‰‚Š‚‹‚Œ‚‚‚‚‚‘‚’‚“‚”‚•‚–‚—‚˜‚™‚šobp`";
+    String fullANS = "ï¼\uff02ï¼ƒï¼„ï¼…ï¼†\uff07ï¼ˆï¼‰ï¼Šï¼‹ï¼Œâˆ’ï¼ï¼ï¼ï¼‘ï¼’ï¼“ï¼”ï¼•ï¼–ï¼—ï¼˜ï¼™ï¼šï¼›ï¼œï¼ï¼ï¼Ÿï¼ ï¼¡ï¼¢ï¼£ï¼¤ï¼¥ï¼¦ï¼§ï¼¨ï¼©ï¼ªï¼«ï¼¬ï¼­ï¼®ï¼¯ï¼°ï¼±ï¼²ï¼³ï¼´ï¼µï¼¶ï¼·ï¼¸ï¼¹ï¼ºï¼»ï¼¼ï¼½ï¼¾ï¼¿ï½€ï½ï½‚ï½ƒï½„ï½…ï½†ï½‡ï½ˆï½‰ï½Šï½‹ï½Œï½ï½ï½ï½ï½‘ï½’ï½“ï½”ï½•ï½–ï½—ï½˜ï½™ï½šï½›ï½œï½ã€œ";
 
     /** */
     public void testToHalfANS() throws Exception {
@@ -97,17 +97,17 @@ public class CharConverterJaTest extends TestCase {
         assertTrue(fullANS.equals(CharConverterJa.toFullANS(halfANS)));
     }
 
-    /** ”¼ŠpƒJƒ^ƒJƒi */
-    String halfKanas = "¡¢£¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß";
-    /** ‘SŠpƒJƒ^ƒJƒi */
-    String fullKanas = "BuvEƒ’ƒ@ƒBƒDƒFƒHƒƒƒ…ƒ‡ƒb[ƒAƒCƒEƒGƒIƒJƒLƒNƒPƒRƒTƒVƒXƒZƒ\ƒ^ƒ`ƒcƒeƒgƒiƒjƒkƒlƒmƒnƒqƒtƒwƒzƒ}ƒ~ƒ€ƒƒ‚ƒ„ƒ†ƒˆƒ‰ƒŠƒ‹ƒŒƒƒƒ“JK";
+    /** åŠè§’ã‚«ã‚¿ã‚«ãƒŠ */
+    String halfKanas = "ã€‚ã€Œã€ãƒ»ãƒ²ã‚¡ã‚£ã‚¥ã‚§ã‚©ãƒ£ãƒ¥ãƒ§ãƒƒãƒ¼ã‚¢ã‚¤ã‚¦ã‚¨ã‚ªã‚«ã‚­ã‚¯ã‚±ã‚³ã‚µã‚·ã‚¹ã‚»ã‚½ã‚¿ãƒãƒ„ãƒ†ãƒˆãƒŠãƒ‹ãƒŒãƒãƒãƒãƒ’ãƒ•ãƒ˜ãƒ›ãƒãƒŸãƒ ãƒ¡ãƒ¢ãƒ¤ãƒ¦ãƒ¨ãƒ©ãƒªãƒ«ãƒ¬ãƒ­ãƒ¯ãƒ³ã‚›ã‚œ";
+    /** å…¨è§’ã‚«ã‚¿ã‚«ãƒŠ */
+    String fullKanas = "ã€‚ã€Œã€ãƒ»ãƒ²ã‚¡ã‚£ã‚¥ã‚§ã‚©ãƒ£ãƒ¥ãƒ§ãƒƒãƒ¼ã‚¢ã‚¤ã‚¦ã‚¨ã‚ªã‚«ã‚­ã‚¯ã‚±ã‚³ã‚µã‚·ã‚¹ã‚»ã‚½ã‚¿ãƒãƒ„ãƒ†ãƒˆãƒŠãƒ‹ãƒŒãƒãƒãƒãƒ’ãƒ•ãƒ˜ãƒ›ãƒãƒŸãƒ ãƒ¡ãƒ¢ãƒ¤ãƒ¦ãƒ¨ãƒ©ãƒªãƒ«ãƒ¬ãƒ­ãƒ¯ãƒ³ã‚›ã‚œ";
 
-    /** ‘SŠpƒJƒ^ƒJƒi ¨ ”¼ŠpƒJƒ^ƒJƒi */
+    /** å…¨è§’ã‚«ã‚¿ã‚«ãƒŠ â†’ åŠè§’ã‚«ã‚¿ã‚«ãƒŠ */
     public void testToHalfKana() throws Exception {
         assertTrue(halfKanas.equals(CharConverterJa.toHalfKana(fullKanas)));
     }
 
-    /** ”¼ŠpƒJƒ^ƒJƒi ¨ ‘SŠpƒJƒ^ƒJƒi */
+    /** åŠè§’ã‚«ã‚¿ã‚«ãƒŠ â†’ å…¨è§’ã‚«ã‚¿ã‚«ãƒŠ */
     public void testToFullKana() throws Exception {
         assertTrue(fullKanas.equals(CharConverterJa.toFullKana(halfKanas)));
     }

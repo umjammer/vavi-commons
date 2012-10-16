@@ -15,39 +15,39 @@ import vavi.util.Debug;
 
 
 /**
- * Bit ’PˆÊ‚Å‘‚«‚ŞƒXƒgƒŠ[ƒ€‚Å‚·D
+ * Bit å˜ä½ã§æ›¸ãè¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 030713 nsano initial version <br>
  */
 public class BitOutputStream extends FilterOutputStream {
 
-    /** ƒrƒbƒg” */
+    /** ãƒ“ãƒƒãƒˆæ•° */
     private int bits = 4;
-    /** ƒrƒbƒgƒI[ƒ_ */
+    /** ãƒ“ãƒƒãƒˆã‚ªãƒ¼ãƒ€ */
     private ByteOrder bitOrder = ByteOrder.BIG_ENDIAN;
 
     /**
-     * Bit ’PˆÊ‚Å“Ç‚İ‚ŞƒXƒgƒŠ[ƒ€‚ğì¬‚µ‚Ü‚·D
-     * 4Bit, ƒrƒbƒOƒGƒ“ƒfƒBƒAƒ“D
+     * Bit å˜ä½ã§èª­ã¿è¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ä½œæˆã—ã¾ã™ï¼
+     * 4Bit, ãƒ“ãƒƒã‚°ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³ï¼
      */
     public BitOutputStream(OutputStream out) {
         this(out, 4, ByteOrder.BIG_ENDIAN);
     }
     
     /**
-     * Bit ’PˆÊ‚Å“Ç‚İ‚ŞƒXƒgƒŠ[ƒ€‚ğì¬‚µ‚Ü‚·D
-     * ƒrƒbƒOƒGƒ“ƒfƒBƒAƒ“D
+     * Bit å˜ä½ã§èª­ã¿è¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ä½œæˆã—ã¾ã™ï¼
+     * ãƒ“ãƒƒã‚°ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³ï¼
      */
     public BitOutputStream(OutputStream out, int bits) {
         this(out, bits, ByteOrder.BIG_ENDIAN);
     }
 
-    /** LSB ‚ª—§‚Á‚Ä‚¢‚Ü‚·B */
+    /** LSB ãŒç«‹ã£ã¦ã„ã¾ã™ã€‚ */
     private int mask;
 
     /**
-     * Bit ’PˆÊ‚Å‘‚«‚ŞƒXƒgƒŠ[ƒ€‚ğì¬‚µ‚Ü‚·D
+     * Bit å˜ä½ã§æ›¸ãè¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ä½œæˆã—ã¾ã™ï¼
      */
     public BitOutputStream(OutputStream out, int bits, ByteOrder bitOrder) {
 	super(out);
@@ -64,13 +64,13 @@ if (bits != 4 && bits != 2) {
 //Debug.println(bits + ", " + StringUtil.toBits(mask << 4, 8));
     }
 
-    /** Ï‚İã‚°‚ç‚ê‚½ƒrƒbƒg” */
+    /** ç©ã¿ä¸Šã’ã‚‰ã‚ŒãŸãƒ“ãƒƒãƒˆæ•° */
     private int stackedBits = 0;
-    /** ƒrƒbƒOƒGƒ“ƒfƒBƒAƒ“‚ÅÏ‚İã‚°‚é */
+    /** ãƒ“ãƒƒã‚°ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³ã§ç©ã¿ä¸Šã’ã‚‹ */
     private int current = 0;
 
     /**
-     * 8 ƒrƒbƒg‚ğƒŠƒgƒ‹ƒGƒ“ƒfƒBƒAƒ“‚É•ÏŠ·‚µ‚Ü‚·B
+     * 8 ãƒ“ãƒƒãƒˆã‚’ãƒªãƒˆãƒ«ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³ã«å¤‰æ›ã—ã¾ã™ã€‚
      * <pre>
      * 2Bit
      *   1    2    3    4         4    3    2    1
@@ -92,7 +92,7 @@ if (bits != 4 && bits != 2) {
     }
 
     /**
-     * w’è‚µ‚½ bit ‘‚«‚İ‚Ü‚·D
+     * æŒ‡å®šã—ãŸ bit æ›¸ãè¾¼ã¿ã¾ã™ï¼
      */
     public void write(int b) throws IOException {
 

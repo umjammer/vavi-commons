@@ -17,44 +17,44 @@ import vavi.util.Debug;
 
 
 /**
- * Bit ’PˆÊ‚Å“Ç‚İ‚ŞƒXƒgƒŠ[ƒ€‚Å‚·D
+ * Bit å˜ä½ã§èª­ã¿è¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã§ã™ï¼
  * 
- * TODO ’†“r”¼’[‚Èƒrƒbƒg
- * TODO endian ˆ—‚ ‚Á‚Ä‚é‚æ‚ËH
+ * TODO ä¸­é€”åŠç«¯ãªãƒ“ãƒƒãƒˆ
+ * TODO endian å‡¦ç†ã‚ã£ã¦ã‚‹ã‚ˆã­ï¼Ÿ
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 030713 nsano initial version <br>
  *          0.01 030714 nsano fix available() <br>
- *          0.02 030715 nsano read() BitOrder ‘Î‰ <br>
- *          0.03 030716 nsano 2bit ‘Î‰ <br>
+ *          0.02 030715 nsano read() BitOrder å¯¾å¿œ <br>
+ *          0.03 030716 nsano 2bit å¯¾å¿œ <br>
  */
 public class BitInputStream extends FilterInputStream {
 
-    /** ƒrƒbƒg” */
+    /** ãƒ“ãƒƒãƒˆæ•° */
     private int bits = 4;
 
-    /** ƒrƒbƒgƒI[ƒ_ */
+    /** ãƒ“ãƒƒãƒˆã‚ªãƒ¼ãƒ€ */
     private ByteOrder bitOrder = ByteOrder.BIG_ENDIAN;
 
     /**
-     * Bit ’PˆÊ‚Å“Ç‚İ‚ŞƒXƒgƒŠ[ƒ€‚ğì¬‚µ‚Ü‚·D 4Bit, ƒrƒbƒOƒGƒ“ƒfƒBƒAƒ“D
+     * Bit å˜ä½ã§èª­ã¿è¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ä½œæˆã—ã¾ã™ï¼ 4Bit, ãƒ“ãƒƒã‚°ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³ï¼
      */
     public BitInputStream(InputStream in) {
         this(in, 4, ByteOrder.BIG_ENDIAN);
     }
 
     /**
-     * Bit ’PˆÊ‚Å“Ç‚İ‚ŞƒXƒgƒŠ[ƒ€‚ğì¬‚µ‚Ü‚·D ƒrƒbƒOƒGƒ“ƒfƒBƒAƒ“D
+     * Bit å˜ä½ã§èª­ã¿è¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ä½œæˆã—ã¾ã™ï¼ ãƒ“ãƒƒã‚°ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³ï¼
      */
     public BitInputStream(InputStream in, int bits) {
         this(in, bits, ByteOrder.BIG_ENDIAN);
     }
 
-    /** MSB ‚ª—§‚Á‚Ä‚¢‚Ü‚·B */
+    /** MSB ãŒç«‹ã£ã¦ã„ã¾ã™ã€‚ */
     private int mask;
 
     /**
-     * Bit ’PˆÊ‚Å“Ç‚İ‚ŞƒXƒgƒŠ[ƒ€‚ğì¬‚µ‚Ü‚·D
+     * Bit å˜ä½ã§èª­ã¿è¾¼ã‚€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ä½œæˆã—ã¾ã™ï¼
      */
     public BitInputStream(InputStream in, int bits, ByteOrder bitOrder) {
         super(in);
@@ -71,10 +71,10 @@ public class BitInputStream extends FilterInputStream {
 // Debug.println(bits + ", " + StringUtil.toBits(mask >> 4, 8));
     }
 
-    /** c‚Á‚Ä‚¢‚éƒrƒbƒg” */
+    /** æ®‹ã£ã¦ã„ã‚‹ãƒ“ãƒƒãƒˆæ•° */
     private int restBits = 0;
 
-    /** ƒrƒbƒOƒGƒ“ƒfƒBƒAƒ“ */
+    /** ãƒ“ãƒƒã‚°ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³ */
     private int current;
 
     /** */
@@ -83,7 +83,7 @@ public class BitInputStream extends FilterInputStream {
     }
 
     /**
-     * w’è‚µ‚½ bit “Ç‚İ‚İ‚Ü‚·D
+     * æŒ‡å®šã—ãŸ bit èª­ã¿è¾¼ã¿ã¾ã™ï¼
      */
     public int read() throws IOException {
 
@@ -134,7 +134,7 @@ public class BitInputStream extends FilterInputStream {
     }
 
     /**
-     * ‚±‚¢‚Â‚ª‚È‚¢‚Æ‚±‚ÌƒNƒ‰ƒX‚Ì read ‚ğg—p‚µ‚È‚¢‚ª‚ ‚éB
+     * ã“ã„ã¤ãŒãªã„ã¨ã“ã®ã‚¯ãƒ©ã‚¹ã® read ã‚’ä½¿ç”¨ã—ãªã„æ™‚ãŒã‚ã‚‹ã€‚
      */
     public int read(byte b[], int off, int len) throws IOException {
         if (b == null) {

@@ -6,6 +6,7 @@
 
 package vavi.util;
 
+import java.awt.event.KeyEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,7 +30,7 @@ import java.util.Set;
 
 
 /**
- * •¶š—ñ‚ÉŠÖ‚·‚éƒ†[ƒeƒBƒŠƒeƒB‚ÌƒNƒ‰ƒX‚Å‚·D
+ * æ–‡å­—åˆ—ã«é–¢ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã®ã‚¯ãƒ©ã‚¹ã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 021027 nsano separated from Debug class <br>
@@ -57,26 +58,26 @@ public final class StringUtil {
     private StringUtil() {}
 
     /**
-     * w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ‹ƒh‚Ì•¶š—ñ‚ğæ“¾‚µ‚Ü‚·B
-     * @param object •\¦‚·‚éƒIƒuƒWƒFƒNƒg
+     * æŒ‡å®šã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®æ–‡å­—åˆ—ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @param object è¡¨ç¤ºã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static final String paramString(Object object) {
         return paramString(object, 0);
     }
 
     /**
-     * w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒtƒB[ƒ‹ƒh‚Ì•¶š—ñ‚ğ•\¦‚µ‚Ü‚·B
-     * ƒtƒB[ƒ‹ƒh‚ªƒIƒuƒWƒFƒNƒg‚È‚çÄ‹A“I‚Éæ“¾‚µ‚Ü‚·B
-     * @param object •\¦‚·‚éƒIƒuƒWƒFƒNƒg
+     * æŒ‡å®šã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®æ–‡å­—åˆ—ã‚’è¡¨ç¤ºã—ã¾ã™ã€‚
+     * ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã‚‰å†å¸°çš„ã«å–å¾—ã—ã¾ã™ã€‚
+     * @param object è¡¨ç¤ºã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public static final String paramStringDeep(Object object) {
         return paramString(object, 1);
     }
 
     /**
-     * ƒIƒuƒWƒFƒNƒg‚ğƒeƒLƒXƒgƒ_ƒ“ƒv‚µ‚Ü‚·B
-     * @param object •\¦‚·‚éƒIƒuƒWƒFƒNƒg
-     * @param depth Ä‹A“I‚Ì[‚³A0 ‚Ìê‡‚ÍÄ‹A‚µ‚Ü‚¹‚ñB
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ†ã‚­ã‚¹ãƒˆãƒ€ãƒ³ãƒ—ã—ã¾ã™ã€‚
+     * @param object è¡¨ç¤ºã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param depth å†å¸°çš„ã®æ·±ã•ã€0 ã®å ´åˆã¯å†å¸°ã—ã¾ã›ã‚“ã€‚
      */
     private static final String paramString(Object object, int depth) {
 
@@ -92,27 +93,27 @@ public final class StringUtil {
     }
 
     /**
-     * ƒIƒuƒWƒFƒNƒg‚ğƒeƒLƒXƒgƒ_ƒ“ƒv‚µ‚Ü‚·B
-     * toString() ‚Åg—p‚·‚é‚Æ•Ö—˜‚Å‚·B
-     * @param clazz ƒIƒuƒWƒFƒNƒg‚ğw’è‚µ‚½ƒNƒ‰ƒX‚Æ‚µ‚Äˆµ‚¤
-     * @param object •\¦‚·‚éƒIƒuƒWƒFƒNƒg
-     * @param depth Ä‹A“I‚Ì[‚³A0 ‚Ìê‡‚ÍÄ‹A‚µ‚Ü‚¹‚ñB
+     * ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ†ã‚­ã‚¹ãƒˆãƒ€ãƒ³ãƒ—ã—ã¾ã™ã€‚
+     * toString() ã§ä½¿ç”¨ã™ã‚‹ã¨ä¾¿åˆ©ã§ã™ã€‚
+     * @param clazz ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã¨ã—ã¦æ‰±ã†
+     * @param object è¡¨ç¤ºã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @param depth å†å¸°çš„ã®æ·±ã•ã€0 ã®å ´åˆã¯å†å¸°ã—ã¾ã›ã‚“ã€‚
      */
     private static final String paramString(Class<?> clazz,
                                             Object object,
                                             int depth) {
 
-        // •\¦‚µ‚È‚¢‚à‚Ì
+        // è¡¨ç¤ºã—ãªã„ã‚‚ã®
         if (isIgnored(clazz)) {
             return "";
         }
 
-        // “WŠJ‚µ‚È‚¢‚à‚Ì‚Í‚»‚Ì‚Ü‚Ü
+        // å±•é–‹ã—ãªã„ã‚‚ã®ã¯ãã®ã¾ã¾
         if (isNotExpanded(clazz)) {
             return String.valueOf(object);
         }
 
-        // ”z—ñ‚âƒRƒŒƒNƒVƒ‡ƒ“‚È‚ç“WŠJ‚·‚é TODO ”z—ñ‚Í‚Ü‚¾...
+        // é…åˆ—ã‚„ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãªã‚‰å±•é–‹ã™ã‚‹ TODO é…åˆ—ã¯ã¾ã ...
         if (object instanceof List<?>) {
             return expand((List<?>) object);
         } else if (object instanceof Set<?>) {
@@ -132,8 +133,8 @@ public final class StringUtil {
         sb.append(clazz.getName());
         sb.append("{");
 
-        // private ƒƒ\ƒbƒhAƒtƒB[ƒ‹ƒh‚Ìæ“¾‚É‚Í getDeclared...
-        // ‚ğg‚¢‚Ü‚·B
+        // private ãƒ¡ã‚½ãƒƒãƒ‰ã€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å–å¾—ã«ã¯ getDeclared...
+        // ã‚’ä½¿ã„ã¾ã™ã€‚
         Field[] fields = clazz.getDeclaredFields();
 // Debug.println("fialds: " + fields.length);
         boolean isFirst = true;
@@ -141,8 +142,8 @@ public final class StringUtil {
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
 
-            // private ƒtƒB[ƒ‹ƒh‚Ìæ“¾‚É‚ÍAaccessible ƒtƒ‰ƒO‚ğ
-            // true ‚É‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
+            // private ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å–å¾—ã«ã¯ã€accessible ãƒ•ãƒ©ã‚°ã‚’
+            // true ã«ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
             field.setAccessible(true);
 
             String name = field.getName();
@@ -165,12 +166,12 @@ public final class StringUtil {
 
             int modifiers = field.getModifiers();
             if (ignoredStatics && Modifier.isStatic(modifiers)) {
-                // static ‚ğ–³‹
+                // static ã‚’ç„¡è¦–
 // Debug.println("ignore statics: " + modifiers);
             } else if (ignoredFinals && Modifier.isFinal(modifiers)) {
-                // final ‚ğ–³‹
+                // final ã‚’ç„¡è¦–
 // 		if (name.startsWith("this$")) {
-                    // static ‚Å‚È‚¢ inner class ‚Ì outer class ƒIƒuƒWƒFƒNƒg
+                    // static ã§ãªã„ inner class ã® outer class ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 // Debug.println("value: " + value);
 // 	        } else {
 // Debug.println("ignore final: " + modifiers);
@@ -179,7 +180,7 @@ public final class StringUtil {
 //                       value != null &&
                        (value instanceof Class<?> || value instanceof String) &&
                        name.startsWith("class$")) {
-                // inner class ‚ğ–³‹ TODO class$ ‚Í SUN j2se ‚ÉˆË‘¶‚µ‚Ä‚»‚¤
+                // inner class ã‚’ç„¡è¦– TODO class$ ã¯ SUN j2se ã«ä¾å­˜ã—ã¦ãã†
 // Debug.println("ignore innerclass: " + value.getClass());
             } else {
                 if (isFirst) {
@@ -201,7 +202,7 @@ public final class StringUtil {
         }
 
         if (!ignoredSuperClass) {
-            // ƒX[ƒp[ƒNƒ‰ƒX‚ğ“WŠJ
+            // ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã‚’å±•é–‹
             Class<?> superClass = clazz.getSuperclass();
             if (superClass != null && !isNotExpanded(superClass)) {
 //              String name = getClassName(superClass);
@@ -231,7 +232,7 @@ public final class StringUtil {
     }
 
     /**
-     * “WŠJ‚µ‚È‚¢ƒNƒ‰ƒX‚©‚Ç‚¤‚©B
+     * å±•é–‹ã—ãªã„ã‚¯ãƒ©ã‚¹ã‹ã©ã†ã‹ã€‚
      * @see "StringUtil.properties#vavi.util.StringUtil.isNotExpanded.*"
      */
     private static boolean isNotExpanded(Class<?> clazz) {
@@ -240,7 +241,7 @@ public final class StringUtil {
     }
 
     /**
-     * •\¦‚µ‚È‚¢ƒNƒ‰ƒX‚©‚Ç‚¤‚©B
+     * è¡¨ç¤ºã—ãªã„ã‚¯ãƒ©ã‚¹ã‹ã©ã†ã‹ã€‚
      * @see "StringUtil.properties#vavi.util.StringUtil.isIgnored.*"
      */
     private static boolean isIgnored(Class<?> clazz) {
@@ -249,27 +250,27 @@ public final class StringUtil {
     }
 
     /**
-     * ƒpƒbƒP[ƒW–¼‚ğæ‚èœ‚¢‚½ƒNƒ‰ƒX–¼‚ğæ“¾‚µ‚Ü‚·D
+     * ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸åã‚’å–ã‚Šé™¤ã„ãŸã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã—ã¾ã™ï¼
      * 
-     * @param name ƒpƒbƒP[ƒW•t‚«‚ÌƒNƒ‰ƒX–¼
-     * @return ƒpƒbƒP[ƒW–¼‚ğæ‚èœ‚¢‚½ƒNƒ‰ƒX–¼
+     * @param name ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ä»˜ãã®ã‚¯ãƒ©ã‚¹å
+     * @return ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸åã‚’å–ã‚Šé™¤ã„ãŸã‚¯ãƒ©ã‚¹å
      */
     public static final String getClassName(String name) {
         return name.substring(name.lastIndexOf(".") + 1);
     }
 
     /**
-     * ƒpƒbƒP[ƒW–¼‚ğæ‚èœ‚¢‚½ƒNƒ‰ƒX–¼‚ğæ“¾‚µ‚Ü‚·D
+     * ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸åã‚’å–ã‚Šé™¤ã„ãŸã‚¯ãƒ©ã‚¹åã‚’å–å¾—ã—ã¾ã™ï¼
      * 
-     * @param clazz ƒNƒ‰ƒX
-     * @return ƒpƒbƒP[ƒW–¼‚ğæ‚èœ‚¢‚½ƒNƒ‰ƒX–¼
+     * @param clazz ã‚¯ãƒ©ã‚¹
+     * @return ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸åã‚’å–ã‚Šé™¤ã„ãŸã‚¯ãƒ©ã‚¹å
      */
     public static final String getClassName(Class<?> clazz) {
         return getClassName(clazz.getName());
     }
 
     /**
-     * ”z—ñ‚ğ“WŠJ‚µ‚Ü‚·D
+     * é…åˆ—ã‚’å±•é–‹ã—ã¾ã™ï¼
      * TODO deep flag
      */
     public static final String expand(int[] array) {
@@ -281,8 +282,8 @@ public final class StringUtil {
     }
 
     /**
-     * ”z—ñ‚ğ“WŠJ‚µ‚Ü‚·D
-     * @see #bytesExpand “WŠJ‚·‚éÅ‘å’l
+     * é…åˆ—ã‚’å±•é–‹ã—ã¾ã™ï¼
+     * @see #bytesExpand å±•é–‹ã™ã‚‹æœ€å¤§å€¤
      * TODO deep flag
      */
     public static final String expand(byte[] array) {
@@ -299,7 +300,7 @@ public final class StringUtil {
     }
 
     /**
-     * ”z—ñ‚ğ“WŠJ‚µ‚Ü‚·D
+     * é…åˆ—ã‚’å±•é–‹ã—ã¾ã™ï¼
      * TODO deep flag
      */
     public static final String expand(Object[] array) {
@@ -321,7 +322,7 @@ public final class StringUtil {
     }
 
     /**
-     * List ‚ğ“WŠJ‚µ‚Ü‚·D
+     * List ã‚’å±•é–‹ã—ã¾ã™ï¼
      * <pre>
      * className[collectionSize]{value0,value1,value2,...}
      * </pre>
@@ -350,7 +351,7 @@ public final class StringUtil {
     }
 
     /**
-     * Set ‚ğ“WŠJ‚µ‚Ü‚·D
+     * Set ã‚’å±•é–‹ã—ã¾ã™ï¼
      * <pre>
      * className[collectionSize]{value0,value1,value2,...}
      * </pre>
@@ -377,7 +378,7 @@ public final class StringUtil {
     }
 
     /**
-     * Map ‚ğ“WŠJ‚µ‚Ü‚·D
+     * Map ã‚’å±•é–‹ã—ã¾ã™ï¼
      * <pre>
      * className[collectionSize]{key0=value0,key1=value1,key2=value2,...}
      * </pre>
@@ -405,21 +406,21 @@ public final class StringUtil {
     }
 
     /**
-     * ƒoƒCƒg”z—ñ‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
+     * ãƒã‚¤ãƒˆé…åˆ—ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
      */
     public static final String getDump(byte[] buf) {
         return getDump(new ByteArrayInputStream(buf));
     }
 
     /**
-     * ’·‚³§ŒÀ•t‚ÅƒoƒCƒg”z—ñ‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
+     * é•·ã•åˆ¶é™ä»˜ã§ãƒã‚¤ãƒˆé…åˆ—ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
      */
     public static final String getDump(byte[] buf, int length) {
         return getDump(new ByteArrayInputStream(buf), length);
     }
 
     /**
-     * ’·‚³§ŒÀ•t‚Å offset ‚©‚ç‚ÌƒoƒCƒg”z—ñ‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
+     * é•·ã•åˆ¶é™ä»˜ã§ offset ã‹ã‚‰ã®ãƒã‚¤ãƒˆé…åˆ—ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
      */
     public static final String getDump(byte[] buf, int offset, int length) {
         return getDump(new ByteArrayInputStream(buf, offset, length));
@@ -427,11 +428,11 @@ public final class StringUtil {
 
     /** */
     private static final char getPrintableChar(char c) {
-        return !Character.isISOControl(c) ? c : '.';
+        return isPrintableChar(c) ? c : '.';
     }
 
     /**
-     * ƒXƒgƒŠ[ƒ€‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
+     * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
      */
     public static final String getDump(InputStream is) {
 
@@ -495,9 +496,9 @@ Debug.printStackTrace(e);
     }
 
     /**
-     * ’·‚³§ŒÀ•t‚ÅƒXƒgƒŠ[ƒ€‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
-     * TODO ƒŠƒtƒ@ƒNƒ^ƒŠƒ“ƒOH‚µ‚ç‚Ë[‚È
-     * @param length §ŒÀ‚·‚é’·‚³
+     * é•·ã•åˆ¶é™ä»˜ã§ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
+     * TODO ãƒªãƒ•ã‚¡ã‚¯ã‚¿ãƒªãƒ³ã‚°ï¼Ÿã—ã‚‰ã­ãƒ¼ãª
+     * @param length åˆ¶é™ã™ã‚‹é•·ã•
      */
     public static final String getDump(InputStream is, int length) {
 
@@ -567,7 +568,7 @@ Debug.printStackTrace(e);
     }
 
     /**
-     * •¶š—ñ‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
+     * æ–‡å­—åˆ—ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
      */
     public static final String getDump(String s) {
         StringBuilder sb = new StringBuilder();
@@ -580,7 +581,7 @@ Debug.printStackTrace(e);
     }
 
     /**
-     * •¶š—ñ‚ğ 16 i”‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
+     * æ–‡å­—åˆ—ã‚’ 16 é€²æ•°ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
      */
     public static final String getDump(String s, String encoding) {
         try {
@@ -598,7 +599,7 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * •¶š—ñ‚ğ char ‚Åƒ_ƒ“ƒv‚µ‚Ü‚·D
+     * æ–‡å­—åˆ—ã‚’ char ã§ãƒ€ãƒ³ãƒ—ã—ã¾ã™ï¼
      */
     public static final String getCharDump(String s) {
         StringBuilder sb = new StringBuilder();
@@ -613,7 +614,7 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * æ“ª‚ğ 0 ‚Å–„‚ß‚½ 2 Œ…‚Ì‘å•¶š‚Ì 16 i”‚ğ•Ô‚µ‚Ü‚·D
+     * å…ˆé ­ã‚’ 0 ã§åŸ‹ã‚ãŸ 2 æ¡ã®å¤§æ–‡å­—ã® 16 é€²æ•°ã‚’è¿”ã—ã¾ã™ï¼
      */
     public static final String toHex2(int i) {
         String s = "0" + Integer.toHexString(i);
@@ -622,7 +623,7 @@ e.printStackTrace(System.err);
     }
     
     /**
-     * æ“ª‚ğ 0 ‚Å–„‚ß‚½ 4 Œ…‚Ì‘å•¶š‚Ì 16 i”‚ğ•Ô‚µ‚Ü‚·D
+     * å…ˆé ­ã‚’ 0 ã§åŸ‹ã‚ãŸ 4 æ¡ã®å¤§æ–‡å­—ã® 16 é€²æ•°ã‚’è¿”ã—ã¾ã™ï¼
      */
     public static final String toHex4(int i) {
         String s = "000" + Integer.toHexString(i);
@@ -631,7 +632,7 @@ e.printStackTrace(System.err);
     }
     
     /**
-     * æ“ª‚ğ 0 ‚Å–„‚ß‚½ 8 Œ…‚Ì‘å•¶š‚Ì 16 i”‚ğ•Ô‚µ‚Ü‚·D
+     * å…ˆé ­ã‚’ 0 ã§åŸ‹ã‚ãŸ 8 æ¡ã®å¤§æ–‡å­—ã® 16 é€²æ•°ã‚’è¿”ã—ã¾ã™ï¼
      */
     public static final String toHex8(int i) {
         String s = "0000000" + Integer.toHexString(i);
@@ -640,7 +641,7 @@ e.printStackTrace(System.err);
     }
     
     /**
-     * æ“ª‚ğ 0 ‚Å–„‚ß‚½ 16 Œ…‚Ì‘å•¶š‚Ì 16 i”‚ğ•Ô‚µ‚Ü‚·D
+     * å…ˆé ­ã‚’ 0 ã§åŸ‹ã‚ãŸ 16 æ¡ã®å¤§æ–‡å­—ã® 16 é€²æ•°ã‚’è¿”ã—ã¾ã™ï¼
      */
     public static final String toHex16(long l) {
         String s = "000000000000000" + Long.toHexString(l);
@@ -649,16 +650,17 @@ e.printStackTrace(System.err);
     }
     
     /**
-     * ƒrƒbƒg—ñ‚ğ•\‚·•¶š—ñ‚ğ•Ô‚µ‚Ü‚·D
+     * ãƒ“ãƒƒãƒˆåˆ—ã‚’è¡¨ã™æ–‡å­—åˆ—ã‚’è¿”ã—ã¾ã™ï¼
      */
     public static final String toBits(int b) {
 	return toBits(b, 8);
     }
 
     /**
-     * ƒrƒbƒg—ñ‚ğ•\‚·•¶š—ñ‚ğ•Ô‚µ‚Ü‚·D
-     * @param	b	ƒrƒbƒg—ñ‚É‚µ‚½‚¢”’l
-     * @param	n	ƒrƒbƒg—ñ‚ÌŒ…”
+     * ãƒ“ãƒƒãƒˆåˆ—ã‚’è¡¨ã™æ–‡å­—åˆ—ã‚’è¿”ã—ã¾ã™ï¼
+     * 
+     * @param b ãƒ“ãƒƒãƒˆåˆ—ã«ã—ãŸã„æ•°å€¤
+     * @param n ãƒ“ãƒƒãƒˆåˆ—ã®æ¡æ•°
      */
     public static final String toBits(int b, int n) {
         int mask = 0x0001 << (n - 1);
@@ -679,12 +681,19 @@ e.printStackTrace(System.err);
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
+    /** */
+    public static boolean isPrintableChar(char c) {
+        Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
+        return (!Character.isISOControl(c)) && c != KeyEvent.CHAR_UNDEFINED && block != null
+               && block != Character.UnicodeBlock.SPECIALS;
+    }
+
     /**
-     * ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ğ•ªŠ„‚µ‚Ü‚·B
+     * ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‚’åˆ†å‰²ã—ã¾ã™ã€‚
      *
-     *  @param line  The String to tokenize
-     *  @return An array of substrings.
-     *  @exception IOException Thrown if StreamTokenizer.nextToken() throws it.
+     * @param line The String to tokenize
+     * @return An array of substrings.
+     * @exception IOException Thrown if StreamTokenizer.nextToken() throws it.
      */
     public static String[] splitCommandLine(String line) throws IOException {
 
@@ -802,10 +811,10 @@ e.printStackTrace(System.err);
     /** @see #paramString(Object) */
     private static boolean ignoredSuperClass = false;
 
-    /** isNotExpanded ‚ÌƒNƒ‰ƒXW */
+    /** isNotExpanded ã®ã‚¯ãƒ©ã‚¹é›† */
     private static Set<String> classesNotExpanded = new HashSet<String>();
 
-    /** isIgnored ‚ÌƒNƒ‰ƒXW */
+    /** isIgnored ã®ã‚¯ãƒ©ã‚¹é›† */
     private static Set<String> classesIgnored = new HashSet<String>();
 
     /** */
@@ -855,27 +864,27 @@ e.printStackTrace(System.err);
 
             // ignore static
             value = props.getProperty("vavi.util.StringUtil.isIgnored.static");
-            ignoredStatics = new Boolean(value).booleanValue();
+            ignoredStatics = Boolean.valueOf(value);
 //Debug.println("ignoredStatics: " + ignoredStatics);
 
             // ignore final
             value = props.getProperty("vavi.util.StringUtil.isIgnored.final");
-            ignoredFinals = new Boolean(value).booleanValue();
+            ignoredFinals = Boolean.valueOf(value);
 //Debug.println("ignoredFinals: " + ignoredFinals);
 
             // ignore inner class
             value = props.getProperty("vavi.util.StringUtil.isIgnored.inner");
-            ignoredInnerClasses = new Boolean(value).booleanValue();
+            ignoredInnerClasses = Boolean.valueOf(value);
 //Debug.println("ignoredInnerClasses: " + ignoredInnerClasses);
 
             // ignore super class
             value = props.getProperty("vavi.util.StringUtil.isIgnored.super");
-            ignoredSuperClass = new Boolean(value).booleanValue();
+            ignoredSuperClass = Boolean.valueOf(value);
 //Debug.println("ignoredSuperClass: " + ignoredSuperClass);
 
             // hex case upper
             value = props.getProperty("vavi.util.StringUtil.toHex.upperCase");
-            hexUpperCase = new Boolean(value).booleanValue();
+            hexUpperCase = Boolean.valueOf(value);
 //Debug.println("hexUpperCase: " + hexUpperCase);
         } catch (Exception e) {
 Debug.printStackTrace(e);
@@ -888,7 +897,7 @@ Debug.printStackTrace(e);
     public static void main(String[] args) throws IOException {
 /*
         System.err.println("---- getDump(String) ----");
-        System.err.println(getDump("²–ì’¼G"));
+        System.err.println(getDump("ä½é‡ç›´ç§€"));
         System.err.println("---- getDump(InputStream) ----");
         System.err.println(getDump(new FileInputStream("StringUtil.class")));
 */

@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 
 
 /**
- * MSF ƒtƒH[ƒ}ƒbƒg‚ğˆµ‚¤ƒNƒ‰ƒX‚Å‚·D
+ * MSF ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’æ‰±ã†ã‚¯ãƒ©ã‚¹ã§ã™ï¼
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 020423 nsano initial version <br>

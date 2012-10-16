@@ -20,7 +20,7 @@ import vavi.util.StringUtil;
 
 
 /**
- * .lnk ‚ğˆµ‚¤‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·D
+ * .lnk ã‚’æ‰±ã†ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ï¼
  *
  * <pre>
  * 00h	 4	'L' 00 00 00	magic

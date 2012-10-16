@@ -89,7 +89,7 @@ chunk.print();
 
     /** for debug */
     protected void printData() {
-        System.err.println("サブクラスに任せた");
+        System.err.println("繧ｵ繝悶け繝ｩ繧ｹ縺ｫ莉ｻ縺帙◆");
     }
 }
 

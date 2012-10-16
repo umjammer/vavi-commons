@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 
 
 /**
- * ƒtƒB[ƒ‹ƒh‚Ö‚Ì‘ã“ü‚ğs‚¤Šî–{ƒNƒ‰ƒX‚Å‚·B
+ * ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¸ã®ä»£å…¥ã‚’è¡Œã†åŸºæœ¬ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  * 
  * TODO naming
  *
@@ -21,9 +21,9 @@ import java.lang.reflect.Field;
 public class DefaultBinder {
 
     /**
-     * ƒvƒŠƒ~ƒeƒBƒuŒ^A‹y‚Ñ‚»‚Ìƒ‰ƒbƒp[Œ^‚ÌƒtƒB[ƒ‹ƒh‚É’l‚ğİ’è‚µ‚Ü‚·B
-     * value ‚ª null ‹y‚Ñ’·‚³‚ª 0 ‚Ìê‡ null ‚ªİ’è‚³‚ê‚Ü‚·B
-     * ‚»‚Ì‘¼‚ÌŒ^‚Í elseValue ‚ªİ’è‚³‚ê‚Ü‚·BŒ^‚ª‡‚í‚È‚¢ê‡‚Í—áŠO‚ª”­¶‚µ‚Ü‚·B
+     * ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å‹ã€åŠã³ãã®ãƒ©ãƒƒãƒ‘ãƒ¼å‹ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«å€¤ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * value ãŒ null åŠã³é•·ã•ãŒ 0 ã®å ´åˆ null ãŒè¨­å®šã•ã‚Œã¾ã™ã€‚
+     * ãã®ä»–ã®å‹ã¯ elseValue ãŒè¨­å®šã•ã‚Œã¾ã™ã€‚å‹ãŒåˆã‚ãªã„å ´åˆã¯ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã™ã€‚
      */
     public void bind(Object destBean, Field field, Class<?> fieldClass, String value, Object elseValue) {
         if (fieldClass.equals(Boolean.class)) {

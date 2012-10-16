@@ -26,7 +26,7 @@ public @interface Property {
     String name() default "";
 
     /**
-     * TODO ƒAƒmƒe[ƒVƒ‡ƒ“‚ªƒƒ\ƒbƒhw’è‚Ìê‡ 
+     * TODO ã‚¢ãƒãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãŒãƒ¡ã‚½ãƒƒãƒ‰æŒ‡å®šã®å ´åˆ 
      */
     class Util {
 
