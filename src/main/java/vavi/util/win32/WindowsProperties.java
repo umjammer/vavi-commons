@@ -8,19 +8,17 @@ package vavi.util.win32;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
+
 import vavi.util.Debug;
-// main
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 
 
 /**
@@ -147,17 +145,6 @@ Debug.println("delete: " + key);
             }
         }
         sections.removeElement(section);
-    }
-
-    /**
-     * Tests this class.
-     */
-    public static void main(String[] args) throws IOException {
-        WindowsProperties ini = new WindowsProperties();
-        ini.load(new FileInputStream(args[0]));
-        ini.list(System.out);
-        ini.removePropertiesOfSection(args[2]);
-        ini.store(new FileOutputStream(args[1]), args[1]);
     }
 }
 

@@ -99,6 +99,12 @@ public class BitOutputStreamTest {
         bos.flush();
         assertEquals((byte) 0xf5, baos.toByteArray()[0]); 
     }
+
+    //-------------------------------------------------------------------------
+
+    /** */
+    public static void main(String[] args) throws Exception {
+    }
 }
 
 /* */

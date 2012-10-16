@@ -6,8 +6,6 @@
 
 package vavi.util.win32;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -138,15 +136,6 @@ public class AVI extends RIFF {
 
     /** */
     public class JUNK extends Chunk {
-    }
-
-    //-------------------------------------------------------------------------
-
-    /** */
-    public static void main(String[] args) throws Exception {
-        InputStream is = new BufferedInputStream(new FileInputStream(args[0]));
-        AVI avi = (AVI) AVI.readFrom(is);
-//        System.err.println("AVI: " + avi);
     }
 }
 

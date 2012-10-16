@@ -6,10 +6,15 @@
 
 package vavi.io;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.ByteOrder;
 
 import org.junit.Test;
+
+import vavi.util.Debug;
 
 import static org.junit.Assert.assertEquals;
 
@@ -88,6 +93,18 @@ public class BitInputStreamTest {
         assertEquals((byte) 0xf, bis.read());
         assertEquals((byte) 0x5, bis.read());
         assertEquals(0, bis.available());
+    }
+
+    // -------------------------------------------------------------------------
+
+    /** */
+    public static void main(String[] args) throws Exception {
+        InputStream is1 = new BufferedInputStream(new FileInputStream(args[0]));
+Debug.dump(is1);
+        is1.close();
+        InputStream is2 = new BitInputStream(new BufferedInputStream(new FileInputStream(args[0])));
+Debug.dump(is2);
+        is2.close();
     }
 }
 

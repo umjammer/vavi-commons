@@ -129,12 +129,6 @@ Debug.println("stacked bits: " + stackedBits + " flushed.");
     public void close() throws IOException {
         super.close();
     }
-
-    //-------------------------------------------------------------------------
-
-    /** */
-    public static void main(String[] args) throws Exception {
-    }
 }
 
 /* */

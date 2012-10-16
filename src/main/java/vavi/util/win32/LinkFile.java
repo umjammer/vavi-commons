@@ -7,7 +7,6 @@
 package vavi.util.win32;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -366,12 +365,6 @@ System.err.println("string len: " + length);
         System.err.println("iconNumber:	" + iconNumber);
         System.err.println("showWnd:	" + showWnd);
         System.err.println("hotKey:	" + hotKey);
-    }
-
-    /** */
-    public static void main(String[] args) throws IOException {
-        LinkFile lf = LinkFile.readFrom(new FileInputStream(args[0]));
-        System.err.println(lf.getPath());
     }
 }
 

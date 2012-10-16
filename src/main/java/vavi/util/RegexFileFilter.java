@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JFileChooser;
-
 
 /**
  * Regex でフィルタをかけるファイルフィルタです．
@@ -120,15 +118,6 @@ Debug.println("no pattern");
             description = description.substring(0, description.length() - 2);
             return description;
         }
-    }
-
-    /** Tests this class. */
-    public static void main(String[] args) {
-        RegexFileFilter fileFilter = new RegexFileFilter(".*\\.xml");
-        JFileChooser fc = new JFileChooser(System.getProperty("user.home"));
-        fc.setFileFilter(fileFilter);
-        fc.showOpenDialog(null);
-        System.exit(0);
     }
 }
 

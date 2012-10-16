@@ -6,19 +6,13 @@
 
 package vavi.util.win32;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
-import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
-import java.nio.channels.ReadableByteChannel;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -297,27 +291,6 @@ public class WAVE extends RIFF {
 System.err.println(e);
 			System.exit(1);
 		}
-    }
-
-    //-------------------------------------------------------------------------
-
-    /** */
-    public static void main(String[] args) throws Exception {
-        InputStream is = new BufferedInputStream(new FileInputStream(args[0]));
-        WAVE wave = (WAVE) WAVE.readFrom(is);
-
-//      WAVE wave = new WAVE();
-
-//      fmt header = wave.new fmt();
-//      header.setFormatId(0x0001);
-//      header.setNumberChannels(1);
-//      header.setSamplingRate(8000);
-//      header.setBytesPerSecond(2 * 8000);
-//      header.setBlockSize(2 * 8000);
-//      header.setSamplingBits(16);
-
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(args[1]));
-        wave.writeTo(os);
     }
 }
 

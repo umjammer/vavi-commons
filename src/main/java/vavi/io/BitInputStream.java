@@ -6,14 +6,10 @@
 
 package vavi.io;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteOrder;
-
-import vavi.util.Debug;
 
 
 /**
@@ -166,18 +162,6 @@ public class BitInputStream extends FilterInputStream {
             e.printStackTrace(System.err);
         }
         return i;
-    }
-
-    // -------------------------------------------------------------------------
-
-    /** */
-    public static void main(String[] args) throws Exception {
-        InputStream is1 = new BufferedInputStream(new FileInputStream(args[0]));
-Debug.dump(is1);
-        is1.close();
-        InputStream is2 = new BitInputStream(new BufferedInputStream(new FileInputStream(args[0])));
-Debug.dump(is2);
-        is2.close();
     }
 }
 
