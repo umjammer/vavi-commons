@@ -19,6 +19,8 @@
 
   <property name="dir.build" value="target/classes" />
   <property name="lib.dir" value="lib" />
+  <xmlproperty file="pom.xml" />
+  <property name="ivy.file" value="${ivy.cache}/${project.groupId}/${project.artifactId}/ivy-${project.version}.xml" />
 
   <!-- クラスパスの定義 -->
   <path id="project.class.path">
@@ -42,13 +44,13 @@
   <!-- prepare -->
   <target name="prepare" description="ビルド環境の準備">
     <ivy:settings file="ivy-settings.xml" />
-    <ivy:convertpom pomFile="pom.xml" ivyFile="ivy.xml" />
+    <ivy:convertpom pomFile="pom.xml" ivyFile="${ivy.file}" />
     <ivy:retrieve />
   </target>
 
   <!-- javac all vavi -->
   <target name="compile" depends="prepare" description="コンパイル">
-    <javac debug="on" target="1.5" encoding="${encoding}" destdir="${dir.build}">
+    <javac debug="on" target="1.5" encoding="${encoding}" destdir="${pdir.build}">
       <classpath refid="project.class.path" />
       <src path="src/main/java" />
     </javac>
@@ -77,7 +79,7 @@
 
   <!-- jar -->
   <target name="packaging" depends="compile" description="パッケージング">
-    <jar jarfile="target/vavi-commons.jar">
+    <jar jarfile="target/${project.artifactId}-${project.version}.jar">
       <fileset dir="${dir.build}">
         <include name="**/*" />
       </fileset>
