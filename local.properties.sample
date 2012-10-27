@@ -9,9 +9,5 @@
 # @version	0.00	031213	nsano	initial version
 #
 
-dir.windows=c:/windows
-maven.repo=c:/Document\ and\ Settings/foo/.maven/repository
-passphrase=foobar
-dir.home=c:/home/foo
-jks.password=foobar
-encoding=UTF-8
+encoding=utf-8
+ivy.cache=${user.home}/.ivy2/cache
