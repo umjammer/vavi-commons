@@ -32,6 +32,9 @@
   <!-- clean -->
   <target name="clean" description="ビルド環境のクリア">
     <delete>
+      <fileset dir="${lib.dir}">
+        <include name="*" />
+      </fileset>
       <fileset dir="${dir.build}">
         <include name="**/*" />
       </fileset>
@@ -45,12 +48,12 @@
   <target name="prepare" description="ビルド環境の準備">
     <ivy:settings file="ivy-settings.xml" />
     <ivy:convertpom pomFile="pom.xml" ivyFile="${ivy.file}" />
-    <ivy:retrieve />
+    <ivy:retrieve file="${ivy.file}" />
   </target>
 
   <!-- javac all vavi -->
   <target name="compile" depends="prepare" description="コンパイル">
-    <javac debug="on" target="1.5" encoding="${encoding}" destdir="${pdir.build}">
+    <javac debug="on" target="1.5" encoding="${encoding}" destdir="${dir.build}">
       <classpath refid="project.class.path" />
       <src path="src/main/java" />
     </javac>
@@ -78,7 +81,7 @@
   </target>
 
   <!-- jar -->
-  <target name="packaging" depends="compile" description="パッケージング">
+  <target name="package" depends="compile" description="パッケージング">
     <jar jarfile="target/${project.artifactId}-${project.version}.jar">
       <fileset dir="${dir.build}">
         <include name="**/*" />
