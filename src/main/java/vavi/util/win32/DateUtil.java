@@ -58,6 +58,8 @@ public final class DateUtil {
 
     /**
      * DATE (double) から java long (msec since 1970/1/1) を取得します．
+     * 
+     * @param date OLE Automation date.
      */
     public static final long dateToLong(double date) {
         Calendar calendar = Calendar.getInstance();

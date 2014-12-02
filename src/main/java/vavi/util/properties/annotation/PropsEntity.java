@@ -29,7 +29,9 @@ import vavi.beans.DefaultBinder;
 @java.lang.annotation.Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PropsEntity {
-    /** */
+    /** 
+     * ex. "/foo.properties" 
+     */
     String url();
 
     /**
@@ -77,9 +79,7 @@ System.err.println(propsEntity.url());
             return propertyFields;
         }
 
-        /**
-         * @return UTF-8 URL encoded 
-         */
+        /** */
         public static void bind(Object bean) throws IOException {
             //
             PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
