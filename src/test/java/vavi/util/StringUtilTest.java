@@ -32,7 +32,7 @@ public class StringUtilTest {
     public static void main(String[] args) throws IOException {
 /*
         System.err.println("---- getDump(String) ----");
-        System.err.println(getDump("佐野直秀"));
+        System.err.println(getDump("直佐秀野"));
         System.err.println("---- getDump(InputStream) ----");
         System.err.println(getDump(new FileInputStream("StringUtil.class")));
 */
