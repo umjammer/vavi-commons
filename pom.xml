@@ -56,6 +56,7 @@
           <includes><include>**/*</include></includes>
           <repositoryName>vavi-commons</repositoryName>      <!-- github repo name -->
           <repositoryOwner>umjammer</repositoryOwner>    <!-- github username  -->
+          <merge>true</merge>
         </configuration>
         <executions>
           <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
