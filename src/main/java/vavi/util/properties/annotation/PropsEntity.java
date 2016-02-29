@@ -16,6 +16,8 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import vavi.beans.DefaultBinder;
 
@@ -29,18 +31,27 @@ import vavi.beans.DefaultBinder;
 @java.lang.annotation.Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PropsEntity {
+
     /** 
-     * ex. "/foo.properties" 
+     * If you use <code>classpath</code> schema, set <code>-Djava.protocol.handler.pkgs=vavi.net.protocol</code>
+     * 
+     * <code>${Foo}</code> is replaced with <code>System.getProperty("Foo")</code> or <code>System.getenv("Foo")</code>.
+     * <p>
+     * ex.
+     * <pre>
+     *  "/foo.properties" 
+     *  "classpath:your/package/foo.properties" 
+     * </pre>
+     * </p>
+     * @see {@link vavi.net.protocol.classpath.Handler}
      */
     String url();
 
-    /**
-     * when true use {@link Class#getResourceAsStream(String)}, else use {@link URL#openStream()} 
-     */
-    boolean resource() default false;
-
     /** */
     class Util {
+
+        /** replacing key pattern */
+        private static final Pattern pattern = Pattern.compile("\\$\\{[\\w\\.]+\\}"); 
 
         /** */
         public static InputStream getInputStream(Object bean) throws IOException {
@@ -48,12 +59,40 @@ public @interface PropsEntity {
             if (propsEntity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
             }
-            if (propsEntity.resource()) {
-System.err.println(propsEntity.url());
-                return bean.getClass().getResourceAsStream(propsEntity.url());
-            } else {
-                return new URL(propsEntity.url()).openStream();
+
+            String url = replaceWithEnvOrProps(propsEntity.url());
+
+//System.err.println("url: finally: " + url);
+            return new URL(url).openStream();
+        }
+
+        /**
+         * Replaces <code>${Foo}</code> with <code>System.getProperty("Foo")</code> or <code>System.getenv("Foo")</code>.
+         */
+        private static String replaceWithEnvOrProps(String url) {
+//System.err.println("url: origin: " + url);
+            Matcher matcher = pattern.matcher(url);
+            while (matcher.find()) {
+               String key = matcher.group();
+               String name = key.substring(2, key.length() - 1);
+               String value = System.getenv(name);
+               if (value == null) {
+                   value = System.getProperty(name);
+                   if (value == null) {
+                       System.err.println(key + " is not replaceable");
+                       continue;
+                   }
+//else {
+// System.err.println("url: replaced with props: " + value);
+//}
+               }
+//else {
+// System.err.println("url: replaced with env: " + value);
+//}
+               url = url.replace(key, value);
+//System.err.println("url: replace: " + key + ": " + url);
             }
+            return url;
         }
 
         /**
@@ -79,7 +118,9 @@ System.err.println(propsEntity.url());
             return propertyFields;
         }
 
-        /** */
+        /**
+         * Entry point.
+         */
         public static void bind(Object bean) throws IOException {
             //
             PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);

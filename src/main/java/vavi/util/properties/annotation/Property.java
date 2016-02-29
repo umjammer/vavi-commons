@@ -9,20 +9,24 @@ package vavi.util.properties.annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 
 
 /**
- * Target. 
+ * Property. 
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/30 nsano initial version <br>
  */
-@java.lang.annotation.Target({ ElementType.FIELD, ElementType.METHOD })
+@Target({ ElementType.FIELD, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Property {
 
-    /** when not set, field name is used */
+    /**
+     * Property name. 
+     * When this is not set, the field name will be used.
+     */
     String name() default "";
 
     /**
@@ -32,6 +36,7 @@ public @interface Property {
 
         /**
          * @param field {@link Property} annotated
+         * @return When {@link Property#name()} is not set, the field name will be return.
          */
         public static String getName(Field field) {
             Property target = field.getAnnotation(Property.class);

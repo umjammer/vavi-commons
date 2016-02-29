@@ -6,12 +6,15 @@
 
 package vavi.util.properties.annotation;
 
-import static org.junit.Assert.assertEquals;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.Test;
 
-import vavi.util.properties.annotation.Property;
-import vavi.util.properties.annotation.PropsEntity;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 
 /**
@@ -20,7 +23,7 @@ import vavi.util.properties.annotation.PropsEntity;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2010/10/08 nsano initial version <br>
  */
-@PropsEntity(url = "/vavi/util/properties/annotation/propsEntityTest.properties", resource = true)
+@PropsEntity(url = "classpath:vavi/util/properties/annotation/propsEntityTest.properties")
 public class PropsEntityTest {
 
     @Property(name = "data1")
@@ -46,11 +49,57 @@ public class PropsEntityTest {
 
     @Test
     public void test01() throws Exception {
+        System.setProperty("java.protocol.handler.pkgs", "vavi.net.protocol");
+
         PropsEntityTest bean = new PropsEntityTest();
         PropsEntity.Util.bind(bean);
         assertEquals("Sano Naohide", bean.data1);
         assertEquals(40, bean.data2);
         assertEquals("Umjammer", bean.data3);
+    }
+    
+    @PropsEntity(url = "file://${HOME}/.vavi-commons")
+    public static class Test2 {
+        @Property(name = "test.data")
+        private String data;
+    }
+    
+    @Test
+    public void test02() throws Exception {
+        File file = new File(System.getenv("HOME"), ".vavi-commons");
+        FileWriter fw = new FileWriter(file);
+        fw.write("test.data=Hello\n");
+        fw.close();
+        Test2 bean = new Test2();
+        PropsEntity.Util.bind(bean);
+        assertEquals("Hello", bean.data);
+        fw.close();
+        file.delete();
+    }
+    
+    /** just test regex */
+    @Test
+    public void test03() {
+        Pattern pattern = Pattern.compile("\\$\\{\\w+\\}");
+        Matcher matcher = pattern.matcher("file://${HOME}/.vavi-commons");
+        if (matcher.find()) {
+            assertEquals("${HOME}", matcher.group());
+        } else {
+            fail("no match");
+        }
+    }
+
+    @PropsEntity(url = "file://${user.dir}/local.properties.sample")
+    public static class Test4 {
+        @Property(name = "encoding")
+        private String data1;
+    }
+
+    @Test
+    public void test04() throws Exception {
+        Test4 bean = new Test4();
+        PropsEntity.Util.bind(bean);
+        assertEquals("utf-8", bean.data1);
     }
 }
 
