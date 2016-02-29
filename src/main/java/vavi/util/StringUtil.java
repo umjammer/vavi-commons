@@ -653,7 +653,7 @@ e.printStackTrace(System.err);
      * ビット列を表す文字列を返します．
      */
     public static final String toBits(int b) {
-	return toBits(b, 8);
+        return toBits(b, 8);
     }
 
     /**
