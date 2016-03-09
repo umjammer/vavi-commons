@@ -12,12 +12,24 @@ package vavi.util;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 060711 nsano initial version <br>
  */
-public class LevenshteinDistance {
+public class LevenshteinDistance implements Comparable<LevenshteinDistance> {
+
+    /** */
+    private final int distance;
+
+    /**
+     * 
+     * @param source
+     * @param target
+     */
+    public LevenshteinDistance(String source, String target) {
+        this.distance = calculate(source, target);
+    }
 
     /**
      * Get minimum of three values
      */
-    private int getMinimum(int a, int b, int c) {
+    private static int getMinimum(int a, int b, int c) {
         int mi = a;
 
         if (b < mi) {
@@ -34,7 +46,7 @@ public class LevenshteinDistance {
      * Compute Levenshtein distance
      * @thread safe
      */
-    public int calculate(String s, String t) {
+    public static int calculate(String s, String t) {
         int[][] d; // matrix
         int n; // length of s
         int m; // length of t
@@ -95,6 +107,12 @@ public class LevenshteinDistance {
         // Step 7
 
         return d[n][m];
+    }
+
+    /* @see java.lang.Comparable#compareTo(java.lang.Object) */
+    @Override
+    public int compareTo(LevenshteinDistance o) {
+        return this.distance - o.distance;
     }
 }
 
