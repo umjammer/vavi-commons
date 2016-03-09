@@ -173,6 +173,7 @@ public abstract class Chunk {
     protected static Chunk readFrom(InputStream is, Chunk parent)
         throws IOException {
 
+        @SuppressWarnings("resource")
         LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
         byte[] tmp = new byte[4];
@@ -202,12 +203,12 @@ public abstract class Chunk {
             }
         } catch (ClassNotFoundException e) {
 Debug.println("no such class for " + StringUtil.getClassName(parent.getClass()) + "." + name + ": " + className);
-            throw (RuntimeException) new IllegalStateException().initCause(e);
+            throw new IllegalStateException(e);
         } catch (NoSuchElementException e) {
 Debug.println("no key: " + StringUtil.getClassName(parent.getClass()) + "." + name);
-            throw (RuntimeException) new IllegalStateException().initCause(e);
+            throw new IllegalStateException(e);
         } catch (Exception e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e);
+            throw new IllegalStateException(e);
         }
 
         chunk.name = name;

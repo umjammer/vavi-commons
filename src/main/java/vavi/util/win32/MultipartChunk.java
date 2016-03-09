@@ -26,7 +26,7 @@ public abstract class MultipartChunk extends Chunk {
     /** */
     private String multipartName;
     /** */
-    protected Vector chunks = new Vector();
+    protected Vector<Chunk> chunks = new Vector<>();
 
     /** */
     protected MultipartChunk() {
@@ -43,7 +43,7 @@ public abstract class MultipartChunk extends Chunk {
     }
 
     /** Gets chunks. */
-    public Vector getChunks() {
+    public Vector<Chunk> getChunks() {
         return chunks;
     }
 
@@ -79,9 +79,9 @@ print();
     }
 
     /** */
-    public Chunk findChildOf(Class clazz) {
+    public Chunk findChildOf(Class<?> clazz) {
         for (int i = 0; i < chunks.size(); i++) {
-            Chunk chunk = (Chunk) chunks.elementAt(i);
+            Chunk chunk = chunks.elementAt(i);
             if (clazz.isInstance(chunk)) {
                 return chunk;
             }

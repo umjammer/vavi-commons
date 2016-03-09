@@ -51,21 +51,21 @@ public abstract class BeanUtil {
                         Method method = beanClass.getMethod("is" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1));
                         return method.invoke(bean);
                     } catch (InvocationTargetException e3) {
-                        throw (RuntimeException) new IllegalStateException().initCause(e); 
+                        throw new IllegalStateException(e3); 
                     } catch (NoSuchMethodException e3) {
                         return getPrivateFieldValue(field, bean);
 //                      throw new IllegalStateException("no access method for: " + fieldName); 
                     } catch (IllegalAccessException e3) {
-                        throw (RuntimeException) new IllegalStateException().initCause(e); 
+                        throw new IllegalStateException(e3); 
                     }
                 } else {
                     return getPrivateFieldValue(field, bean);
 //                  throw new IllegalStateException("no access method for: " + fieldName); 
                 }
             } catch (InvocationTargetException e2) {
-                throw new IllegalStateException(e); 
+                throw new IllegalStateException(e2); 
             } catch (IllegalAccessException e2) {
-                throw new IllegalStateException(e); 
+                throw new IllegalStateException(e2); 
             }
         } 
     }
@@ -96,9 +96,9 @@ public abstract class BeanUtil {
                 setPrivateFieldValue(field, bean, value);
 //              throw new IllegalStateException("no access method for: " + fieldName); 
             } catch (InvocationTargetException e2) {
-                throw new IllegalStateException(e); 
+                throw new IllegalStateException(e2); 
             } catch (IllegalAccessException e2) {
-                throw new IllegalStateException(e); 
+                throw new IllegalStateException(e2); 
             }
         } 
     }

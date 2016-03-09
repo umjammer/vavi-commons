@@ -20,6 +20,7 @@ import java.lang.reflect.Modifier;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -62,6 +63,7 @@ public final class StringUtil {
      * @param object 表示するオブジェクト
      */
     public static final String paramString(Object object) {
+        hashes.clear();
         return paramString(object, 0);
     }
 
@@ -70,8 +72,9 @@ public final class StringUtil {
      * フィールドがオブジェクトなら再帰的に取得します。
      * @param object 表示するオブジェクト
      */
-    public static final String paramStringDeep(Object object) {
-        return paramString(object, 1);
+    public static final String paramStringDeep(Object object, int depth) {
+        hashes.clear();
+        return paramString(object, depth);
     }
 
     /**
@@ -92,6 +95,9 @@ public final class StringUtil {
         return paramString(clazz, object, depth);
     }
 
+    /** {hashCode, loopCount} */
+    private static Map<Integer, Integer> hashes = new HashMap<>();
+    
     /**
      * オブジェクトをテキストダンプします。
      * toString() で使用すると便利です。
@@ -113,6 +119,17 @@ public final class StringUtil {
             return String.valueOf(object);
         }
 
+        // TODO check
+        if (hashes.containsKey(object.hashCode())) {
+            if (hashes.get(object.hashCode()) == 3) {
+                return object.toString();
+            } else {
+                hashes.put(object.hashCode(), hashes.get(object.hashCode()) + 1);
+            }
+        } else {
+            hashes.put(object.hashCode(), 0);
+        }
+        
         // 配列やコレクションなら展開する TODO 配列はまだ...
         if (object instanceof List<?>) {
             return expand((List<?>) object);
@@ -154,7 +171,7 @@ public final class StringUtil {
                     if (depth <= recursiveDepth) {
                         value = paramString(field.get(object), depth + 1);
                     } else {
-                        value = paramString(field.get(object));
+                        value = paramString(field.get(object), 0);
                     }
                 } else {
                     value = field.get(object);
@@ -339,7 +356,7 @@ public final class StringUtil {
         while (i.hasNext()) {
             Object object = i.next();
 //Debug.println(object.getClass() + ", " + object.hashCode());
-            sb.append(paramString(object));
+            sb.append(paramString(object, 0));
             sb.append(",");
         }
         if (list.size() > 0) {
@@ -711,7 +728,7 @@ e.printStackTrace(System.err);
         // commands);
 
         // Parse the command into tokens
-        List<String> commandList = new LinkedList<String>();
+        List<String> commandList = new LinkedList<>();
 
         StreamTokenizer streamTokenizer =
             new StreamTokenizer(new StringReader(line));
@@ -812,10 +829,10 @@ e.printStackTrace(System.err);
     private static boolean ignoredSuperClass = false;
 
     /** isNotExpanded のクラス集 */
-    private static Set<String> classesNotExpanded = new HashSet<String>();
+    private static Set<String> classesNotExpanded = new HashSet<>();
 
     /** isIgnored のクラス集 */
-    private static Set<String> classesIgnored = new HashSet<String>();
+    private static Set<String> classesIgnored = new HashSet<>();
 
     /** */
     static {

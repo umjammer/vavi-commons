@@ -36,7 +36,7 @@ import vavi.util.Debug;
 public class WindowsProperties extends Properties {
 
     /** The vector for section */
-    private Vector sections = new Vector();
+    private Vector<String> sections = new Vector<>();
 
     /**
      * .ini のストリームを読み込みます．
@@ -111,12 +111,12 @@ Debug.println("---- storing ----");
         w.newLine();
 
         for (int i = 0; i < sections.size(); i++) {
-            String section = (String) sections.elementAt(i);
+            String section = sections.elementAt(i);
 Debug.println("start section: " + section);
             w.write("[" + section + "]");
             w.newLine();
 
-            Enumeration e = this.propertyNames();
+            Enumeration<?> e = this.propertyNames();
             while (e.hasMoreElements()) {
                 String key = (String) e.nextElement();
                 if (key.startsWith(section + ".")) {
@@ -136,7 +136,7 @@ Debug.println("prop: " + key + "=" + value);
      * 該当セクションのプロパティをを削除します．
      */
     public void removePropertiesOfSection(String section) {
-        Enumeration e = this.propertyNames();
+        Enumeration<?> e = this.propertyNames();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
             if (key.startsWith(section + ".")) {

@@ -111,6 +111,7 @@ public class LinkFile {
     }
 
     /** */
+    @SuppressWarnings("resource")
     public static LinkFile readFrom(InputStream is) throws IOException {
 
         LinkFile lf = new LinkFile();
@@ -331,19 +332,19 @@ System.err.println("string len: " + length);
     private static byte[] readAsciiz(InputStream is)
         throws IOException {
 
-        Vector chars = new Vector();
+        Vector<Integer> chars = new Vector<>();
 
         while (true) {
             int c = is.read();
             if (c == 0) {
                 break;
             }
-            chars.addElement(new Integer(c));
+            chars.addElement(c);
         }
 
         byte[] buf = new byte[chars.size()];
         for (int i = 0; i < chars.size(); i++) {
-            buf[i] = (byte) ((Integer) chars.elementAt(i)).intValue();
+            buf[i] = (byte) chars.elementAt(i).intValue();
         }
 
         return buf;

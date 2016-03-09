@@ -9,5 +9,14 @@
 # @version	0.00	031213	nsano	initial version
 #
 
-encoding=utf-8
-ivy.cache=${user.home}/.ivy2/cache
+jvm=/Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/bin/java
+javac.source=src/main/java
+javac.source.test=src/test/java
+javac.resource=src/main/resources
+javac.resource.test=src/test/resources
+javac.dest=target/classes
+javac.dest.test=target/test-classes
+dir.lib=lib
+ivy.cache=${home}/.ivy2/cache
+
+##

@@ -58,6 +58,7 @@ public abstract class RIFF extends MultipartChunk {
         name += (char) is.read();
         name += (char) is.read();
 
+        @SuppressWarnings("resource")
         LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
         long length = ledis.readInt() & 0xffffffffL;
 System.err.println("RIFF::readFrom: length: " + length);

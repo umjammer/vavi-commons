@@ -15,6 +15,7 @@ import java.util.EventListener;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 030318 nsano initial version <br>
  */
+@FunctionalInterface
 public interface GenericListener extends EventListener {
 
     /**

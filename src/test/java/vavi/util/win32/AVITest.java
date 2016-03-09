@@ -34,7 +34,7 @@ public class AVITest {
     public static void main(String[] args) throws Exception {
         InputStream is = new BufferedInputStream(new FileInputStream(args[0]));
         AVI avi = (AVI) AVI.readFrom(is);
-//        System.err.println("AVI: " + avi);
+        System.err.println("AVI: " + avi);
     }
 }
 

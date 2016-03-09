@@ -108,6 +108,7 @@ public class AVI extends RIFF {
             
             /** */
             public void setData(InputStream is) throws IOException {
+                @SuppressWarnings("resource")
                 LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
                 
                 microSecPerFrame = ledis.readInt();

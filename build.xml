@@ -17,12 +17,10 @@
 
   <property file="local.properties" />
 
-  <property name="dir.build" value="target/classes" />
-  <property name="dir.lib" value="lib" />
   <xmlproperty file="pom.xml" />
   <property name="ivy.file" value="${ivy.cache}/${project.groupId}/${project.artifactId}/ivy-${project.version}.xml" />
 
-  <!-- クラスパスの定義 -->
+  <!-- Path Definitions -->
   <path id="project.class.path">
     <fileset dir="${dir.lib}">
       <include name="*.jar" />
@@ -30,63 +28,75 @@
   </path>
 
   <!-- clean -->
-  <target name="clean" description="ビルド環境のクリア">
+  <target name="clean" description="Cleaning">
     <delete>
+      <fileset dir="${javac.dest}">
+        <include name="**/*" />
+      </fileset>
+      <fileset dir="${javac.dest.test}">
+        <include name="**/*" />
+      </fileset>
       <fileset dir="${dir.lib}">
-        <include name="*" />
-      </fileset>
-      <fileset dir="${dir.build}">
-        <include name="**/*" />
-      </fileset>
-      <fileset dir="target/test-classes">
-        <include name="**/*" />
+        <include name="*.jar" />
       </fileset>
     </delete>
   </target>
 
   <!-- prepare -->
-  <target name="prepare" description="ビルド環境の準備">
+  <target name="prepare" description="Preparing">
     <ivy:settings file="ivy-settings.xml" />
     <ivy:convertpom pomFile="pom.xml" ivyFile="${ivy.file}" />
     <ivy:retrieve file="${ivy.file}" />
   </target>
 
   <!-- javac all vavi -->
-  <target name="compile" depends="prepare" description="コンパイル">
-    <javac debug="on" target="1.5" encoding="${encoding}" destdir="${dir.build}">
+  <target name="compile" depends="prepare" description="Compiling">
+    <javac debug="on" destdir="${javac.dest}"
+           source="${project.build.plugins.plugin.configuration.source}"
+           target="${project.build.plugins.plugin.configuration.target}"
+           encoding="${project.build.plugins.plugin.configuration.encoding}">
       <classpath refid="project.class.path" />
-      <src path="src/main/java" />
+      <include name="**/*.java" />
+      <src path="${javac.source}" />
     </javac>
 
-    <copy todir="${dir.build}">
-      <fileset dir="src/main/resources">
+    <copy todir="${javac.dest}">
+      <fileset dir="${javac.resource}">
         <include name="**/*" />
       </fileset>
     </copy>
 
-    <javac debug="on" target="1.5" encoding="${encoding}" destdir="target/test-classes">
+    <javac debug="on" destdir="${javac.dest.test}"
+           source="${project.build.plugins.plugin.configuration.source}"
+           target="${project.build.plugins.plugin.configuration.target}"
+           encoding="${project.build.plugins.plugin.configuration.encoding}">
       <classpath>
         <path refid="project.class.path" />
-        <pathelement location="${dir.build}" />
+        <pathelement location="${javac.dest}" />
       </classpath>
       <include name="**/*.java" />
-      <src path="src/test/java" />
+      <src path="${javac.source.test}" />
     </javac>
 
-    <copy todir="target/test-classes">
-      <fileset dir="src/test/resources">
+    <copy todir="${javac.dest.test}">
+      <fileset dir="${javac.resource.test}">
         <include name="**/*" />
       </fileset>
     </copy>
   </target>
 
   <!-- jar -->
-  <target name="package" depends="compile" description="パッケージング">
+  <target name="package" depends="compile" description="Packaging">
     <jar jarfile="target/${project.artifactId}-${project.version}.jar">
       <fileset dir="${dir.build}">
         <include name="**/*" />
       </fileset>
     </jar>
+  </target>
+
+  <!-- ivy report -->
+  <target name="ivy-report" depends="prepare">
+    <ivy:report todir="target/ivy-reports"/>
   </target>
 
 </project>

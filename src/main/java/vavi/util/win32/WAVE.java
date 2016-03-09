@@ -161,7 +161,7 @@ public class WAVE extends RIFF {
         /** for debug */
         protected void printData() {
             String key = "format.id." + StringUtil.toHex4(formatId);
-            String type = (String) pcmTypes.get(key);
+            String type = pcmTypes.get(key);
             System.err.println("formatId:\t" + (type == null ? StringUtil.toHex4(formatId) : type));
             System.err.println("numberChannels:\t" + numberChannels);
             System.err.println("samplingRate:\t"   + samplingRate  );
@@ -174,6 +174,7 @@ public class WAVE extends RIFF {
 
         /** */
         public void setData(InputStream is) throws IOException {
+            @SuppressWarnings("resource")
             LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
             formatId       = ledis.readShort();
@@ -253,6 +254,7 @@ public class WAVE extends RIFF {
         }
         /** */
         public void setData(InputStream is) throws IOException {
+            @SuppressWarnings("resource")
             LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
             fileSize = ledis.readInt();
         }
@@ -267,7 +269,7 @@ public class WAVE extends RIFF {
     //-------------------------------------------------------------------------
 
     /** PCM types table */
-    private static Hashtable pcmTypes = new Hashtable();
+    private static Hashtable<String, String> pcmTypes = new Hashtable<>();
 
     /**  */
     static {
@@ -278,7 +280,7 @@ public class WAVE extends RIFF {
             props.load(WAVE.class.getResourceAsStream(path));
 
             // format id
-            Enumeration e = props.propertyNames();
+            Enumeration<?> e = props.propertyNames();
             while (e.hasMoreElements()) {
                 String key = (String) e.nextElement();
                 if (key.startsWith("format.id.")) {
