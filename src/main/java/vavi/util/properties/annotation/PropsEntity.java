@@ -7,7 +7,6 @@
 package vavi.util.properties.annotation;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -20,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import vavi.beans.DefaultBinder;
+import vavi.net.www.protocol.URLStreamHandlerUtil;
 
 
 /**
@@ -33,8 +33,6 @@ import vavi.beans.DefaultBinder;
 public @interface PropsEntity {
 
     /** 
-     * If you use <code>classpath</code> schema, set <code>-Djava.protocol.handler.pkgs=vavi.net.protocol</code>
-     * 
      * <code>${Foo}</code> is replaced with <code>System.getProperty("Foo")</code> or <code>System.getenv("Foo")</code>.
      * <p>
      * ex.
@@ -43,28 +41,48 @@ public @interface PropsEntity {
      *  "classpath:your/package/foo.properties" 
      * </pre>
      * </p>
-     * @see {@link vavi.net.protocol.classpath.Handler}
+     * @see {@link vavi.net.www.protocol.classpath.Handler}
      */
     String url();
 
     /** */
     class Util {
 
-        /** replacing key pattern */
-        private static final Pattern pattern = Pattern.compile("\\$\\{[\\w\\.]+\\}"); 
-
         /** */
-        public static InputStream getInputStream(Object bean) throws IOException {
+        public static String getUrl(Object bean) throws IOException {
             PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
             if (propsEntity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
             }
 
-            String url = replaceWithEnvOrProps(propsEntity.url());
-
-//System.err.println("url: finally: " + url);
-            return new URL(url).openStream();
+            return propsEntity.url();
         }
+
+        /**
+         * @return {@link PropsEntity} annotated fields
+         */
+        public static Set<Field> getPropertyFields(Object bean) {
+            //
+            PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
+            if (propsEntity == null) {
+                throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
+            }
+
+            //
+            Set<Field> propertyFields = new HashSet<>(); 
+
+            for (Field field : bean.getClass().getDeclaredFields()) {
+                Property property = field.getAnnotation(Property.class);
+                if (property != null) {
+                    propertyFields.add(field);
+                }
+            }
+
+            return propertyFields;
+        }
+
+        /** replacing key pattern */
+        private static final Pattern pattern = Pattern.compile("\\$\\{[\\w\\.]+\\}"); 
 
         /**
          * Replaces <code>${Foo}</code> with <code>System.getProperty("Foo")</code> or <code>System.getenv("Foo")</code>.
@@ -95,33 +113,31 @@ public @interface PropsEntity {
             return url;
         }
 
-        /**
-         * @return {@link PropsEntity} annotated fields
-         */
-        public static Set<Field> getPropertyFields(Object bean) {
-            //
-            PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
-            if (propsEntity == null) {
-                throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
-            }
-
-            //
-            Set<Field> propertyFields = new HashSet<Field>(); 
-
-            for (Field field : bean.getClass().getDeclaredFields()) {
-                Property property = field.getAnnotation(Property.class);
-                if (property != null) {
-                    propertyFields.add(field);
-                }
-            }
-
-            return propertyFields;
+        /* for "classpath" schema */
+        static {
+            URLStreamHandlerUtil.loadService();
         }
 
         /**
          * Entry point.
+         * 
+         * @param args replace <code>"{#}"</code> (# is 0, 1, 2 ...)
+         * <pre>
+         * $ cat some.properties
+         * foo.bar.buz=xxx
+         * foo.bar.aaa=yyy
+         * 
+         * @Property(name = "foo.bar.{0})
+         * Foo bar;
+         *  
+         *    :
+         * 
+         * PropsEntity.Util.bind(bean, "buz");
+         * assertEquals(bean.bar, "xxx");
+         *  
+         * </pre>
          */
-        public static void bind(Object bean) throws IOException {
+        public static void bind(Object bean, String... args) throws IOException {
             //
             PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
             if (propsEntity == null) {
@@ -129,13 +145,15 @@ public @interface PropsEntity {
             }
 
             Properties props = new Properties();
-            props.load(PropsEntity.Util.getInputStream(bean));
+            String url = replaceWithEnvOrProps(getUrl(bean));
+//System.err.println("url: finally: " + url);
+            props.load(new URL(url).openStream());
 
             DefaultBinder binder = new DefaultBinder();
 
             //
             for (Field field : getPropertyFields(bean)) {
-                String name = Property.Util.getName(field);
+                String name = Property.Util.getName(field, args);
                 String value = props.getProperty(name);
 System.err.println("value: " + name + ", " + value);
                 binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String

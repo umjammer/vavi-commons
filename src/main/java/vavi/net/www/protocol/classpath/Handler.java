@@ -2,7 +2,7 @@
  * Public Domain
  */
 
-package vavi.net.protocol.classpath;
+package vavi.net.www.protocol.classpath;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,7 +17,7 @@ import java.net.URLStreamHandler;
  * classpath:some/package/resource.extension
  * </pre>
  * You don't need the first <code>"/"</code>.
- * If you use this class, set <code>-Djava.protocol.handler.pkgs=vavi.net.protocol</code>
+ * If you use this class, set <code>-Djava.protocol.handler.pkgs=vavi.net.www.protocol</code>
  * 
  * @author http://stackoverflow.com/users/37193/stephen
  * @see "http://stackoverflow.com/questions/861500/url-to-load-resources-from-the-classpath-in-java"

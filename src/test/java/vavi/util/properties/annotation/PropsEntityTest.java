@@ -49,8 +49,6 @@ public class PropsEntityTest {
 
     @Test
     public void test01() throws Exception {
-        System.setProperty("java.protocol.handler.pkgs", "vavi.net.protocol");
-
         PropsEntityTest bean = new PropsEntityTest();
         PropsEntity.Util.bind(bean);
         assertEquals("Sano Naohide", bean.data1);
@@ -99,6 +97,19 @@ public class PropsEntityTest {
     public void test04() throws Exception {
         Test4 bean = new Test4();
         PropsEntity.Util.bind(bean);
+        assertEquals("utf-8", bean.data1);
+    }
+
+    @PropsEntity(url = "file://${user.dir}/local.properties.sample")
+    public static class Test5 {
+        @Property(name = "{0}") // this is not proper usage! just for test
+        private String data1;
+    }
+
+    @Test
+    public void test05() throws Exception {
+        Test5 bean = new Test5();
+        PropsEntity.Util.bind(bean, "encoding");
         assertEquals("utf-8", bean.data1);
     }
 }

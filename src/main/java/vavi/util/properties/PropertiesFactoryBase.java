@@ -54,15 +54,15 @@ public abstract class PropertiesFactoryBase<K, V, Args> {
      * インスタンスを使いまわすのでステートレスでなければならない。
      * TODO protected ぐぬぬ...
      */
-    protected Map<String, V> instances = new HashMap<String, V>();
+    protected Map<String, V> instances = new HashMap<>();
 
     /** */
-    protected abstract void preInit(Args... args);
+    protected abstract void preInit(@SuppressWarnings("unchecked") Args... args);
 
     /**
      * @param path should be full path
      */
-    public PropertiesFactoryBase(String path, Args... args) {
+    public PropertiesFactoryBase(String path, @SuppressWarnings("unchecked") Args... args) {
         preInit(args);
 
         try {
