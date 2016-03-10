@@ -33,11 +33,12 @@ import vavi.net.www.protocol.URLStreamHandlerUtil;
 public @interface PropsEntity {
 
     /** 
-     * <code>${Foo}</code> is replaced with <code>System.getProperty("Foo")</code> or <code>System.getenv("Foo")</code>.
+     * <code>${Foo}</code> is replaced with <code>System.getProperty("Foo")</code> or <code>System.getenv("Foo")</code>.<br/>
+     * <code>{#}</code> (# is 0, 1, 2...) will be replaced by parameters (String...) of {@link PropsEntity.Util#bind(Object, String...)}<br/>
      * <p>
      * ex.
      * <pre>
-     *  "/foo.properties" 
+     *  "file://${user.home}/.foo/{0}.properties" 
      *  "classpath:your/package/foo.properties" 
      * </pre>
      * </p>
@@ -47,6 +48,9 @@ public @interface PropsEntity {
 
     /** */
     class Util {
+
+        private Util() {
+        }
 
         /** */
         public static String getUrl(Object bean) throws IOException {
@@ -113,6 +117,18 @@ public @interface PropsEntity {
             return url;
         }
 
+        /**
+         * <code>{#}</code> (# is 0, 1, 2...) is replaced by parameters args.
+         */
+        private static String replaceWithArgs(String name, String... args) {
+            for (int i = 0; i < args.length; i++) {
+                String key = "{" + i + "}";
+                name = name.replace(key, args[i]);
+//System.err.println("replace: " + name + ", " + key + ", " + args[i]);
+            }
+            return name;
+        }
+
         /* for "classpath" schema */
         static {
             URLStreamHandlerUtil.loadService();
@@ -145,7 +161,7 @@ public @interface PropsEntity {
             }
 
             Properties props = new Properties();
-            String url = replaceWithEnvOrProps(getUrl(bean));
+            String url = replaceWithArgs(replaceWithEnvOrProps(getUrl(bean)), args);
 //System.err.println("url: finally: " + url);
             props.load(new URL(url).openStream());
 
@@ -154,6 +170,9 @@ public @interface PropsEntity {
             //
             for (Field field : getPropertyFields(bean)) {
                 String name = Property.Util.getName(field, args);
+//System.err.println("before: " + name);
+                name = replaceWithArgs(name, args);
+//System.err.println("after: " + name);
                 String value = props.getProperty(name);
 System.err.println("value: " + name + ", " + value);
                 binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String

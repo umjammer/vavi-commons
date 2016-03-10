@@ -35,6 +35,9 @@ public @interface Property {
      */
     class Util {
 
+        private Util() {
+        }
+
         /**
          * @param field {@link Property} annotated
          * @return When {@link Property#name()} is not set, the field name will be return.
@@ -44,26 +47,10 @@ public @interface Property {
             if (target == null) {
                 throw new IllegalArgumentException("bean is not annotated with @Property");
             }
+
             String name = target.name();
             if (name.isEmpty()) {
                 name = field.getName();
-            }
-            
-//System.err.println("before: " + name);
-            name = replaceWithArgs(name, args);
-            
-//System.err.println("after: " + name);
-            return name;
-        }
-
-        /**
-         * <code>{#}</code> (# is 0, 1, 2...) is replaced by parameters args.
-         */
-        private static String replaceWithArgs(String name, String... args) {
-            for (int i = 0; i < args.length; i++) {
-                String key = "{" + i + "}";
-                name = name.replace(key, args[i]);
-//System.err.println("replace: " + name + ", " + key + ", " + args[i]);
             }
             return name;
         }

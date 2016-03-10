@@ -89,7 +89,7 @@ public class PropsEntityTest {
 
     @PropsEntity(url = "file://${user.dir}/local.properties.sample")
     public static class Test4 {
-        @Property(name = "encoding")
+        @Property(name = "dir.lib")
         private String data1;
     }
 
@@ -97,20 +97,20 @@ public class PropsEntityTest {
     public void test04() throws Exception {
         Test4 bean = new Test4();
         PropsEntity.Util.bind(bean);
-        assertEquals("utf-8", bean.data1);
+        assertEquals("lib", bean.data1);
     }
 
-    @PropsEntity(url = "file://${user.dir}/local.properties.sample")
+    @PropsEntity(url = "file://${user.dir}/local.properties.{1}") // {1} this is not proper usage! just for test
     public static class Test5 {
-        @Property(name = "{0}") // this is not proper usage! just for test
+        @Property(name = "{0}") // {0} this is not proper usage! just for test
         private String data1;
     }
 
     @Test
     public void test05() throws Exception {
         Test5 bean = new Test5();
-        PropsEntity.Util.bind(bean, "encoding");
-        assertEquals("utf-8", bean.data1);
+        PropsEntity.Util.bind(bean, "dir.lib", "sample");
+        assertEquals("lib", bean.data1);
     }
 }
 
