@@ -11,9 +11,14 @@
   <organization>
     <name></name>
   </organization>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <url>https://github.com/umjammer/vavi-commons</url>
-  <description>1.0.5
+  <description>1.0.6
+
+    update logging
+    update content handler
+
+1.0.5
 
     move LevenshteinDistance from vavi-commons
     make LevenshteinDistance as a bean
