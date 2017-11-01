@@ -81,14 +81,14 @@
   <repositories>
   </repositories>
   <dependencies>
-  	<dependency>
-  		<groupId>junit</groupId>
-  		<artifactId>junit</artifactId>
-  		<version>4.5</version>
-  		<type>jar</type>
-  		<scope>test</scope>
-  		<optional>false</optional>
-  	</dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.5</version>
+      <type>jar</type>
+      <scope>test</scope>
+      <optional>false</optional>
+    </dependency>
   </dependencies>
   <properties>
     <!-- github server corresponds to entry in ~/.m2/settings.xml -->

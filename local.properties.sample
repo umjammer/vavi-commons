@@ -16,7 +16,5 @@ javac.resource=src/main/resources
 javac.resource.test=src/test/resources
 javac.dest=target/classes
 javac.dest.test=target/test-classes
-dir.lib=lib
-ivy.cache=${home}/.ivy2/cache
 
 ##

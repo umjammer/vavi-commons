@@ -7,24 +7,29 @@
 <!--                                                                        -->
 <!-- vavi-commons                                                           -->
 <!--                                                                        -->
-<!-- @author	Naohide Sano                                                -->
-<!-- @version	0.00	020620	nsano	initial version                     -->
+<!-- @author Naohide Sano                                                   -->
+<!-- @version 0.00 020620 nsano initial version                             -->
 <!--                                                                        -->
 <!-- ////////////////////////////////////////////////////////////////////// -->
 
 <project name="vavi-commons" default="compile" basedir="."
-         xmlns:ivy="antlib:org.apache.ivy.ant">
+         xmlns:artifact="urn:maven-artifact-ant">
+
+  <path id="maven-ant-tasks.classpath">
+    <fileset dir="${user.home}/lib/java/maven-ant-tasks">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+  <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
+           classpathref="maven-ant-tasks.classpath" /> 
 
   <property file="local.properties" />
 
   <xmlproperty file="pom.xml" />
-  <property name="ivy.file" value="${ivy.cache}/${project.groupId}/${project.artifactId}/ivy-${project.version}.xml" />
 
   <!-- Path Definitions -->
   <path id="project.class.path">
-    <fileset dir="${dir.lib}">
-      <include name="*.jar" />
-    </fileset>
+    <fileset refid="maven-ant-tasks.dependency.fileset"/>
   </path>
 
   <!-- clean -->
@@ -36,17 +41,15 @@
       <fileset dir="${javac.dest.test}">
         <include name="**/*" />
       </fileset>
-      <fileset dir="${dir.lib}">
-        <include name="*.jar" />
-      </fileset>
     </delete>
   </target>
 
   <!-- prepare -->
   <target name="prepare" description="Preparing">
-    <ivy:settings file="ivy-settings.xml" />
-    <ivy:convertpom pomFile="pom.xml" ivyFile="${ivy.file}" />
-    <ivy:retrieve file="${ivy.file}" />
+    <artifact:pom file="pom.xml" id="maven.project"/>
+    <artifact:dependencies fileSetId="maven-ant-tasks.dependency.fileset">
+      <pom refid="maven.project"/>
+    </artifact:dependencies>
   </target>
 
   <!-- javac all vavi -->
@@ -92,11 +95,6 @@
         <include name="**/*" />
       </fileset>
     </jar>
-  </target>
-
-  <!-- ivy report -->
-  <target name="ivy-report" depends="prepare">
-    <ivy:report todir="target/ivy-reports"/>
   </target>
 
 </project>
