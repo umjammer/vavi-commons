@@ -6,12 +6,15 @@
 
 package vavi.util.logging;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
 import vavi.util.StringUtil;
+import vavi.util.properties.annotation.PropsEntity;
+import vavi.util.properties.annotation.Property;
 
 
 /**
@@ -21,7 +24,38 @@ import vavi.util.StringUtil;
  * @version 0.00 021027 nsano initial version <br>
  *          0.01 031220 nsano clean imports <br>
  */
+@PropsEntity(url = "classpath:vavi/util/logging/logging.properties")
 public class VaviFormatter extends Formatter {
+
+    @Property(name = "vavi.util.logging.excludes")
+    private String defaultExcludingPackages;
+
+    /* */
+    {
+        try {
+            PropsEntity.Util.bind(this);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /** */
+    private static String excludingPackages;
+
+    /* */
+    static {
+        excludingPackages = System.getProperty("vavi.util.logging.excludes", "");
+    }
+
+    /** */
+    private boolean containsExcludingPackages(String className) {
+        for (String excludingPackage : (defaultExcludingPackages + "," + excludingPackages).split(",")) {
+            if (className.startsWith(excludingPackage.trim())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /** */
     public String format(LogRecord record) {
@@ -40,9 +74,7 @@ public class VaviFormatter extends Formatter {
             StackTraceElement[] stes = new Exception().getStackTrace();
             StackTraceElement ste = null;
             for (int i = 0; i < stes.length; i++) {
-                if (!stes[i].getClassName().startsWith("vavi.util.logging") &&
-                    !stes[i].getClassName().startsWith("java.util.logging") &&
-                    !stes[i].getClassName().startsWith("vavi.util.Debug")) {
+                if (!containsExcludingPackages(stes[i].getClassName())) {
                     ste = stes[i];
                     break;
                 }
