@@ -110,7 +110,7 @@ public class BitInputStream extends FilterInputStream {
     /**
      * <pre>
      *  2Bit
-     *    1    2    3    4	     4    3    2    1
+     *    1    2    3    4       4    3    2    1
      *  | 01 | 11 | 10 | 01 | -&gt; | 01 | 10 | 11 | 01 |
      * </pre>
      * 

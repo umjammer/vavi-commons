@@ -22,24 +22,24 @@ import vavi.util.StringUtil;
  * .lnk を扱うためのクラスです．
  *
  * <pre>
- * 00h	 4	'L' 00 00 00	magic
- * 04h	16	GUID
- * 14h	 4	flags
- * 18h	 4	file attributes
- * 1ch	 8	time 1
- * 24h	 8	time 2
- * 2ch	 8	time 3
- * 34h	 4	file length
- * 38h	 4	icon number
- * 3ch	 4	ShowWnd value
- * 40h	 4	hot key
- * 44h	 8	unknown, always 0
+ * 00h   4  'L' 00 00 00 magic
+ * 04h  16  GUID
+ * 14h   4  flags
+ * 18h   4  file attributes
+ * 1ch   8  time 1
+ * 24h   8  time 2
+ * 2ch   8  time 3
+ * 34h   4  file length
+ * 38h   4  icon number
+ * 3ch   4  ShowWnd value
+ * 40h   4  hot key
+ * 44h   8  unknown, always 0
  * </pre>
  * 
- * @target	1.1
+ * @target 1.1
  *
- * @author	<a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
- * @version	0.00	020507	nsano	initial version <br>
+ * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @version 0.00 020507 nsano initial version <br>
  */
 public class LinkFile {
 
@@ -147,12 +147,12 @@ public class LinkFile {
 lf.print();
 
         // Shell item ID list
-	if ((lf.flags & FLAG_THE_SHELL_ITEM_ID_LIST_IS_PRESENT) != 0) {
+        if ((lf.flags & FLAG_THE_SHELL_ITEM_ID_LIST_IS_PRESENT) != 0) {
 System.err.println("---- the shell item id list ----");
             int length = ledis.readShort();
 System.err.println(": " + length);
 
-	    int len;
+            int len;
             while (true) {
                 len = ledis.readShort();
                 if (len == 0) {
@@ -193,12 +193,12 @@ System.err.println(" s2: " + s2);
         int read = 0;
 
         // File location info
-	if ((lf.flags & FLAG_POINT_TO_A_FILE_OR_DIRECTORY) != 0) {
+        if ((lf.flags & FLAG_POINT_TO_A_FILE_OR_DIRECTORY) != 0) {
 System.err.println("---- file location info ----");
             int length = ledis.readInt();
 System.err.println(": " + length);
 
-	    int offset = ledis.readInt();	// 0x1c
+            int offset = ledis.readInt(); // 0x1c
             int flags = ledis.readInt();
             int offsetOfLocalVolumeInfo = ledis.readInt();
             int offsetOfBasePathnameOnLocalSystem = ledis.readInt();
@@ -210,14 +210,14 @@ System.err.println(" offsetOfLocalVolumeInfo: " + offsetOfLocalVolumeInfo);
 System.err.println(" offsetOfBasePathnameOnLocalSystem: " + offsetOfBasePathnameOnLocalSystem);
 System.err.println(" offsetOfNetworkVolumeInfo: " + offsetOfNetworkVolumeInfo);
 System.err.println(" offsetOfRemainingPathname: " + offsetOfRemainingPathname);
-	    read += 4 * 7;
+            read += 4 * 7;
 
-	    if ((flags & FLAG_AVAILABLE_ON_A_LOCAL_VOLUME) != 0) {
+            if ((flags & FLAG_AVAILABLE_ON_A_LOCAL_VOLUME) != 0) {
 
                 int s1_length = ledis.readInt();
                 int s1_type = ledis.readInt();
                 int s1_serial = ledis.readInt();
-                int s1_offset = ledis.readInt();	// 0x10
+                int s1_offset = ledis.readInt(); // 0x10
                 read += 4 * 4;
                 byte[] buf = readAsciiz(is);
                 read += buf.length + 1;
@@ -228,20 +228,19 @@ System.err.println(" s1_serial: " + StringUtil.toHex8(s1_serial));
 System.err.println(" s1_offset: " + s1_offset);
 System.err.println(" s1_label: " + s1_label);
 
-		buf = readAsciiz(is);
+                buf = readAsciiz(is);
                 read += buf.length + 1;
                 String s2_label = new String(buf, "JISAutoDetect");
 System.err.println(" s2_label: " + s2_label);
 
-		lf.path =
-                    s1_label + (s1_label.length() > 0 ? "\\" : "") + s2_label;
+                lf.path = s1_label + (s1_label.length() > 0 ? "\\" : "") + s2_label;
             }
-	    if ((flags & FLAG_AVAILABLE_ON_A_NETWORK_SHARE) != 0) {
+            if ((flags & FLAG_AVAILABLE_ON_A_NETWORK_SHARE) != 0) {
                 int s1_length = ledis.readInt();
-                int s1_unknown = ledis.readInt();	// 0x02
-                int s1_offset = ledis.readInt();	// 0x14
-                int s1_unknown2 = ledis.readInt();	// 0
-                int s1_unknown3 = ledis.readInt();	// 0x20000
+                int s1_unknown = ledis.readInt();  // 0x02
+                int s1_offset = ledis.readInt();   // 0x14
+                int s1_unknown2 = ledis.readInt(); // 0
+                int s1_unknown3 = ledis.readInt(); // 0x20000
                 read += 4 * 5;
                 byte[] buf = readAsciiz(is);
                 read += buf.length + 1;
@@ -253,12 +252,12 @@ System.err.println(" s1_unknown2: " + s1_unknown2);
 System.err.println(" s1_unknown3: " + StringUtil.toHex8(s1_unknown3));
 System.err.println(" s1_name: " + s1_name);
 
-		buf = readAsciiz(is);
+                buf = readAsciiz(is);
                 read += buf.length + 1;
                 String s2_label = new String(buf, "JISAutoDetect");
 System.err.println(" s2_label: " + s2_label);
 
-		lf.path = s1_name + "\\" + s2_label;
+                lf.path = s1_name + "\\" + s2_label;
             }
 
 System.err.println(" length - read: " + (length - read));
@@ -266,31 +265,31 @@ System.err.println(" length - read: " + (length - read));
         }
 
         // Description string
-	if ((lf.flags & FLAG_HAS_A_DESCRIPTION_STRING) != 0) {
-System.err.println("---- description string ----");
+        if ((lf.flags & FLAG_HAS_A_DESCRIPTION_STRING) != 0) {
+            System.err.println("---- description string ----");
 System.err.println(": " + readString(ledis));
         }
 
         // Relative path string
-	if ((lf.flags & FLAG_HAS_A_RELATIVE_PATH_STRING) != 0) {
+        if ((lf.flags & FLAG_HAS_A_RELATIVE_PATH_STRING) != 0) {
 System.err.println("---- relative path string ----");
 System.err.println(": " + readString(ledis));
         }
 
         // Working directory string
-	if ((lf.flags & FLAG_HAS_A_WORKING_DIRECTORY) != 0) {
+        if ((lf.flags & FLAG_HAS_A_WORKING_DIRECTORY) != 0) {
 System.err.println("---- working directory string ----");
 System.err.println(": " + readString(ledis));
         }
 
         // Command line string
-	if ((lf.flags & FLAG_HAS_COMMAND_LINE_ARGUMENTS) != 0) {
+        if ((lf.flags & FLAG_HAS_COMMAND_LINE_ARGUMENTS) != 0) {
 System.err.println("---- command line string ----");
 System.err.println(": " + readString(ledis));
         }
 
         // Icon filename string
-	if ((lf.flags & FLAG_HAS_A_CUSTOM_ICON) != 0) {
+        if ((lf.flags & FLAG_HAS_A_CUSTOM_ICON) != 0) {
 System.err.println("---- icon filename string ----");
 System.err.println(": " + readString(ledis));
         }
@@ -314,7 +313,7 @@ if (e1_length != 0) {
         throws IOException {
 
         int length = leis.readShort() * 2;
-	if (length == 0) {
+        if (length == 0) {
             return null;
         }
 System.err.println("string len: " + length);
@@ -353,19 +352,19 @@ System.err.println("string len: " + length);
     /** */
     private void print() {
         DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        System.err.println("guid:	" + guid);
-        System.err.println("flags:	" + flags);
-        System.err.println("attributes:	" + attributes);
-        System.err.println("time1:	" + time1 + ": " + StringUtil.toHex16(time1));
-        System.err.println("time1:	" + sdf.format(new Date(DateUtil.filetimeToLong(time1))));
-        System.err.println("time2:	" + time2 + ": " + StringUtil.toHex16(time2));
-        System.err.println("time2:	" + sdf.format(new Date(DateUtil.filetimeToLong(time2))));
-        System.err.println("time3:	" + time3 + ": " + StringUtil.toHex16(time3));
-        System.err.println("time3:	" + sdf.format(new Date(DateUtil.filetimeToLong(time3))));
-        System.err.println("length:	" + length);
-        System.err.println("iconNumber:	" + iconNumber);
-        System.err.println("showWnd:	" + showWnd);
-        System.err.println("hotKey:	" + hotKey);
+        System.err.println("guid:\t" + guid);
+        System.err.println("flags:\t" + flags);
+        System.err.println("attributes:\t" + attributes);
+        System.err.println("time1:\t" + time1 + ": " + StringUtil.toHex16(time1));
+        System.err.println("time1:\t" + sdf.format(new Date(DateUtil.filetimeToLong(time1))));
+        System.err.println("time2:\t" + time2 + ": " + StringUtil.toHex16(time2));
+        System.err.println("time2:\t" + sdf.format(new Date(DateUtil.filetimeToLong(time2))));
+        System.err.println("time3:\t" + time3 + ": " + StringUtil.toHex16(time3));
+        System.err.println("time3:\t" + sdf.format(new Date(DateUtil.filetimeToLong(time3))));
+        System.err.println("length:\t" + length);
+        System.err.println("iconNumber:\t" + iconNumber);
+        System.err.println("showWnd:\t" + showWnd);
+        System.err.println("hotKey:\t" + hotKey);
     }
 }
 

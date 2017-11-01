@@ -80,8 +80,9 @@ Debug.println("outside section: " + s);
 
     /**
      * セクションを扱うためオーバーライドします．
-     * @param	key	"セクション名" + "." + "キー名"
-     * @throws	IllegalArgumentException セクション名が無いとき
+     *
+     * @param key "セクション名" + "." + "キー名"
+     * @throws IllegalArgumentException セクション名が無いとき
      */
     public Object setProperty(String key, String value) {
         int p = key.indexOf('.');
@@ -131,7 +132,7 @@ Debug.println("prop: " + key + "=" + value);
 
         w.flush();
     }
-    
+
     /**
      * 該当セクションのプロパティをを削除します．
      */

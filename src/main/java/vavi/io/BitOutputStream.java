@@ -34,7 +34,7 @@ public class BitOutputStream extends FilterOutputStream {
     public BitOutputStream(OutputStream out) {
         this(out, 4, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Bit 単位で読み込むストリームを作成します．
      * ビッグエンディアン．
@@ -50,7 +50,7 @@ public class BitOutputStream extends FilterOutputStream {
      * Bit 単位で書き込むストリームを作成します．
      */
     public BitOutputStream(OutputStream out, int bits, ByteOrder bitOrder) {
-	super(out);
+        super(out);
 if (bits != 4 && bits != 2) {
  throw new IllegalArgumentException("currently, only supported 2, 4 bit reading");
 }

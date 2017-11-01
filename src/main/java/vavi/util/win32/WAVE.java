@@ -289,10 +289,10 @@ public class WAVE extends RIFF {
                     pcmTypes.put(key, value);
                 }
             }
-		} catch (Exception e) {
+        } catch (Exception e) {
 System.err.println(e);
-			System.exit(1);
-		}
+            System.exit(1);
+        }
     }
 }
 
