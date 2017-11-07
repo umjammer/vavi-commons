@@ -16,11 +16,11 @@ import vavi.util.Debug;
 
 
 /**
- * PropertiesFactoryBase. 
+ * PropertiesFactoryBase.
  *
  * TODO to be HashMap sub class?
  * TODO CollectionProperty annotation?
- * 
+ *
  * @param <V> stored value type
  * @param <K> part of stored key type
  * @param <Args> args type
@@ -30,22 +30,22 @@ import vavi.util.Debug;
 public abstract class PropertiesFactoryBase<K, V, Args> {
 
     /**
-     * @param key property key 
+     * @param key property key
      */
     protected abstract boolean match(String key);
 
     /**
-     * @param key property key 
+     * @param key property key
      */
     protected abstract String getStoreKey(String key);
 
     /**
-     * 
+     *
      */
     protected abstract String getRestoreKey(K key);
 
     /**
-     * @param value property value 
+     * @param value property value
      */
     protected abstract V getStoreValue(String value);
 
@@ -71,7 +71,7 @@ public abstract class PropertiesFactoryBase<K, V, Args> {
 //Debug.println("path: " + path);
             props.load(PropertiesFactoryBase.class.getResourceAsStream(path));
 
-            // 
+            //
             Iterator<?> i = props.keySet().iterator();
             while (i.hasNext()) {
                 String key = (String) i.next();

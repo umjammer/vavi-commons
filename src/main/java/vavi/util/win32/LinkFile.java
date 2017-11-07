@@ -35,7 +35,7 @@ import vavi.util.StringUtil;
  * 40h   4  hot key
  * 44h   8  unknown, always 0
  * </pre>
- * 
+ *
  * @target 1.1
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)

@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 
 
 /**
- * IniTest. 
+ * IniTest.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2016/03/13 umjammer initial version <br>
@@ -40,12 +40,12 @@ System.err.println(content);
     @Test
     public void test2() throws Exception {
         URLStreamHandlerUtil.loadService();
-        URLConnection.setContentHandlerFactory(mimetype -> { 
+        URLConnection.setContentHandlerFactory(mimetype -> {
             if (mimetype.equalsIgnoreCase("application/ini"))
                 return new vavi.net.www.content.application.ini();
             else
                 return null;
-        }); 
+        });
 
         URL url = new URL("classpath:test.ini");
         Object content = url.getContent();

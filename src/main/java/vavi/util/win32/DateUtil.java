@@ -58,7 +58,7 @@ public final class DateUtil {
 
     /**
      * DATE (double) から java long (msec since 1970/1/1) を取得します．
-     * 
+     *
      * @param date OLE Automation date.
      */
     public static final long dateToLong(double date) {
@@ -71,11 +71,11 @@ public final class DateUtil {
     /**
      * DOS DATE (int) と DOS TIME (int) から
      * java long (msec since 1970/1/1) を取得します．
-     * 
-     * @param	date	上位から 7 bit が 1980 年からの年数，4 bit が月，
-     *			残りの 5 bit が日を表す
-     * @param	time	上位から 5 bit が時間，6 bit が分，
-     *			残りの 5 bit が秒を 2 で割ったもの
+     *
+     * @param    date    上位から 7 bit が 1980 年からの年数，4 bit が月，
+     *            残りの 5 bit が日を表す
+     * @param    time    上位から 5 bit が時間，6 bit が分，
+     *            残りの 5 bit が秒を 2 で割ったもの
      */
     public static final long dosDateTimeToLong(int date, int time) {
 

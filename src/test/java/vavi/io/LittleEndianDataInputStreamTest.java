@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * LittleEndianDataInputStreamTest.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 040826 nsano initial version <br>
  */
@@ -74,7 +74,7 @@ public class LittleEndianDataInputStreamTest {
         ledis.close();
         bais.close();
     }
- 
+
     /** */
     @Test
     public void testReadShort() throws Exception {

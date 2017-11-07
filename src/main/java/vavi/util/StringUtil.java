@@ -32,7 +32,7 @@ import java.util.Set;
 
 /**
  * 文字列に関するユーティリティのクラスです．
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 021027 nsano separated from Debug class <br>
  *          0.01 021202 nsano fix getDump(InputStream) <br>
@@ -97,7 +97,7 @@ public final class StringUtil {
 
     /** {hashCode, loopCount} */
     private static Map<Integer, Integer> hashes = new HashMap<>();
-    
+
     /**
      * オブジェクトをテキストダンプします。
      * toString() で使用すると便利です。
@@ -129,7 +129,7 @@ public final class StringUtil {
         } else {
             hashes.put(object.hashCode(), 0);
         }
-        
+
         // 配列やコレクションなら展開する TODO 配列はまだ...
         if (object instanceof List<?>) {
             return expand((List<?>) object);
@@ -187,12 +187,12 @@ public final class StringUtil {
 // Debug.println("ignore statics: " + modifiers);
             } else if (ignoredFinals && Modifier.isFinal(modifiers)) {
                 // final を無視
-// 		if (name.startsWith("this$")) {
+//         if (name.startsWith("this$")) {
                     // static でない inner class の outer class オブジェクト
 // Debug.println("value: " + value);
-// 	        } else {
+//             } else {
 // Debug.println("ignore final: " + modifiers);
-// 	        }
+//             }
             } else if (ignoredInnerClasses &&
 //                       value != null &&
                        (value instanceof Class<?> || value instanceof String) &&
@@ -268,7 +268,7 @@ public final class StringUtil {
 
     /**
      * パッケージ名を取り除いたクラス名を取得します．
-     * 
+     *
      * @param name パッケージ付きのクラス名
      * @return パッケージ名を取り除いたクラス名
      */
@@ -278,7 +278,7 @@ public final class StringUtil {
 
     /**
      * パッケージ名を取り除いたクラス名を取得します．
-     * 
+     *
      * @param clazz クラス
      * @return パッケージ名を取り除いたクラス名
      */
@@ -529,11 +529,11 @@ Debug.printStackTrace(e);
                 is.mark(is.available());
             }
 
-    	    byte[] buf = new byte[16];
-    	    boolean breakFlag = false;
-    	    int m = 0;
+            byte[] buf = new byte[16];
+            boolean breakFlag = false;
+            int m = 0;
 
-top:	    while (true) {
+top:        while (true) {
                 for (int y = 0; y < 16; y++) {
                     for (int x = 0; x < 16; x++) {
                         int c = is.read();
@@ -638,7 +638,7 @@ e.printStackTrace(System.err);
         s = s.substring(s.length() - 2);
         return hexUpperCase ? s.toUpperCase() : s;
     }
-    
+
     /**
      * 先頭を 0 で埋めた 4 桁の大文字の 16 進数を返します．
      */
@@ -647,7 +647,7 @@ e.printStackTrace(System.err);
         s = s.substring(s.length() - 4);
         return hexUpperCase ? s.toUpperCase() : s;
     }
-    
+
     /**
      * 先頭を 0 で埋めた 8 桁の大文字の 16 進数を返します．
      */
@@ -656,7 +656,7 @@ e.printStackTrace(System.err);
         s = s.substring(s.length() - 8);
         return hexUpperCase ? s.toUpperCase() : s;
     }
-    
+
     /**
      * 先頭を 0 で埋めた 16 桁の大文字の 16 進数を返します．
      */
@@ -665,7 +665,7 @@ e.printStackTrace(System.err);
         s = s.substring(s.length() - 16);
         return hexUpperCase ? s.toUpperCase() : s;
     }
-    
+
     /**
      * ビット列を表す文字列を返します．
      */
@@ -675,7 +675,7 @@ e.printStackTrace(System.err);
 
     /**
      * ビット列を表す文字列を返します．
-     * 
+     *
      * @param b ビット列にしたい数値
      * @param n ビット列の桁数
      */
@@ -687,7 +687,7 @@ e.printStackTrace(System.err);
             sb.append((b & (mask >>> i)) != 0 ? onBit : offBit);
 //Debug.println(toHex8(mask >>> i));
         }
-	    return sb.toString();
+        return sb.toString();
     }
 
     /**

@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 
 
 /**
- * Property. 
+ * Property.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/30 nsano initial version <br>
@@ -24,14 +24,14 @@ import java.lang.reflect.Field;
 public @interface Property {
 
     /**
-     * Property name. 
+     * Property name.
      * When this is not set, the field name will be used.
      * <code>{#}</code> (# is 0, 1, 2...) will be replaced by parameters (String...) of {@link PropsEntity.Util#bind(Object, String...)}
      */
     String name() default "";
 
     /**
-     * TODO アノテーションがメソッド指定の場合 
+     * TODO アノテーションがメソッド指定の場合
      */
     class Util {
 

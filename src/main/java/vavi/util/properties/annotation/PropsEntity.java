@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +24,7 @@ import vavi.net.www.protocol.URLStreamHandlerUtil;
 
 
 /**
- * PropsEntity. 
+ * PropsEntity.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2010/10/08 nsano initial version <br>
@@ -32,14 +33,14 @@ import vavi.net.www.protocol.URLStreamHandlerUtil;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PropsEntity {
 
-    /** 
+    /**
      * <code>${Foo}</code> is replaced with <code>System.getProperty("Foo")</code> or <code>System.getenv("Foo")</code>.<br/>
      * <code>{#}</code> (# is 0, 1, 2...) will be replaced by parameters (String...) of {@link PropsEntity.Util#bind(Object, String...)}<br/>
      * <p>
      * ex.
      * <pre>
-     *  "file://${user.home}/.foo/{0}.properties" 
-     *  "classpath:your/package/foo.properties" 
+     *  "file://${user.home}/.foo/{0}.properties"
+     *  "classpath:your/package/foo.properties"
      * </pre>
      * </p>
      * @see {@link vavi.net.www.protocol.classpath.Handler}
@@ -48,6 +49,8 @@ public @interface PropsEntity {
 
     /** */
     class Util {
+
+        private static Logger logger = Logger.getLogger(Util.class.getName());
 
         private Util() {
         }
@@ -73,7 +76,7 @@ public @interface PropsEntity {
             }
 
             //
-            Set<Field> propertyFields = new HashSet<>(); 
+            Set<Field> propertyFields = new HashSet<>();
 
             for (Field field : bean.getClass().getDeclaredFields()) {
                 Property property = field.getAnnotation(Property.class);
@@ -86,13 +89,13 @@ public @interface PropsEntity {
         }
 
         /** replacing key pattern */
-        private static final Pattern pattern = Pattern.compile("\\$\\{[\\w\\.]+\\}"); 
+        private static final Pattern pattern = Pattern.compile("\\$\\{[\\w\\.]+\\}");
 
         /**
          * Replaces <code>${Foo}</code> with <code>System.getProperty("Foo")</code> or <code>System.getenv("Foo")</code>.
          */
         private static String replaceWithEnvOrProps(String url) {
-//System.err.println("url: origin: " + url);
+logger.finer("url: origin: " + url);
             Matcher matcher = pattern.matcher(url);
             while (matcher.find()) {
                String key = matcher.group();
@@ -104,15 +107,15 @@ public @interface PropsEntity {
                        System.err.println(key + " is not replaceable");
                        continue;
                    }
-//else {
-// System.err.println("url: replaced with props: " + value);
-//}
+else {
+ logger.finer("url: replaced with props: " + value);
+}
                }
-//else {
-// System.err.println("url: replaced with env: " + value);
-//}
+else {
+ logger.finer("url: replaced with env: " + value);
+}
                url = url.replace(key, value);
-//System.err.println("url: replace: " + key + ": " + url);
+logger.finer("url: replace: " + key + ": " + url);
             }
             return url;
         }
@@ -124,7 +127,7 @@ public @interface PropsEntity {
             for (int i = 0; i < args.length; i++) {
                 String key = "{" + i + "}";
                 name = name.replace(key, args[i]);
-//System.err.println("replace: " + name + ", " + key + ", " + args[i]);
+logger.finer("replace: " + name + ", " + key + ", " + args[i]);
             }
             return name;
         }
@@ -136,21 +139,21 @@ public @interface PropsEntity {
 
         /**
          * Entry point.
-         * 
+         *
          * @param args replace <code>"{#}"</code> (# is 0, 1, 2 ...)
          * <pre>
          * $ cat some.properties
          * foo.bar.buz=xxx
          * foo.bar.aaa=yyy
-         * 
+         *
          * @Property(name = "foo.bar.{0})
          * Foo bar;
-         *  
+         *
          *    :
-         * 
+         *
          * PropsEntity.Util.bind(bean, "buz");
          * assertEquals(bean.bar, "xxx");
-         *  
+         *
          * </pre>
          */
         public static void bind(Object bean, String... args) throws IOException {
@@ -162,7 +165,7 @@ public @interface PropsEntity {
 
             Properties props = new Properties();
             String url = replaceWithArgs(replaceWithEnvOrProps(getUrl(bean)), args);
-//System.err.println("url: finally: " + url);
+logger.finer("url: finally: " + url);
             props.load(new URL(url).openStream());
 
             DefaultBinder binder = new DefaultBinder();
@@ -170,11 +173,11 @@ public @interface PropsEntity {
             //
             for (Field field : getPropertyFields(bean)) {
                 String name = Property.Util.getName(field, args);
-//System.err.println("before: " + name);
+logger.finer("before: " + name);
                 name = replaceWithArgs(name, args);
-//System.err.println("after: " + name);
+logger.finer("after: " + name);
                 String value = props.getProperty(name);
-System.err.println("value: " + name + ", " + value);
+logger.fine("value: " + name + ", " + value);
                 binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
             }
         }

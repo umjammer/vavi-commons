@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 
 /**
  * MSF フォーマットを扱うクラスです．
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 020423 nsano initial version <br>
  *          0.01 020424 nsano add constructor 3, #toString <br>

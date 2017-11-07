@@ -11,7 +11,7 @@ import java.util.EventObject;
 
 /**
  * 汎用のイベントです．
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 030318 nsano initial version <br>
  */
@@ -25,7 +25,7 @@ public class GenericEvent extends EventObject {
 
     /**
      * Creates a generic event.
-     * 
+     *
      * @param source the event source
      * @param name the event name
      */
@@ -35,7 +35,7 @@ public class GenericEvent extends EventObject {
 
     /**
      * Creates a generic event.
-     * 
+     *
      * @param source the event source
      * @param name the event name
      * @param arguments the event argument

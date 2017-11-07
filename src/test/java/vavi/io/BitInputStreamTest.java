@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * BitInputStreamTest.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 040919 nsano initial version <br>
  */

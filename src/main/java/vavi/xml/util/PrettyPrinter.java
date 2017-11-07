@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
 
 /**
  * XML pretty printer.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 031103 vavi initial version <br>
  */
@@ -80,7 +80,7 @@ public class PrettyPrinter {
 //      String publicId = document.getDoctype().getPublicId();
 //System.err.println("---- public id ----");
 //System.err.println(publicId);
-        
+
 //      String systemId = document.getDoctype().getSystemId();
 //System.err.println("---- system id ----");
 //System.err.println(systemId);
@@ -93,7 +93,7 @@ public class PrettyPrinter {
 //      props.setProperty(OutputKeys.DOCTYPE_PUBLIC, publicId);
 //      props.setProperty(OutputKeys.ENCODING, "Shift_JIS");
         transformer.setOutputProperties(props);
-        
+
         try {
             transformer.transform(source, result);
         } catch (TransformerException e) {

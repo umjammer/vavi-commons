@@ -22,8 +22,8 @@ import vavi.io.LittleEndianDataInputStream;
  * 08  04  chunk type
  * 0c (*1) chunk data ...
  * </pre>
- * 
- * @target	1.1
+ *
+ * @target    1.1
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 020424 nsano initial version <br>

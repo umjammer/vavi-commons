@@ -18,7 +18,7 @@ import static org.junit.Assert.fail;
 
 
 /**
- * PropsEntityTest. 
+ * PropsEntityTest.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2010/10/08 nsano initial version <br>
@@ -37,8 +37,8 @@ public class PropsEntityTest {
 
     public String toString() {
         return "data1: " + data1 +
-               ", data2: " + data2 + 
-               ", data3: " + data3; 
+               ", data2: " + data2 +
+               ", data3: " + data3;
     }
 
     public static void main(String[] args) throws Exception {
@@ -55,13 +55,13 @@ public class PropsEntityTest {
         assertEquals(40, bean.data2);
         assertEquals("Umjammer", bean.data3);
     }
-    
+
     @PropsEntity(url = "file://${HOME}/.vavi-commons")
     public static class Test2 {
         @Property(name = "test.data")
         private String data;
     }
-    
+
     @Test
     public void test02() throws Exception {
         File file = new File(System.getenv("HOME"), ".vavi-commons");
@@ -74,7 +74,7 @@ public class PropsEntityTest {
         fw.close();
         file.delete();
     }
-    
+
     /** just test regex */
     @Test
     public void test03() {

@@ -18,7 +18,7 @@ public class LevenshteinDistance implements Comparable<LevenshteinDistance> {
     private final int distance;
 
     /**
-     * 
+     *
      * @param source
      * @param target
      */

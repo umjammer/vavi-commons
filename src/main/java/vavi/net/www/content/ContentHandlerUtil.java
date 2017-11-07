@@ -8,10 +8,11 @@ package vavi.net.www.content;
 
 import java.net.ContentHandler;
 import java.util.ServiceLoader;
+import java.util.logging.Logger;
 
 
 /**
- * ContentHandlerUtil. 
+ * ContentHandlerUtil.
  * <p>
  * Prepare to be loaded handlers specified in <code>META-INF/services/java.net.ContentHandler</code>.
  * </p>
@@ -19,6 +20,8 @@ import java.util.ServiceLoader;
  * @version 0.00 2016/03/13 umjammer initial version <br>
  */
 public class ContentHandlerUtil {
+
+    private static Logger logger = Logger.getLogger(ContentHandlerUtil.class.getName());
 
     private ContentHandlerUtil() {
     }
@@ -28,9 +31,9 @@ public class ContentHandlerUtil {
      */
     public static void loadService() {
         ServiceLoader<ContentHandler> loader = ServiceLoader.load(ContentHandler.class);
-loader.forEach(System.err::println);
+loader.forEach(l -> { logger.fine(l.toString()); });
         StringBuilder packages = new StringBuilder(System.getProperty("java.content.handler.pkgs", ""));
-System.err.println("java.content.handler.pkgs: before: " + packages);
+logger.fine("java.content.handler.pkgs: before: " + packages);
         for (ContentHandler handler : loader) {
             String packageName = handler.getClass().getPackage().getName();
             String superPackageName = packageName.substring(0, packageName.lastIndexOf('.'));
@@ -41,7 +44,7 @@ System.err.println("java.content.handler.pkgs: before: " + packages);
                 packages.append(superPackageName);
             }
         }
-System.err.println("java.content.handler.pkgs: after: " + packages);
+logger.fine("java.content.handler.pkgs: after: " + packages);
         System.setProperty("java.content.handler.pkgs", packages.toString());
     }
 }

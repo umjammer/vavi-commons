@@ -23,11 +23,11 @@ import vavi.util.StringUtil;
 
 /**
  * WAVE format.
- * 
+ *
  * <pre>
  *  off len dsc
  * </pre>
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 020707 nsano initial version <br>
  *          1.00 030121 nsano refactoring <br>

@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 
 /**
  * DateUtilTest.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 040912 nsano initial version <br>
  */

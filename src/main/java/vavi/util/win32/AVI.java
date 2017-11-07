@@ -14,7 +14,7 @@ import vavi.io.LittleEndianDataInputStream;
 
 /**
  * AVI format.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 030120 nsano initial version <br>
  *          1.00 030122 nsano new specification complient <br>
@@ -28,7 +28,7 @@ public class AVI extends RIFF {
     public static String getExtention() {
         return "avi";
     }
-    
+
     /** for debug */
     protected void printData() {
         System.err.println("---- data ----");
@@ -62,7 +62,7 @@ public class AVI extends RIFF {
             int reserved1;
             /** */
             int flags;
-            
+
             /** Indicates the AVI file has an vdx1 chunk */
             static final int AVIF_HASINDEX = 0;
             /**
@@ -79,7 +79,7 @@ public class AVI extends RIFF {
             static final int AVIF_WASCAPTUREFILE = 0;
             /** Indicates the AVI file contains copyrighted data */
             static final int AVIF_COPYRIGHTED = 0;
-            
+
             /** */
             int totalFrames;
             /** */
@@ -100,17 +100,17 @@ public class AVI extends RIFF {
             int start;
             /** */
             int length;
-            
+
             /** for debug */
             protected void printData() {
                 System.err.println(this);
             }
-            
+
             /** */
             public void setData(InputStream is) throws IOException {
                 @SuppressWarnings("resource")
                 LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
-                
+
                 microSecPerFrame = ledis.readInt();
                 maxBytesPerSec = ledis.readInt();
                 reserved1 = ledis.readInt();

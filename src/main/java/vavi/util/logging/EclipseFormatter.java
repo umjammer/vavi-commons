@@ -12,7 +12,7 @@ import java.util.logging.LogRecord;
 
 /**
  * EclipseFormatter.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 040913 nsano initial version <br>
  */
@@ -32,8 +32,8 @@ outer:
                     break outer;
                 }
             }
-    	}
-                    
+        }
+
         sb.append("at ");
         sb.append(stes[i].getClassName());
         sb.append("(");

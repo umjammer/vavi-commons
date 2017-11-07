@@ -14,13 +14,13 @@ import vavi.io.LittleEndianDataInputStream;
 
 /**
  * CDDA format.
- * 
+ *
  * <pre>
- * 
+ *
  *  off len dsc
  *  00  04  &quot;fmt &quot;
  *  04  04  chank length (*1)
- * 
+ *
  *  00  02  CDDA file version. Currently equals 1. If it has
  *          other value, following data may be out of date.
  *  02  02  Number of track.
@@ -29,9 +29,9 @@ import vavi.io.LittleEndianDataInputStream;
  *  0C  04  Length of the track in HSG format.
  *  10  04  Beginning of the track in Red-Book format.
  *  14  04  Length of the track in Red-Book format.
- *  
+ *
  * </pre>
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 020424 nsano initial version <br>
  *          0.10 020507 nsano repackage <br>

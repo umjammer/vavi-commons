@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 
 /**
  * フィールドへの代入を行う基本クラスです。
- * 
+ *
  * TODO naming
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)

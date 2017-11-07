@@ -14,10 +14,10 @@ import java.nio.ByteOrder;
 
 /**
  * Bit 単位で読み込むストリームです．
- * 
+ *
  * TODO 中途半端なビット
  * TODO endian 処理あってるよね？
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 030713 nsano initial version <br>
  *          0.01 030714 nsano fix available() <br>
@@ -113,7 +113,7 @@ public class BitInputStream extends FilterInputStream {
      *    1    2    3    4       4    3    2    1
      *  | 01 | 11 | 10 | 01 | -&gt; | 01 | 10 | 11 | 01 |
      * </pre>
-     * 
+     *
      * @param c 8bit
      */
     private int convertEndian(int c) {

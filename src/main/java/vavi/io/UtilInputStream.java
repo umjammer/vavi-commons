@@ -14,7 +14,7 @@ import java.io.InputStream;
 
 
 /**
- * UtilInputStream. 
+ * UtilInputStream.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 050817 nsano initial version <br>

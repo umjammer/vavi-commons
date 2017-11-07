@@ -23,7 +23,7 @@ import vavi.util.StringUtil;
 
 /**
  * Chunk format.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 020507 nsano initial version <br>
  *          0.10 020707 nsano refine <br>
@@ -197,7 +197,7 @@ public abstract class Chunk {
                 Class<? extends Chunk> outerClass = (Class<? extends Chunk>) Class.forName(getOuterClassName(className));
                 Constructor<? extends Chunk> c = clazz.getConstructor(outerClass);
 //Debug.println("parent: " + StringUtil.getClassName(parent.getClass()));
-        		chunk = c.newInstance(parent);
+                chunk = c.newInstance(parent);
             } else {
                 chunk = clazz.newInstance();
             }
@@ -220,7 +220,7 @@ chunk.print();
 
     /** */
     protected static String getOuterClassName(String name) {
-        int p = name.lastIndexOf('$');	// TODO $ は実装依存???
+        int p = name.lastIndexOf('$');    // TODO $ は実装依存???
         if (p == -1) {
             throw new IllegalStateException("not inner class: " + name);
         }
@@ -245,9 +245,9 @@ try {
  Debug.println("no key for: " + name + ", " + key);
 }
 //Debug.println(name + ", " + key + ", " + className);
-    	if (className == null) {
-    	    throw new NoSuchElementException("value for " + key);
-    	}
+        if (className == null) {
+            throw new NoSuchElementException("value for " + key);
+        }
 
         return className;
     }

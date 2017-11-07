@@ -11,7 +11,7 @@ import java.util.ServiceLoader;
 
 
 /**
- * URLStreamHandlerUtil. 
+ * URLStreamHandlerUtil.
  * <p>
  * Prepare to be loaded handlers specified in <code>META-INF/services/java.net.URLStreamHandler</code>.
  * </p>

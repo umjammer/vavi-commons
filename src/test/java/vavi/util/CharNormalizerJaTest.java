@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * CharNormalizerJaTest.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 0xxxxx nsano initial version <br>
  */

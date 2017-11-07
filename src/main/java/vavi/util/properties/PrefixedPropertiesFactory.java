@@ -10,7 +10,7 @@ import vavi.util.Debug;
 
 
 /**
- * PrefixedPropertiesFactory. 
+ * PrefixedPropertiesFactory.
  *
  * @param <V> stored value type
  * @param <K> part of stored key type

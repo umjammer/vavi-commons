@@ -13,7 +13,7 @@ import java.lang.StringBuilder;
 /**
  * 日本語文字の平仮名とカタカナの相互変換と，
  * 半角と全角文字の相互変換を行います．
- * 
+ *
  * @author Takashi Okamoto
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.20 T.O original version <br>
@@ -25,9 +25,9 @@ public enum CharNormalizerJa implements CharNormalizer {
      */
     ToKatakana() {
         public String normalize(String str) {
-    
+
             StringBuilder ret = new StringBuilder();
-    
+
             for (int i = 0; i < str.length(); i++) {
                 char code = str.charAt(i);
                 if ((code >= 0x3041) && (code <= 0x3093)) {
@@ -38,7 +38,7 @@ public enum CharNormalizerJa implements CharNormalizer {
                     ret.append(code);
                 }
             }
-    
+
             return ret.toString();
         }
     },
@@ -53,9 +53,9 @@ public enum CharNormalizerJa implements CharNormalizer {
      */
     ToHiragana {
         public String normalize(String str) {
-    
+
             StringBuilder ret = new StringBuilder();
-    
+
             for (int i = 0; i < str.length(); i++) {
                 char code = str.charAt(i);
                 if ((code >= 0x30a1) && (code <= 0x30f3)) {
@@ -66,7 +66,7 @@ public enum CharNormalizerJa implements CharNormalizer {
                     ret.append(code);
                 }
             }
-    
+
             return ret.toString();
         }
     },
@@ -75,9 +75,9 @@ public enum CharNormalizerJa implements CharNormalizer {
      */
     ToHalfANS {
         public String normalize(String str) {
-    
+
             StringBuilder ret = new StringBuilder();
-    
+
             for (int i = 0;i < str.length(); i++) {
                 int code = str.charAt(i);
                 if ((code >= 0xff01) && (code <= 0xff5e)) {
@@ -86,7 +86,7 @@ public enum CharNormalizerJa implements CharNormalizer {
                     ret.append((char) code);
                 }
             }
-    
+
             return ret.toString();
         }
     },
@@ -111,9 +111,9 @@ public enum CharNormalizerJa implements CharNormalizer {
      */
     ToFullANS {
         public String normalize(String str) {
-    
+
             StringBuilder ret = new StringBuilder();
-    
+
             for (int i = 0; i < str.length(); i++) {
                 int code = str.charAt(i);
                 if ((code >= 0x21) && (code <= 0x7e)) {
@@ -123,7 +123,7 @@ public enum CharNormalizerJa implements CharNormalizer {
                     ret.append((char) code);
                 }
             }
-    
+
             return ret.toString();
         }
     },
@@ -132,15 +132,15 @@ public enum CharNormalizerJa implements CharNormalizer {
      */
     ToHalfKana {
         public String normalize(String str) {
-    
+
             StringBuilder ret = new StringBuilder();
-    
+
             for (int i = 0; i < str.length(); i++) {
-    
+
                 int base = -1;
                 int type = -1;
                 char code = str.charAt(i);
-    
+
                 if (code != '#') {
                     for (int t = 1; t < 4; t++) {
                         for (int j = 0; j < kanaTableJa.length; j++) {
@@ -154,8 +154,8 @@ public enum CharNormalizerJa implements CharNormalizer {
                             break;
                         }
                     }
-                }       
-    
+                }
+
                 switch (type) {
                 case 1:
                     ret.append(kanaTableJa[base].charAt(0));
@@ -172,7 +172,7 @@ public enum CharNormalizerJa implements CharNormalizer {
                     ret.append(code);
                 }
             }
-    
+
             return ret.toString();
         }
     },
@@ -184,40 +184,40 @@ public enum CharNormalizerJa implements CharNormalizer {
      */
     ToFullKana {
         public String normalize(String str) {
-    
+
             StringBuilder ret = new StringBuilder();
             int prevBase = 0;
-    
+
             for (int i = 0; i < str.length(); i++) {
     //      int base = -1;
                 char code = str.charAt(i);
-    
+
                 if ((code == 'ﾞ') && (kanaTableJa[prevBase].charAt(2) != '#')) {
                     // 濁点を受理し、1つ前の文字が濁点付与可能な文字の場合
-    
+
                     // 1文字削除
                     ret.deleteCharAt(ret.length() - 1);
-    
+
                     // 濁点文字追加
                     ret.append(kanaTableJa[prevBase].charAt(2));
-    
+
                     prevBase = 0;
                     continue;
                 } else if ((code == 'ﾟ') && (kanaTableJa[prevBase].charAt(2) != '#')) {
                     // 半濁点を受理し、1つ前の文字が濁点付与可能な文字の場合
-    
+
                     // 1文字削除
                     ret.deleteCharAt(ret.length() - 1);
-    
+
                     // 半濁点文字追加
                     ret.append(kanaTableJa[prevBase].charAt(3));
-    
+
                     prevBase = 0;
                     continue;
                 }
-    
+
                 boolean flag = false;
-    
+
                 for (int j = 0; j < kanaTableJa.length; j++) {
                     // テ−ブルを走査
                     if (code == kanaTableJa[j].charAt(0)) {
@@ -233,7 +233,7 @@ public enum CharNormalizerJa implements CharNormalizer {
                     prevBase = 0;
                 }
             }
-    
+
             return ret.toString();
         }
     },
@@ -259,7 +259,7 @@ public enum CharNormalizerJa implements CharNormalizer {
             return str;
         }
     };
- 
+
     /** */
     private static final String kanaTableJa[] = {
         "｡。##",

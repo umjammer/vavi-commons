@@ -14,7 +14,7 @@ import java.io.InputStream;
 
 /**
  * Little Endian バイトオーダで読み込むストリームです．
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 020507 nsano initial version <br>
  *          0.01 020623 nsano refine method name <br>
@@ -85,7 +85,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
     }
 
     /**
-     * 
+     *
      */
     public void readFully(byte[] b, int offset, int len) throws IOException {
         int l = in.read(b, offset, len);
@@ -95,14 +95,14 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
     }
 
     /**
-     * 
+     *
      */
     public void readFully(byte[] b) throws IOException {
         readFully(b, 0, b.length);
     }
 
     /**
-     * 
+     *
      */
     public int skipBytes(int len) throws IOException {
         return (int) in.skip(len);

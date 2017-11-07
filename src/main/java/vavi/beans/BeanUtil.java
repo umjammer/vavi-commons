@@ -28,9 +28,9 @@ public abstract class BeanUtil {
      * 初めに通常に読めるフィールドで取得します。
      * 次に Getter メソッド(Bean命名規則, booleanの場合isFooあり)で取得します。
      * 最後に private フィールドを強制的に取得します。
-     * 
+     *
      * TODO use {@link java.beans.Introspector} ??? or {@link org.apache.commons.beanutils.BeanUtils}
-     * 
+     *
      * @param field 対象となるフィールド定義
      * @param bean 取得対象のオブジェクト
      */
@@ -51,32 +51,32 @@ public abstract class BeanUtil {
                         Method method = beanClass.getMethod("is" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1));
                         return method.invoke(bean);
                     } catch (InvocationTargetException e3) {
-                        throw new IllegalStateException(e3); 
+                        throw new IllegalStateException(e3);
                     } catch (NoSuchMethodException e3) {
                         return getPrivateFieldValue(field, bean);
-//                      throw new IllegalStateException("no access method for: " + fieldName); 
+//                      throw new IllegalStateException("no access method for: " + fieldName);
                     } catch (IllegalAccessException e3) {
-                        throw new IllegalStateException(e3); 
+                        throw new IllegalStateException(e3);
                     }
                 } else {
                     return getPrivateFieldValue(field, bean);
-//                  throw new IllegalStateException("no access method for: " + fieldName); 
+//                  throw new IllegalStateException("no access method for: " + fieldName);
                 }
             } catch (InvocationTargetException e2) {
-                throw new IllegalStateException(e2); 
+                throw new IllegalStateException(e2);
             } catch (IllegalAccessException e2) {
-                throw new IllegalStateException(e2); 
+                throw new IllegalStateException(e2);
             }
-        } 
+        }
     }
 
     /**
      * 初めに通常に読めるフィールドで設定します。
      * 次に Setter メソッドで設定します。
      * 最後に private フィールドを強制的に設定します。
-     * 
+     *
      * TODO use {@link java.beans.Introspector} ??? or {@link org.apache.commons.beanutils.BeanUtils}
-     * 
+     *
      * @param field 対象となるフィールド定義
      * @param bean 設定対象のオブジェクト
      * @param value 設定する値
@@ -94,13 +94,13 @@ public abstract class BeanUtil {
                 method.invoke(bean, value);
             } catch (NoSuchMethodException e2) {
                 setPrivateFieldValue(field, bean, value);
-//              throw new IllegalStateException("no access method for: " + fieldName); 
+//              throw new IllegalStateException("no access method for: " + fieldName);
             } catch (InvocationTargetException e2) {
-                throw new IllegalStateException(e2); 
+                throw new IllegalStateException(e2);
             } catch (IllegalAccessException e2) {
-                throw new IllegalStateException(e2); 
+                throw new IllegalStateException(e2);
             }
-        } 
+        }
     }
 
     /** */
@@ -121,9 +121,9 @@ public abstract class BeanUtil {
             Field accessibleField = getPrivateField(field.getDeclaringClass(), field.getName());
             return accessibleField.get(bean);
         } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e); 
+            throw new IllegalStateException(e);
         } catch (PrivilegedActionException e) {
-            throw new IllegalStateException(e); 
+            throw new IllegalStateException(e);
         }
     }
 
@@ -133,9 +133,9 @@ public abstract class BeanUtil {
             Field accessibleField = getPrivateField(field.getDeclaringClass(), field.getName());
             accessibleField.set(bean, value);
         } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e); 
+            throw new IllegalStateException(e);
         } catch (PrivilegedActionException e) {
-            throw new IllegalStateException(e); 
+            throw new IllegalStateException(e);
         }
     }
 }
