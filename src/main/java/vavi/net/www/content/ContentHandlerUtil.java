@@ -27,14 +27,15 @@ public class ContentHandlerUtil {
     }
 
     /**
+     * @see "classpath:META-INF/services/java.net.ContentHandler"
      * @see "https://docs.oracle.com/javase/8/docs/api/java/net/ContentHandler.html"
      */
     public static void loadService() {
         ServiceLoader<ContentHandler> loader = ServiceLoader.load(ContentHandler.class);
-loader.forEach(l -> { logger.fine(l.toString()); });
         StringBuilder packages = new StringBuilder(System.getProperty("java.content.handler.pkgs", ""));
-logger.fine("java.content.handler.pkgs: before: " + packages);
+logger.info("java.content.handler.pkgs: before: " + packages);
         for (ContentHandler handler : loader) {
+logger.info("content: " + handler.getClass().getName());
             String packageName = handler.getClass().getPackage().getName();
             String superPackageName = packageName.substring(0, packageName.lastIndexOf('.'));
             if (packages.indexOf(superPackageName) < 0) {
@@ -44,7 +45,7 @@ logger.fine("java.content.handler.pkgs: before: " + packages);
                 packages.append(superPackageName);
             }
         }
-logger.fine("java.content.handler.pkgs: after: " + packages);
+logger.info("java.content.handler.pkgs: after: " + packages);
         System.setProperty("java.content.handler.pkgs", packages.toString());
     }
 }

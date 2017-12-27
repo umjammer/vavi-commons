@@ -9,7 +9,7 @@ package vavi.util;
  * Levenshtein Distance.
  *
  * @author <a href="http://www.merriampark.com/ld.htm">Michael Gilleland</a>
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 060711 nsano initial version <br>
  */
 public class LevenshteinDistance implements Comparable<LevenshteinDistance> {

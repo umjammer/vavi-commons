@@ -29,7 +29,7 @@ import vavi.util.Debug;
  *
  * 注意：プロパティの順序、コメントは保存されません。
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 020502 nsano initial version <br>
  *          0.01 031220 nsano clean imports <br>
  */

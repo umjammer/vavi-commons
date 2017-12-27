@@ -20,7 +20,7 @@ import vavi.util.properties.annotation.Property;
 /**
  * VaviFormatter.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021027 nsano initial version <br>
  *          0.01 031220 nsano clean imports <br>
  */

@@ -6,19 +6,52 @@
 
 package vavi.util.logging;
 
+import java.io.IOException;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
+
+import vavi.util.properties.annotation.Property;
+import vavi.util.properties.annotation.PropsEntity;
 
 
 /**
  * EclipseFormatter.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 040913 nsano initial version <br>
  */
+@PropsEntity(url = "classpath:vavi/util/logging/logging.properties")
 public class EclipseFormatter extends Formatter {
 
-    String[] prefixes = { "com", "sun" };
+    @Property(name = "vavi.util.logging.excludes")
+    private String defaultExcludingPackages;
+
+    /* */
+    {
+        try {
+            PropsEntity.Util.bind(this);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /** */
+    private static String excludingPackages;
+
+    /* */
+    static {
+        excludingPackages = System.getProperty("vavi.util.logging.excludes", "");
+    }
+
+    /** */
+    private boolean containsExcludingPackages(String className) {
+        for (String excludingPackage : (defaultExcludingPackages + "," + excludingPackages).split(",")) {
+            if (className.startsWith(excludingPackage.trim())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /** */
     public String format(LogRecord record) {
@@ -27,10 +60,8 @@ public class EclipseFormatter extends Formatter {
         int i = 0;
 outer:
         for (; i < stes.length; i++) {
-            for (String prefix : prefixes) {
-                if (!stes[i].getClassName().startsWith(prefix)) {
-                    break outer;
-                }
+            if (!containsExcludingPackages(stes[i].getClassName())) {
+                break outer;
             }
         }
 

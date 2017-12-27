@@ -18,7 +18,7 @@ import java.nio.ByteOrder;
  * TODO 中途半端なビット
  * TODO endian 処理あってるよね？
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030713 nsano initial version <br>
  *          0.01 030714 nsano fix available() <br>
  *          0.02 030715 nsano read() BitOrder 対応 <br>

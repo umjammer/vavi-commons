@@ -17,7 +17,7 @@ import java.security.PrivilegedExceptionAction;
 /**
  * BeanUtil.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:17:10 $ $Author: sano-n $
  */
 public abstract class BeanUtil {

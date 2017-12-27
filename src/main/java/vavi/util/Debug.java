@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * デバッグのユーティリティクラスです．
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 010821 nsano initial version <br>
  *          0.01 010827 nsano deplecete #assert <br>
  *          0.02 010827 nsano add #getCallerMethod <br>
@@ -61,7 +61,7 @@ public final class Debug {
     static {
         String configClass = System.getProperty(LOGGING_CONFIG_CLASS);
         String configFile  = System.getProperty(LOGGING_CONFIG_FILE);
-        if (configClass == null && configFile == null) {
+        if (configClass == null && configFile == null) { // TODO configFile 
 //System.err.println("Debug::<clinit>: no configuration specified, use default");
             try {
                 Properties props = new Properties();

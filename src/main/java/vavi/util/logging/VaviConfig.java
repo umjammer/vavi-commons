@@ -13,7 +13,7 @@ import java.util.logging.LogManager;
 /**
  * デバッグのコンフィグレーションクラスです．
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021104 nsano initial version <br>
  */
 public final class VaviConfig {

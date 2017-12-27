@@ -33,7 +33,7 @@ import java.util.Set;
 /**
  * 文字列に関するユーティリティのクラスです．
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021027 nsano separated from Debug class <br>
  *          0.01 021202 nsano fix getDump(InputStream) <br>
  *          0.02 021206 nsano fix toBits(int,int) <br>

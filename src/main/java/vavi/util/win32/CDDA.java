@@ -32,7 +32,7 @@ import vavi.io.LittleEndianDataInputStream;
  *
  * </pre>
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 020424 nsano initial version <br>
  *          0.10 020507 nsano repackage <br>
  *          0.11 020507 nsano refine <br>

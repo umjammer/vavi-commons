@@ -26,7 +26,7 @@ import vavi.net.www.protocol.URLStreamHandlerUtil;
 /**
  * PropsEntity.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2010/10/08 nsano initial version <br>
  */
 @java.lang.annotation.Target(ElementType.TYPE)

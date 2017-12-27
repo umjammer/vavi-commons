@@ -17,7 +17,7 @@ import vavi.util.Debug;
 /**
  * Bit 単位で書き込むストリームです．
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030713 nsano initial version <br>
  */
 public class BitOutputStream extends FilterOutputStream {

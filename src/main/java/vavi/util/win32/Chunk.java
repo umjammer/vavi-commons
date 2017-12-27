@@ -24,7 +24,7 @@ import vavi.util.StringUtil;
 /**
  * Chunk format.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 020507 nsano initial version <br>
  *          0.10 020707 nsano refine <br>
  *          1.00 030121 nsano refactoring <br>

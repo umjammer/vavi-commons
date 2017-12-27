@@ -13,7 +13,7 @@ import java.util.Calendar;
  * Win32 の日付関連の構造体を扱うためのクラスです．
  * 何でこんなにいっぱいあるの? さすが M$、統一感無いねぇ。
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030211 nsano initial version <br>
  *          0.01 030211 nsano add dateToLong <br>
  *          0.02 030227 nsano add dosDateTimeToLong <br>

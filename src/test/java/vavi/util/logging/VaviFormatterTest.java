@@ -6,9 +6,11 @@
 
 package vavi.util.logging;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+
 
 /**
  * VaviFormatterTest.
@@ -16,6 +18,7 @@ import static org.junit.Assert.*;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2016/03/23 umjammer initial version <br>
  */
+@Ignore
 public class VaviFormatterTest {
 
     @Test

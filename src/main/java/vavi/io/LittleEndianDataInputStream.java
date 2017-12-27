@@ -15,7 +15,7 @@ import java.io.InputStream;
 /**
  * Little Endian バイトオーダで読み込むストリームです．
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 020507 nsano initial version <br>
  *          0.01 020623 nsano refine method name <br>
  *          0.10 030726 nsano implement DataInput <br>

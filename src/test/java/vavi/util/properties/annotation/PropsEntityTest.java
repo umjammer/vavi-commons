@@ -20,7 +20,7 @@ import static org.junit.Assert.fail;
 /**
  * PropsEntityTest.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2010/10/08 nsano initial version <br>
  */
 @PropsEntity(url = "classpath:vavi/util/properties/annotation/propsEntityTest.properties")
@@ -89,7 +89,7 @@ public class PropsEntityTest {
 
     @PropsEntity(url = "file://${user.dir}/local.properties.sample")
     public static class Test4 {
-        @Property(name = "dir.lib")
+        @Property(name = "javac.source")
         private String data1;
     }
 
@@ -97,7 +97,7 @@ public class PropsEntityTest {
     public void test04() throws Exception {
         Test4 bean = new Test4();
         PropsEntity.Util.bind(bean);
-        assertEquals("lib", bean.data1);
+        assertEquals("src/main/java", bean.data1);
     }
 
     @PropsEntity(url = "file://${user.dir}/local.properties.{1}") // {1} this is not proper usage! just for test
@@ -109,8 +109,8 @@ public class PropsEntityTest {
     @Test
     public void test05() throws Exception {
         Test5 bean = new Test5();
-        PropsEntity.Util.bind(bean, "dir.lib", "sample");
-        assertEquals("lib", bean.data1);
+        PropsEntity.Util.bind(bean, "javac.source", "sample");
+        assertEquals("src/main/java", bean.data1);
     }
 }
 

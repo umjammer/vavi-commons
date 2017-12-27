@@ -15,7 +15,7 @@ import java.lang.StringBuilder;
  * 半角と全角文字の相互変換を行います．
  *
  * @author Takashi Okamoto
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.20 T.O original version <br>
  *          0.30 021120 nsano refine <br>
  */

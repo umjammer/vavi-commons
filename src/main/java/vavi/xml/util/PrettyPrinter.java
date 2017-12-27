@@ -33,7 +33,7 @@ import org.xml.sax.SAXException;
 /**
  * XML pretty printer.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 031103 vavi initial version <br>
  */
 public class PrettyPrinter {

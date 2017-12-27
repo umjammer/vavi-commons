@@ -15,7 +15,7 @@ import java.util.Vector;
 /**
  * MultipartChunk format.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030121 nsano initial version <br>
  *          0.10 030711 nsano add setChildData() <br>
  *          0.11 030711 nsano deprecate setChildData() <br>

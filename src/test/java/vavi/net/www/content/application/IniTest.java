@@ -26,10 +26,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class IniTest {
 
+    /** TODO doesn't work */
     @Test
     public void test() throws Exception {
         URLStreamHandlerUtil.loadService();
-        ContentHandlerUtil.loadService();
+        ContentHandlerUtil.loadService(); // TODO <--
 
         URL url = new URL("classpath:test.ini");
         Object content = url.getContent();
@@ -37,10 +38,12 @@ System.err.println(content);
         assertTrue(WindowsProperties.class.isInstance(content));
     }
 
+    /** TODO doesn't work */
     @Test
     public void test2() throws Exception {
         URLStreamHandlerUtil.loadService();
-        URLConnection.setContentHandlerFactory(mimetype -> {
+        URLConnection.setContentHandlerFactory(mimetype -> { // TODO <--
+System.err.println(mimetype);
             if (mimetype.equalsIgnoreCase("application/ini"))
                 return new vavi.net.www.content.application.ini();
             else

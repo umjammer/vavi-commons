@@ -10,7 +10,7 @@ package vavi.util.win32;
 /**
  * LIST format.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030122 nsano initial version <br>
  *          1.10 030711 nsano add setChildData() <br>
  *          1.11 030711 nsano deprecate setChildData() <br>
