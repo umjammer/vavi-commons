@@ -67,7 +67,7 @@ public final class Debug {
                 Properties props = new Properties();
                 props.load(Debug.class.getResourceAsStream("/vavi/util/logging/logging.properties"));
                 configClass = props.getProperty("vavi.util.debug.config.class");
-                Class.forName(configClass).newInstance();
+                Class.forName(configClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
 e.printStackTrace(System.err);
             }
@@ -82,43 +82,33 @@ e.printStackTrace(System.err);
     /**
      * 改行付きでメッセージを出力します．
      *
-     * @param    level    このメッセージの表示レベル
-     * @param    message    表示メッセージ
+     * @param level このメッセージの表示レベル
+     * @param message 表示メッセージ
      */
     public static final void println(Level level, Object message) {
-        if (isDebug) {
-            StackTraceElement ste = getStackTraceElement(0);
-            logger.logp(level,
-                        StringUtil.getClassName(ste.getClassName()),
-                        ste.getMethodName(),
-                        message + "\n");
-        }
+        print(level, message + "\n");
     }
 
     /**
      * 改行付きでメッセージを出力します．
      *
-     * @param    level    このメッセージの表示レベル
-     * @param    message    表示メッセージ
-     * @see    #print(Level, Object)
+     * @param level このメッセージの表示レベル
+     * @param message 表示メッセージ
+     * @see #print(Level, Object)
      */
     public static final void println(Level level, boolean message) {
-        if (isDebug) {
-            println(level, String.valueOf(message));
-        }
+        println(level, String.valueOf(message));
     }
 
     /**
      * 改行付きでメッセージを出力します．
      *
-     * @param    level    このメッセージの表示レベル
-     * @param    message    表示メッセージ
-     * @see    #println(Level, Object)
+     * @param level このメッセージの表示レベル
+     * @param message 表示メッセージ
+     * @see #println(Level, Object)
      */
     public static final void println(Level level, int message) {
-        if (isDebug) {
-            println(level, String.valueOf(message));
-        }
+        println(level, String.valueOf(message));
     }
 
     /**
@@ -128,9 +118,7 @@ e.printStackTrace(System.err);
      * @see #println(Level, Object)
      */
     public static final void println(Object message) {
-        if (isDebug) {
-            println(Level.INFO, message);
-        }
+        println(Level.INFO, message);
     }
 
     /**
@@ -140,9 +128,7 @@ e.printStackTrace(System.err);
      * @see #println(Level, Object)
      */
     public static final void println(int message) {
-        if (isDebug) {
-            println(Level.INFO, String.valueOf(message));
-        }
+        println(Level.INFO, String.valueOf(message));
     }
 
     /**
@@ -152,9 +138,7 @@ e.printStackTrace(System.err);
      * @see #println(Level, Object)
      */
     public static final void println(char message) {
-        if (isDebug) {
-            println(Level.INFO, String.valueOf(message));
-        }
+        println(Level.INFO, String.valueOf(message));
     }
 
     /**
@@ -164,9 +148,7 @@ e.printStackTrace(System.err);
      * @see #println(Level, Object)
      */
     public static final void println(boolean message) {
-        if (isDebug) {
-            println(Level.INFO, String.valueOf(message));
-        }
+        println(Level.INFO, String.valueOf(message));
     }
 
     /**
@@ -176,9 +158,25 @@ e.printStackTrace(System.err);
      * @see #println(Level, Object)
      */
     public static final void println(double message) {
-        if (isDebug) {
-            println(Level.INFO, String.valueOf(message));
-        }
+        println(Level.INFO, String.valueOf(message));
+    }
+
+    /**
+     * フォーマットしてメッセージを出力します．
+     *
+     * @param message 表示メッセージ
+     */
+    public static final void printf(String message, Object... args) {
+        printf(Level.INFO, message, args);
+    }
+
+    /**
+     * フォーマットしてメッセージを出力します．
+     *
+     * @param message 表示メッセージ
+     */
+    public static final void printf(Level level, String message, Object... args) {
+        print(level, String.format(message, args));
     }
 
     /**
@@ -204,9 +202,7 @@ e.printStackTrace(System.err);
      * @see #println(Level, Object)
      */
     public static final void print(Object message) {
-        if (isDebug) {
-            print(Level.INFO, message);
-        }
+        print(Level.INFO, message);
     }
 
     /**

@@ -58,10 +58,10 @@ public class EclipseFormatter extends Formatter {
         StringBuilder sb = new StringBuilder();
         StackTraceElement[] stes = new Throwable().getStackTrace();
         int i = 0;
-outer:
+
         for (; i < stes.length; i++) {
             if (!containsExcludingPackages(stes[i].getClassName())) {
-                break outer;
+                break;
             }
         }
 

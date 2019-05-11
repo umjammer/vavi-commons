@@ -46,13 +46,18 @@ public class PrettyPrinter {
         result = new StreamResult(writer);
     }
 
-    /** use default encoding */
-    public PrettyPrinter(OutputStream os) {
+    /** */
+    public PrettyPrinter(OutputStream os, String encoding) {
         try {
-            result = new StreamResult(new OutputStreamWriter(os, System.getProperty("file.encoding")));
+            result = new StreamResult(new OutputStreamWriter(os, encoding));
         } catch (UnsupportedEncodingException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    /** use default encoding */
+    public PrettyPrinter(OutputStream os) {
+        this(os, System.getProperty("file.encoding"));
     }
 
     /**

@@ -73,7 +73,7 @@ System.err.println("RIFF::readFrom: length: " + length);
 
         try {
             String className = getClassName(multipartName, null);
-            chunk = (MultipartChunk) Class.forName(className).newInstance();
+            chunk = (MultipartChunk) Class.forName(className).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
 System.err.println("RIFF::readFrom: multipartName: " + multipartName);
             throw new IllegalStateException(e.toString());

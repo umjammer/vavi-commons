@@ -293,7 +293,7 @@ public final class StringUtil {
     public static final String expand(int[] array) {
         Integer[] objectArray = new Integer[array.length];
         for (int i = 0; i < array.length; i++) {
-            objectArray[i] = new Integer(array[i]);
+            objectArray[i] = Integer.valueOf(array[i]);
         }
         return expand(objectArray);
     }
@@ -783,7 +783,7 @@ e.printStackTrace(System.err);
                 break;
             default:
                 singleToken =
-                    (new Character((char) streamTokenizer.ttype)).toString();
+                    (Character.valueOf((char) streamTokenizer.ttype)).toString();
                 if (singleToken.equals("\"")) {
                     if (inDoubleQuotedString) {
                         commandList.add(token);
@@ -871,12 +871,12 @@ e.printStackTrace(System.err);
 
             // recursive depth
             value = props.getProperty("vavi.util.StringUtil.recursiveDepth");
-            recursiveDepth = new Integer(value).intValue();
+            recursiveDepth = Integer.valueOf(value).intValue();
 //Debug.println("recursiveDepth: " + recursiveDepth);
 
             // bytes expand
             value = props.getProperty("vavi.util.StringUtil.bytesExpand");
-            bytesExpand = new Integer(value).intValue();
+            bytesExpand = Integer.valueOf(value).intValue();
 //Debug.println("bytesExpand: " + bytesExpand);
 
             // ignore static

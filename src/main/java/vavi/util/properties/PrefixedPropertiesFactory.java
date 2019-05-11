@@ -52,7 +52,7 @@ public class PrefixedPropertiesFactory<K, V> extends PropertiesFactoryBase<K, V,
         try {
             @SuppressWarnings("unchecked")
             Class<V> clazz = (Class<V>) Class.forName(value);
-            return clazz.newInstance();
+            return clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
 Debug.printStackTrace(e);
             throw new IllegalStateException(e);

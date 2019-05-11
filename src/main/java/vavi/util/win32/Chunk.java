@@ -199,7 +199,7 @@ public abstract class Chunk {
 //Debug.println("parent: " + StringUtil.getClassName(parent.getClass()));
                 chunk = c.newInstance(parent);
             } else {
-                chunk = clazz.newInstance();
+                chunk = clazz.getDeclaredConstructor().newInstance();
             }
         } catch (ClassNotFoundException e) {
 Debug.println("no such class for " + StringUtil.getClassName(parent.getClass()) + "." + name + ": " + className);
