@@ -16,7 +16,7 @@ import java.net.URLStreamHandler;
  * <pre>
  * classpath:some/package/resource.extension
  * </pre>
- * You don't need the first <code>"/"</code>.
+ * You don't need to add the first <code>"/"</code>.
  * If you use this class, set <code>-Djava.protocol.handler.pkgs=vavi.net.www.protocol</code>
  *
  * @author http://stackoverflow.com/users/37193/stephen

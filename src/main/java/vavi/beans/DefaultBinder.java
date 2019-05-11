@@ -9,7 +9,6 @@ package vavi.beans;
 import java.lang.reflect.Field;
 
 
-
 /**
  * フィールドへの代入を行う基本クラスです。
  *

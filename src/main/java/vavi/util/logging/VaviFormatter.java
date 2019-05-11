@@ -39,7 +39,7 @@ public class VaviFormatter extends Formatter {
         }
     }
 
-    /** */
+    /** comma separated class path strings */
     private static String excludingPackages;
 
     /* */

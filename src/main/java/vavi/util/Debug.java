@@ -124,8 +124,8 @@ e.printStackTrace(System.err);
     /**
      * 改行付きでメッセージを出力します．
      *
-     * @param    message    表示メッセージ
-     * @see    #println(Level, Object)
+     * @param message 表示メッセージ
+     * @see #println(Level, Object)
      */
     public static final void println(Object message) {
         if (isDebug) {
@@ -136,8 +136,8 @@ e.printStackTrace(System.err);
     /**
      * 改行付きでメッセージを出力します．
      *
-     * @param    message    表示メッセージ
-     * @see    #println(Level, Object)
+     * @param message 表示メッセージ
+     * @see #println(Level, Object)
      */
     public static final void println(int message) {
         if (isDebug) {
@@ -148,8 +148,8 @@ e.printStackTrace(System.err);
     /**
      * 改行付きでメッセージを出力します．
      *
-     * @param    message    表示メッセージ
-     * @see    #println(Level, Object)
+     * @param message 表示メッセージ
+     * @see #println(Level, Object)
      */
     public static final void println(char message) {
         if (isDebug) {
@@ -160,8 +160,8 @@ e.printStackTrace(System.err);
     /**
      * 改行付きでメッセージを出力します．
      *
-     * @param    message    表示メッセージ
-     * @see    #println(Level, Object)
+     * @param message 表示メッセージ
+     * @see #println(Level, Object)
      */
     public static final void println(boolean message) {
         if (isDebug) {
@@ -172,8 +172,8 @@ e.printStackTrace(System.err);
     /**
      * 改行付きでメッセージを出力します．
      *
-     * @param    message    表示メッセージ
-     * @see    #println(Level, Object)
+     * @param message 表示メッセージ
+     * @see #println(Level, Object)
      */
     public static final void println(double message) {
         if (isDebug) {
@@ -184,8 +184,8 @@ e.printStackTrace(System.err);
     /**
      * メッセージを出力します.
      *
-     * @param    level    このメッセージの表示レベル
-     * @param    message    表示メッセージ
+     * @param level このメッセージの表示レベル
+     * @param message 表示メッセージ
      */
     public static final void print(Level level, Object message) {
         if (isDebug) {
@@ -200,8 +200,8 @@ e.printStackTrace(System.err);
     /**
      * メッセージを出力します．
      *
-     * @param    message    表示メッセージ
-     * @see    #println(Level, Object)
+     * @param message 表示メッセージ
+     * @see #println(Level, Object)
      */
     public static final void print(Object message) {
         if (isDebug) {
@@ -211,7 +211,7 @@ e.printStackTrace(System.err);
 
     /**
      * デバッグモードならスタックトレースを出力します．
-     * @param    e    exception
+     * @param e exception
      */
     public static final void printStackTrace(Throwable e) {
         if (isDebug) {
@@ -288,7 +288,7 @@ e.printStackTrace(System.err);
 
     /**
      * 現在実行中のプログラムの情報を取得します．
-     * @param    depth    呼び出し元の深さ，0 以上を指定する．
+     * @param depth 呼び出し元の深さ，0 以上を指定する．
      * 対象メソッドを直接呼ぶ場合は 0，
      * 対象メソッドを呼ぶメソッドを呼ぶ場合は 1，
      * のように指定する。
@@ -300,7 +300,7 @@ e.printStackTrace(System.err);
 
     /**
      * フォーマットした StackTraceElement の文字列を返します．
-     * @param    ste    StackTraceElement
+     * @param ste StackTraceElement
      */
     private static final String format(StackTraceElement ste) {
         StringBuilder sb = new StringBuilder();
