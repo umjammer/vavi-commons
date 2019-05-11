@@ -1,15 +1,3 @@
-#
-# Copyright (c) 2003 by Naohide Sano, All rights reserved.
-#
-# Written by Naohide Sano
-#
-# ant properties for vavi TM Original Edition
-#
-# @author	Naohide Sano
-# @version	0.00	031213	nsano	initial version
-#
-
-jvm=/Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/bin/java
 javac.source=src/main/java
 javac.source.test=src/test/java
 javac.resource=src/main/resources

@@ -8,14 +8,14 @@ package vavi.io;
 
 import java.io.ByteArrayInputStream;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import vavi.util.Debug;
 import vavi.util.StringUtil;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -39,7 +39,7 @@ public class LittleEndianDataInputStreamTest {
     LittleEndianDataInputStream ledis2;
 
     /** */
-    @Before
+    @BeforeAll
     public void setUp() throws Exception {
         byte[] sample = {
                 (byte) 0x11,
@@ -69,7 +69,7 @@ public class LittleEndianDataInputStreamTest {
     }
 
     /** */
-    @After
+    @AfterAll
     public void tearDown() throws Exception {
         ledis.close();
         bais.close();

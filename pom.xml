@@ -20,7 +20,7 @@
 
 1.0.5
 
-    move LevenshteinDistance from vavi-commons
+    move LevenshteinDistance from vavi-commons-sandbox
     make LevenshteinDistance as a bean
     upgrade @PropsEntity functionality
     add xml pretty printer
@@ -31,55 +31,39 @@
 
 1.0.3
 
-    add property related</description>
-  <distributionManagement>
-      <repository>
-          <id>internal.repo</id>
-          <name>Temporary Staging Repository</name>
-          <url>file://${project.build.directory}/mvn-repo</url>
-      </repository>
-  </distributionManagement>
+    add property related
+
+TODO
+
+    use java9 URLStreamHandlerProvider
+    move win32 to sandbox</description>
   <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.1</version>
-          <configuration>
-              <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
-          </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
           <encoding>UTF-8</encoding>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.github.github</groupId>
-        <artifactId>site-maven-plugin</artifactId>
-        <version>0.11</version>
-        <configuration>
-          <message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
-          <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
-          <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
-          <branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
-          <includes><include>**/*</include></includes>
-          <repositoryName>vavi-commons</repositoryName>      <!-- github repo name -->
-          <repositoryOwner>umjammer</repositoryOwner>    <!-- github username  -->
-          <merge>true</merge>
-        </configuration>
-        <executions>
-          <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
-          <execution>
-            <goals>
-              <goal>site</goal>
-            </goals>
-            <phase>deploy</phase>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
@@ -87,20 +71,20 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.5</version>
-      <type>jar</type>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.3.0</version>
       <scope>test</scope>
-      <optional>false</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.3.0</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
-  <properties>
-    <!-- github server corresponds to entry in ~/.m2/settings.xml -->
-    <github.global.server>github</github.global.server>
-  </properties>
   <scm>
-    <url>https://github.com/umjammer/vavi-commons/tree/master/vavi-commons</url>
+    <url>https://github.com/umjammer/vavi-commons</url>
   </scm>
   <issueManagement>
     <url>https://github.com/umjammer/vavi-commons/issues</url>

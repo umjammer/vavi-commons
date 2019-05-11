@@ -8,7 +8,7 @@ package vavi.util.win32;
 
 import java.util.Calendar;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -17,7 +17,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 040912 nsano initial version <br>
  */
-public class DateUtilTest extends TestCase {
+public class DateUtilTest {
 
     /** milli sec 切捨て */
     public void testFiletimeToLong() {

@@ -9,13 +9,13 @@ package vavi.net.www.content.application;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import vavi.net.www.content.ContentHandlerUtil;
 import vavi.net.www.protocol.URLStreamHandlerUtil;
 import vavi.util.win32.WindowsProperties;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
