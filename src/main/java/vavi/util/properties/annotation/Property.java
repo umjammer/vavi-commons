@@ -31,6 +31,11 @@ public @interface Property {
     String name() default "";
 
     /**
+     * default value for this property.
+     */
+    String value() default "";
+
+    /**
      * TODO アノテーションがメソッド指定の場合
      */
     class Util {
@@ -40,6 +45,7 @@ public @interface Property {
 
         /**
          * @param field {@link Property} annotated
+         * @param args TODO not used???
          * @return When {@link Property#name()} is not set, the field name will be return.
          */
         public static String getName(Field field, String... args) {
@@ -53,6 +59,18 @@ public @interface Property {
                 name = field.getName();
             }
             return name;
+        }
+
+        /**
+         * @param field {@link Property} annotated
+         */
+        public static String getValue(Field field) {
+            Property target = field.getAnnotation(Property.class);
+            if (target == null) {
+                throw new IllegalArgumentException("bean is not annotated with @Property");
+            }
+
+            return target.value();
         }
     }
 }

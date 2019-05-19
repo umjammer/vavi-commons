@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,6 +36,9 @@ public class PropsEntityTest {
     @Property
     private String data3;
 
+    @Property(value = "100")
+    private int data6;
+
     public String toString() {
         return "data1: " + data1 +
                ", data2: " + data2 +
@@ -48,6 +52,7 @@ public class PropsEntityTest {
     }
 
     @Test
+    @DisplayName("normal usage")
     public void test01() throws Exception {
         PropsEntityTest bean = new PropsEntityTest();
         PropsEntity.Util.bind(bean);
@@ -63,6 +68,7 @@ public class PropsEntityTest {
     }
 
     @Test
+    @DisplayName("system env in url")
     public void test02() throws Exception {
         File file = new File(System.getenv("HOME"), ".vavi-commons");
         FileWriter fw = new FileWriter(file);
@@ -75,8 +81,8 @@ public class PropsEntityTest {
         file.delete();
     }
 
-    /** just test regex */
     @Test
+    @DisplayName("just regex test")
     public void test03() {
         Pattern pattern = Pattern.compile("\\$\\{\\w+\\}");
         Matcher matcher = pattern.matcher("file://${HOME}/.vavi-commons");
@@ -94,6 +100,7 @@ public class PropsEntityTest {
     }
 
     @Test
+    @DisplayName("system property in url")
     public void test04() throws Exception {
         Test4 bean = new Test4();
         PropsEntity.Util.bind(bean);
@@ -107,10 +114,19 @@ public class PropsEntityTest {
     }
 
     @Test
+    @DisplayName("this is not proper usage! just for test")
     public void test05() throws Exception {
         Test5 bean = new Test5();
         PropsEntity.Util.bind(bean, "javac.source", "sample");
         assertEquals("src/main/java", bean.data1);
+    }
+
+    @Test
+    @DisplayName("when no key, use default")
+    public void test06() throws Exception {
+        PropsEntityTest bean = new PropsEntityTest();
+        PropsEntity.Util.bind(bean);
+        assertEquals(100, bean.data6);
     }
 }
 

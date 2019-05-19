@@ -172,11 +172,17 @@ logger.finer("url: finally: " + url);
 
             //
             for (Field field : getPropertyFields(bean)) {
-                String name = Property.Util.getName(field, args);
+                String name = Property.Util.getName(field, args); // TODO args are not used.
+                String defaultValue = Property.Util.getValue(field);
 logger.finer("before: " + name);
                 name = replaceWithArgs(name, args);
 logger.finer("after: " + name);
-                String value = props.getProperty(name);
+                String value;
+                if (defaultValue.isEmpty()) {
+                    value = props.getProperty(name);
+                } else {
+                    value = props.getProperty(name, defaultValue);
+                }
 logger.fine("value: " + name + ", " + value);
                 binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
             }

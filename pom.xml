@@ -5,15 +5,21 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
+  <version>1.0.8</version>
+
   <name>Vavi Commons API</name>
   <organization>
     <name></name>
   </organization>
-  <version>1.0.7</version>
   <url>https://github.com/umjammer/vavi-commons</url>
-  <description>1.0.7
+  <description>1.0.8
+
+    add default value for @Property
+
+1.0.7
 
     java8, jupiter compliant
 
@@ -41,25 +47,14 @@ TODO
 
     use java9 URLStreamHandlerProvider
     move win32 to sandbox</description>
+  <scm>
+    <url>https://github.com/umjammer/vavi-commons</url>
+  </scm>
+  <issueManagement>
+    <url>https://github.com/umjammer/vavi-commons/issues</url>
+  </issueManagement>
+
   <build>
-    <sourceDirectory>src/main/java</sourceDirectory>
-    <testSourceDirectory>src/test/java</testSourceDirectory>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>**/*</include>
-        </includes>
-      </resource>
-    </resources>
-    <testResources>
-      <testResource>
-        <directory>src/test/resources</directory>
-        <includes>
-          <include>**/*</include>
-        </includes>
-      </testResource>
-    </testResources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -71,8 +66,10 @@ TODO
       </plugin>
     </plugins>
   </build>
+
   <repositories>
   </repositories>
+
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -87,10 +84,5 @@ TODO
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <scm>
-    <url>https://github.com/umjammer/vavi-commons</url>
-  </scm>
-  <issueManagement>
-    <url>https://github.com/umjammer/vavi-commons/issues</url>
-  </issueManagement>
+
 </project>
