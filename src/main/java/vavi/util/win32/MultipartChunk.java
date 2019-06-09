@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.NoSuchElementException;
 import java.util.Vector;
+import java.util.logging.Level;
+
+import vavi.util.Debug;
 
 
 /**
@@ -49,14 +52,14 @@ public abstract class MultipartChunk extends Chunk {
 
     /** */
     public void setData(InputStream is) throws IOException {
-        String name = new String();
+        String name = "";
         name += (char) is.read();
         name += (char) is.read();
         name += (char) is.read();
         name += (char) is.read();
 
         setMultipartName(name);
-print();
+Debug.println(Level.FINEST, this);
         setChildrenData(is);
     }
 
@@ -73,9 +76,9 @@ print();
         skip(is, l);
     }
 
-    /** for debug */
-    protected void printData() {
-        System.err.println("multipartName:\t" + multipartName + ": " + this);
+    /* */
+    public String toString() {
+        return "multipartName: " + multipartName + ": " + this;
     }
 
     /** */
@@ -86,7 +89,7 @@ print();
                 return chunk;
             }
         }
-        throw new NoSuchElementException(clazz.toString());
+        throw new NoSuchElementException(clazz.getName());
     }
 }
 

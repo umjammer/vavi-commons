@@ -11,10 +11,10 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.NoSuchElementException;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import vavi.io.LittleEndianDataInputStream;
 import vavi.util.Debug;
@@ -103,59 +103,9 @@ public abstract class Chunk {
         }
     }
 
-    /** for debug */
-    void print() {
-        System.err.println("----- chunk ----");
-        System.err.println("name:\t"   + name);
-        System.err.println("length:\t" + length);
-        printData();
-    }
-
-    /** for debug */
-    protected void printData() {
-        System.err.println("data:\tskipped");
-//Debug.dump(getData());
-    }
-
     /** */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-
-        Class<?> clazz = getClass();
-
-        sb.append(clazz.getName());
-        sb.append("[");
-
-        // private メソッド、フィールドの取得には getDeclared...
-        // を使います。
-        Field[] fields = clazz.getDeclaredFields();
-
-        for (int i = 0; i < fields.length; i++) {
-            Field field = fields[i];
-
-            // private フィールドの取得には、accessible フラグを
-            // true にする必要があります。
-            field.setAccessible(true);
-
-            String name = field.getName();
-            Object value = null;
-            try {
-                value = field.get(this);
-            } catch (IllegalAccessException e) {
-                value = "*";
-            }
-
-            if (i != 0) {
-                sb.append(",");
-            }
-            sb.append(name);
-            sb.append("=");
-            sb.append(value);
-        }
-
-        sb.append("]");
-
-        return sb.toString();
+        return StringUtil.paramStringDeep(this, 1);
     }
 
     /**
@@ -202,10 +152,10 @@ public abstract class Chunk {
                 chunk = clazz.getDeclaredConstructor().newInstance();
             }
         } catch (ClassNotFoundException e) {
-Debug.println("no such class for " + StringUtil.getClassName(parent.getClass()) + "." + name + ": " + className);
+Debug.println(Level.WARNING, "no such class for " + StringUtil.getClassName(parent.getClass()) + "." + name + ": " + className);
             throw new IllegalStateException(e);
         } catch (NoSuchElementException e) {
-Debug.println("no key: " + StringUtil.getClassName(parent.getClass()) + "." + name);
+Debug.println(Level.WARNING, "no key: " + StringUtil.getClassName(parent.getClass()) + "." + name);
             throw new IllegalStateException(e);
         } catch (Exception e) {
             throw new IllegalStateException(e);
@@ -214,7 +164,7 @@ Debug.println("no key: " + StringUtil.getClassName(parent.getClass()) + "." + na
         chunk.name = name;
         chunk.length = length;
         chunk.setData(is);
-chunk.print();
+Debug.print(Level.FINEST, chunk);
         return chunk;
     }
 

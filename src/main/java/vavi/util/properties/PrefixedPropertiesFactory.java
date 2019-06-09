@@ -22,7 +22,9 @@ public class PrefixedPropertiesFactory<K, V> extends PropertiesFactoryBase<K, V,
     /** */
     private String prefix;
 
-    /** */
+    /**
+     * @throws IllegalStateException at {@link #getStoreValue(String)}
+     */
     public PrefixedPropertiesFactory(String path, String prefix) {
         super(path, prefix);
     }
@@ -47,6 +49,9 @@ public class PrefixedPropertiesFactory<K, V> extends PropertiesFactoryBase<K, V,
         return key;
     }
 
+    /**
+     * @throws IllegalStateException
+     */
     @Override
     protected V getStoreValue(String value) {
         try {
@@ -54,8 +59,13 @@ public class PrefixedPropertiesFactory<K, V> extends PropertiesFactoryBase<K, V,
             Class<V> clazz = (Class<V>) Class.forName(value);
             return clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
+Debug.println(value);
 Debug.printStackTrace(e);
             throw new IllegalStateException(e);
+        } catch (Error e) {
+Debug.println(value);
+Debug.printStackTrace(e);
+            throw e;
         }
     }
 }

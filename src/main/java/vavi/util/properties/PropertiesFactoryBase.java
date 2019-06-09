@@ -7,6 +7,7 @@
 package vavi.util.properties;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -81,8 +82,15 @@ public abstract class PropertiesFactoryBase<K, V, Args> {
                 }
             }
         } catch (IOException e) {
+Debug.print("path: " + path);
+Arrays.asList(args).forEach(Debug::print);
 Debug.printStackTrace(e);
             throw new IllegalStateException(e);
+        } catch (Throwable e) {
+Debug.print("path: " + path);
+Arrays.asList(args).forEach(Debug::print);
+Debug.printStackTrace(e);
+            throw e;
         }
     }
 

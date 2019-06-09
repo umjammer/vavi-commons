@@ -8,8 +8,10 @@ package vavi.util.win32;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
 
 import vavi.io.LittleEndianDataInputStream;
+import vavi.util.Debug;
 
 
 /**
@@ -52,22 +54,22 @@ public abstract class RIFF extends MultipartChunk {
     public static Chunk readFrom(InputStream is)
         throws IOException {
 
-        String name = new String();
-        name += (char) is.read();
-        name += (char) is.read();
-        name += (char) is.read();
-        name += (char) is.read();
+        LittleEndianDataInputStream lis = new LittleEndianDataInputStream(is);
 
-        @SuppressWarnings("resource")
-        LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
-        long length = ledis.readInt() & 0xffffffffL;
-System.err.println("RIFF::readFrom: length: " + length);
+        String name = "";
+        name += (char) lis.read();
+        name += (char) lis.read();
+        name += (char) lis.read();
+        name += (char) lis.read();
 
-        String multipartName = new String();
-        multipartName += (char) is.read();
-        multipartName += (char) is.read();
-        multipartName += (char) is.read();
-        multipartName += (char) is.read();
+        long length = lis.readInt() & 0xffffffffL;
+Debug.println(Level.FINEST, "RIFF::readFrom: length: " + length);
+
+        String multipartName = "";
+        multipartName += (char) lis.read();
+        multipartName += (char) lis.read();
+        multipartName += (char) lis.read();
+        multipartName += (char) lis.read();
 
         MultipartChunk chunk = null;
 
@@ -75,15 +77,16 @@ System.err.println("RIFF::readFrom: length: " + length);
             String className = getClassName(multipartName, null);
             chunk = (MultipartChunk) Class.forName(className).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-System.err.println("RIFF::readFrom: multipartName: " + multipartName);
-            throw new IllegalStateException(e.toString());
+Debug.println(Level.FINEST, "RIFF::readFrom: multipartName: " + multipartName);
+            lis.close();
+            throw new IllegalStateException(e);
         }
 
         chunk.setName(name);
         chunk.setLength(length);
         chunk.setMultipartName(multipartName);
-chunk.print();
-        chunk.setData(is);
+Debug.println(Level.FINEST, chunk);
+        chunk.setData(lis);
 
         return chunk;
     }
