@@ -6,40 +6,43 @@
 
 package vavi.util.properties;
 
+import java.util.regex.Pattern;
+
 
 /**
- * PrefixedPropertiesFactory.
+ * FormattedPropertiesFactory.
  *
  * @param <V> stored value type
  * @param <K> part of stored key type
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2012/10/05 umjammer initial version <br>
  */
-public abstract class PrefixedPropertiesFactory<K, V> extends PropertiesFactoryBase<K, V, String> {
+public abstract class FormattedPropertiesFactory<K, V> extends PropertiesFactoryBase<K, V, String> {
 
     /** */
-    private String prefix;
+    private String format;
 
     /**
-     * @param prefix if target is "foo.bar.1", "foo.bar.2"... then "foo.bar"
+     * @param format "foo.%s.bar", only %s, %d supported
+     * @throws IllegalStateException at {@link #getStoreValue(String)}
      */
-    public PrefixedPropertiesFactory(String path, String prefix) {
-        super(path, prefix);
+    public FormattedPropertiesFactory(String path, String format) {
+        super(path, format);
     }
 
     @Override
     protected void preInit(String... args) {
-        this.prefix = args[0];
+        this.format = args[0];
     }
 
     @Override
     protected boolean match(String key) {
-        return key.startsWith(prefix);
+        return Pattern.compile(format.replace(".", "\\.").replaceFirst("%[sd]", ".+")).matcher(key).matches();
     }
 
     @Override
     protected String getRestoreKey(K partOfAKey) {
-        return prefix + partOfAKey;
+        return String.format(format, partOfAKey);
     }
 
     @Override

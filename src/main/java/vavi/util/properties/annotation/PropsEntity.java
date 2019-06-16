@@ -43,7 +43,7 @@ public @interface PropsEntity {
      *  "classpath:your/package/foo.properties"
      * </pre>
      * </p>
-     * @see {@link vavi.net.www.protocol.classpath.Handler}
+     * @see vavi.net.www.protocol.classpath.Handler
      */
     String url();
 

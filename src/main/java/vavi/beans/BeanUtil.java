@@ -29,7 +29,7 @@ public abstract class BeanUtil {
      * 次に Getter メソッド(Bean命名規則, booleanの場合isFooあり)で取得します。
      * 最後に private フィールドを強制的に取得します。
      *
-     * TODO use {@link java.beans.Introspector} ??? or {@link org.apache.commons.beanutils.BeanUtils}
+     * TODO use {@link java.beans.Introspector} ??? or "org.apache.commons.beanutils.BeanUtils"
      *
      * @param field 対象となるフィールド定義
      * @param bean 取得対象のオブジェクト
@@ -75,7 +75,7 @@ public abstract class BeanUtil {
      * 次に Setter メソッドで設定します。
      * 最後に private フィールドを強制的に設定します。
      *
-     * TODO use {@link java.beans.Introspector} ??? or {@link org.apache.commons.beanutils.BeanUtils}
+     * TODO use {@link java.beans.Introspector} ??? or "org.apache.commons.beanutils.BeanUtils"
      *
      * @param field 対象となるフィールド定義
      * @param bean 設定対象のオブジェクト

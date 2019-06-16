@@ -8,14 +8,18 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.0.8</version>
+  <version>1.0.9</version>
 
   <name>Vavi Commons API</name>
   <organization>
     <name></name>
   </organization>
   <url>https://github.com/umjammer/vavi-commons</url>
-  <description>1.0.8
+  <description>1.0.9
+
+    update about property
+
+1.0.8
 
     add default value for @Property
 

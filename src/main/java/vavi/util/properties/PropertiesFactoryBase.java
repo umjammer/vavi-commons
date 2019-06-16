@@ -28,7 +28,7 @@ import vavi.util.Debug;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2012/10/04 umjammer initial version <br>
  */
-public abstract class PropertiesFactoryBase<K, V, Args> {
+public abstract class PropertiesFactoryBase<K, V, Args> implements Iterable<Map.Entry<String, V>> {
 
     /**
      * @param key property key
@@ -43,24 +43,27 @@ public abstract class PropertiesFactoryBase<K, V, Args> {
     /**
      *
      */
-    protected abstract String getRestoreKey(K key);
+    protected abstract String getRestoreKey(K partOfAKey);
 
     /**
-     * @param value property value
+     * @param value property value that should be state less.
      */
     protected abstract V getStoreValue(String value);
 
     /**
-     * {@link V} オブジェクトのインスタンス集。
+     * <V> オブジェクトのインスタンス集。
      * インスタンスを使いまわすのでステートレスでなければならない。
      * TODO protected ぐぬぬ...
      */
     protected Map<String, V> instances = new HashMap<>();
 
-    /** */
+    /**
+     * @param args set by the {@link #PropertiesFactoryBase(String, Object...)}
+     */
     protected abstract void preInit(@SuppressWarnings("unchecked") Args... args);
 
     /**
+     * {@link #preInit(Object...)} will be called.
      * @param path should be full path
      */
     public PropertiesFactoryBase(String path, @SuppressWarnings("unchecked") Args... args) {
@@ -95,15 +98,20 @@ Debug.printStackTrace(e);
     }
 
     /**
-     * @param key {@link #getPrefix()} and name consist key
+     * @param partOfAKey used by {@link #getRestoreKey(Object)} that returns real key for {@link #instances}.
      * @return same instance for each name
      * @throws IllegalArgumentException does not contains key
      */
-    public V get(K key) {
-        if (instances.containsKey(getRestoreKey(key))) {
-            return instances.get(getRestoreKey(key));
+    public V get(K partOfAKey) {
+        if (instances.containsKey(getRestoreKey(partOfAKey))) {
+            return instances.get(getRestoreKey(partOfAKey));
         } else {
-            throw new IllegalArgumentException(key.toString());
+            throw new IllegalArgumentException(partOfAKey.toString());
         }
+    }
+
+    @Override
+    public Iterator<Map.Entry<String, V>> iterator() {
+        return instances.entrySet().iterator();
     }
 }
