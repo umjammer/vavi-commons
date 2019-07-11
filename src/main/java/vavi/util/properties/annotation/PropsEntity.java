@@ -66,7 +66,7 @@ public @interface PropsEntity {
         }
 
         /**
-         * @return {@link PropsEntity} annotated fields
+         * @return {@link Property} annotated fields
          */
         public static Set<Field> getPropertyFields(Object bean) {
             //
@@ -86,6 +86,29 @@ public @interface PropsEntity {
             }
 
             return propertyFields;
+        }
+
+        /**
+         * @return {@link Env} annotated fields
+         */
+        public static Set<Field> getEnvFields(Object bean) {
+            //
+            PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
+            if (propsEntity == null) {
+                throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
+            }
+
+            //
+            Set<Field> envFields = new HashSet<>();
+
+            for (Field field : bean.getClass().getDeclaredFields()) {
+                Env env = field.getAnnotation(Env.class);
+                if (env != null) {
+                    envFields.add(field);
+                }
+            }
+
+            return envFields;
         }
 
         /** replacing key pattern */
@@ -170,7 +193,7 @@ logger.finer("url: finally: " + url);
 
             DefaultBinder binder = new DefaultBinder();
 
-            //
+            // 1. property
             for (Field field : getPropertyFields(bean)) {
                 String name = Property.Util.getName(field, args); // TODO args are not used.
                 String defaultValue = Property.Util.getValue(field);
@@ -179,11 +202,27 @@ logger.finer("before: " + name);
 logger.finer("after: " + name);
                 String value;
                 if (defaultValue.isEmpty()) {
-                    value = props.getProperty(name);
+                    value = props.getProperty(name); // TODO we cannot specify default as ""
                 } else {
                     value = props.getProperty(name, defaultValue);
                 }
 logger.fine("value: " + name + ", " + value);
+                binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
+            }
+
+            // 2. env
+            for (Field field : getEnvFields(bean)) {
+                String name = Env.Util.getName(field, args); // TODO args are not used.
+                String defaultValue = Env.Util.getValue(field);
+logger.finer("before: " + name);
+                name = replaceWithArgs(name, args);
+logger.finer("after: " + name);
+                String value;
+                value = System.getenv(name);
+                if (!defaultValue.isEmpty() && (value == null || value.isEmpty())) {
+                    value = defaultValue;
+                }
+logger.fine("env: " + name + ", " + value);
                 binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
             }
         }

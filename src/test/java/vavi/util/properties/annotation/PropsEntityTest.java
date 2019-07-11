@@ -15,6 +15,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 
@@ -127,6 +129,45 @@ public class PropsEntityTest {
         PropsEntityTest bean = new PropsEntityTest();
         PropsEntity.Util.bind(bean);
         assertEquals(100, bean.data6);
+    }
+
+    @PropsEntity(url = "classpath:/root.properties") // slash at start
+    public static class Test7 {
+        @Property(name = "root.key1")
+        private String data1;
+        @Property(name = "root.key2")
+        private int data2;
+        @Property(name = "root.key3")
+        private String data3;
+    }
+
+    @Test
+    @DisplayName("check root of classpath scheme")
+    public void test07() throws Exception {
+        assertThrows(Exception.class, () -> {
+            Test7 bean = new Test7();
+            PropsEntity.Util.bind(bean);
+        });
+    }
+
+    @PropsEntity(url = "classpath:root.properties") // just dummy
+    public static class Test8 {
+        @Env(name = "HOME")
+        private String data1;
+        @Env(name = "NOT_EXISTS_ENV_XXX_YYY_ZZZ", value = "none")
+        private String data2;
+        @Env(name = "NOT_EXISTS_ENV_AAA_BBB_CCC")
+        private String data3;
+    }
+
+    @Test
+    @DisplayName("env")
+    public void test08() throws Exception {
+        Test8 bean = new Test8();
+        PropsEntity.Util.bind(bean);
+        assertEquals(System.getenv("HOME"), bean.data1);
+        assertEquals("none", bean.data2);
+        assertNull(bean.data3);
     }
 }
 
