@@ -7,9 +7,8 @@
 package vavi.util;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.io.IOException;
-import java.util.Properties;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,28 +50,28 @@ public final class Debug {
     /** デバッグ情報の出力先ストリーム */
     private static Logger logger = Logger.getLogger(Debug.class.getName());
 
-    /** */
-    private static final String LOGGING_CONFIG_CLASS = "java.util.logging.config.class";
-
-    /** */
-    private static final String LOGGING_CONFIG_FILE = "java.util.logging.config.file";
-
-    /** */
-    static {
-        String configClass = System.getProperty(LOGGING_CONFIG_CLASS);
-        String configFile  = System.getProperty(LOGGING_CONFIG_FILE);
-        if (configClass == null && configFile == null) { // TODO configFile 
-//System.err.println("Debug::<clinit>: no configuration specified, use default");
-            try {
-                Properties props = new Properties();
-                props.load(Debug.class.getResourceAsStream("/vavi/util/logging/logging.properties"));
-                configClass = props.getProperty("vavi.util.debug.config.class");
-                Class.forName(configClass).getDeclaredConstructor().newInstance();
-            } catch (Exception e) {
-e.printStackTrace(System.err);
-            }
-        }
-    }
+//    /** */
+//    private static final String LOGGING_CONFIG_CLASS = "java.util.logging.config.class";
+//
+//    /** */
+//    private static final String LOGGING_CONFIG_FILE = "java.util.logging.config.file";
+//
+//    /** */
+//    static {
+//        String configClass = System.getProperty(LOGGING_CONFIG_CLASS);
+//        String configFile  = System.getProperty(LOGGING_CONFIG_FILE);
+//        if (configClass == null && configFile == null) { // TODO configFile 
+////System.err.println("Debug::<clinit>: no configuration specified, use default");
+//            try {
+//                Properties props = new Properties();
+//                props.load(Debug.class.getResourceAsStream("/vavi/util/logging/logging.properties"));
+//                configClass = props.getProperty("vavi.util.debug.config.class");
+//                Class.forName(configClass).getDeclaredConstructor().newInstance();
+//            } catch (Exception e) {
+//e.printStackTrace(System.err);
+//            }
+//        }
+//    }
 
     /**
      * アクセスできません．

@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
+import vavi.net.www.protocol.URLStreamHandlerUtil;
 import vavi.util.StringUtil;
 import vavi.util.properties.annotation.PropsEntity;
 import vavi.util.properties.annotation.Property;
@@ -20,6 +21,8 @@ import vavi.util.properties.annotation.Property;
 /**
  * VaviFormatter.
  *
+ * Sets exclusive package names into the system property "vavi.util.logging.excludes".
+ *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021027 nsano initial version <br>
  *          0.01 031220 nsano clean imports <br>
@@ -27,16 +30,21 @@ import vavi.util.properties.annotation.Property;
 @PropsEntity(url = "classpath:vavi/util/logging/logging.properties")
 public class VaviFormatter extends Formatter {
 
-    @Property(name = "vavi.util.logging.excludes")
+    @Property(name = "vavi.util.logging.excludes", value = "vavi.util.logging,java.util.logging,vavi.util.Debug,org.apache.commons.logging,sun.util.logging")
     private String defaultExcludingPackages;
 
     /* */
     {
         try {
             PropsEntity.Util.bind(this);
+//System.err.println("defaultExcludingPackages: " + defaultExcludingPackages);
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+e.printStackTrace();
         }
+
+//for (String excludingPackage : (defaultExcludingPackages + "," + excludingPackages).split(",")) {
+// System.err.println("excludingPackage: " + excludingPackage);
+//}
     }
 
     /** comma separated class path strings */
@@ -44,7 +52,10 @@ public class VaviFormatter extends Formatter {
 
     /* */
     static {
+        URLStreamHandlerUtil.loadService();
+
         excludingPackages = System.getProperty("vavi.util.logging.excludes", "");
+//System.err.println("excludingPackages: " + excludingPackages);
     }
 
     /** */

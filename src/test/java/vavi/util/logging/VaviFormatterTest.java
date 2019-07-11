@@ -6,6 +6,7 @@
 
 package vavi.util.logging;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.fail;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2016/03/23 umjammer initial version <br>
  */
-@Deprecated
+@Disabled
 public class VaviFormatterTest {
 
     @Test

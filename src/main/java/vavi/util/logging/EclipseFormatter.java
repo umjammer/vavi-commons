@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
+import vavi.net.www.protocol.URLStreamHandlerUtil;
 import vavi.util.properties.annotation.Property;
 import vavi.util.properties.annotation.PropsEntity;
 
@@ -17,21 +18,25 @@ import vavi.util.properties.annotation.PropsEntity;
 /**
  * EclipseFormatter.
  *
+ * Sets exclusive package names into the system property "vavi.util.logging.excludes".
+ *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 040913 nsano initial version <br>
  */
 @PropsEntity(url = "classpath:vavi/util/logging/logging.properties")
 public class EclipseFormatter extends Formatter {
 
-    @Property(name = "vavi.util.logging.excludes")
+    @Property(name = "vavi.util.logging.excludes", value = "vavi.util.logging,java.util.logging,vavi.util.Debug,org.apache.commons.logging,sun.util.logging")
     private String defaultExcludingPackages;
 
     /* */
     {
         try {
+            URLStreamHandlerUtil.loadService();
+
             PropsEntity.Util.bind(this);
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            e.printStackTrace();
         }
     }
 
