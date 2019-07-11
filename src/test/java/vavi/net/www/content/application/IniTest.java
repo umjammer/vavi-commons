@@ -9,6 +9,7 @@ package vavi.net.www.content.application;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import vavi.net.www.content.ContentHandlerUtil;
@@ -24,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2016/03/13 umjammer initial version <br>
  */
+@Disabled
 public class IniTest {
 
     /** TODO doesn't work */
@@ -43,7 +45,7 @@ System.err.println(content);
     public void test2() throws Exception {
         URLStreamHandlerUtil.loadService();
         URLConnection.setContentHandlerFactory(mimetype -> { // TODO <--
-System.err.println(mimetype);
+System.err.println(mimetype); // got 
             if (mimetype.equalsIgnoreCase("application/ini"))
                 return new vavi.net.www.content.application.ini();
             else

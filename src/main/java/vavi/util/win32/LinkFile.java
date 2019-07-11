@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.Vector;
 
 import vavi.io.LittleEndianDataInputStream;
+import vavi.util.Debug;
 import vavi.util.StringUtil;
 
 
@@ -144,13 +145,13 @@ public class LinkFile {
         ledis.readInt();
         ledis.readInt();
 
-lf.print();
+Debug.println(lf);
 
         // Shell item ID list
         if ((lf.flags & FLAG_THE_SHELL_ITEM_ID_LIST_IS_PRESENT) != 0) {
-System.err.println("---- the shell item id list ----");
+Debug.println("---- the shell item id list ----");
             int length = ledis.readShort();
-System.err.println(": " + length);
+Debug.println(": " + length);
 
             int len;
             while (true) {
@@ -159,7 +160,7 @@ System.err.println(": " + length);
                     break;
                 }
                 len -= 2;
-System.err.println(" len: " + len);
+Debug.println(" len: " + len);
                 byte[] buf = new byte[len];
                 int l = 0;
                 while (l < len) {
@@ -175,7 +176,7 @@ if (buf[0] == 0x4c && buf[1] == 0x50) {
   if (s2 == null && f2) {
    break;
   } else {
-System.err.println(" s2: " + s2);
+Debug.println(" s2: " + s2);
   }
   s2 = readString(is2);
   if (s2 == null) {
@@ -183,7 +184,7 @@ System.err.println(" s2: " + s2);
   }
  }
 } else {
- System.err.println(StringUtil.getDump(buf));
+ Debug.println(StringUtil.getDump(buf));
 }
             }
 
@@ -194,9 +195,9 @@ System.err.println(" s2: " + s2);
 
         // File location info
         if ((lf.flags & FLAG_POINT_TO_A_FILE_OR_DIRECTORY) != 0) {
-System.err.println("---- file location info ----");
+Debug.println("---- file location info ----");
             int length = ledis.readInt();
-System.err.println(": " + length);
+Debug.println(": " + length);
 
             int offset = ledis.readInt(); // 0x1c
             int flags = ledis.readInt();
@@ -204,12 +205,12 @@ System.err.println(": " + length);
             int offsetOfBasePathnameOnLocalSystem = ledis.readInt();
             int offsetOfNetworkVolumeInfo = ledis.readInt();
             int offsetOfRemainingPathname = ledis.readInt();
-System.err.println(" offset: " + offset);
-System.err.println(" flags: " + flags);
-System.err.println(" offsetOfLocalVolumeInfo: " + offsetOfLocalVolumeInfo);
-System.err.println(" offsetOfBasePathnameOnLocalSystem: " + offsetOfBasePathnameOnLocalSystem);
-System.err.println(" offsetOfNetworkVolumeInfo: " + offsetOfNetworkVolumeInfo);
-System.err.println(" offsetOfRemainingPathname: " + offsetOfRemainingPathname);
+Debug.println(" offset: " + offset);
+Debug.println(" flags: " + flags);
+Debug.println(" offsetOfLocalVolumeInfo: " + offsetOfLocalVolumeInfo);
+Debug.println(" offsetOfBasePathnameOnLocalSystem: " + offsetOfBasePathnameOnLocalSystem);
+Debug.println(" offsetOfNetworkVolumeInfo: " + offsetOfNetworkVolumeInfo);
+Debug.println(" offsetOfRemainingPathname: " + offsetOfRemainingPathname);
             read += 4 * 7;
 
             if ((flags & FLAG_AVAILABLE_ON_A_LOCAL_VOLUME) != 0) {
@@ -222,16 +223,16 @@ System.err.println(" offsetOfRemainingPathname: " + offsetOfRemainingPathname);
                 byte[] buf = readAsciiz(is);
                 read += buf.length + 1;
                 String s1_label = new String(buf, "JISAutoDetect");
-System.err.println(" s1_length: " + s1_length);
-System.err.println(" s1_type: " + s1_type);
-System.err.println(" s1_serial: " + StringUtil.toHex8(s1_serial));
-System.err.println(" s1_offset: " + s1_offset);
-System.err.println(" s1_label: " + s1_label);
+Debug.println(" s1_length: " + s1_length);
+Debug.println(" s1_type: " + s1_type);
+Debug.println(" s1_serial: " + StringUtil.toHex8(s1_serial));
+Debug.println(" s1_offset: " + s1_offset);
+Debug.println(" s1_label: " + s1_label);
 
                 buf = readAsciiz(is);
                 read += buf.length + 1;
                 String s2_label = new String(buf, "JISAutoDetect");
-System.err.println(" s2_label: " + s2_label);
+Debug.println(" s2_label: " + s2_label);
 
                 lf.path = s1_label + (s1_label.length() > 0 ? "\\" : "") + s2_label;
             }
@@ -245,65 +246,65 @@ System.err.println(" s2_label: " + s2_label);
                 byte[] buf = readAsciiz(is);
                 read += buf.length + 1;
                 String s1_name = new String(buf, "JISAutoDetect");
-System.err.println(" s1_length: " + s1_length);
-System.err.println(" s1_unknown: " + s1_unknown);
-System.err.println(" s1_offset: " + s1_offset);
-System.err.println(" s1_unknown2: " + s1_unknown2);
-System.err.println(" s1_unknown3: " + StringUtil.toHex8(s1_unknown3));
-System.err.println(" s1_name: " + s1_name);
+Debug.println(" s1_length: " + s1_length);
+Debug.println(" s1_unknown: " + s1_unknown);
+Debug.println(" s1_offset: " + s1_offset);
+Debug.println(" s1_unknown2: " + s1_unknown2);
+Debug.println(" s1_unknown3: " + StringUtil.toHex8(s1_unknown3));
+Debug.println(" s1_name: " + s1_name);
 
                 buf = readAsciiz(is);
                 read += buf.length + 1;
                 String s2_label = new String(buf, "JISAutoDetect");
-System.err.println(" s2_label: " + s2_label);
+Debug.println(" s2_label: " + s2_label);
 
                 lf.path = s1_name + "\\" + s2_label;
             }
 
-System.err.println(" length - read: " + (length - read));
+Debug.println(" length - read: " + (length - read));
             is.skip(length - read);
         }
 
         // Description string
         if ((lf.flags & FLAG_HAS_A_DESCRIPTION_STRING) != 0) {
-            System.err.println("---- description string ----");
-System.err.println(": " + readString(ledis));
+            Debug.println("---- description string ----");
+Debug.println(": " + readString(ledis));
         }
 
         // Relative path string
         if ((lf.flags & FLAG_HAS_A_RELATIVE_PATH_STRING) != 0) {
-System.err.println("---- relative path string ----");
-System.err.println(": " + readString(ledis));
+Debug.println("---- relative path string ----");
+Debug.println(": " + readString(ledis));
         }
 
         // Working directory string
         if ((lf.flags & FLAG_HAS_A_WORKING_DIRECTORY) != 0) {
-System.err.println("---- working directory string ----");
-System.err.println(": " + readString(ledis));
+Debug.println("---- working directory string ----");
+Debug.println(": " + readString(ledis));
         }
 
         // Command line string
         if ((lf.flags & FLAG_HAS_COMMAND_LINE_ARGUMENTS) != 0) {
-System.err.println("---- command line string ----");
-System.err.println(": " + readString(ledis));
+Debug.println("---- command line string ----");
+Debug.println(": " + readString(ledis));
         }
 
         // Icon filename string
         if ((lf.flags & FLAG_HAS_A_CUSTOM_ICON) != 0) {
-System.err.println("---- icon filename string ----");
-System.err.println(": " + readString(ledis));
+Debug.println("---- icon filename string ----");
+Debug.println(": " + readString(ledis));
         }
 
         // Extra stuff
         int e1_length = ledis.readInt();
-System.err.println("---- extra stuff: " + e1_length + " ----");
+Debug.println("---- extra stuff: " + e1_length + " ----");
         byte[] buf = new byte[e1_length];
         int l = 0;
         while (l < e1_length) {
             l += is.read(buf, l, e1_length - l);
         }
 if (e1_length != 0) {
- System.err.println(StringUtil.getDump(buf));
+ Debug.println(StringUtil.getDump(buf));
 }
         return lf;
     }
@@ -316,7 +317,7 @@ if (e1_length != 0) {
         if (length == 0) {
             return null;
         }
-System.err.println("string len: " + length);
+Debug.println("string len: " + length);
         byte[] buf = new byte[length];
         int l = 0;
         while (l < length) {
@@ -350,21 +351,24 @@ System.err.println("string len: " + length);
     }
 
     /** */
-    private void print() {
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
         DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        System.err.println("guid:\t" + guid);
-        System.err.println("flags:\t" + flags);
-        System.err.println("attributes:\t" + attributes);
-        System.err.println("time1:\t" + time1 + ": " + StringUtil.toHex16(time1));
-        System.err.println("time1:\t" + sdf.format(new Date(DateUtil.filetimeToLong(time1))));
-        System.err.println("time2:\t" + time2 + ": " + StringUtil.toHex16(time2));
-        System.err.println("time2:\t" + sdf.format(new Date(DateUtil.filetimeToLong(time2))));
-        System.err.println("time3:\t" + time3 + ": " + StringUtil.toHex16(time3));
-        System.err.println("time3:\t" + sdf.format(new Date(DateUtil.filetimeToLong(time3))));
-        System.err.println("length:\t" + length);
-        System.err.println("iconNumber:\t" + iconNumber);
-        System.err.println("showWnd:\t" + showWnd);
-        System.err.println("hotKey:\t" + hotKey);
+        sb.append(super.toString() + " {");
+        sb.append("guid: " + guid + ", ");
+        sb.append("flags: " + flags + ", ");
+        sb.append("attributes: " + attributes + ", ");
+        sb.append("time1: " + time1 + ": " + StringUtil.toHex16(time1) + ", ");
+        sb.append("time1: " + sdf.format(new Date(DateUtil.filetimeToLong(time1))) + ", ");
+        sb.append("time2: " + time2 + ": " + StringUtil.toHex16(time2) + ", ");
+        sb.append("time2: " + sdf.format(new Date(DateUtil.filetimeToLong(time2))) + ", ");
+        sb.append("time3: " + time3 + ": " + StringUtil.toHex16(time3) + ", ");
+        sb.append("time3: " + sdf.format(new Date(DateUtil.filetimeToLong(time3))) + ", ");
+        sb.append("length: " + length + ", ");
+        sb.append("iconNumber: " + iconNumber + ", ");
+        sb.append("showWnd: " + showWnd + ", ");
+        sb.append("hotKey: " + hotKey + "}");
+        return sb.toString();
     }
 }
 

@@ -8,8 +8,8 @@ package vavi.io;
 
 import java.io.ByteArrayInputStream;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import vavi.util.Debug;
@@ -39,7 +39,7 @@ public class LittleEndianDataInputStreamTest {
     LittleEndianDataInputStream ledis2;
 
     /** */
-    @BeforeAll
+    @BeforeEach
     public void setUp() throws Exception {
         byte[] sample = {
                 (byte) 0x11,
@@ -69,7 +69,7 @@ public class LittleEndianDataInputStreamTest {
     }
 
     /** */
-    @AfterAll
+    @AfterEach
     public void tearDown() throws Exception {
         ledis.close();
         bais.close();

@@ -9,8 +9,8 @@ package vavi.io;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,7 +33,7 @@ public class LittleEndianDataOutputStreamTest {
     /*
      * @see TestCase#setUp()
      */
-    @BeforeAll
+    @BeforeEach
     public void setUp() throws Exception {
         baos = new ByteArrayOutputStream();
         ledos = new LittleEndianDataOutputStream(baos);
@@ -42,7 +42,7 @@ public class LittleEndianDataOutputStreamTest {
     /*
      * @see TestCase#tearDown()
      */
-    @AfterAll
+    @AfterEach
     public void tearDown() throws Exception {
         ledos.close();
         baos.close();
