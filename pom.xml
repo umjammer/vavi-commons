@@ -8,14 +8,18 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.0.10</version>
+  <version>1.0.11</version>
 
   <name>Vavi Commons API</name>
   <organization>
     <name></name>
   </organization>
   <url>https://github.com/umjammer/vavi-commons</url>
-  <description>1.0.10
+  <description>1.0.11
+
+    @PropsEntity detects super class fields
+
+1.0.10
 
     update logging settings
     add @Env for @PropsEntity

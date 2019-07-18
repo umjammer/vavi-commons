@@ -78,11 +78,15 @@ public @interface PropsEntity {
             //
             Set<Field> propertyFields = new HashSet<>();
 
-            for (Field field : bean.getClass().getDeclaredFields()) {
-                Property property = field.getAnnotation(Property.class);
-                if (property != null) {
-                    propertyFields.add(field);
+            Class<?> clazz = bean.getClass();
+            while (clazz != null) {
+                for (Field field : clazz.getDeclaredFields()) {
+                    Property property = field.getAnnotation(Property.class);
+                    if (property != null) {
+                        propertyFields.add(field);
+                    }
                 }
+                clazz = clazz.getSuperclass();
             }
 
             return propertyFields;
@@ -101,11 +105,15 @@ public @interface PropsEntity {
             //
             Set<Field> envFields = new HashSet<>();
 
-            for (Field field : bean.getClass().getDeclaredFields()) {
-                Env env = field.getAnnotation(Env.class);
-                if (env != null) {
-                    envFields.add(field);
+            Class<?> clazz = bean.getClass();
+            while (clazz != null) {
+                for (Field field : clazz.getDeclaredFields()) {
+                    Env env = field.getAnnotation(Env.class);
+                    if (env != null) {
+                        envFields.add(field);
+                    }
                 }
+                clazz = clazz.getSuperclass();
             }
 
             return envFields;

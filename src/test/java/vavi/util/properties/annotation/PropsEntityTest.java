@@ -169,6 +169,35 @@ public class PropsEntityTest {
         assertEquals("none", bean.data2);
         assertNull(bean.data3);
     }
+
+    public static class Test9_0 {
+        @Property
+        String data1;
+    }
+
+    public static class Test9_1 extends Test9_0 {
+        @Property
+        int data2;
+        @Env(name = "HOME")
+        String home;
+    }
+
+    @PropsEntity(url = "classpath:vavi/util/properties/annotation/propsEntityTest.properties")
+    public static class Test9 extends Test9_1 {
+        @Property
+        String data3;
+    }
+
+    @Test
+    @DisplayName("super class fields")
+    public void test09() throws Exception {
+        Test9 bean = new Test9();
+        PropsEntity.Util.bind(bean);
+        assertEquals("Sano Naohide", bean.data1);
+        assertEquals(40, bean.data2);
+        assertEquals("Umjammer", bean.data3);
+        assertEquals(System.getenv("HOME"), bean.home);
+    }
 }
 
 /* */

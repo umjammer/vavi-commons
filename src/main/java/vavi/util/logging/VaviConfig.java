@@ -26,6 +26,7 @@ public final class VaviConfig {
             LogManager.getLogManager().readConfiguration(
                 this.getClass().getResourceAsStream("/logging.properties"));
 String rootLevel = LogManager.getLogManager().getProperty(".level");
+// TODO isLoggable()
 if (Arrays.asList("FINE", "FINER", "FINEST").stream().anyMatch(l -> l.equals(rootLevel))) {
  System.err.println("---- classpath:logging.properties " + LogManager.getLogManager().getProperty(".level"));
  Scanner scanner = new Scanner(this.getClass().getResourceAsStream("/logging.properties"));
