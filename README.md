@@ -23,7 +23,7 @@ Swiss-Army Knife
 
 ### Win32 Structures
 
-to be deprecate
+to be deprecated
 
 ### Easy Property Binding
 

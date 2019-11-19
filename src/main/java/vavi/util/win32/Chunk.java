@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.nio.charset.Charset;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -128,7 +129,7 @@ public abstract class Chunk {
 
         byte[] tmp = new byte[4];
         ledis.readFully(tmp);
-        String name = new String(tmp);
+        String name = new String(tmp, Charset.forName("ASCII"));
 //Debug.println("name: " + name);
 
         long length = ledis.readInt() & 0xffffffffL;

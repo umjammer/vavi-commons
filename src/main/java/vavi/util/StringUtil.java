@@ -17,6 +17,8 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -449,6 +451,65 @@ public final class StringUtil {
     }
 
     /**
+     * Creates byte array declaration string.
+     */
+    public static final String getByteArrayDeclaration(byte[] bytes) {
+        return getByteArrayDeclaration(new ByteArrayInputStream(bytes));
+    }
+    /**
+     * Creates byte array declaration string.
+     */
+    public static final String getByteArrayDeclaration(InputStream is) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+
+        try {
+            if (is.markSupported()) {
+                is.mark(is.available());
+            }
+
+            byte[] buf = new byte[16];
+            boolean breakFlag = false;
+
+top:
+            while (true) {
+                for (int y = 0; y < 16; y++) {
+                    for (int x = 0; x < 16; x++) {
+                        int c = is.read();
+                        if (c == -1) {
+                            if (!breakFlag) {
+                                break top;
+                            }
+                        } else {
+                            if (c > 127) {
+                                ps.print("(byte) ");
+                            }
+                            ps.print("0x");
+                            ps.print(toHex2(c) + ", ");
+                            buf[x] = (byte) c;
+                        }
+                    }
+                    ps.println();
+                }
+                ps.println();
+            }
+        } catch (IOException e) {
+Debug.printStackTrace(e);
+        } finally {
+            if (is.markSupported()) {
+                try {
+                    is.reset();
+                } catch (IOException e) {
+Debug.printStackTrace(e);
+                }
+            }
+        }
+
+        return baos.toString();
+    }
+
+    /**
      * ストリームを 16 進数でダンプします．
      */
     public static final String getDump(InputStream is) {
@@ -510,6 +571,33 @@ Debug.printStackTrace(e);
         }
 
         return baos.toString();
+    }
+
+    /**
+     * 長さ制限付でストリームを 16 進数でダンプします．
+     * @param length 制限する長さ
+     */
+    public static final String getDump(InputStream is, int offset, int length) {
+        try {
+            if (is.markSupported()) {
+                is.mark(is.available());
+            }
+
+            is.skip(offset);
+
+            return getDump(is, length);
+        } catch (IOException e) {
+            Debug.printStackTrace(e);
+            return "";
+        } finally {
+            if (is.markSupported()) {
+                try {
+                    is.reset();
+                } catch (IOException e) {
+Debug.printStackTrace(e);
+                }
+            }
+        }
     }
 
     /**
@@ -833,6 +921,23 @@ e.printStackTrace(System.err);
 
     /** isIgnored のクラス集 */
     private static Set<String> classesIgnored = new HashSet<>();
+
+    /** @see "https://hacknote.jp/archives/30235/" */
+    public static String getRandomString() {
+        try {
+            byte bytes[] = new byte[16];
+            SecureRandom secRandom = SecureRandom.getInstance("SHA1PRNG");
+            secRandom.nextBytes(bytes);
+
+            StringBuffer buf = new StringBuffer();
+            for (int i = 0; i < bytes.length; i++) {
+                buf.append(String.format("%02x", bytes[i]));
+            }
+            return buf.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
+    }
 
     /** */
     static {

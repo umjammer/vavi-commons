@@ -109,7 +109,6 @@ public class LevenshteinDistance implements Comparable<LevenshteinDistance> {
         return d[n][m];
     }
 
-    /* @see java.lang.Comparable#compareTo(java.lang.Object) */
     @Override
     public int compareTo(LevenshteinDistance o) {
         return this.distance - o.distance;

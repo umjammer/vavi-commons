@@ -56,7 +56,7 @@ public @interface PropsEntity {
         }
 
         /** */
-        public static String getUrl(Object bean) throws IOException {
+        public static String getUrl(Object bean) {
             PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
             if (propsEntity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
