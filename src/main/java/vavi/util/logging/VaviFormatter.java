@@ -50,6 +50,9 @@ e.printStackTrace();
     /** comma separated class path strings */
     private static String excludingPackages;
 
+    // wtf thread unsafe?
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss,SSS");
+
     /* */
     static {
         URLStreamHandlerUtil.loadService();
@@ -91,12 +94,15 @@ e.printStackTrace();
                 }
             }
             if (ste != null) {
-                sb.append(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss,SSS").format(new Date()));
+                sb.append((char) 0x1b + "[" + 37 + "m");
+                sb.append(sdf.format(new Date()));
+                sb.append((char) 0x1b + "[" + 00 + "m");
                 sb.append(" [");
                 sb.append(record.getLevel());
                 sb.append("] ");
                 sb.append(record.getMessage().replaceAll("\n$", ""));
                 sb.append("\n");
+                sb.append((char) 0x1b + "[" + 37 + "m");
                 sb.append("\tat ");
                 sb.append(ste.getClassName());
                 sb.append(".");
@@ -110,6 +116,7 @@ e.printStackTrace();
                     sb.append("Unknown");
                 }
                 sb.append(")");
+                sb.append((char) 0x1b + "[" + 00 + "m");
                 sb.append("\n");
             } else {
                 sb.append(StringUtil.getClassName(record.getSourceClassName()));
