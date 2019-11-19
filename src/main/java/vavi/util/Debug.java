@@ -38,12 +38,8 @@ import java.util.logging.Logger;
  */
 public final class Debug {
 
-    /**
-     * 完全にデバッグコードを取り除く場合は以下を false に
-     * してすべてを再コンパイルしてください．
-     */
+    /** */
     private static final boolean isDebug = true;
-//    private static final boolean isDebug = false;
 
     //-------------------------------------------------------------------------
 
@@ -206,6 +202,7 @@ public final class Debug {
 
     /**
      * デバッグモードならスタックトレースを出力します．
+     * TODO filter like logging
      * @param e exception
      */
     public static final void printStackTrace(Throwable e) {
