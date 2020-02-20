@@ -8,7 +8,7 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.0.12</version>
+  <version>1.0.13</version>
 
   <name>Vavi Commons API</name>
   <organization>
@@ -114,6 +114,7 @@ TODO
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-commons</artifactId>
       <version>1.5.2</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
