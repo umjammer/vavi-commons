@@ -91,6 +91,26 @@ public enum CharNormalizerJa implements CharNormalizer {
         }
     },
     /**
+     * 全角数を半角に変換する。
+     */
+    ToHalfDigit {
+        public String normalize(String str) {
+
+            StringBuilder ret = new StringBuilder();
+
+            for (int i = 0;i < str.length(); i++) {
+                int code = str.charAt(i);
+                if ((code >= 0xff10) && (code <= 0xff19)) {
+                    ret.append((char) (code - 0xfee0));
+                } else {
+                    ret.append((char) code);
+                }
+            }
+
+            return ret.toString();
+        }
+    },
+    /**
      * 全角文字を可能な限り半角文字に変換する。
      */
     ToHalf {
@@ -237,7 +257,9 @@ public enum CharNormalizerJa implements CharNormalizer {
             return ret.toString();
         }
     },
-    /** */
+    /**
+     * Converts by @link #halfTable}
+     */
     ToFullAns2 {
         /** */
         public String normalize(String str) {
@@ -248,7 +270,9 @@ public enum CharNormalizerJa implements CharNormalizer {
             return str;
         }
     },
-    /** */
+    /**
+     * Converts by @link #fullTable}
+     */
     ToHalfAns2 {
         /** */
         public String normalize(String str) {
@@ -326,14 +350,14 @@ public enum CharNormalizerJa implements CharNormalizer {
         "ﾟ゜##"
     };
 
-    /** */
+    /** TODO out source */
     private static final String fullTable =
         "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ" +
         "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ" +
         "０１２３４５６７８９" +
         "　（）“”’．，｛｝［］＿＆";
 
-    /** */
+    /** TODO out source */
     private static final String halfTable =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
             "abcdefghijklmnopqrstuvwxyz" +
