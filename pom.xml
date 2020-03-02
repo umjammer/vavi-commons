@@ -8,14 +8,22 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.0.13</version>
+  <version>1.0.14</version>
 
   <name>Vavi Commons API</name>
   <organization>
     <name></name>
   </organization>
   <url>https://github.com/umjammer/vavi-commons</url>
-  <description>1.0.12
+  <description>1.0.14
+
+    binder for @Propertiy
+
+1.0.13
+
+    maintenance
+
+1.0.12
 
     add byte utility
     add new filetime converter
@@ -67,8 +75,7 @@ TODO
     use java9 URLStreamHandlerProvider
     move win32 to sandbox
     @PropsEntity w/o url?
-    add enum utility
-</description>
+    add enum utility</description>
   <scm>
     <url>https://github.com/umjammer/vavi-commons</url>
   </scm>

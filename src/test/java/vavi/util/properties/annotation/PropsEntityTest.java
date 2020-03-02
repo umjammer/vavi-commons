@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import vavi.beans.Binder;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -197,6 +199,20 @@ public class PropsEntityTest {
         assertEquals(40, bean.data2);
         assertEquals("Umjammer", bean.data3);
         assertEquals(System.getenv("HOME"), bean.home);
+    }
+
+    @PropsEntity(url = "classpath:vavi/util/properties/annotation/propsEntityTest.properties")
+    public static class Test10 {
+        @Property(binder = vavi.beans.InstanciationBinder.class)
+        Binder data4;
+    }
+
+    @Test
+    @DisplayName("binder")
+    public void test10() throws Exception {
+        Test10 bean = new Test10();
+        PropsEntity.Util.bind(bean);
+        assertEquals(vavi.beans.AdvancedBinder.class, bean.data4.getClass());
     }
 }
 

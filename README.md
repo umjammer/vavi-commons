@@ -13,7 +13,7 @@ Swiss-Army Knife
 
 ### LittleEndian I/O
 
-  same as DataInputStream, DataOutputStream
+  `DataInputStream`, `DataOutputStream` compatible
 
 ### Bean Manipulation
 
@@ -23,7 +23,7 @@ Swiss-Army Knife
 
 ### Win32 Structures
 
-to be deprecated
+to be deprecated?
 
 ### Easy Property Binding
 
@@ -31,5 +31,5 @@ to be deprecated
 
 ### Instrumentation
 
-TBD
+TBD (promote from vavi-commons-sandbox)
 

@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import vavi.beans.DefaultBinder;
+import vavi.beans.Binder;
 import vavi.net.www.protocol.URLStreamHandlerUtil;
 
 
@@ -199,8 +199,6 @@ logger.finer("replace: " + name + ", " + key + ", " + args[i]);
 logger.finer("url: finally: " + url);
             props.load(new URL(url).openStream());
 
-            DefaultBinder binder = new DefaultBinder();
-
             // 1. property
             for (Field field : getPropertyFields(bean)) {
                 String name = Property.Util.getName(field, args); // TODO args are not used.
@@ -215,6 +213,7 @@ logger.finer("after: " + name);
                     value = props.getProperty(name, defaultValue);
                 }
 logger.fine("value: " + name + ", " + value);
+                Binder binder = Property.Util.getBinder(field);
                 binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
             }
 
@@ -231,6 +230,7 @@ logger.finer("after: " + name);
                     value = defaultValue;
                 }
 logger.fine("env: " + name + ", " + value);
+                Binder binder = Env.Util.getBinder(field);
                 binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
             }
         }

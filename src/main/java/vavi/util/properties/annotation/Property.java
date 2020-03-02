@@ -12,6 +12,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 
+import vavi.beans.AdvancedBinder;
+import vavi.beans.Binder;
+
 
 /**
  * Property.
@@ -34,6 +37,11 @@ public @interface Property {
      * default value for this property.
      */
     String value() default "";
+
+    /**
+     * フィールドに値を代入する実装クラス
+     */
+    Class<? extends Binder> binder() default AdvancedBinder.class;
 
     /**
      * TODO アノテーションがメソッド指定の場合
@@ -71,6 +79,23 @@ public @interface Property {
             }
 
             return target.value();
+        }
+
+        /**
+         * @param field @{@link Property} annotated field.
+         */
+        public static <T> Binder getBinder(Field field) {
+            Property target = field.getAnnotation(Property.class);
+            if (target == null) {
+                throw new IllegalArgumentException("bean is not annotated with @Property");
+            }
+
+            try {
+                Binder binder = target.binder().getDeclaredConstructor().newInstance();
+                return binder;
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
         }
     }
 }

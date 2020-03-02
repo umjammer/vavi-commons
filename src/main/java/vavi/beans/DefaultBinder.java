@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 070224 nsano initial version <br>
  */
-public class DefaultBinder {
+public class DefaultBinder implements Binder {
 
     /**
      * プリミティブ型、及びそのラッパー型のフィールドに値を設定します。
