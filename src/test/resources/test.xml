@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DIV 
+  class="a-box-group a-spacing-base order">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <DIV class="a-box a-color-offset-background order-info">
+    <DIV class="a-box-inner">
+      <DIV class="a-fixed-right-grid">
+        <DIV class="a-fixed-right-grid-inner"
+          style="padding-right:290px">
+          <DIV class="a-fixed-right-grid-col a-col-left"
+            style="padding-right:0%;float:left;">
+            <DIV class="a-row">
+
+
+
+              <DIV class="a-column a-span3">
+
+
+                <DIV class="a-row a-size-mini">
+
+                  <SPAN class="a-color-secondary label">
+                    注文日
+                  </SPAN>
+
+                </DIV>
+                <DIV class="a-row a-size-base">
+
+                  <SPAN class="a-color-secondary value">
+                    2020年2月7日
+                  </SPAN>
+
+                </DIV>
+
+              </DIV>
+
+
+
+              <DIV class="a-column a-span2">
+
+
+                <DIV class="a-row a-size-mini">
+
+                  <SPAN class="a-color-secondary label">
+                    合計
+                  </SPAN>
+
+                </DIV>
+                <DIV class="a-row a-size-base">
+
+                  <SPAN class="a-color-secondary value">
+                    ￥ 0
+                  </SPAN>
+
+                </DIV>
+
+              </DIV>
+
+
+
+
+
+
+              <DIV class="a-column a-span7 recipient a-span-last">
+
+
+
+
+
+
+              </DIV>
+
+
+            </DIV>
+          </DIV>
+          <DIV class="a-fixed-right-grid-col actions a-col-right"
+            style="width:290px;margin-right:-290px;float:left;">
+
+
+            <DIV class="a-row a-size-mini">
+
+              <SPAN class="a-color-secondary label">
+                注文番号
+              </SPAN>
+
+
+              <SPAN class="a-color-secondary value">
+                D01-4459055-5061864
+              </SPAN>
+
+            </DIV>
+            <DIV class="a-row a-size-base">
+              <UL class="a-unordered-list a-nostyle a-vertical">
+
+
+                <A class="a-link-normal"
+                  href="/gp/digital/your-account/order-summary.html/ref=ppx_yo_dt_b_dor_o00?ie=UTF8&amp;orderID=D01-4459055-5061864">
+                  注文の詳細
+                </A>
+                <I class="a-icon a-icon-text-separator" role="img" />
+
+
+
+
+
+
+                <SPAN class="hide-if-no-js">
+
+                  <SPAN class="a-declarative"
+                    data-a-popover="{&#34;url&#34;:&#34;/gp/shared-cs/ajax/invoice/invoice.html?orderId=D01-4459055-5061864&amp;relatedRequestId=8A16MKWFP34JQ26G50F0&amp;isADriveSubscription=&amp;isHFC=&amp;isBookingOrder=&#34;,&#34;position&#34;:&#34;triggerBottom&#34;,&#34;ajaxFailMsg&#34;:&#34;\n\u003cdiv class=\&#34;a-box a-alert-inline a-alert-inline-warning\&#34;&gt;\u003cdiv class=\&#34;a-box-inner a-alert-container\&#34;&gt;\u003ci class=\&#34;a-icon a-icon-alert\&#34;&gt;\u003c/i&gt;\u003cdiv class=\&#34;a-alert-content\&#34;&gt;\n        \u003cspan class=\&#34;a-text-bold\&#34;&gt;\n            請求書の取得中に問題がありました。\n        \u003c/span&gt;\n\u003c/div&gt;\u003c/div&gt;\u003c/div&gt;\n\u003cdiv class=\&#34;a-row a-spacing-top-mini\&#34;&gt;\n    ご注文については、注文の詳細をご覧ください。\n\u003c/div&gt;\n\u003cdiv class=\&#34;a-row\&#34;&gt;\n    \u003ca class=\&#34;a-link-emphasis\&#34; href=\&#34;/gp/digital/your-account/order-summary.html/ref=oh_aui_invdor?ie=UTF8&amp;orderID=D01-4459055-5061864\&#34;&gt;注文内容を表示\u003c/a&gt;\n\u003c/div&gt;\n&#34;,&#34;activate&#34;:&#34;onclick&#34;}"
+                    data-action="a-popover">
+                    <A class="a-popover-trigger a-declarative"
+                      href="javascript:void(0)">
+                      領収書等
+                      <I class="a-icon a-icon-popover" />
+                    </A>
+                  </SPAN>
+
+                </SPAN>
+                <SPAN class="hide-if-js">
+                  <A class="a-link-normal"
+                    href="/gp/digital/your-account/order-summary.html/ref=ppx_yo_dt_b_dpi_o00?ie=UTF8&amp;orderID=D01-4459055-5061864&amp;print=1">領収書／購入明細書</A>
+                </SPAN>
+
+
+
+
+
+
+              </UL>
+            </DIV>
+
+          </DIV>
+        </DIV>
+      </DIV>
+    </DIV>
+  </DIV>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <DIV class="a-box">
+    <DIV class="a-box-inner">
+      <DIV class="a-fixed-right-grid a-spacing-top-none">
+        <DIV
+          class="a-fixed-right-grid-inner a-grid-vertical-align a-grid-top">
+          <DIV class="a-fixed-right-grid-col a-col-left"
+            style="padding-right:3.2%;float:left;">
+
+            <DIV class="a-row">
+              <DIV class="a-fixed-left-grid a-spacing-none">
+                <DIV class="a-fixed-left-grid-inner"
+                  style="padding-left:100px">
+                  <DIV
+                    class="a-text-center a-fixed-left-grid-col a-col-left"
+                    style="width:100px;margin-left:-100px;float:left;">
+
+                    <DIV class="item-view-left-col-inner">
+
+
+
+
+
+
+
+
+                      <A class="a-link-normal"
+                        href="/gp/product/B084CB6GVW/ref=ppx_yo_dt_b_d_asin_image_o00?ie=UTF8&amp;psc=1">
+
+                        <IMG alt="" aria-hidden="true"
+                          class="yo-critical-feature"
+                          data-a-hires="https://images-fe.ssl-images-amazon.com/images/I/61sI2rympHL._SY180_.jpg"
+                          height="90"
+                          onload="if (typeof uet == 'function') { uet('cf'); uet('af'); }"
+                          src="https://images-fe.ssl-images-amazon.com/images/I/61sI2rympHL._SY90_.jpg"
+                          title="Dr.STONE【期間限定無料】 1 (ジャンプコミックスDIGITAL)"
+                          width="66" />
+
+                      </A>
+
+
+                    </DIV>
+                  </DIV>
+                  <DIV class="a-fixed-left-grid-col a-col-right"
+                    style="padding-left:1.5%;float:left;">
+
+
+                    <DIV class="a-row">
+
+
+
+
+                      <A class="a-link-normal"
+                        href="/gp/product/B084CB6GVW/ref=ppx_yo_dt_b_d_asin_title_o00?ie=UTF8&amp;psc=1">
+                        Dr.STONE【期間限定無料】 1 (ジャンプコミックスDIGITAL)
+                      </A>
+
+
+                    </DIV>
+                    <DIV class="a-row">
+
+
+                      <SPAN class="a-size-small">
+                        稲垣理一郎, Boichi
+                      </SPAN>
+
+                    </DIV>
+                    <DIV class="a-row">
+
+                      <SPAN
+                        class="a-size-small a-color-secondary a-text-bold">
+                        Kindle 版
+                      </SPAN>
+
+                    </DIV>
+                    <DIV class="a-row">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      <SPAN class="a-size-small a-color-secondary">
+
+                        販売:
+
+                        株式会社集英社
+
+
+
+                      </SPAN>
+
+                    </DIV>
+                    <DIV class="a-row">
+
+                      <SPAN class="a-color-secondary a-text-bold">
+
+                      </SPAN>
+                      <SPAN class="a-color-secondary">
+
+                      </SPAN>
+
+                    </DIV>
+
+
+                  </DIV>
+                </DIV>
+              </DIV>
+            </DIV>
+
+          </DIV>
+          <DIV class="a-fixed-right-grid-col a-col-right"
+            style="width:220px;margin-right:-220px;float:left;">
+
+            <DIV class="a-row">
+              <DIV class="a-button-stack">
+
+                <SPAN
+                  class="a-button a-button-normal a-spacing-mini a-button-base"
+                  id="a-autoid-3">
+                  <SPAN class="a-button-inner">
+                    <A class="a-button-text"
+                      href="/gp/digital/fiona/manage/ref=ppx_yo_dt_b_d_d_content_dev_o00"
+                      id="コンテンツと端末の管理_1" role="button">
+                      コンテンツと端末の管理
+                    </A>
+                  </SPAN>
+                </SPAN>
+
+                <SPAN
+                  class="a-button a-button-normal a-spacing-mini a-button-base"
+                  id="a-autoid-4">
+                  <SPAN class="a-button-inner">
+                    <A class="a-button-text"
+                      href="/review/review-your-purchases/ref=ppx_yo_dt_b_d_rev_order_o00?_encoding=UTF8&amp;asins=B084CB6GVW&amp;channel=YAcc-dig-wr"
+                      id="商品レビューを書く_1" role="button">
+                      商品レビューを書く
+                    </A>
+                  </SPAN>
+                </SPAN>
+                <SPAN class="a-declarative"
+                  data-a-modal="{&#34;width&#34;:600,&#34;name&#34;:&#34;archive-order-modal&#34;,&#34;url&#34;:&#34;/gp/css/order-history/archive/archiveModal.html?orderId=D01-4459055-5061864&amp;shellOrderId=&#34;,&#34;header&#34;:&#34;この注文を非表示&#34;}"
+                  data-action="a-modal">
+
+                  <SPAN
+                    class="a-button a-button-normal a-spacing-mini a-button-base"
+                    id="a-autoid-5">
+                    <SPAN class="a-button-inner">
+                      <A class="a-button-text"
+                        href="/gp/css/order-history/archive/ref=ppx_yo_dt_b_d_archive_order_o00?ie=UTF8&amp;archiveRequest=1&amp;orderIds=D01-4459055-5061864&amp;token=358-4634071-9147345"
+                        id="注文を非表示にする_1" role="button">
+                        注文を非表示にする
+                      </A>
+                    </SPAN>
+                  </SPAN>
+                </SPAN>
+              </DIV>
+            </DIV>
+
+          </DIV>
+        </DIV>
+      </DIV>
+    </DIV>
+  </DIV>
+
+
+
+
+
+
+
+
+</DIV>
