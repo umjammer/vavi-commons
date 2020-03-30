@@ -188,7 +188,7 @@ logger.finer("replace: " + name + ", " + key + ", " + args[i]);
          * </pre>
          */
         public static void bind(Object bean, String... args) throws IOException {
-            //
+            // TODO check super classes
             PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
             if (propsEntity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");

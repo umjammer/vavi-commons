@@ -71,7 +71,13 @@ e.printStackTrace();
         return false;
     }
 
-    /** */
+    /** restoring */
+    private static final String color0 = (char) 0x1b + "[" + 00 + "m";
+
+    /** highlighting */
+    private static final String color1 = (char) 0x1b + "[" + 37 + "m";
+
+    /* */
     public String format(LogRecord record) {
         StringBuilder sb = new StringBuilder();
         if (record.getThrown() != null) {
@@ -94,15 +100,15 @@ e.printStackTrace();
                 }
             }
             if (ste != null) {
-                sb.append((char) 0x1b + "[" + 37 + "m");
+                sb.append(color1);
                 sb.append(sdf.format(new Date()));
-                sb.append((char) 0x1b + "[" + 00 + "m");
+                sb.append(color0);
                 sb.append(" [");
                 sb.append(record.getLevel());
                 sb.append("] ");
                 sb.append(record.getMessage().replaceAll("\n$", ""));
                 sb.append("\n");
-                sb.append((char) 0x1b + "[" + 37 + "m");
+                sb.append(color1);
                 sb.append("\tat ");
                 sb.append(ste.getClassName());
                 sb.append(".");
@@ -116,7 +122,7 @@ e.printStackTrace();
                     sb.append("Unknown");
                 }
                 sb.append(")");
-                sb.append((char) 0x1b + "[" + 00 + "m");
+                sb.append(color0);
                 sb.append("\n");
             } else {
                 sb.append(StringUtil.getClassName(record.getSourceClassName()));
