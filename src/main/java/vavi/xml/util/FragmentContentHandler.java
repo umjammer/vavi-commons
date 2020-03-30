@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -83,5 +84,10 @@ public class FragmentContentHandler extends DefaultHandler {
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         characters.append(ch, start, length);
+    }
+
+    @Override
+    public void fatalError(SAXParseException e) throws SAXException {
+System.err.println(e.getMessage());
     }
 }
