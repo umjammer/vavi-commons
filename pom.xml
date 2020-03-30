@@ -8,14 +8,19 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.0.14</version>
+  <version>1.0.15</version>
 
   <name>Vavi Commons API</name>
   <organization>
     <name></name>
   </organization>
   <url>https://github.com/umjammer/vavi-commons</url>
-  <description>1.0.14
+  <description>1.0.15
+
+    update beanutil
+    add xpath debugger
+
+1.0.14
 
     binder for @Propertiy
 
