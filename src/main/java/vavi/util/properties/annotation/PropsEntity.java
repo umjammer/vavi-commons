@@ -43,9 +43,10 @@ public @interface PropsEntity {
      *  "classpath:your/package/foo.properties"
      * </pre>
      * </p>
+     * when this is not set, use system properties.
      * @see vavi.net.www.protocol.classpath.Handler
      */
-    String url();
+    String url() default "";
 
     /** */
     class Util {
@@ -194,10 +195,17 @@ logger.finer("replace: " + name + ", " + key + ", " + args[i]);
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
             }
 
-            Properties props = new Properties();
-            String url = replaceWithArgs(replaceWithEnvOrProps(getUrl(bean)), args);
+            Properties props;
+            String baseUrl = getUrl(bean);
+            if (!baseUrl.isEmpty()) {
+                props = new Properties();
+                String url = replaceWithArgs(replaceWithEnvOrProps(baseUrl), args);
 logger.finer("url: finally: " + url);
-            props.load(new URL(url).openStream());
+                props.load(new URL(url).openStream());
+            } else {
+logger.info("url: use system properties");
+                props = System.getProperties();
+            }
 
             // 1. property
             for (Field field : getPropertyFields(bean)) {

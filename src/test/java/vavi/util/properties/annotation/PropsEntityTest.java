@@ -214,6 +214,23 @@ public class PropsEntityTest {
         PropsEntity.Util.bind(bean);
         assertEquals(vavi.beans.AdvancedBinder.class, bean.data4.getClass());
     }
+
+    @PropsEntity
+    public static class Test1 {
+        @Env(name = "FOO_BAR_{0}")
+        private String data1;
+        @Env(name = "HOME")
+        private String data2;
+    }
+
+    @Test
+    @DisplayName("@PropsEntity w/o url")
+    public void test11() throws Exception {
+        Test1 bean = new Test1();
+        PropsEntity.Util.bind(bean, "BUZ");
+        assertEquals("hello!!", bean.data1);
+        assertEquals(System.getenv("HOME"), bean.data2);
+    }
 }
 
 /* */

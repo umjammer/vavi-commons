@@ -8,14 +8,18 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.0.15</version>
+  <version>1.0.16</version>
 
   <name>Vavi Commons API</name>
   <organization>
     <name></name>
   </organization>
   <url>https://github.com/umjammer/vavi-commons</url>
-  <description>1.0.15
+  <description>1.0.16
+
+    allow @PropsEntity w/o url
+
+1.0.15
 
     update beanutil
     add xpath debugger
@@ -78,8 +82,7 @@
 TODO
 
     use java9 URLStreamHandlerProvider
-    move win32 to sandbox
-    @PropsEntity w/o url?
+    move win32 to sandbox?
     add enum utility</description>
   <scm>
     <url>https://github.com/umjammer/vavi-commons</url>
@@ -102,6 +105,11 @@ TODO
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.2</version>
+        <configuration>
+          <environmentVariables>
+            <FOO_BAR_BUZ>hello!!</FOO_BAR_BUZ>
+          </environmentVariables>
+        </configuration>
       </plugin>
     </plugins>
   </build>
