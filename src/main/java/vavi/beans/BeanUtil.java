@@ -150,8 +150,10 @@ logger.fine("no method: " + getSetterName(name));
         });
     }
 
-    /** Recurse super classes. */
-    public static Method getPrivateMethod(Class<?> clazz, String name, Class<?>[] argTypes) throws PrivilegedActionException {
+    /**
+     * Recurse super classes.
+     */
+    public static Method getPrivateMethod(Class<?> clazz, String name, Class<?>... argTypes) throws PrivilegedActionException {
         return AccessController.doPrivileged(new PrivilegedExceptionAction<Method>() {
             /** @throws NoSuchMethodException */
             public Method run() throws Exception {
