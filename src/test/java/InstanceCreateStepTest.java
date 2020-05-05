@@ -1,3 +1,7 @@
+/*
+ * https://stackoverflow.com/questions/23093470/java-order-of-initialization-and-instantiation/23094875
+ */
+
 import javax.annotation.PostConstruct;
 
 
