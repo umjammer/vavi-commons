@@ -8,10 +8,9 @@ package vavi.util;
 
 import java.io.IOException;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -20,12 +19,14 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2012/10/16 umjammer initial version <br>
  */
-@Disabled
-public class StringUtilTest {
+class StringUtilTest {
 
     @Test
-    public void test() {
-        fail("Not yet implemented");
+    void test() {
+        assertEquals("76F4 4F50 79C0 91CE", StringUtil.getDump("直佐秀野"));
+        assertEquals("*....*....*....*.***..****...**.", StringUtil.toBits(0x842173c6, 32));
+        assertEquals(".***..****...**.", StringUtil.toBits(0x73c6, 16));
+        assertEquals("**...**.", StringUtil.toBits(0xc6, 8));
     }
 
     //----

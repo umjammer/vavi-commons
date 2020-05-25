@@ -9,6 +9,8 @@ package vavi.net.www.protocol;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -22,8 +24,22 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2016/03/06 umjammer initial version <br>
  */
-@Disabled // TODO
+@Disabled
 public class URLStreamHandlerUtilTest {
+
+    static String backup;
+
+    @BeforeAll
+    static void before() {
+        backup = System.getProperty("java.protocol.handler.pkgs");
+    }
+
+    @AfterAll
+    static void after() {
+        if (backup != null) {
+            System.setProperty("java.protocol.handler.pkgs", backup);
+        }
+    }
 
     @Test
     public void test() throws Exception {

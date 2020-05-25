@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import vavi.net.www.protocol.URLStreamHandlerUtil;
 import vavi.util.StringUtil;
@@ -30,25 +32,24 @@ import vavi.util.properties.annotation.Property;
 @PropsEntity(url = "classpath:vavi/util/logging/logging.properties")
 public class VaviFormatter extends Formatter {
 
-    @Property(name = "vavi.util.logging.excludes", value = "vavi.util.logging,java.util.logging,vavi.util.Debug,org.apache.commons.logging,sun.util.logging")
-    private String defaultExcludingPackages;
+    @Property(name = "vavi.util.logging.VaviFormatter.classMethod", value = "vavi\\.util\\.Debug#print(ln|)")
+    private String defaultClassMethod;
 
     /* */
     {
-        try {
-            PropsEntity.Util.bind(this);
-//System.err.println("defaultExcludingPackages: " + defaultExcludingPackages);
-        } catch (IOException e) {
+        String systemProperty = System.getProperty("vavi.util.logging.VaviFormatter.classMethod");
+
+        if (systemProperty == null) {
+            try {
+                PropsEntity.Util.bind(this);
+            } catch (IOException e) {
 e.printStackTrace();
+            }
+        } else {
+            defaultClassMethod = systemProperty;
         }
-
-//for (String excludingPackage : (defaultExcludingPackages + "," + excludingPackages).split(",")) {
-// System.err.println("excludingPackage: " + excludingPackage);
-//}
+//System.err.println("defaultClassMethod: " + defaultClassMethod);
     }
-
-    /** comma separated class path strings */
-    private static String excludingPackages;
 
     // wtf thread unsafe?
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss,SSS");
@@ -56,19 +57,19 @@ e.printStackTrace();
     /* */
     static {
         URLStreamHandlerUtil.loadService();
-
-        excludingPackages = System.getProperty("vavi.util.logging.excludes", "");
-//System.err.println("excludingPackages: " + excludingPackages);
     }
 
     /** */
-    private boolean containsExcludingPackages(String className) {
-        for (String excludingPackage : (defaultExcludingPackages + "," + excludingPackages).split(",")) {
-            if (className.startsWith(excludingPackage.trim())) {
-                return true;
+    private StackTraceElement findStackTraceElement(StackTraceElement[] stes) {
+        Pattern pattern = Pattern.compile(defaultClassMethod);
+        for (int i = stes.length - 1; i >= 0; i--) {
+            Matcher matcher = pattern.matcher(stes[i].getClassName() + "#" + stes[i].getMethodName());
+//System.err.println("[" + i + "]: " + stes[i].getClassName() + "#" + stes[i].getMethodName() + " - " + matcher.matches());
+            if (i != stes.length - 1 && matcher.matches()) {
+                return stes[i + 1];
             }
         }
-        return false;
+        return null;
     }
 
     /** restoring */
@@ -77,28 +78,25 @@ e.printStackTrace();
     /** highlighting */
     private static final String color1 = (char) 0x1b + "[" + 37 + "m";
 
+    /** */
+    private static final String EOL = System.getProperty("line.separator");
+
     /* */
     public String format(LogRecord record) {
         StringBuilder sb = new StringBuilder();
         if (record.getThrown() != null) {
             sb.append(record.getThrown());
-            sb.append("\n");
+            sb.append(EOL);
             StackTraceElement[] stes = record.getThrown().getStackTrace();
             for (int i = 0; i < stes.length; i++) {
                 sb.append("\tat ");
                 sb.append(stes[i]);
-                sb.append("\n");
+                sb.append(EOL);
             }
             return sb.toString();
         } else {
             StackTraceElement[] stes = new Exception().getStackTrace();
-            StackTraceElement ste = null;
-            for (int i = 0; i < stes.length; i++) {
-                if (!containsExcludingPackages(stes[i].getClassName())) {
-                    ste = stes[i];
-                    break;
-                }
-            }
+            StackTraceElement ste = findStackTraceElement(stes);
             if (ste != null) {
                 sb.append(color1);
                 sb.append(sdf.format(new Date()));
@@ -106,8 +104,8 @@ e.printStackTrace();
                 sb.append(" [");
                 sb.append(record.getLevel());
                 sb.append("] ");
-                sb.append(record.getMessage().replaceAll("\n$", ""));
-                sb.append("\n");
+                sb.append(record.getMessage().replaceAll(EOL + "$", ""));
+                sb.append(EOL);
                 sb.append(color1);
                 sb.append("\tat ");
                 sb.append(ste.getClassName());
@@ -123,7 +121,7 @@ e.printStackTrace();
                 }
                 sb.append(")");
                 sb.append(color0);
-                sb.append("\n");
+                sb.append(EOL);
             } else {
                 sb.append(StringUtil.getClassName(record.getSourceClassName()));
                 sb.append("::");

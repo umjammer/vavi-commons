@@ -157,6 +157,36 @@ public final class Debug {
     }
 
     /**
+     * 改行付きでメッセージを出力します．
+     *
+     * @param message 表示メッセージ
+     * @see #println(Level, Object)
+     */
+    public static final void println(float message) {
+        println(Level.INFO, String.valueOf(message));
+    }
+
+    /**
+     * 改行付きでメッセージを出力します．
+     *
+     * @param message 表示メッセージ
+     * @see #println(Level, Object)
+     */
+    public static final void println(long message) {
+        println(Level.INFO, String.valueOf(message));
+    }
+
+    /**
+     * 改行付きでメッセージを出力します．
+     *
+     * @param message 表示メッセージ
+     * @see #println(Level, Object)
+     */
+    public static final void println(byte message) {
+        println(Level.INFO, String.valueOf(message));
+    }
+
+    /**
      * フォーマットしてメッセージを出力します．
      *
      * @param message 表示メッセージ
