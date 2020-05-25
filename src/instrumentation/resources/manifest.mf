@@ -1,0 +1,2 @@
+Premain-Class: vavix.lang.instrumentation.VaviInstrumentation
+Can-Redefine-Classes: true
