@@ -174,7 +174,6 @@ public class WAVE extends RIFF {
 
         /** */
         public void setData(InputStream is) throws IOException {
-            @SuppressWarnings("resource")
             LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
             formatId       = ledis.readShort();
@@ -254,9 +253,13 @@ public class WAVE extends RIFF {
         }
         /** */
         public void setData(InputStream is) throws IOException {
-            @SuppressWarnings("resource")
             LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
             fileSize = ledis.readInt();
+        }
+    }
+
+    public class LIST extends vavi.util.win32.LIST {
+        public class ISFT extends Chunk {
         }
     }
 

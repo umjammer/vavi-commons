@@ -106,7 +106,8 @@ public abstract class Chunk {
 
     /** */
     public String toString() {
-        return StringUtil.paramStringDeep(this, 1);
+//        return StringUtil.paramStringDeep(this, 1);
+        return name;
     }
 
     /**
@@ -124,7 +125,6 @@ public abstract class Chunk {
     protected static Chunk readFrom(InputStream is, Chunk parent)
         throws IOException {
 
-        @SuppressWarnings("resource")
         LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
         byte[] tmp = new byte[4];

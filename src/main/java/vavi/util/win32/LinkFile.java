@@ -112,7 +112,6 @@ public class LinkFile {
     }
 
     /** */
-    @SuppressWarnings("resource")
     public static LinkFile readFrom(InputStream is) throws IOException {
 
         LinkFile lf = new LinkFile();

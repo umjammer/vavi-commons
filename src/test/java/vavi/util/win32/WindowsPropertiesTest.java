@@ -13,7 +13,8 @@ import java.io.IOException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 /**
@@ -26,8 +27,13 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class WindowsPropertiesTest {
 
     @Test
-    public void test() {
-        fail("Not yet implemented");
+    public void test() throws Exception {
+        WindowsProperties ini = new WindowsProperties();
+        ini.load(WindowsPropertiesTest.class.getResourceAsStream("/test.ini"));
+        ini.list(System.out);
+        assertEquals("vim", ini.getProperty("core.editor"));
+        ini.removePropertiesOfSection("core.editor");
+        assertNull(ini.getProperty("core.editor"));
     }
 
     /**

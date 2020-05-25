@@ -13,8 +13,6 @@ import java.io.InputStream;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 
 /**
  * AVITest.
@@ -26,11 +24,13 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class AVITest {
 
     @Test
-    public void test() {
-        fail("Not yet implemented");
+    public void test() throws Exception {
+        InputStream is = new BufferedInputStream(AVITest.class.getResourceAsStream("/test.avi"));
+        AVI avi = (AVI) AVI.readFrom(is);
+        System.err.println("AVI: " + avi);
     }
 
-    //-------------------------------------------------------------------------
+    //----
 
     /** */
     public static void main(String[] args) throws Exception {

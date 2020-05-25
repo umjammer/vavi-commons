@@ -120,7 +120,6 @@ public class CDDA extends RIFF {
          */
         public void setData(InputStream is) throws IOException {
 
-            @SuppressWarnings("resource")
             LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
             version       = ledis.readShort();

@@ -78,7 +78,7 @@ Debug.println(Level.FINEST, this);
 
     /* */
     public String toString() {
-        return "multipartName: " + multipartName + ": " + this;
+        return "multipartName: " + multipartName;
     }
 
     /** */
