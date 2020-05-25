@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -97,9 +99,9 @@ public class PropsEntityTest {
         }
     }
 
-    @PropsEntity(url = "file://${user.dir}/local.properties.sample")
+    @PropsEntity(url = "file://${user.dir}/src/test/resources/logging.properties")
     public static class Test4 {
-        @Property(name = "javac.source")
+        @Property(name = "handlers")
         private String data1;
     }
 
@@ -108,10 +110,10 @@ public class PropsEntityTest {
     public void test04() throws Exception {
         Test4 bean = new Test4();
         PropsEntity.Util.bind(bean);
-        assertEquals("src/main/java", bean.data1);
+        assertEquals("java.util.logging.ConsoleHandler", bean.data1);
     }
 
-    @PropsEntity(url = "file://${user.dir}/local.properties.{1}") // {1} this is not proper usage! just for test
+    @PropsEntity(url = "file://${user.dir}/src/test/resources/logging.{1}") // {1} this is not proper usage! just for test
     public static class Test5 {
         @Property(name = "{0}") // {0} this is not proper usage! just for test
         private String data1;
@@ -121,8 +123,8 @@ public class PropsEntityTest {
     @DisplayName("this is not proper usage! just for test")
     public void test05() throws Exception {
         Test5 bean = new Test5();
-        PropsEntity.Util.bind(bean, "javac.source", "sample");
-        assertEquals("src/main/java", bean.data1);
+        PropsEntity.Util.bind(bean, "handlers", "properties");
+        assertEquals("java.util.logging.ConsoleHandler", bean.data1);
     }
 
     @Test
@@ -216,7 +218,7 @@ public class PropsEntityTest {
     }
 
     @PropsEntity
-    public static class Test1 {
+    public static class Test11 {
         @Env(name = "FOO_BAR_{0}")
         private String data1;
         @Env(name = "HOME")
@@ -226,10 +228,65 @@ public class PropsEntityTest {
     @Test
     @DisplayName("@PropsEntity w/o url")
     public void test11() throws Exception {
-        Test1 bean = new Test1();
+        Test11 bean = new Test11();
         PropsEntity.Util.bind(bean, "BUZ");
         assertEquals("hello!!", bean.data1);
         assertEquals(System.getenv("HOME"), bean.data2);
+    }
+
+    @BeforeEach
+    void before() {
+        System.setProperty("test.system.1", "(´・ω・`)");
+    }
+
+    @AfterEach
+    void after() {
+        System.getProperties().remove("test.system.1");
+    }
+
+    @PropsEntity
+    public static class Test12 {
+        @Property(name = "test.system.1")
+        private String data1;
+    }
+
+    @Test
+    @DisplayName("@PropsEntity w/o url -> use system")
+    public void test12() throws Exception {
+        Test12 bean = new Test12();
+        PropsEntity.Util.bind(bean);
+        assertEquals("(´・ω・`)", bean.data1);
+    }
+
+    @PropsEntity(url = "file:/XYZ", useSystem = true)
+    public static class Test13 {
+        @Property(name = "test.system.1")
+        private String data1;
+    }
+
+    @Test
+    @DisplayName("@PropsEntity error url -> use system")
+    public void test13() throws Exception {
+        Test13 bean = new Test13();
+        PropsEntity.Util.bind(bean);
+        assertEquals("(´・ω・`)", bean.data1);
+    }
+
+    @PropsEntity(url = "classpath:root.properties")
+    public static class Test14 {
+        @Property(name = "test.system.1", useSystem = true)
+        private String data1;
+        @Property(name = "test.system.1")
+        private String data2;
+    }
+
+    @Test
+    @DisplayName("@Property use system")
+    public void test14() throws Exception {
+        Test14 bean = new Test14();
+        PropsEntity.Util.bind(bean);
+        assertEquals("(´・ω・`)", bean.data1);
+        assertEquals("( ･`ω･´)", bean.data2);
     }
 }
 

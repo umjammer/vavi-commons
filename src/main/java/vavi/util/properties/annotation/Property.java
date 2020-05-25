@@ -44,9 +44,14 @@ public @interface Property {
     Class<? extends Binder> binder() default AdvancedBinder.class;
 
     /**
+     * if true, when the url has error, system properties are used.
+     */
+    boolean useSystem() default false;
+
+    /**
      * TODO アノテーションがメソッド指定の場合
      */
-    class Util {
+    final class Util {
 
         private Util() {
         }
@@ -79,6 +84,18 @@ public @interface Property {
             }
 
             return target.value();
+        }
+
+        /**
+         * @param field {@link Property} annotated
+         */
+        public static boolean useSystem(Field field) {
+            Property target = field.getAnnotation(Property.class);
+            if (target == null) {
+                throw new IllegalArgumentException("bean is not annotated with @Property");
+            }
+
+            return target.useSystem();
         }
 
         /**

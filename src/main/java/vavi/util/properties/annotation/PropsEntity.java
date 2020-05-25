@@ -43,13 +43,18 @@ public @interface PropsEntity {
      *  "classpath:your/package/foo.properties"
      * </pre>
      * </p>
-     * when this is not set, use system properties.
+     * when this is not set, system properties will be used.
      * @see vavi.net.www.protocol.classpath.Handler
      */
     String url() default "";
 
+    /**
+     * if true, when the url has error, system properties are used as backup. else an exception will be thrown.
+     */
+    boolean useSystem() default false;
+
     /** */
-    class Util {
+    final class Util {
 
         private static Logger logger = Logger.getLogger(Util.class.getName());
 
@@ -57,7 +62,7 @@ public @interface PropsEntity {
         }
 
         /** */
-        public static String getUrl(Object bean) {
+        private static String getUrl(Object bean) {
             PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
             if (propsEntity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
@@ -66,10 +71,20 @@ public @interface PropsEntity {
             return propsEntity.url();
         }
 
+        /** */
+        private static boolean useSystem(Object bean) {
+            PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
+            if (propsEntity == null) {
+                throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
+            }
+
+            return propsEntity.useSystem();
+        }
+
         /**
          * @return {@link Property} annotated fields
          */
-        public static Set<Field> getPropertyFields(Object bean) {
+        private static Set<Field> getPropertyFields(Object bean) {
             //
             PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
             if (propsEntity == null) {
@@ -96,7 +111,7 @@ public @interface PropsEntity {
         /**
          * @return {@link Env} annotated fields
          */
-        public static Set<Field> getEnvFields(Object bean) {
+        private static Set<Field> getEnvFields(Object bean) {
             //
             PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
             if (propsEntity == null) {
@@ -195,16 +210,29 @@ logger.finer("replace: " + name + ", " + key + ", " + args[i]);
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
             }
 
+            boolean isSystem = false;
+
             Properties props;
             String baseUrl = getUrl(bean);
             if (!baseUrl.isEmpty()) {
                 props = new Properties();
                 String url = replaceWithArgs(replaceWithEnvOrProps(baseUrl), args);
 logger.finer("url: finally: " + url);
-                props.load(new URL(url).openStream());
+                try {
+                    props.load(new URL(url).openStream());
+                } catch (IOException e) {
+                    if (useSystem(bean)) {
+logger.info("url: useSystem is enabled");
+                        props = System.getProperties();
+                        isSystem = true;
+                    } else {
+                        throw e;
+                    }
+                }
             } else {
 logger.info("url: use system properties");
                 props = System.getProperties();
+                isSystem = true;
             }
 
             // 1. property
@@ -219,6 +247,14 @@ logger.finer("after: " + name);
                     value = props.getProperty(name); // TODO we cannot specify default as ""
                 } else {
                     value = props.getProperty(name, defaultValue);
+                }
+                if (!isSystem && Property.Util.useSystem(field)) {
+logger.info("overridden by system properties");
+                    if (defaultValue.isEmpty()) {
+                        value = System.getProperty(name); // TODO we cannot specify default as ""
+                    } else {
+                        value = System.getProperty(name, defaultValue);
+                    }
                 }
 logger.fine("value: " + name + ", " + value);
                 Binder binder = Property.Util.getBinder(field);

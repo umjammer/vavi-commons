@@ -46,7 +46,7 @@ public @interface Env {
     /**
      * TODO アノテーションがメソッド指定の場合
      */
-    class Util {
+    final class Util {
 
         private Util() {
         }
