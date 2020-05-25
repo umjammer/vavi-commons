@@ -16,7 +16,6 @@ import java.nio.ByteOrder;
  * Bit 単位で読み込むストリームです．
  *
  * TODO 中途半端なビット
- * TODO endian 処理あってるよね？
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030713 nsano initial version <br>
