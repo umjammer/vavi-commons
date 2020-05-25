@@ -8,14 +8,20 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.0.16</version>
+  <version>1.1.0</version>
 
   <name>Vavi Commons API</name>
   <organization>
     <name></name>
   </organization>
   <url>https://github.com/umjammer/vavi-commons</url>
-  <description>1.0.16
+  <description>1.1.0
+
+    move Adaptive I/O Stream from sandbox
+    move Instrumentation from sandbox
+    update about properties
+
+1.0.16
 
     allow @PropsEntity w/o url
 
@@ -91,6 +97,52 @@ TODO
     <url>https://github.com/umjammer/vavi-commons/issues</url>
   </issueManagement>
 
+  <profiles>
+    <profile>
+      <id>deploy-instrumentation</id>
+      <activation>
+        <property>
+          <name>deploy-instrumentation</name>
+          <value></value>
+        </property>
+        <file>
+          <exists>${project.build.directory}/vavi-instrumentation-${project.version}.jar</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <!-- exec:exec -->
+            <!-- $ mvn -P deploy-instrumentation exec:exec -->
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <executable>mvn</executable>
+              <arguments>
+                <argument>deploy:deploy-file</argument>
+                <argument>-DgroupId=${project.groupId}</argument>
+                <argument>-DartifactId=vavi-instrumentation</argument>
+                <argument>-Dversion=${project.version}</argument>
+                <argument>-Dpackaging=jar</argument>
+                <argument>-Dfile=${project.build.directory}/vavi-instrumentation-${project.version}.jar</argument>
+                <argument>-DrepositoryId=jcenter</argument>
+                <argument>-Durl=https://api.bintray.com/maven/umjammer/maven/vavi-instrumentation</argument>
+              </arguments>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
@@ -99,13 +151,47 @@ TODO
           <source>1.8</source>
           <target>1.8</target>
           <encoding>UTF-8</encoding>
+          <testExcludes>
+            <exclude>InstanceCreateStepTest.java</exclude>
+          </testExcludes>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <jar jarfile="${project.build.directory}/vavi-instrumentation-${project.version}.jar"
+                     manifest="src/instrumentation/resources/manifest.mf">
+                  <fileset dir="${project.build.outputDirectory}">
+                    <include name="vavix/lang/instrumentation/*Instrumentation.class" />
+                    <include name="vavix/lang/instrumentation/*ClassFileTransformer*.class" />
+                  </fileset>
+                  <zipfileset src="${maven.dependency.javassist.javassist.jar.path}"
+                              excludes="META-INF/**"/>
+                </jar>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.2</version>
         <configuration>
+          <argLine>
+            -javaagent:${project.build.directory}/vavi-instrumentation-${project.version}.jar
+            -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
+          </argLine>
+          <trimStackTrace>false</trimStackTrace>
           <environmentVariables>
             <FOO_BAR_BUZ>hello!!</FOO_BAR_BUZ>
           </environmentVariables>
@@ -114,10 +200,13 @@ TODO
     </plugins>
   </build>
 
-  <repositories>
-  </repositories>
-
   <dependencies>
+    <dependency>
+      <groupId>javassist</groupId>
+      <artifactId>javassist</artifactId>
+      <version>3.8.0.GA</version>
+    </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -137,5 +226,4 @@ TODO
       <scope>test</scope>
     </dependency>
   </dependencies>
-
 </project>

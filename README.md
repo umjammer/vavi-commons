@@ -4,32 +4,57 @@
 
 Swiss-Army Knife
 
-## Contents
+## 🧰 Contents
 
-### Bit I/O
+### ⛑ Bit I/O
 
   * BitInputStream
   * BitOutputStream
 
-### LittleEndian I/O
+### ⛑ LittleEndian I/O
 
   `DataInputStream`, `DataOutputStream` compatible
 
-### Bean Manipulation
+### ⛑ Adaptive I/O Stream
 
-### Easy Logging
+  Decorating io streams easily
 
-### XML Pretty Printer
+  * `OutputEngine`, `OutputEngineInputStream`, `InputEngine`, `InputEngineOutputStream`
 
-### Win32 Structures
+### ⛑ Bean Manipulation
 
-to be deprecated?
+  Manipulate beans easily.
 
-### Easy Property Binding
+### ⛑ Easy Logging
 
-### Generic Event
+  Colorized good logging easily.
 
-### Instrumentation
+### ⛑ XML Utilities
 
-TBD (promote from vavi-commons-sandbox)
+  * Pretty printer
+  * XPath dumper
 
+### ⛑ Win32 Structures
+
+  * useful win32 structures
+
+### ⛑ Easy Property Binding
+
+  * DI for properties and environment variables
+
+### ⛑ Generic Event
+
+### ⛑ Instrumentation
+
+  * easy instrumentation
+
+## License
+
+ * [Engineering Solution](https://www.ibm.com/developerworks/jp/java/library/j-io1/index.html)
+
+   * `OutputEngine.java`
+   * `OutputEngineInputStream.java`
+   * `ReaderWriterOutputEngine.java`
+   * `IOStreamOutputEngine.java`
+
+   [GPL](http://www.gnu.org/licenses/gpl.html)
