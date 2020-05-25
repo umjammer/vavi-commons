@@ -7,6 +7,7 @@
 package vavi.util.win32;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,7 @@ class DateUtilTest {
     void testFiletimeToLong() {
         long actual = DateUtil.filetimeToLong(127056483573732704L);
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("JST"));
         calendar.set(2003, 7, 18, 11, 48, 46);
         assertEquals(calendar.getTimeInMillis() / 1000, actual / 1000);
     }
@@ -35,6 +37,7 @@ class DateUtilTest {
     void testDateToLong() {
         long actual = DateUtil.dateToLong(37565.911458333336);
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("JST"));
         calendar.set(2002, 10, 5, 21, 52, 30);
         assertEquals(calendar.getTimeInMillis() / 1000, actual / 1000);
     }
