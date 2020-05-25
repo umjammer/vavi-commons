@@ -10,6 +10,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 
 /**
@@ -65,6 +66,7 @@ public final class DateUtil {
      */
     public static final long dateToLong(double date) {
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
         calendar.set(1899, Calendar.DECEMBER, 30, 00, 00, 00);
         double past = 24 * 60 * 60 * 1000 * date;
         return calendar.getTime().getTime() + (long) past;
@@ -80,6 +82,7 @@ public final class DateUtil {
     public static final long dosDateTimeToLong(int date, int time) {
 
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
         int y = 1980 + ((date & 0xfe00) >> 9);
         int M = ((date & 0x1e0) >> 5) - 1;
         int d = date & 0x1f;

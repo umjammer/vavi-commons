@@ -37,7 +37,7 @@ class DateUtilTest {
     void testDateToLong() {
         long actual = DateUtil.dateToLong(37565.911458333336);
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(TimeZone.getTimeZone("JST"));
+        calendar.setTimeZone(TimeZone.getTimeZone("UCT"));
         calendar.set(2002, 10, 5, 21, 52, 30);
         assertEquals(calendar.getTimeInMillis() / 1000, actual / 1000);
     }
@@ -46,7 +46,7 @@ class DateUtilTest {
     @Test
     void testDosDateTimeToLong() {
         long actual = DateUtil.dosDateTimeToLong(1, 1);
-        assertEquals(312822002078L / 1000, actual / 1000);
+        assertEquals(312854402761L / 1000, actual / 1000);
     }
 }
 
