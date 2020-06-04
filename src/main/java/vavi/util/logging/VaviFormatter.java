@@ -22,8 +22,12 @@ import vavi.util.properties.annotation.Property;
 
 /**
  * VaviFormatter.
- *
- * Sets exclusive package names into the system property "vavi.util.logging.excludes".
+ * <p>
+ * Sets exclusive class names and method pattern into the system property "vavi.util.logging.VaviFormatter.extraClassMethod".
+ * <pre>
+ *   System.setProperty("vavi.util.logging.VaviFormatter.extraClassMethod", "co\\.paralleluniverse\\.fuse\\.LoggedFuseFilesystem#log");
+ * </pre>
+ * </p>
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021027 nsano initial version <br>
@@ -32,8 +36,13 @@ import vavi.util.properties.annotation.Property;
 @PropsEntity(url = "classpath:vavi/util/logging/logging.properties")
 public class VaviFormatter extends Formatter {
 
-    @Property(name = "vavi.util.logging.VaviFormatter.classMethod", value = "vavi\\.util\\.Debug#print(ln|)")
+    @Property(name = "vavi.util.logging.VaviFormatter.classMethod", value = "(vavi\\.util\\.Debug#print(ln|f|)|java\\.util\\.logging\\.Logger#(fine|finer|finest|info|warning|error|logp|log))")
     private String defaultClassMethod;
+
+    @Property(name = "vavi.util.logging.VaviFormatter.extraClassMethod", useSystem = true)
+    private String extraClassMethod;
+
+    private Pattern pattern;
 
     /* */
     {
@@ -48,7 +57,12 @@ e.printStackTrace();
         } else {
             defaultClassMethod = systemProperty;
         }
+
+        if (extraClassMethod != null && !extraClassMethod.isEmpty()) {
+            defaultClassMethod = defaultClassMethod.substring(0, defaultClassMethod.length() - 1) + "|" + extraClassMethod + ")";
+        }
 //System.err.println("defaultClassMethod: " + defaultClassMethod);
+        pattern = Pattern.compile(defaultClassMethod);
     }
 
     // wtf thread unsafe?
@@ -61,7 +75,6 @@ e.printStackTrace();
 
     /** */
     private StackTraceElement findStackTraceElement(StackTraceElement[] stes) {
-        Pattern pattern = Pattern.compile(defaultClassMethod);
         for (int i = stes.length - 1; i >= 0; i--) {
             Matcher matcher = pattern.matcher(stes[i].getClassName() + "#" + stes[i].getMethodName());
 //System.err.println("[" + i + "]: " + stes[i].getClassName() + "#" + stes[i].getMethodName() + " - " + matcher.matches());
@@ -128,6 +141,7 @@ e.printStackTrace();
                 sb.append(record.getSourceMethodName());
                 sb.append(": ");
                 sb.append(record.getMessage());
+                sb.append(EOL);
             }
             return sb.toString();
         }
