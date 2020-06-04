@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 
@@ -32,11 +34,19 @@ public final class Checksum {
     /**
      * Compute Adler-32 checksum.
      */
+    public static long getChecksum(Path path) throws IOException {
+        return getChecksum(Files.newInputStream(path));
+    }
+
+    /**
+     * Compute Adler-32 checksum.
+     */
     public static long getChecksum(InputStream is) throws IOException {
-        CheckedInputStream cis = new CheckedInputStream(is, new Adler32());
-        byte[] buffer = new byte[4096];
-        while (cis.read(buffer) >= 0);
-        return cis.getChecksum().getValue();
+        try (CheckedInputStream cis = new CheckedInputStream(is, new Adler32())) {
+            byte[] buffer = new byte[4 * 1024 * 1024];
+            while (cis.read(buffer) >= 0);
+            return cis.getChecksum().getValue();
+        }
     }
 }
 
