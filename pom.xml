@@ -8,14 +8,19 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
 
   <name>Vavi Commons API</name>
   <organization>
     <name></name>
   </organization>
   <url>https://github.com/umjammer/vavi-commons</url>
-  <description>1.1.0
+  <description>1.1.1
+
+    update Checksum
+    update logging
+
+1.1.0
 
     move Adaptive I/O Stream from sandbox
     move Instrumentation from sandbox
