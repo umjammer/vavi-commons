@@ -58,10 +58,9 @@ public @interface Property {
 
         /**
          * @param field {@link Property} annotated
-         * @param args TODO not used???
          * @return When {@link Property#name()} is not set, the field name will be return.
          */
-        public static String getName(Field field, String... args) {
+        static String getName(Field field) {
             Property target = field.getAnnotation(Property.class);
             if (target == null) {
                 throw new IllegalArgumentException("bean is not annotated with @Property");
@@ -77,7 +76,7 @@ public @interface Property {
         /**
          * @param field {@link Property} annotated
          */
-        public static String getValue(Field field) {
+        static String getValue(Field field) {
             Property target = field.getAnnotation(Property.class);
             if (target == null) {
                 throw new IllegalArgumentException("bean is not annotated with @Property");
@@ -89,7 +88,7 @@ public @interface Property {
         /**
          * @param field {@link Property} annotated
          */
-        public static boolean useSystem(Field field) {
+        static boolean useSystem(Field field) {
             Property target = field.getAnnotation(Property.class);
             if (target == null) {
                 throw new IllegalArgumentException("bean is not annotated with @Property");
@@ -101,7 +100,7 @@ public @interface Property {
         /**
          * @param field @{@link Property} annotated field.
          */
-        public static <T> Binder getBinder(Field field) {
+        static <T> Binder getBinder(Field field) {
             Property target = field.getAnnotation(Property.class);
             if (target == null) {
                 throw new IllegalArgumentException("bean is not annotated with @Property");

@@ -8,6 +8,7 @@ package vavi.util.properties.annotation;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -258,7 +259,7 @@ public class PropsEntityTest {
         assertEquals("(´・ω・`)", bean.data1);
     }
 
-    @PropsEntity(url = "file:/XYZ", useSystem = true)
+    @PropsEntity(url = "file:/XYZ", useSystem = true) // error url, use system
     public static class Test13 {
         @Property(name = "test.system.1")
         private String data1;
@@ -270,6 +271,26 @@ public class PropsEntityTest {
         Test13 bean = new Test13();
         PropsEntity.Util.bind(bean);
         assertEquals("(´・ω・`)", bean.data1);
+    }
+
+    @PropsEntity(url = "file:/XYZ") // error url
+    public static class Test17 {
+        @Property(value = "even though error, here i am", name = "test.system.1")
+        private String data1;
+        @Property(name = "test.system.2")
+        private int data2 = 3;
+        @Property(value = "8", name = "test.system.3")
+        private int data3 = 3;
+    }
+
+    @Test
+    @DisplayName("@PropsEntity error url")
+    public void test17() throws Exception {
+        Test17 bean = new Test17();
+        assertThrows(IOException.class, () -> PropsEntity.Util.bind(bean));
+        assertEquals("even though error, here i am", bean.data1);
+        assertEquals(3, bean.data2);
+        assertEquals(8, bean.data3);
     }
 
     @PropsEntity(url = "classpath:root.properties")
@@ -285,8 +306,39 @@ public class PropsEntityTest {
     public void test14() throws Exception {
         Test14 bean = new Test14();
         PropsEntity.Util.bind(bean);
-        assertEquals("(´・ω・`)", bean.data1);
+        assertEquals("(´・ω・`)", bean.data1); // overridden by system
         assertEquals("( ･`ω･´)", bean.data2);
+    }
+
+    @PropsEntity(url = "classpath:root.properties")
+    public static class Test15 {
+        @Property(name = "test.system.2", useSystem = true) // test.system.2 is 2
+        private int data1 = 100;
+        @Property(name = "test.system.3", useSystem = true) // test.system.3 is none
+        private int data2 = 100;
+    }
+
+    @Test
+    @DisplayName("@Property use system but none")
+    public void test15() throws Exception {
+        Test15 bean = new Test15();
+        PropsEntity.Util.bind(bean);
+        assertEquals(2, bean.data1);
+        assertEquals(100, bean.data2); // use defined
+    }
+
+    @PropsEntity
+    public static class Test16 {
+        @Env(name = "FOO_BAR_BUZ2") // not set
+        private String data1 = "bye!!";
+    }
+
+    @Test
+    @DisplayName("@Env none")
+    public void test16() throws Exception {
+        Test16 bean = new Test16();
+        PropsEntity.Util.bind(bean);
+        assertEquals("bye!!", bean.data1); // use defined
     }
 }
 

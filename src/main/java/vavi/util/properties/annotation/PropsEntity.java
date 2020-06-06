@@ -202,6 +202,7 @@ logger.finer("replace: " + name + ", " + key + ", " + args[i]);
          * assertEquals(bean.bar, "xxx");
          *
          * </pre>
+         * @throws IOException when {@link PropsEntity#url()} is wrong, but after all default value will be set.
          */
         public static void bind(Object bean, String... args) throws IOException {
             // TODO check super classes
@@ -211,6 +212,7 @@ logger.finer("replace: " + name + ", " + key + ", " + args[i]);
             }
 
             boolean isSystem = false;
+            IOException exception = null;
 
             Properties props;
             String baseUrl = getUrl(bean);
@@ -226,7 +228,7 @@ logger.info("url: useSystem is enabled");
                         props = System.getProperties();
                         isSystem = true;
                     } else {
-                        throw e;
+                        exception = e;
                     }
                 }
             } else {
@@ -237,45 +239,57 @@ logger.info("url: use system properties");
 
             // 1. property
             for (Field field : getPropertyFields(bean)) {
-                String name = Property.Util.getName(field, args); // TODO args are not used.
+                String name = Property.Util.getName(field);
                 String defaultValue = Property.Util.getValue(field);
 logger.finer("before: " + name);
                 name = replaceWithArgs(name, args);
 logger.finer("after: " + name);
-                String value;
-                if (defaultValue.isEmpty()) {
-                    value = props.getProperty(name); // TODO we cannot specify default as ""
+                String value = null;
+                if (exception != null) {
+                    if (!defaultValue.isEmpty()) {
+logger.info("bad url but has default");
+                        value = defaultValue;
+                    }
                 } else {
-                    value = props.getProperty(name, defaultValue);
-                }
-                if (!isSystem && Property.Util.useSystem(field)) {
-logger.info("overridden by system properties");
-                    if (defaultValue.isEmpty()) {
-                        value = System.getProperty(name); // TODO we cannot specify default as ""
-                    } else {
-                        value = System.getProperty(name, defaultValue);
+                    if (!props.getProperty(name, "").isEmpty()) {
+                        value = props.getProperty(name);
+                    } else if (!defaultValue.isEmpty()) {
+                        value = defaultValue;
                     }
                 }
+                if (!isSystem && Property.Util.useSystem(field) && !System.getProperty(name, "").isEmpty()) {
+logger.info("overridden by system properties");
+                    value = System.getProperty(name);
+                }
 logger.fine("value: " + name + ", " + value);
-                Binder binder = Property.Util.getBinder(field);
-                binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
+                if (value != null) {
+                    Binder binder = Property.Util.getBinder(field);
+                    binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
+                }
             }
 
             // 2. env
             for (Field field : getEnvFields(bean)) {
-                String name = Env.Util.getName(field, args); // TODO args are not used.
+                String name = Env.Util.getName(field);
                 String defaultValue = Env.Util.getValue(field);
 logger.finer("before: " + name);
                 name = replaceWithArgs(name, args);
 logger.finer("after: " + name);
-                String value;
+                String value = null;
                 value = System.getenv(name);
                 if (!defaultValue.isEmpty() && (value == null || value.isEmpty())) {
                     value = defaultValue;
                 }
 logger.fine("env: " + name + ", " + value);
-                Binder binder = Env.Util.getBinder(field);
-                binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
+                if (value != null) {
+                    Binder binder = Env.Util.getBinder(field);
+                    binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
+                }
+            }
+
+            //
+            if (exception != null) {
+                throw exception;
             }
         }
     }
