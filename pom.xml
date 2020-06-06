@@ -8,14 +8,18 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
 
   <name>Vavi Commons API</name>
   <organization>
     <name></name>
   </organization>
   <url>https://github.com/umjammer/vavi-commons</url>
-  <description>1.1.1
+  <description>1.1.2
+
+    update @PropsEntity spec.
+
+1.1.1
 
     update Checksum
     update logging
@@ -179,7 +183,7 @@ TODO
                     <include name="vavix/lang/instrumentation/*Instrumentation.class" />
                     <include name="vavix/lang/instrumentation/*ClassFileTransformer*.class" />
                   </fileset>
-                  <zipfileset src="${maven.dependency.javassist.javassist.jar.path}"
+                  <zipfileset src="${maven.dependency.org.javassist.javassist.jar.path}"
                               excludes="META-INF/**"/>
                 </jar>
               </target>
@@ -207,9 +211,9 @@ TODO
 
   <dependencies>
     <dependency>
-      <groupId>javassist</groupId>
+      <groupId>org.javassist</groupId>
       <artifactId>javassist</artifactId>
-      <version>3.8.0.GA</version>
+      <version>3.23.0-GA</version>
     </dependency>
 
     <dependency>
