@@ -23,7 +23,7 @@ jobs:
 
     - name: Publish to GitHub Packages Apache Maven
       run: |
-        mkdir tmp
+        mkdir -p tmp
         sed -e 's/__USERNAME__/'"$BINTRAY_USERNAME"'/' -e 's/__PASSWORD__/'"$BINTRAY_API_KEY"'/' .github/workflows/settings.xml > tmp/settings.xml
         mvn deploy -s tmp/settings.xml
       env:
