@@ -2,7 +2,7 @@
   <servers>
     <server>
       <id>bintray</id>
-      <username>__USERNAME__</username>
+      <username>umjammer</username>
       <password>__PASSWORD__</password>
     </server>
   </servers>
