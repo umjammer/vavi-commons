@@ -33,9 +33,9 @@ public class URLStreamHandlerUtil {
     public static void loadService() {
         ServiceLoader<URLStreamHandler> loader = ServiceLoader.load(URLStreamHandler.class);
         StringBuilder packages = new StringBuilder(System.getProperty("java.protocol.handler.pkgs", ""));
-logger.info("java.protocol.handler.pkgs: before: " + packages);
+logger.fine("java.protocol.handler.pkgs: before: " + packages);
         for (URLStreamHandler handler : loader) {
-logger.info("protocol: " + handler.getClass().getName());
+logger.fine("protocol: " + handler.getClass().getName());
             String packageName = handler.getClass().getPackage().getName();
             String superPackageName = packageName.substring(0, packageName.lastIndexOf('.'));
             if (packages.indexOf(superPackageName) < 0) {
@@ -45,7 +45,7 @@ logger.info("protocol: " + handler.getClass().getName());
                 packages.append(superPackageName);
             }
         }
-logger.info("java.protocol.handler.pkgs: after: " + packages);
+logger.fine("java.protocol.handler.pkgs: after: " + packages);
         System.setProperty("java.protocol.handler.pkgs", packages.toString());
     }
 }

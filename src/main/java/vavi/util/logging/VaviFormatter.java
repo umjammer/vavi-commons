@@ -14,10 +14,9 @@ import java.util.logging.LogRecord;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import vavi.net.www.protocol.URLStreamHandlerUtil;
 import vavi.util.StringUtil;
-import vavi.util.properties.annotation.PropsEntity;
 import vavi.util.properties.annotation.Property;
+import vavi.util.properties.annotation.PropsEntity;
 
 
 /**
@@ -33,10 +32,12 @@ import vavi.util.properties.annotation.Property;
  * @version 0.00 021027 nsano initial version <br>
  *          0.01 031220 nsano clean imports <br>
  */
-@PropsEntity(url = "classpath:vavi/util/logging/logging.properties")
+@PropsEntity
 public class VaviFormatter extends Formatter {
 
-    @Property(name = "vavi.util.logging.VaviFormatter.classMethod", value = "(vavi\\.util\\.Debug#print(ln|f|)|java\\.util\\.logging\\.Logger#(fine|finer|finest|info|warning|error|logp|log))")
+    @Property(name = "vavi.util.logging.VaviFormatter.classMethod",
+              value = "(vavi\\.util\\.Debug#print(ln|f|)|java\\.util\\.logging\\.Logger#(fine|finer|finest|info|warning|error|logp|log))",
+              useSystem = true)
     private String defaultClassMethod;
 
     @Property(name = "vavi.util.logging.VaviFormatter.extraClassMethod", useSystem = true)
@@ -68,20 +69,18 @@ e.printStackTrace();
     // wtf thread unsafe?
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss,SSS");
 
-    /* */
-    static {
-        URLStreamHandlerUtil.loadService();
-    }
-
     /** */
     private StackTraceElement findStackTraceElement(StackTraceElement[] stes) {
+//java.util.List<String> x = new java.util.ArrayList<>();
         for (int i = stes.length - 1; i >= 0; i--) {
             Matcher matcher = pattern.matcher(stes[i].getClassName() + "#" + stes[i].getMethodName());
 //System.err.println("[" + i + "]: " + stes[i].getClassName() + "#" + stes[i].getMethodName() + " - " + matcher.matches());
+//x.add("[" + i + "]: " + stes[i].getClassName() + "#" + stes[i].getMethodName() + " - " + matcher.matches());
             if (i != stes.length - 1 && matcher.matches()) {
                 return stes[i + 1];
             }
         }
+//x.forEach(System.err::println);
         return null;
     }
 
@@ -108,6 +107,7 @@ e.printStackTrace();
             }
             return sb.toString();
         } else {
+            String message = record.getMessage() != null ? record.getMessage().replaceFirst(EOL + "$", "") : "";
             StackTraceElement[] stes = new Exception().getStackTrace();
             StackTraceElement ste = findStackTraceElement(stes);
             if (ste != null) {
@@ -117,7 +117,7 @@ e.printStackTrace();
                 sb.append(" [");
                 sb.append(record.getLevel());
                 sb.append("] ");
-                sb.append(record.getMessage().replaceAll(EOL + "$", ""));
+                sb.append(message);
                 sb.append(EOL);
                 sb.append(color1);
                 sb.append("\tat ");
@@ -136,11 +136,23 @@ e.printStackTrace();
                 sb.append(color0);
                 sb.append(EOL);
             } else {
+                sb.append(color1);
+                sb.append(sdf.format(new Date()));
+                sb.append(color0);
+                sb.append(" [");
+                sb.append(record.getLevel());
+                sb.append("] ");
+                sb.append(message);
+                sb.append(EOL);
+                sb.append(color1);
+                sb.append("\tat ");
                 sb.append(StringUtil.getClassName(record.getSourceClassName()));
-                sb.append("::");
+                sb.append(".");
                 sb.append(record.getSourceMethodName());
-                sb.append(": ");
-                sb.append(record.getMessage());
+                sb.append("(");
+                sb.append("Unknown");
+                sb.append(")");
+                sb.append(color0);
                 sb.append(EOL);
             }
             return sb.toString();

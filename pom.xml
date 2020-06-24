@@ -8,7 +8,7 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.1.2</version>
+  <version>1.1.3</version>
 
   <name>Vavi Commons API</name>
   <organization>
@@ -106,51 +106,13 @@ TODO
     <url>https://github.com/umjammer/vavi-commons/issues</url>
   </issueManagement>
 
-  <profiles>
-    <profile>
-      <id>deploy-instrumentation</id>
-      <activation>
-        <property>
-          <name>deploy-instrumentation</name>
-          <value></value>
-        </property>
-        <file>
-          <exists>${project.build.directory}/vavi-instrumentation-${project.version}.jar</exists>
-        </file>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <!-- exec:exec -->
-            <!-- $ mvn -P deploy-instrumentation exec:exec -->
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.6.0</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <executable>mvn</executable>
-              <arguments>
-                <argument>deploy:deploy-file</argument>
-                <argument>-DgroupId=${project.groupId}</argument>
-                <argument>-DartifactId=vavi-instrumentation</argument>
-                <argument>-Dversion=${project.version}</argument>
-                <argument>-Dpackaging=jar</argument>
-                <argument>-Dfile=${project.build.directory}/vavi-instrumentation-${project.version}.jar</argument>
-                <argument>-DrepositoryId=jcenter</argument>
-                <argument>-Durl=https://api.bintray.com/maven/umjammer/maven/vavi-instrumentation</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
+  <distributionManagement>
+    <repository>
+      <id>bintray</id>
+      <name>umjammer-maven</name>
+      <url>https://api.bintray.com/maven/umjammer/maven/vavi-instrumentation/;publish=1</url>
+    </repository>
+  </distributionManagement>
 
   <build>
     <plugins>
@@ -165,6 +127,22 @@ TODO
           </testExcludes>
         </configuration>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+        <configuration>
+          <argLine>
+            -javaagent:${project.build.directory}/vavi-instrumentation-${project.version}.jar
+            -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
+          </argLine>
+          <trimStackTrace>false</trimStackTrace>
+          <environmentVariables>
+            <FOO_BAR_BUZ>hello!!</FOO_BAR_BUZ>
+          </environmentVariables>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -191,19 +169,60 @@ TODO
           </execution>
         </executions>
       </plugin>
+
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
+        <artifactId>maven-install-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>install-library</id>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <groupId>${project.groupId}</groupId>
+              <artifactId>vavi-instrumentation</artifactId>
+              <version>${project.version}</version>
+              <packaging>jar</packaging>
+              <file>${project.build.directory}/vavi-instrumentation-${project.version}.jar</file>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
         <configuration>
-          <argLine>
-            -javaagent:${project.build.directory}/vavi-instrumentation-${project.version}.jar
-            -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
-          </argLine>
-          <trimStackTrace>false</trimStackTrace>
-          <environmentVariables>
-            <FOO_BAR_BUZ>hello!!</FOO_BAR_BUZ>
-          </environmentVariables>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <!-- because of maven deploy-file uploads source, jar also -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <id>deploy-library</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>mvn</executable>
+          <arguments>
+            <argument>deploy:deploy-file</argument>
+            <argument>-DgroupId=${project.groupId}</argument>
+            <argument>-DartifactId=vavi-instrumentation</argument>
+            <argument>-Dversion=${project.version}</argument>
+            <argument>-Dpackaging=jar</argument>
+            <argument>-Dfile=${project.build.directory}/vavi-instrumentation-${project.version}.jar</argument>
+            <argument>-DrepositoryId=bintray</argument>
+            <argument>-Durl=https://api.bintray.com/maven/umjammer/maven/vavi-instrumentation</argument>
+          </arguments>
         </configuration>
       </plugin>
     </plugins>

@@ -232,7 +232,7 @@ logger.info("url: useSystem is enabled");
                     }
                 }
             } else {
-logger.info("url: use system properties");
+logger.finer("url: use system properties");
                 props = System.getProperties();
                 isSystem = true;
             }

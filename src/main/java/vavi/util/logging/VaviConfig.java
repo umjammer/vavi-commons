@@ -14,6 +14,9 @@ import java.util.logging.LogManager;
 
 /**
  * デバッグのコンフィグレーションクラスです．
+ * <p>
+ * system property
+ * <li> java.util.logging.config.class
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021104 nsano initial version <br>
