@@ -13,8 +13,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Properties;
 
 import vavi.io.LittleEndianDataInputStream;
@@ -36,40 +34,22 @@ import vavi.util.StringUtil;
  */
 public class WAVE extends RIFF {
 
-    /** */
-    private fmt header;
-
     /**
      * @return Returns the format.
      */
     public fmt getHeader() {
-        return header;
-    }
-
-    /**
-     * @param format The format to set.
-     */
-    public void setHeader(fmt format) {
-        this.header = format;
-    }
-
-    /** Gets extension. */
-    public static final String getExtention() {
-        return "wav";
-    }
-
-    /** for debug */
-    protected void printData() {
-        System.err.println("---- data ----");
+        return findChildOf(fmt.class);
     }
 
     /** TODO now construction */
-    private boolean dealBigSize = false;
+    private static boolean dealBigSize = false;
 
     //-------------------------------------------------------------------------
 
     /** */
-    public class fmt extends Chunk {
+    public static class fmt extends Chunk {
+
+        static final String ID = "fmt ";
 
         /** The format id */
         private int formatId;
@@ -159,17 +139,17 @@ public class WAVE extends RIFF {
         }
 
         /** for debug */
-        protected void printData() {
-            String key = "format.id." + StringUtil.toHex4(formatId);
-            String type = pcmTypes.get(key);
-            System.err.println("formatId:\t" + (type == null ? StringUtil.toHex4(formatId) : type));
-            System.err.println("numberChannels:\t" + numberChannels);
-            System.err.println("samplingRate:\t"   + samplingRate  );
-            System.err.println("bytesPerSecond:\t" + bytesPerSecond);
-            System.err.println("blockSize:\t"      + blockSize     );
-            System.err.println("samplingBits:\t"   + samplingBits  );
-            System.err.println("sizeofExtended:\t" + sizeofExtended);
-            System.err.println("expanded:\t" + ((extended == null) ? "null" : "\n" + StringUtil.getDump(extended)));
+        public String toString() {
+             String key = "format.id." + StringUtil.toHex4(formatId);
+             String type = pcmTypes.getProperty(key);
+             return "formatId:\t" + (type == null ? StringUtil.toHex4(formatId) : type) +
+                "numberChannels:\t" + numberChannels +
+                "samplingRate:\t"   + samplingRate +
+                "bytesPerSecond:\t" + bytesPerSecond +
+                "blockSize:\t"      + blockSize +
+                "samplingBits:\t"   + samplingBits +
+                "sizeofExtended:\t" + sizeofExtended +
+                "expanded:\t" + ((extended == null) ? "null" : "\n" + StringUtil.getDump(extended));
         }
 
         /** */
@@ -179,10 +159,6 @@ public class WAVE extends RIFF {
             formatId       = ledis.readShort();
             numberChannels = ledis.readShort();
             samplingRate   = ledis.readInt() & 0xffff;
-//          int samplingRate1 = leis.readShort();
-//System.err.println("l1: " + samplingRate1);
-//          int samplingRate2 = leis.readShort();
-//System.err.println("l2: " + samplingRate2);
             bytesPerSecond = ledis.readInt();
             blockSize      = ledis.readShort();
             samplingBits   = ledis.readShort();
@@ -200,7 +176,7 @@ public class WAVE extends RIFF {
     //-------------------------------------------------------------------------
 
     /** */
-    public class data extends Chunk {
+    public static class data extends Chunk {
 
         /** buffer for data */
         private byte[] wave;
@@ -220,21 +196,16 @@ public class WAVE extends RIFF {
             }
         }
 
-        /** for debug */
-        protected void printData() {
-            System.err.println("WAV file");
-        }
-
         /** */
         public void setData(InputStream is) throws IOException {
             if (dealBigSize && is instanceof FileInputStream) {
                 FileChannel inputChannel = FileInputStream.class.cast(is).getChannel();
                 buffer = inputChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) inputChannel.size());
             } else {
-                wave = new byte[(int) getLength()];
+                wave = new byte[getLength()];
                 int l = 0;
                 while (l < getLength()) {
-                    int r = is.read(wave, l, (int) getLength() - l);
+                    int r = is.read(wave, l, getLength() - l);
                     if (r < 0) {
                         throw new EOFException();
                     }
@@ -245,11 +216,11 @@ public class WAVE extends RIFF {
     }
 
     /** */
-    public class fact extends Chunk {
+    public static class fact extends Chunk {
         int fileSize;
         /** for debug */
-        protected void printData() {
-            System.err.println("fileSize: " + fileSize);
+        public String toString() {
+            return "fileSize: " + fileSize;
         }
         /** */
         public void setData(InputStream is) throws IOException {
@@ -258,8 +229,8 @@ public class WAVE extends RIFF {
         }
     }
 
-    public class LIST extends vavi.util.win32.LIST {
-        public class ISFT extends Chunk {
+    public static class LIST extends MultipartChunk {
+        public static class ISFT extends Chunk {
         }
     }
 
@@ -272,29 +243,14 @@ public class WAVE extends RIFF {
     //-------------------------------------------------------------------------
 
     /** PCM types table */
-    private static Hashtable<String, String> pcmTypes = new Hashtable<>();
+    private static Properties pcmTypes = new Properties();
 
     /**  */
     static {
         try {
-            // props
-            final String path = "wave.properties";
-            Properties props = new Properties();
-            props.load(WAVE.class.getResourceAsStream(path));
-
-            // format id
-            Enumeration<?> e = props.propertyNames();
-            while (e.hasMoreElements()) {
-                String key = (String) e.nextElement();
-                if (key.startsWith("format.id.")) {
-                    String value = props.getProperty(key);
-//System.err.println(key + " = " + value);
-                    pcmTypes.put(key, value);
-                }
-            }
-        } catch (Exception e) {
-System.err.println(e);
-            System.exit(1);
+            pcmTypes.load(WAVE.class.getResourceAsStream("wave.properties"));
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
         }
     }
 }

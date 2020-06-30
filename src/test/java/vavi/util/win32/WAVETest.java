@@ -29,7 +29,7 @@ class WAVETest {
     @Test
     void test() throws Exception {
         InputStream is = new BufferedInputStream(WAVETest.class.getResourceAsStream("/test.wav"));
-        WAVE wave = (WAVE) WAVE.readFrom(is);
+        WAVE wave = WAVE.readFrom(is, WAVE.class);
         assertEquals(176470, wave.getLength());
     }
 
@@ -38,7 +38,7 @@ class WAVETest {
     /** */
     public static void main(String[] args) throws Exception {
         InputStream is = new BufferedInputStream(new FileInputStream(args[0]));
-        WAVE wave = (WAVE) WAVE.readFrom(is);
+        WAVE wave = WAVE.readFrom(is, WAVE.class);
 
 //      WAVE wave = new WAVE();
 
