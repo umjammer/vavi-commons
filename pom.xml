@@ -8,7 +8,7 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.1.3</version>
+  <version>1.1.4</version>
 
   <name>Vavi Commons API</name>
   <organization>
@@ -198,7 +198,11 @@ TODO
       </plugin>
 
       <plugin>
-        <!-- because of maven deploy-file uploads source, jar also -->
+        <!--
+          because of maven deploy-file uploads source, jar also
+          TODO maven-metadata.xml!/metadata/versioning/latest is not updated
+          TODO how about https://stackoverflow.com/a/37552776/6102938
+         -->
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.6.0</version>
@@ -233,6 +237,7 @@ TODO
       <groupId>org.javassist</groupId>
       <artifactId>javassist</artifactId>
       <version>3.23.0-GA</version>
+      <scope>provided</scope> <!--  TODO check -->
     </dependency>
 
     <dependency>

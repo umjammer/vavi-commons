@@ -58,3 +58,7 @@ Swiss-Army Knife
    * `IOStreamOutputEngine.java`
 
    [GPL](http://www.gnu.org/licenses/gpl.html)
+
+## TODO
+
+ * ~~deploy to bintray via github actions~~
