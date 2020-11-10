@@ -55,18 +55,18 @@ public class CDDA extends RIFF {
 
     /** Gets beginning of the track in MSF format. */
     public MSF getBeginMSF() {
-        return ((fmt) chunks.firstElement()).getBeginMSF();
+        return ((fmt) getChunks().get(0)).getBeginMSF();
     }
 
     /** Gets length of the track in MSF format. */
     public MSF getLengthMSF() {
-        return ((fmt) chunks.firstElement()).getLengthMSF();
+        return ((fmt) getChunks().get(0)).getLengthMSF();
     }
 
     //-------------------------------------------------------------------------
 
     /** */
-    public class fmt extends Chunk {
+    public static class fmt extends Chunk {
 
         /** CDA file version */
         private int version;
@@ -77,7 +77,7 @@ public class CDDA extends RIFF {
         /** Beginning of the track */
         private int begin;
         /** Length of the track */
-        private long lengthOfFrame;
+        private int lengthOfFrame;
         /** Beginning of the track in MSF format */
         private MSF beginMSF;
         /** Length of the track in MSF format */
@@ -126,7 +126,7 @@ public class CDDA extends RIFF {
             number        = ledis.readShort();
             serial        = ledis.readInt();
             begin         = ledis.readInt();
-            lengthOfFrame = ledis.readInt() & 0xffffffffL;
+            lengthOfFrame = ledis.readInt();
 
             @SuppressWarnings("unused")
             int m, s, f, d;

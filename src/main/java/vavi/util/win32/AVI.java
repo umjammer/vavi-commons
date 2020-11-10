@@ -11,7 +11,6 @@ import java.io.InputStream;
 
 import vavi.io.LittleEndianDataInputStream;
 
-
 /**
  * AVI format.
  *
@@ -24,33 +23,20 @@ import vavi.io.LittleEndianDataInputStream;
  */
 public class AVI extends RIFF {
 
-    /** Gets extension. */
-    public static String getExtention() {
-        return "avi";
-    }
-
-    /** for debug */
-    protected void printData() {
-        System.err.println("---- data ----");
-    }
-
     //-------------------------------------------------------------------------
 
-    public class LIST extends vavi.util.win32.LIST {
+    public static class LIST extends MultipartChunk {
         /** */
-        public class LIST2 extends vavi.util.win32.LIST {
-            /** */
-            public class strh extends Chunk {
-            }
-            /** */
-            public class strf extends Chunk {
-            }
-            /** */
-            public class strn extends Chunk {
-            }
+        public static class strh extends Chunk {
         }
         /** */
-        public class avih extends Chunk {
+        public static class strf extends Chunk {
+        }
+        /** */
+        public static class strn extends Chunk {
+        }
+        /** */
+        public static class avih extends Chunk {
             /**
              * the period between video frames,
              * indicates the overall timing for the file
@@ -101,11 +87,6 @@ public class AVI extends RIFF {
             /** */
             int length;
 
-            /** for debug */
-            protected void printData() {
-                System.err.println(this);
-            }
-
             /** */
             public void setData(InputStream is) throws IOException {
                 LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
@@ -126,16 +107,16 @@ public class AVI extends RIFF {
                 length = ledis.readInt();
             }
         }
-        /** */
-        class XXdb extends Chunk {
-        }
-        /** */
-        public class _00db extends XXdb {
-        }
     }
 
     /** */
-    public class JUNK extends Chunk {
+    public static class JUNK extends Chunk {
+    }
+
+    public static class vprp extends Chunk {
+    }
+
+    public static class ISFT extends Chunk {
     }
 }
 

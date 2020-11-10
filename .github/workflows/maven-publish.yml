@@ -1,4 +1,4 @@
-name: Java CI
+name: JFlog Bintray
 
 on:
   release:
@@ -21,10 +21,10 @@ jobs:
         mkdir tmp
         mvn -B package --file pom.xml
 
-    - name: Publish to GitHub Packages Apache Maven
+    - name: Publish to JFlog Bintray Apache Maven
       run: |
         mkdir -p tmp
-        sed -e 's/__PASSWORD__/'"$BINTRAY_API_KEY"'/' .github/workflows/settings.xml > tmp/settings.xml
-        mvn deploy -s tmp/settings.xml
+        sed -e 's/__PASSWORD__/'"$BINTRAY_API_KEY"'/' .github/workflows/settings.xml > ~/.m2/settings.xml
+        mvn deploy
       env:
         BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}

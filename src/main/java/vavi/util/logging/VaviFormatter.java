@@ -32,44 +32,49 @@ import vavi.util.properties.annotation.PropsEntity;
  * @version 0.00 021027 nsano initial version <br>
  *          0.01 031220 nsano clean imports <br>
  */
-@PropsEntity
+@PropsEntity(url = "classpath:vavi/util/logging/logging.properties")
 public class VaviFormatter extends Formatter {
 
-    @Property(name = "vavi.util.logging.VaviFormatter.classMethod",
-              value = "(vavi\\.util\\.Debug#print(ln|f|)|java\\.util\\.logging\\.Logger#(fine|finer|finest|info|warning|error|logp|log))",
-              useSystem = true)
+    /** default excluding pattern */
+    @Property(name = "vavi.util.logging.VaviFormatter.classMethod")
     private String defaultClassMethod;
 
+    /** user defined excluding pattern */
     @Property(name = "vavi.util.logging.VaviFormatter.extraClassMethod", useSystem = true)
     private String extraClassMethod;
 
+    /** excluding pattern */
     private Pattern pattern;
 
     /* */
     {
-        String systemProperty = System.getProperty("vavi.util.logging.VaviFormatter.classMethod");
+        try {
+            String systemProperty = System.getProperty("vavi.util.logging.VaviFormatter.classMethod");
 
-        if (systemProperty == null) {
-            try {
-                PropsEntity.Util.bind(this);
-            } catch (IOException e) {
+            if (systemProperty == null) {
+                try {
+                    PropsEntity.Util.bind(this);
+                } catch (IOException e) {
 e.printStackTrace();
+                }
+            } else {
+                defaultClassMethod = systemProperty;
             }
-        } else {
-            defaultClassMethod = systemProperty;
-        }
 
-        if (extraClassMethod != null && !extraClassMethod.isEmpty()) {
-            defaultClassMethod = defaultClassMethod.substring(0, defaultClassMethod.length() - 1) + "|" + extraClassMethod + ")";
+            if (extraClassMethod != null && !extraClassMethod.isEmpty()) {
+                defaultClassMethod = defaultClassMethod.substring(0, defaultClassMethod.length() - 1) + "|" + extraClassMethod + ")";
+            }
+//System.err.println("default + extra: " + defaultClassMethod);
+            pattern = Pattern.compile(defaultClassMethod);
+        } catch (Throwable t) {
+t.printStackTrace();
         }
-//System.err.println("defaultClassMethod: " + defaultClassMethod);
-        pattern = Pattern.compile(defaultClassMethod);
     }
 
     // wtf thread unsafe?
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss,SSS");
 
-    /** */
+    /** TODO check other logging library */
     private StackTraceElement findStackTraceElement(StackTraceElement[] stes) {
 //java.util.List<String> x = new java.util.ArrayList<>();
         for (int i = stes.length - 1; i >= 0; i--) {

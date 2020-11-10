@@ -22,9 +22,29 @@ public class ByteUtil {
     private ByteUtil() {
     }
 
+    public static byte[] getLeBytes(short value) {
+        byte[] bytes = new byte[Short.BYTES];
+        writeLeShort(value, bytes);
+        return bytes;
+    }
+
+    public static void writeLeShort(short value, byte[] buffer) {
+        writeLeShort(value, buffer, 0);
+    }
+
     public static void writeLeShort(short value, byte[] buffer, int offset) {
         buffer[offset] = (byte) (value & 0xFF);
         buffer[offset + 1] = (byte) ((value >>> 8) & 0xFF);
+    }
+
+    public static byte[] getLeBytes(int value) {
+        byte[] bytes = new byte[Integer.BYTES];
+        writeLeInt(value, bytes);
+        return bytes;
+    }
+
+    public static void writeLeInt(int value, byte[] buffer) {
+        writeLeInt(value, buffer, 0);
     }
 
     public static void writeLeInt(int value, byte[] buffer, int offset) {
@@ -32,6 +52,10 @@ public class ByteUtil {
         buffer[offset + 1] = (byte) ((value >>> 8) & 0xFF);
         buffer[offset + 2] = (byte) ((value >>> 16) & 0xFF);
         buffer[offset + 3] = (byte) ((value >>> 24) & 0xFF);
+    }
+
+    public static void writeLeLong(long value, byte[] buffer) {
+        writeLeLong(value, buffer, 0);
     }
 
     public static void writeLeLong(long value, byte[] buffer, int offset) {
@@ -45,9 +69,28 @@ public class ByteUtil {
         buffer[offset + 7] = (byte) ((value >>> 56) & 0xFF);
     }
 
+    public static byte[] getBeBytes(short value) {
+        byte[] bytes = new byte[Short.BYTES];
+        writeBeShort(value, bytes);
+        return bytes;
+    }
+    public static void writeBeShort(short value, byte[] buffer) {
+        writeBeShort(value, buffer, 0);
+    }
+
     public static void writeBeShort(short value, byte[] buffer, int offset) {
         buffer[offset] = (byte) (value >>> 8);
         buffer[offset + 1] = (byte) (value & 0xFF);
+    }
+
+    public static byte[] getBeBytes(int value) {
+        byte[] bytes = new byte[Integer.BYTES];
+        writeBeInt(value, bytes);
+        return bytes;
+    }
+
+    public static void writeBeInt(int value, byte[] buffer) {
+        writeBeInt(value, buffer, 0);
     }
 
     public static void writeBeInt(int value, byte[] buffer, int offset) {
@@ -55,6 +98,10 @@ public class ByteUtil {
         buffer[offset + 1] = (byte) ((value >>> 16) & 0xFF);
         buffer[offset + 2] = (byte) ((value >>> 8) & 0xFF);
         buffer[offset + 3] = (byte) (value & 0xFF);
+    }
+
+    public static void writeBeLong(long value, byte[] buffer) {
+        writeBeLong(value, buffer, 0);
     }
 
     public static void writeBeLong(long value, byte[] buffer, int offset) {
@@ -68,8 +115,22 @@ public class ByteUtil {
         buffer[offset + 7] = (byte) (value & 0xFF);
     }
 
+    public static byte[] getBeBytes(long value) {
+        byte[] bytes = new byte[Long.BYTES];
+        writeBeLong(value, bytes);
+        return bytes;
+    }
+
+    public static short readLeShort(byte[] buffer) {
+        return readLeShort(buffer, 0);
+    }
+
     public static short readLeShort(byte[] buffer, int offset) {
         return (short) (((buffer[offset + 1] << 8) & 0xFF00) | ((buffer[offset + 0] << 0) & 0x00FF));
+    }
+
+    public static int readLeInt(byte[] buffer) {
+        return readLeInt(buffer, 0);
     }
 
     public static int readLeInt(byte[] buffer, int offset) {
@@ -77,19 +138,35 @@ public class ByteUtil {
             ((buffer[offset + 1] << 8) & 0x0000FF00) | ((buffer[offset + 0] << 0) & 0x000000FF);
     }
 
+    public static long readLeLong(byte[] buffer) {
+        return readLeLong(buffer, 0);
+    }
+
     public static long readLeLong(byte[] buffer, int offset) {
         return ((readLeInt(buffer, offset + 4) & 0xffffffffl) << 32) |
                 (readLeInt(buffer, offset + 0) & 0xffffffffl);
+    }
+
+    public static short readBeShort(byte[] buffer) {
+        return readBeShort(buffer, 0);
     }
 
     public static short readBeShort(byte[] buffer, int offset) {
         return (short) (((buffer[offset] << 8) & 0xFF00) | ((buffer[offset + 1] << 0) & 0x00FF));
     }
 
+    public static int readBeInt(byte[] buffer) {
+        return readBeInt(buffer, 0);
+    }
+
     public static int readBeInt(byte[] buffer, int offset) {
         int value = ((buffer[offset + 0] << 24) & 0xFF000000) | ((buffer[offset + 1] << 16) & 0x00FF0000) |
             ((buffer[offset + 2] << 8) & 0x0000FF00) | ((buffer[offset + 3] << 0) & 0x000000FF);
         return value;
+    }
+
+    public static long readBeLong(byte[] buffer) {
+        return readBeLong(buffer, 0);
     }
 
     public static long readBeLong(byte[] buffer, int offset) {
@@ -135,6 +212,23 @@ public class ByteUtil {
         long msb = bb.getLong();
         long lsb = bb.getLong();
         return new UUID(msb, lsb);
+    }
+
+    public static String toHexString(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    }
+
+    public static int strlen(byte[] buf, int pos) {
+        for (int i = pos; i < buf.length; i++) {
+            if (buf[i] == 0) {
+                return i - pos;
+            }
+        }
+        return buf.length - pos;
     }
 }
 

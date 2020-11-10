@@ -7,17 +7,18 @@
 package vavi.util.win32;
 
 import java.io.ByteArrayInputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Properties;
+import java.util.Optional;
 import java.util.logging.Level;
 
 import vavi.io.LittleEndianDataInputStream;
+import vavi.io.LittleEndianDataOutputStream;
 import vavi.util.Debug;
 import vavi.util.StringUtil;
 
@@ -34,36 +35,40 @@ import vavi.util.StringUtil;
  *          1.03 030606 nsano change error trap in #readFrom <br>
  *          1.03 030711 nsano change #readFrom <br>
  */
-public abstract class Chunk {
-    /** */
-    private String name;
-    /** chunk length */
-    private long length;
-    /** */
-    private byte[] data;
+public class Chunk {
 
     /** */
     protected Chunk() {
     }
 
+    /** */
+    private byte[] id;
+
+    /** chunk length */
+    private int length;
+
+    /** */
+    private byte[] data;
+
+    /** */
+    private Chunk parent;
+
     /** Gets the chunk name. */
     public String getName() {
-        return name;
+        return new String(id, Charset.forName("ASCII"));
     }
 
     /** Gets the chunk name. */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /** Gets the chunk name. */
-    public long getLength() {
+    public int getLength() {
         return length;
     }
 
-    /** Gets the chunk name. */
-    public void setLength(long length) {
-        this.length = length;
+    protected Chunk getParent() {
+        return parent;
+    }
+
+    protected void setParent(Chunk parent) {
+        this.parent = parent;
     }
 
     /**
@@ -81,47 +86,53 @@ public abstract class Chunk {
      * {@link Chunk} クラスの実装では {@link #data} は fill されません。
      */
     public void setData(InputStream is) throws IOException {
+Debug.println(Level.FINER, getName() + ": " + length + " / " + is.available());
+          data = new byte[length];
 
-        skip(is, length);
-
-//      data = new byte[length];
-
-//      int l = 0;
-//      while (l < length) {
-//          l += is.read(data, l, length - l);
-//      }
-    }
-
-    /** Special skip */
-    protected static void skip(InputStream is, long n) throws IOException {
-        long l = 0;
-        while (l < n) {
-            long r = is.skip(n - l);
-            if (r < 0) {
-                throw new EOFException();
-            }
-            l += r;
-        }
+          LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
+          ledis.readFully(data);
     }
 
     /** */
     public String toString() {
-//        return StringUtil.paramStringDeep(this, 1);
-        return name;
+        return getName() + ": " + getLength();
     }
 
     /**
      * Creates a Chunk object from a stream.
      */
-    public static Chunk readFrom(InputStream is)
+    @SuppressWarnings("unchecked")
+    public static <T extends Chunk> T readFrom(InputStream is, Class<T> clazz)
         throws IOException {
 
-        return readFrom(is, null);
+        LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
+
+        byte[] tmp = new byte[4];
+        ledis.readFully(tmp);
+
+        int length = ledis.readInt();
+Debug.println(Level.FINER, StringUtil.getDump(tmp));
+
+        Chunk chunk = null;
+
+        try {
+            if (chunkClasses == null) {
+                chunkClasses = getChunkClasses(clazz);
+//chunkClasses.forEach(Debug::println);
+            }
+            chunk = clazz.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+
+        chunk.id = tmp;
+        chunk.length = length;
+        chunk.setData(is);
+        ledis.skip(length % 2); // padding
+Debug.print(Level.FINEST, chunk);
+        return (T) chunk;
     }
 
-    /**
-     * Creates a Chunk object from a stream.
-     */
     protected static Chunk readFrom(InputStream is, Chunk parent)
         throws IOException {
 
@@ -130,88 +141,80 @@ public abstract class Chunk {
         byte[] tmp = new byte[4];
         ledis.readFully(tmp);
         String name = new String(tmp, Charset.forName("ASCII"));
-//Debug.println("name: " + name);
 
-        long length = ledis.readInt() & 0xffffffffL;
+        int length = ledis.readInt();
+Debug.println(Level.FINER, StringUtil.getDump(tmp) + ", " + length);
 
         Chunk chunk = null;
-        String className = null;
 
         try {
-            className = getClassName(name, parent);
-            @SuppressWarnings("unchecked")
-            Class<? extends Chunk> clazz = (Class<? extends Chunk>) Class.forName(className);
-
-            if (!Modifier.isStatic(clazz.getModifiers())) {
-                // inner class
-                @SuppressWarnings("unchecked")
-                Class<? extends Chunk> outerClass = (Class<? extends Chunk>) Class.forName(getOuterClassName(className));
-                Constructor<? extends Chunk> c = clazz.getConstructor(outerClass);
-//Debug.println("parent: " + StringUtil.getClassName(parent.getClass()));
-                chunk = c.newInstance(parent);
-            } else {
-                chunk = clazz.getDeclaredConstructor().newInstance();
-            }
-        } catch (ClassNotFoundException e) {
-Debug.println(Level.WARNING, "no such class for " + StringUtil.getClassName(parent.getClass()) + "." + name + ": " + className);
-            throw new IllegalStateException(e);
+            Class<? extends Chunk> chunkClass = getClassOf(name);
+            chunk = chunkClass.getDeclaredConstructor().newInstance();
         } catch (NoSuchElementException e) {
-Debug.println(Level.WARNING, "no key: " + StringUtil.getClassName(parent.getClass()) + "." + name);
-            throw new IllegalStateException(e);
+Debug.println(Level.FINER, e);
+            chunk = new Chunk();
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
 
-        chunk.name = name;
+        chunk.id = tmp;
         chunk.length = length;
+        chunk.setParent(parent);
         chunk.setData(is);
+        ledis.skip(length % 2); // padding
 Debug.print(Level.FINEST, chunk);
         return chunk;
     }
 
+    public void writeTo(OutputStream os) throws IOException {
+        LittleEndianDataOutputStream ledos = new LittleEndianDataOutputStream(os);
+        ledos.write(id);
+        ledos.writeInt(length);
+        ledos.write(data);
+    }
+
+    protected static List<Class<? extends Chunk>> chunkClasses; 
+
     /** */
-    protected static String getOuterClassName(String name) {
-        int p = name.lastIndexOf('$');    // TODO $ は実装依存???
-        if (p == -1) {
-            throw new IllegalStateException("not inner class: " + name);
+    protected static List<Class<? extends Chunk>> getChunkClasses(Class<? extends Chunk> clazz) {
+        List<Class<? extends Chunk>> results = new ArrayList<>();
+        while (clazz != null) {
+            if (Chunk.class.isAssignableFrom(clazz)) {
+                results.add(clazz);
+            }
+            results.addAll(getChildChunkClasses(clazz));
+            clazz = Class.class.cast(clazz.getSuperclass());
         }
-//Debug.println(name + ": " + name.substring(0, p));
-        return name.substring(0, p);
+        return results;
     }
 
     /** */
-    protected static String getClassName(String name, Chunk parent) {
-        String key = name.trim();
-        if (parent != null) {
-            String prefix = parent.getClass().getName();
-            prefix = prefix.substring(prefix.lastIndexOf('.') + 1);
-//Debug.println("prefix: " + prefix);
-
-            key = prefix + "." + key;
+    @SuppressWarnings("unchecked")
+    protected static List<Class<? extends Chunk>> getChildChunkClasses(Class<? extends Chunk> clazz) {
+        List<Class<? extends Chunk>> results = new ArrayList<>();
+        for (Class<?> childClass : clazz.getDeclaredClasses()) {
+//System.err.println(childClass);
+            if (Chunk.class.isAssignableFrom(childClass)) {
+                results.add(Class.class.cast(childClass));
+                results.addAll(getChildChunkClasses(Class.class.cast(childClass)));
+            }
         }
-        String className = null;
-try {
-        className = props.getProperty(key);
-} catch (NullPointerException e) {
- Debug.println("no key for: " + name + ", " + key);
-}
-//Debug.println(name + ", " + key + ", " + className);
-        if (className == null) {
-            throw new NoSuchElementException("value for " + key);
-        }
-
-        return className;
+        return results;
     }
 
     /** */
-    private static Properties props = new Properties();
+    protected static String normalize(String name) {
+        String trimmed = name.trim();
+        return trimmed.matches("^[^\\p{Alpha}].*$") ? "_" + trimmed : trimmed;
+    }
 
     /** */
-    static {
-        try {
-            props.load(Chunk.class.getResourceAsStream("Chunk.properties"));
-        } catch (IOException e) {
-Debug.println(e);
+    protected static Class<? extends Chunk> getClassOf(String name) {
+        Optional<Class<? extends Chunk>> o = chunkClasses.stream().filter(c -> normalize(name).equals(c.getSimpleName())).findFirst();
+        if (o.isPresent()) {
+            return o.get();
+        } else {
+            throw new NoSuchElementException("value for " + name);
         }
     }
 }

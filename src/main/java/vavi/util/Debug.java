@@ -38,18 +38,20 @@ import java.util.logging.Logger;
  */
 public final class Debug {
 
-    /** */
-    private static final boolean isDebug = true;
-
     //-------------------------------------------------------------------------
 
     /** デバッグ情報の出力先ストリーム */
-    private static Logger logger = Logger.getLogger(Debug.class.getName());
+    private static Logger logger = Logger.getLogger(Debug.class.getName()); // TODO fixed namespace
 
     /**
      * アクセスできません．
      */
     private Debug() {}
+
+    /** */
+    public static final boolean isLoggable(Level level) {
+        return logger.isLoggable(level);
+    }
 
     /**
      * 改行付きでメッセージを出力します．
@@ -188,13 +190,11 @@ public final class Debug {
      * @param message 表示メッセージ
      */
     public static final void print(Level level, Object message) {
-        if (isDebug) {
-            StackTraceElement ste = getStackTraceElement(0);
-            logger.logp(level,
-                        StringUtil.getClassName(ste.getClassName()),
-                        ste.getMethodName(),
-                        String.valueOf(message));
-        }
+        StackTraceElement ste = getStackTraceElement(0);
+        logger.logp(level,
+                    StringUtil.getClassName(ste.getClassName()),
+                    ste.getMethodName(),
+                    String.valueOf(message));
     }
 
     /**
@@ -209,18 +209,25 @@ public final class Debug {
 
     /**
      * デバッグモードならスタックトレースを出力します．
-     * TODO filter like logging
      * @param e exception
      */
     public static final void printStackTrace(Throwable e) {
-        if (isDebug) {
-            logger.log(Level.INFO, "Stack Trace", e);
-        }
+        printStackTrace(Level.INFO, e);
+    }
+
+    /**
+     * デバッグモードならスタックトレースを出力します．
+     * @param level
+     * @param e exception
+     */
+    public static final void printStackTrace(Level level, Throwable e) {
+        logger.log(level, e.getMessage(), e);
     }
 
     /**
      * バイト配列を 16 進数でダンプします．
      */
+    @Deprecated
     public static final void dump(byte[] buf) {
         dump(new ByteArrayInputStream(buf));
     }
@@ -228,13 +235,15 @@ public final class Debug {
     /**
      * バイト配列を 16 進数でダンプします．
      */
+    @Deprecated
     public static final void dump(byte[] buf, int length) {
-        dump(new ByteArrayInputStream(buf), length);
+        dump(buf, 0, length);
     }
 
     /**
      * バイト配列を 16 進数でダンプします．
      */
+    @Deprecated
     public static final void dump(byte[] buf, int offset, int length) {
         dump(new ByteArrayInputStream(buf, offset, length));
     }
@@ -242,6 +251,7 @@ public final class Debug {
     /**
      * ストリームを 16 進数でダンプします．
      */
+    @Deprecated
     public static final void dump(InputStream is) {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
@@ -253,6 +263,7 @@ public final class Debug {
      * 制限付でストリームを 16 進数でダンプします．
      * @param length 制限する長さ
      */
+    @Deprecated
     public static final void dump(InputStream is, int length) {
         StringBuilder sb = new StringBuilder();
         sb.append("dumped ");
@@ -266,7 +277,7 @@ public final class Debug {
             sb.append(length);
         }
         sb.append(" bytes limied...\n");
-        sb.append(StringUtil.getDump(is, length));
+        sb.append(StringUtil.getDump(is, 0, length));
         print(sb.toString());
     }
 

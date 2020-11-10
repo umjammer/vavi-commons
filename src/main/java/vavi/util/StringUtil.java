@@ -428,24 +428,68 @@ public final class StringUtil {
      * バイト配列を 16 進数でダンプします．
      */
     public static final String getDump(byte[] buf) {
-        return getDump(new ByteArrayInputStream(buf));
+        return getDump(buf, 0, buf.length);
+    }
+
+    /**
+     * Dumps double array.
+     */
+    public static final String getDump(double[] buf, int length) {
+        return getDump(buf, 0, length);
     }
 
     /**
      * 長さ制限付でバイト配列を 16 進数でダンプします．
      */
     public static final String getDump(byte[] buf, int length) {
-        return getDump(new ByteArrayInputStream(buf), length);
+        return getDump(buf, 0, length);
+    }
+
+    /**
+     * Dumps double array limited by length.
+     */
+    public static final String getDump(double[] buf, int offset, int length) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            for (int i = offset; i < Math.min(offset + length, buf.length - offset); i++) {
+                baos.write(ByteUtil.getBeBytes(Double.doubleToRawLongBits(buf[i])));
+            }
+            return getDump(new ByteArrayInputStream(baos.toByteArray()), 0, baos.size());
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /**
+     * Dumps double array limited by length.
+     */
+    public static final String getNumberDump(double[] buf, int length) {
+        return getNumberDump(buf, 0, length);
+    }
+
+    /**
+     * Dumps double array limited by length.
+     */
+    public static final String getNumberDump(double[] buf, int offset, int length) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        for (int i = offset; i < Math.min(offset + length, buf.length - offset); i++) {
+            ps.printf("%015.9f ", buf[i]);
+            if (i % 8 == 7) {
+                ps.println();
+            }
+        }
+        return baos.toString();
     }
 
     /**
      * 長さ制限付で offset からのバイト配列を 16 進数でダンプします．
      */
     public static final String getDump(byte[] buf, int offset, int length) {
-        return getDump(new ByteArrayInputStream(buf, offset, length));
+        return getDump(new ByteArrayInputStream(buf), offset, length);
     }
 
-    /** */
+    /** TODO make '.' property */
     private static final char getPrintableChar(char c) {
         return isPrintableChar(c) ? c : '.';
     }
@@ -486,7 +530,7 @@ top:
                                 ps.print("(byte) ");
                             }
                             ps.print("0x");
-                            ps.print(toHex2(c) + ", ");
+                            ps.printf("%02X, ", c);
                             buf[x] = (byte) c;
                         }
                     }
@@ -510,127 +554,44 @@ Debug.printStackTrace(e);
     }
 
     /**
-     * ストリームを 16 進数でダンプします．
+     * Dumps a stream.
      */
     public static final String getDump(InputStream is) {
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-
-        try {
-            if (is.markSupported()) {
-                is.mark(is.available());
-            }
-
-            byte[] buf = new byte[16];
-            boolean breakFlag = false;
-            int m = 0;
-
-top:
-            while (true) {
-                for (int y = 0; y < 16; y++) {
-                    for (int x = 0; x < 16; x++) {
-                        int c = is.read();
-                        if (c == -1) {
-                            if (!breakFlag) {
-                                breakFlag = true;
-                                m = x;
-                            }
-                            if (m > 0) {
-                                ps.print("   ");
-                            } else {
-                                break;
-                            }
-                        } else {
-                            ps.print(toHex2(c) + " ");
-                            buf[x] = (byte) c;
-                        }
-                    }
-                    for (int x = 0; x < 16; x++) {
-                        if (breakFlag && x == m) {
-                            ps.println();
-                            break top;
-                        } else {
-                            ps.print(getPrintableChar((char) buf[x]));
-                        }
-                    }
-                    ps.println();
-                }
-                ps.println();
-            }
-        } catch (IOException e) {
-Debug.printStackTrace(e);
-        } finally {
-            if (is.markSupported()) {
-                try {
-                    is.reset();
-                } catch (IOException e) {
-Debug.printStackTrace(e);
-                }
-            }
-        }
-
-        return baos.toString();
+        return getDump(is, 0, Integer.MAX_VALUE);
     }
 
     /**
      * 長さ制限付でストリームを 16 進数でダンプします．
+     *
      * @param length 制限する長さ
      */
     public static final String getDump(InputStream is, int offset, int length) {
-        try {
-            if (is.markSupported()) {
-                is.mark(is.available());
-            }
-
-            is.skip(offset);
-
-            return getDump(is, length);
-        } catch (IOException e) {
-            Debug.printStackTrace(e);
-            return "";
-        } finally {
-            if (is.markSupported()) {
-                try {
-                    is.reset();
-                } catch (IOException e) {
-Debug.printStackTrace(e);
-                }
-            }
-        }
-    }
-
-    /**
-     * 長さ制限付でストリームを 16 進数でダンプします．
-     * TODO リファクタリング？しらねーな
-     * @param length 制限する長さ
-     */
-    public static final String getDump(InputStream is, int length) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
 
-        int count = 0;
-
         try {
+            is.skip(offset);
+
+            int count = 0;
+
             if (is.markSupported()) {
                 is.mark(is.available());
+            } else {
+                Debug.println("mark is not supported, your input stream position will be lost.");
             }
 
             byte[] buf = new byte[16];
             boolean breakFlag = false;
-            int m = 0;
+            int m;
 
-top:        while (true) {
+            while (true) {
                 for (int y = 0; y < 16; y++) {
+                    m = -1;
                     for (int x = 0; x < 16; x++) {
                         int c = is.read();
                         count++;
-                        if (count > length) {
-                            ps.println();
-                            return baos.toString();
-                        }
-                        if (c == -1) {
+                        if (c == -1 || count > length) {
                             if (!breakFlag) {
                                 breakFlag = true;
                                 m = x;
@@ -641,17 +602,22 @@ top:        while (true) {
                                 break;
                             }
                         } else {
-                            ps.print(toHex2(c) + " ");
+                            ps.printf("%02X ", c);
                             buf[x] = (byte) c;
                         }
                     }
+                    if (m != 0) {
+                        ps.print("   ");
+                    }
                     for (int x = 0; x < 16; x++) {
                         if (breakFlag && x == m) {
-                            ps.println();
-                            break top;
+                            break;
                         } else {
                             ps.print(getPrintableChar((char) buf[x]));
                         }
+                    }
+                    if (breakFlag || count == length) {
+                        return baos.toString();
                     }
                     ps.println();
                 }
@@ -659,6 +625,7 @@ top:        while (true) {
             }
         } catch (IOException e) {
 Debug.printStackTrace(e);
+            return null;
         } finally {
             if (is.markSupported()) {
                 try {
@@ -668,8 +635,6 @@ Debug.printStackTrace(e);
                 }
             }
         }
-
-        return baos.toString();
     }
 
     /**
@@ -721,6 +686,7 @@ e.printStackTrace(System.err);
     /**
      * 先頭を 0 で埋めた 2 桁の大文字の 16 進数を返します．
      */
+    @Deprecated
     public static final String toHex2(int i) {
         String s = "0" + Integer.toHexString(i);
         s = s.substring(s.length() - 2);
@@ -730,6 +696,7 @@ e.printStackTrace(System.err);
     /**
      * 先頭を 0 で埋めた 4 桁の大文字の 16 進数を返します．
      */
+    @Deprecated
     public static final String toHex4(int i) {
         String s = "000" + Integer.toHexString(i);
         s = s.substring(s.length() - 4);
@@ -739,6 +706,7 @@ e.printStackTrace(System.err);
     /**
      * 先頭を 0 で埋めた 8 桁の大文字の 16 進数を返します．
      */
+    @Deprecated
     public static final String toHex8(int i) {
         String s = "0000000" + Integer.toHexString(i);
         s = s.substring(s.length() - 8);
@@ -748,6 +716,7 @@ e.printStackTrace(System.err);
     /**
      * 先頭を 0 で埋めた 16 桁の大文字の 16 進数を返します．
      */
+    @Deprecated
     public static final String toHex16(long l) {
         String s = "000000000000000" + Long.toHexString(l);
         s = s.substring(s.length() - 16);

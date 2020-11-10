@@ -8,11 +8,15 @@ package vavi.util.win32;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Vector;
 import java.util.logging.Level;
 
+import vavi.io.LittleEndianDataInputStream;
 import vavi.util.Debug;
+import vavi.util.StringUtil;
 
 
 /**
@@ -27,69 +31,80 @@ import vavi.util.Debug;
 public abstract class MultipartChunk extends Chunk {
 
     /** */
-    private String multipartName;
-    /** */
-    protected Vector<Chunk> chunks = new Vector<>();
+    private byte[] multipartId;
 
     /** */
-    protected MultipartChunk() {
-    }
+    private List<Chunk> chunks = new ArrayList<>();
 
     /** Gets the multipart chunk name. */
     public String getMultipartName() {
-        return multipartName;
-    }
-
-    /** Sets the multipart chunk name. */
-    public void setMultipartName(String multipartName) {
-        this.multipartName = multipartName;
+        return new String(multipartId, Charset.forName("ASCII"));
     }
 
     /** Gets chunks. */
-    public Vector<Chunk> getChunks() {
+    protected List<Chunk> getChunks() {
         return chunks;
     }
 
     /** */
     public void setData(InputStream is) throws IOException {
-        String name = "";
-        name += (char) is.read();
-        name += (char) is.read();
-        name += (char) is.read();
-        name += (char) is.read();
+        LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
-        setMultipartName(name);
-Debug.println(Level.FINEST, this);
-        setChildrenData(is);
+        byte[] tmp = new byte[4];
+        ledis.readFully(tmp);
+Debug.println(Level.FINER, "multipart: " + StringUtil.getDump(tmp));
+
+        multipartId = tmp;
+//Debug.println(Level.FINEST, this);
+        setChildrenData(ledis);
     }
 
     /** */
-    protected void setChildrenData(InputStream is) throws IOException {
-        long l = getLength() - 4;
+    protected void setChildrenData(LittleEndianDataInputStream is) throws IOException {
+        int l = getLength() - 4; // - len(length)
         while (l > 8) {
             Chunk chunk = Chunk.readFrom(is, this);
-            chunks.addElement(chunk);
-            l -= chunk.getLength() + 8;
-//System.err.println("MultipartChunk::setChildrenData: " + l + "/" + (getLength() - 4));
+            chunks.add(chunk);
+            l -= chunk.getLength() + (chunk.getLength() % 2) + 4 + 4; // + padding + len(name) + len(length)
+Debug.println(Level.FINER, getName() + "." + chunk.getName() + ", " + l + "/" + (getLength() - 4));
         }
-//System.err.println("MultipartChunk::setChildrenData: " + l + " bytes left");
-        skip(is, l);
+if (l != 0) {
+ Debug.println(Level.WARNING, getName() + ", " + l + " bytes left");
+}
+        is.skipBytes(l);
     }
 
     /* */
     public String toString() {
-        return "multipartName: " + multipartName;
+        StringBuilder sb = new StringBuilder();
+        sb.append(getName() + "(" + getMultipartName() + ")\n");
+        chunks.stream().map(c -> " " + c + "\n").forEach(sb::append);
+        return sb.toString();
     }
 
     /** */
-    public Chunk findChildOf(Class<?> clazz) {
+    @SuppressWarnings("unchecked")
+    public <T extends Chunk> T findChildOf(Class<T> clazz) {
         for (int i = 0; i < chunks.size(); i++) {
-            Chunk chunk = chunks.elementAt(i);
+            Chunk chunk = chunks.get(i);
             if (clazz.isInstance(chunk)) {
-                return chunk;
+                return (T) chunk;
             }
         }
         throw new NoSuchElementException(clazz.getName());
+    }
+
+    /** */
+    @SuppressWarnings("unchecked")
+    public <T extends Chunk> List<T> findChildrenOf(Class<T> clazz) {
+        List<T> result = new ArrayList<>();
+        for (int i = 0; i < chunks.size(); i++) {
+            Chunk chunk = chunks.get(i);
+            if (clazz.isInstance(chunk)) {
+                result.add((T) chunk);
+            }
+        }
+        return result;
     }
 }
 

@@ -6,13 +6,6 @@
 
 package vavi.util.win32;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
-
-import vavi.io.LittleEndianDataInputStream;
-import vavi.util.Debug;
-
 
 /**
  * Resource Interchange File Format.
@@ -37,64 +30,8 @@ import vavi.util.Debug;
  *          1.10 030711 nsano add setChildData() <br>
  *          1.11 030711 nsano deprecate setChildData() <br>
  */
-public abstract class RIFF extends MultipartChunk {
+public class RIFF extends MultipartChunk {
 
-    /** */
-    protected RIFF() {
-    }
-
-    /** */
-    public void setData(InputStream is) throws IOException {
-        setChildrenData(is);
-    }
-
-    /**
-     * Creates a Chunk object from a stream.
-     */
-    public static Chunk readFrom(InputStream is)
-        throws IOException {
-
-        LittleEndianDataInputStream lis = new LittleEndianDataInputStream(is);
-
-        String name = "";
-        name += (char) lis.read();
-        name += (char) lis.read();
-        name += (char) lis.read();
-        name += (char) lis.read();
-
-        long length = lis.readInt() & 0xffffffffL;
-Debug.println(Level.FINEST, "RIFF::readFrom: length: " + length);
-
-        String multipartName = "";
-        multipartName += (char) lis.read();
-        multipartName += (char) lis.read();
-        multipartName += (char) lis.read();
-        multipartName += (char) lis.read();
-
-        MultipartChunk chunk = null;
-
-        try {
-            String className = getClassName(multipartName, null);
-            chunk = (MultipartChunk) Class.forName(className).getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
-Debug.println(Level.FINEST, "RIFF::readFrom: multipartName: " + multipartName);
-            lis.close();
-            throw new IllegalStateException(e);
-        }
-
-        chunk.setName(name);
-        chunk.setLength(length);
-        chunk.setMultipartName(multipartName);
-Debug.println(Level.FINEST, chunk);
-        chunk.setData(lis);
-
-        return chunk;
-    }
-
-    /** for debug */
-    protected void printData() {
-        System.err.println("サブクラスに任せた");
-    }
 }
 
 /* */
