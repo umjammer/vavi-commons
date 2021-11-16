@@ -1,4 +1,5 @@
 [![Release](https://jitpack.io/v/umjammer/vavi-commons.svg)](https://jitpack.io/#umjammer/vavi-commons) [![Actions Status](https://github.com/umjammer/vavi-commons/workflows/Java%20CI/badge.svg)](https://github.com/umjammer/vavi-commons/actions)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fumjammer%2Fvavi-commons.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fumjammer%2Fvavi-commons?ref=badge_shield)
 
 # vavi-commons
 
@@ -58,6 +59,9 @@ Swiss-Army Knife
    * `IOStreamOutputEngine.java`
 
    [GPL](http://www.gnu.org/licenses/gpl.html)
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fumjammer%2Fvavi-commons.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fumjammer%2Fvavi-commons?ref=badge_large)
 
 ## TODO
 
