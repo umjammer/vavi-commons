@@ -140,7 +140,7 @@
             <argument>-Dversion=${project.version}</argument>
             <argument>-Dpackaging=jar</argument>
             <argument>-Dfile=${project.build.directory}/vavi-instrumentation-${project.version}.jar</argument>
-            <argument>-DrepositoryId=bintray</argument>
+            <argument>-DrepositoryId=github</argument>
             <argument>-Durl=https://maven.pkg.github.com/umjammer/vavi-instrumentation</argument>
             <argument>-s</argument>
             <argument>${env.GITHUB_WORKSPACE}/settings.xml</argument>
