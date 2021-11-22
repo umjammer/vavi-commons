@@ -7,8 +7,11 @@
 package vavix.util;
 
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,6 +38,11 @@ class JdbcMapTest {
             this.a = a;
             this.b = b;
         }
+    }
+
+    @BeforeAll
+    static void setup() throws Exception {
+        Files.createDirectories(Paths.get("tmp"));
     }
 
     @Test
