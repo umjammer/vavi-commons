@@ -6,14 +6,13 @@
 
 package vavi.util.logging;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.LogManager;
 
 
 /**
- * デバッグのコンフィグレーションクラスです．
+ * The configuration class for debug.
  * <p>
  * system property
  * <li> java.util.logging.config.class
@@ -39,7 +38,7 @@ if (Arrays.asList("FINE", "FINER", "FINEST").stream().anyMatch(l -> l.equals(roo
  scanner.close();
  System.err.println("----");
 }
-        } catch (IOException e) {
+        } catch (Exception e) {
 e.printStackTrace();
         }
     }

@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 
 
 /**
- * フィールドへの代入を行う拡張クラスです。
+ * Advance class for setting a value into a field easily by {@link String}.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 200227 nsano initial version <br>
@@ -20,9 +20,10 @@ import java.lang.reflect.Field;
 public class AdvancedBinder extends DefaultBinder {
 
     /**
-     * {@link java.io.File}, {@link java.io.InputStream}, {@code enum} 型のフィールドも設定できます。
+     * This method is able to set a {@link java.io.File}, {@link java.io.InputStream} and {@code enum} type field.
      */
     @SuppressWarnings("unchecked")
+    @Override
     public void bind(Object destBean, Field field, Class<?> fieldClass, String value, Object elseValue) {
         if (fieldClass.equals(File.class)) {
             BeanUtil.setFieldValue(field, destBean, value == null || value.isEmpty() ? null : new File(value));

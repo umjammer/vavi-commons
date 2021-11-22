@@ -181,7 +181,11 @@ logger.finer("replace: " + name + ", " + key + ", " + args[i]);
 
         /* for "classpath" schema */
         static {
+try {
             URLStreamHandlerUtil.loadService();
+} catch (Throwable t) {
+ t.printStackTrace();
+}
         }
 
         /**

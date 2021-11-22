@@ -8,6 +8,8 @@ package vavi.util.logging;
 
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -44,6 +46,13 @@ public class VaviFormatterTest {
         LogRecord record = new LogRecord(Level.INFO, "test");
         VaviFormatter formatter = new VaviFormatter();
         assertTrue(formatter.format(record).contains("at vavi.util.logging.VaviFormatterTest.test(VaviFormatterTest.java:"));
+    }
+
+    @Test
+    public void test2() {
+    	Pattern p = Pattern.compile("sun\\.util\\.logging\\.PlatformLogger.JavaLoggerProxy#doLog");
+    	Matcher m = p.matcher("sun.util.logging.PlatformLogger$JavaLoggerProxy#doLog");
+    	assertTrue(m.matches());
     }
 }
 

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 
 /**
- * BeanUtil.
+ * Set and get a field value easily using the Java reflection API.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version $Revision: 1.0 $ $Date: 2008/01/24 14:17:10 $ $Author: sano-n $
@@ -26,14 +26,14 @@ public abstract class BeanUtil {
     private static Logger logger = Logger.getLogger(BeanUtil.class.getName());
 
     /**
-     * 初めに通常に読めるフィールドで取得します。
-     * 次に Getter メソッド(Bean命名規則, booleanの場合isFooあり)で取得します。
-     * 最後に private フィールドを強制的に取得します。
+     * First, try to get by a normal field.
+     * Second, try to get by a getter method using Bean naming method, for boolean isFoo also.
+     * Finally force to get a private field.
      *
      * TODO use {@link java.beans.Introspector} ??? or "org.apache.commons.beanutils.BeanUtils"
      *
-     * @param field 対象となるフィールド定義
-     * @param bean 取得対象のオブジェクト
+     * @param name a target field definition
+     * @param bean a object that is a target field owner 
      */
     public static Object getFieldValue(Field field, Object bean) {
         String name = field.getName();
@@ -88,15 +88,15 @@ logger.fine("no method: " + getBooleanGetterName(name));
     }
 
     /**
-     * 初めに通常に読めるフィールドで設定します。
-     * 次に Setter メソッドで設定します。
-     * 最後に private フィールドを強制的に設定します。
+     * First, try to set by a normal field.
+     * Second, try to set by a setter method.
+     * Finally force to set a private field.
      *
      * TODO use {@link java.beans.Introspector} ??? or "org.apache.commons.beanutils.BeanUtils"
      *
-     * @param field 対象となるフィールド定義
-     * @param bean 設定対象のオブジェクト
-     * @param value 設定する値
+     * @param field a target field definition
+     * @param bean an object to be set
+     * @param value value to be set 
      */
     public static void setFieldValue(Field field, Object bean, Object value) {
         Class<?> valueClass = field.getType();
@@ -128,13 +128,16 @@ logger.fine("no method: " + getSetterName(name));
         return "set" + Character.toUpperCase(name.charAt(0)) + name.substring(1);
     }
 
-    /** Recurse super classes. */
+    /**
+     * Recurse super classes.
+     * @throws IllegalStateException do you have the same name private static method in your object?
+     */
     private static void setByMethod(Object bean, String name, Class<?> valueClass, Object value) throws NoSuchMethodException {
         try {
             Method method = getMethodByNameOf(bean.getClass(), name, valueClass);
             method.invoke(bean, value);
         } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalStateException(bean.getClass().getName() + "#" + name, e);
         }
     }
 
@@ -241,14 +244,14 @@ logger.fine("method access exception: " + method.getName());
     }
 
     /**
-     * 初めに通常に読めるフィールドで取得します。
-     * 次に Getter メソッド(Bean命名規則, booleanの場合isFooあり)で取得します。
-     * 最後に private フィールドを強制的に取得します。
+     * First, try to get by a normal field.
+     * Second, try to get by a getter method using Bean naming method, for boolean isFoo also.
+     * Finally force to get a private field.
      *
      * TODO use {@link java.beans.Introspector} ??? or "org.apache.commons.beanutils.BeanUtils"
      *
-     * @param name 対象となるフィールドもしくはメソッドの名前
-     * @param bean 取得対象のオブジェクト
+     * @param name a target field or method name
+     * @param bean a object that is a target field owner 
      */
     public static Object getValue(String name, Object bean) {
         try {
