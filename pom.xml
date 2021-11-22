@@ -29,7 +29,7 @@
     <repository>
       <id>github</id>
       <name>GitHub umjammer Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/umjammer/vavi-instrumentation</url>
+      <url>https://maven.pkg.github.com/umjammer/vavi-commons</url>
     </repository>
   </distributionManagement>
 
@@ -141,7 +141,7 @@
             <argument>-Dpackaging=jar</argument>
             <argument>-Dfile=${project.build.directory}/vavi-instrumentation-${project.version}.jar</argument>
             <argument>-DrepositoryId=github</argument>
-            <argument>-Durl=https://maven.pkg.github.com/umjammer/vavi-instrumentation</argument>
+            <argument>-Durl=https://maven.pkg.github.com/umjammer/vavi-commons</argument>
             <argument>-s</argument>
             <argument>${env.GITHUB_WORKSPACE}/settings.xml</argument>
           </arguments>
