@@ -13,7 +13,7 @@ import java.util.logging.LogManager;
 
 
 /**
- * デバッグのコンフィグレーションクラスです．
+ * The configuration class for debug.
  * <p>
  * system property
  * <li> java.util.logging.config.class

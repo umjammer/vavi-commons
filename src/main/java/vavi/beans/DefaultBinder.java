@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 
 
 /**
- * フィールドへの代入を行う基本クラスです。
+ * Set a value into a field easily by {@link String}.
  *
  * TODO naming
  *
@@ -19,11 +19,7 @@ import java.lang.reflect.Field;
  */
 public class DefaultBinder implements Binder {
 
-    /**
-     * プリミティブ型、及びそのラッパー型のフィールドに値を設定します。
-     * value が null 及び長さが 0 の場合 null が設定されます。
-     * その他の型は elseValue が設定されます。型が合わない場合は例外が発生します。
-     */
+	@Override
     public void bind(Object destBean, Field field, Class<?> fieldClass, String value, Object elseValue) {
         if (fieldClass.equals(Boolean.class)) {
             BeanUtil.setFieldValue(field, destBean, value == null || value.length() == 0 ? null : Boolean.parseBoolean(value));

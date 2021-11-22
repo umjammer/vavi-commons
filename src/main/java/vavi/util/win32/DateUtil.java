@@ -73,7 +73,7 @@ public final class DateUtil {
     }
 
     /**
-     * DOS DATE (int) と DOS TIME (int) から java long (msec since 1970/1/1)
+     * DOS DATE (WORD) と DOS TIME (WORD) から java long (msec since 1970/1/1)
      * を取得します．
      *
      * @param date 上位から 7 bit が 1980 年からの年数，4 bit が月， 残りの 5 bit が日を表す
