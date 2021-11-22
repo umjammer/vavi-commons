@@ -13,7 +13,7 @@ import java.io.InputStream;
 
 
 /**
- * Little Endian バイトオーダで読み込むストリームです．
+ * Little endian version DataInputStream.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 020507 nsano initial version <br>
@@ -23,17 +23,13 @@ import java.io.InputStream;
 public class LittleEndianDataInputStream extends FilterInputStream implements LittleEndianDataInput {
 
     /**
-     * Little Endian バイトオーダで読み込むストリームを作成します．
+     * Creates little endian byte order DataInputStream.
      */
     public LittleEndianDataInputStream(InputStream in) {
         super(in);
     }
 
-    // ----
-
-    /**
-     * 16bit 読み込みます．
-     */
+    @Override
     public short readShort() throws IOException {
 
         int b8L, b8H;
@@ -46,9 +42,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
         return (short) ((b8H << 8) | b8L);
     }
 
-    /**
-     * 32bit 読み込みます．
-     */
+    @Override
     public int readInt() throws IOException {
 
         int b16L, b16H;
@@ -58,9 +52,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
         return (b16H << 16) | b16L;
     }
 
-    /**
-     * 64bit 読み込みます．
-     */
+    @Override
     public long readLong() throws IOException {
 
         long b32L, b32H;
@@ -70,23 +62,18 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
         return (b32H << 32) | b32L;
     }
 
-    /**
-     * TODO
-     */
+    @Override
     public String readUTF() throws IOException {
         throw new UnsupportedOperationException("not implemented");
     }
 
-    /**
-     * TODO
-     */
+    @Override
+    @Deprecated
     public String readLine() throws IOException {
         throw new UnsupportedOperationException("not implemented");
     }
 
-    /**
-     *
-     */
+    @Override
     public void readFully(byte[] b, int offset, int len) throws IOException {
         int l = in.read(b, offset, len);
         if (l == -1) {
@@ -94,30 +81,22 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
         }
     }
 
-    /**
-     *
-     */
+    @Override
     public void readFully(byte[] b) throws IOException {
         readFully(b, 0, b.length);
     }
 
-    /**
-     *
-     */
+    @Override
     public int skipBytes(int len) throws IOException {
         return (int) in.skip(len);
     }
 
-    /**
-     * boolean 読み込みます．
-     */
+    @Override
     public boolean readBoolean() throws IOException {
         throw new UnsupportedOperationException("not implemented"); // TODO not implemented
     }
 
-    /**
-     * unsigned 16bit 読み込みます．
-     */
+    @Override
     public int readUnsignedShort() throws IOException {
 
         int b8L, b8H;
@@ -130,9 +109,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
         return ((b8H << 8) + b8L) & 0xffff;
     }
 
-    /**
-     * unsigned byte 読み込みます．
-     */
+    @Override
     public int readUnsignedByte() throws IOException {
         int r = in.read();
         if (r == -1) {
@@ -142,30 +119,22 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
         }
     }
 
-    /**
-     * float 読み込みます．
-     */
+    @Override
     public float readFloat() throws IOException {
         return Float.intBitsToFloat(readInt());
     }
 
-    /**
-     * double 読み込みます．
-     */
+    @Override
     public double readDouble() throws IOException {
         return Double.longBitsToDouble(readLong());
     }
 
-    /**
-     * char 読み込みます．
-     */
+    @Override
     public char readChar() throws IOException {
         throw new UnsupportedOperationException("not implemented"); // TODO not implemented
     }
 
-    /**
-     * byte 読み込みます．
-     */
+    @Override
     public byte readByte() throws IOException {
         int r = in.read();
         if (r == -1) {
