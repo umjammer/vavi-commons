@@ -21,7 +21,11 @@ import java.util.logging.Logger;
  */
 public class URLStreamHandlerUtil {
 
-    static Logger logger = Logger.getLogger(URLStreamHandlerUtil.class.getName());
+    private static Logger logger = Logger.getLogger(URLStreamHandlerUtil.class.getName());
+
+    static {
+        logger.setUseParentHandlers(false);
+    }
 
     private URLStreamHandlerUtil() {
     }
