@@ -1,4 +1,4 @@
-name: JFlog Bintray
+name: GitHub Packages (only instrumentals)
 
 on:
   release:
@@ -15,16 +15,15 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Maven
       run: |
         mkdir tmp
         mvn -B package --file pom.xml
 
-    - name: Publish to JFlog Bintray Apache Maven
-      run: |
-        mkdir -p tmp
-        sed -e 's/__PASSWORD__/'"$BINTRAY_API_KEY"'/' .github/workflows/settings.xml > ~/.m2/settings.xml
-        mvn deploy
+    - name: Publish to GitHub Packages Apache Maven
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml -Dmaven.test.skip=true
       env:
-        BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+        GITHUB_TOKEN: ${{ github.token }}

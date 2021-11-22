@@ -108,9 +108,9 @@ TODO
 
   <distributionManagement>
     <repository>
-      <id>bintray</id>
-      <name>umjammer-maven</name>
-      <url>https://api.bintray.com/maven/umjammer/maven/vavi-instrumentation/;publish=1</url>
+      <id>github</id>
+      <name>GitHub umjammer Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/umjammer/vavi-instrumentation</url>
     </repository>
   </distributionManagement>
 
@@ -225,7 +225,9 @@ TODO
             <argument>-Dpackaging=jar</argument>
             <argument>-Dfile=${project.build.directory}/vavi-instrumentation-${project.version}.jar</argument>
             <argument>-DrepositoryId=bintray</argument>
-            <argument>-Durl=https://api.bintray.com/maven/umjammer/maven/vavi-instrumentation</argument>
+            <argument>-Durl=https://maven.pkg.github.com/umjammer/vavi-instrumentation</argument>
+            <argument>-s</argument>
+            <argument>${env.GITHUB_WORKSPACE}/settings.xml</argument>
           </arguments>
         </configuration>
       </plugin>
