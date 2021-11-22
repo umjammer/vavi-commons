@@ -11,94 +11,13 @@
   <version>1.1.4</version>
 
   <name>Vavi Commons API</name>
-  <organization>
-    <name></name>
-  </organization>
+  <developers>
+    <developer>
+      <name>Naohide Sano</name>
+    </developer>
+  </developers>
   <url>https://github.com/umjammer/vavi-commons</url>
-  <description>1.1.2
-
-    update @PropsEntity spec.
-
-1.1.1
-
-    update Checksum
-    update logging
-
-1.1.0
-
-    move Adaptive I/O Stream from sandbox
-    move Instrumentation from sandbox
-    update about properties
-
-1.0.16
-
-    allow @PropsEntity w/o url
-
-1.0.15
-
-    update beanutil
-    add xpath debugger
-
-1.0.14
-
-    binder for @Propertiy
-
-1.0.13
-
-    maintenance
-
-1.0.12
-
-    add byte utility
-    add new filetime converter
-    add few debug utilities
-
-1.0.11
-
-    @PropsEntity detects super class fields
-
-1.0.10
-
-    update logging settings
-    add @Env for @PropsEntity
-
-1.0.9
-
-    update about property
-
-1.0.8
-
-    add default value for @Property
-
-1.0.7
-
-    java8, jupiter compliant
-
-1.0.6
-
-    update logging
-    update content handler
-
-1.0.5
-
-    move LevenshteinDistance from vavi-commons-sandbox
-    make LevenshteinDistance as a bean
-    upgrade @PropsEntity functionality
-    add xml pretty printer
-
-1.0.4
-
-    normalizer
-
-1.0.3
-
-    add property related
-
-TODO
-
-    use java9 URLStreamHandlerProvider
-    move win32 to sandbox?
-    add enum utility</description>
+  <description>Swiss-Army Knife</description>
   <scm>
     <url>https://github.com/umjammer/vavi-commons</url>
   </scm>
@@ -122,15 +41,12 @@ TODO
           <source>1.8</source>
           <target>1.8</target>
           <encoding>UTF-8</encoding>
-          <testExcludes>
-            <exclude>InstanceCreateStepTest.java</exclude>
-          </testExcludes>
         </configuration>
       </plugin>
 
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>3.0.0-M5</version>
         <configuration>
           <argLine>
             -javaagent:${project.build.directory}/vavi-instrumentation-${project.version}.jar
