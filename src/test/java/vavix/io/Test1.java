@@ -40,12 +40,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @version 0.00 2011/10/15 umjammer initial version <br>
  */
 public class Test1 {
-	@BeforeAll
-	static void setup() throws IOException {
-		if (!Files.exists(Paths.get("tmp"))) {
-			Files.createDirectory(Paths.get("tmp"));
-		}
-	}
+    @BeforeAll
+    static void setup() throws IOException {
+        if (!Files.exists(Paths.get("tmp"))) {
+            Files.createDirectory(Paths.get("tmp"));
+        }
+    }
 
     class GZIPOutputStreamFactory implements IOStreamOutputEngine.OutputStreamFactory {
         public OutputStream getOutputStream(OutputStream out) throws IOException {

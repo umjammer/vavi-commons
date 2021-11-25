@@ -161,8 +161,8 @@ public final class StringUtil {
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
 
-            // private フィールドの取得には、accessible フラグを
-            // true にする必要があります。
+            // we need to accessible flag true, when accessing private field
+            // jdk9+ cause java.lang.reflect.InaccessibleObjectException?
             field.setAccessible(true);
 
             String name = field.getName();
@@ -185,10 +185,10 @@ public final class StringUtil {
 
             int modifiers = field.getModifiers();
             if (ignoredStatics && Modifier.isStatic(modifiers)) {
-                // static を無視
+                // ignore static
 // Debug.println("ignore statics: " + modifiers);
             } else if (ignoredFinals && Modifier.isFinal(modifiers)) {
-                // final を無視
+                // ignore final
 //         if (name.startsWith("this$")) {
                     // static でない inner class の outer class オブジェクト
 // Debug.println("value: " + value);
@@ -199,7 +199,7 @@ public final class StringUtil {
 //                       value != null &&
                        (value instanceof Class<?> || value instanceof String) &&
                        name.startsWith("class$")) {
-                // inner class を無視 TODO class$ は SUN j2se に依存してそう
+                // ignore inner classes TODO `class$` may depend on SUN j2se
 // Debug.println("ignore innerclass: " + value.getClass());
             } else {
                 if (isFirst) {
@@ -221,7 +221,7 @@ public final class StringUtil {
         }
 
         if (!ignoredSuperClass) {
-            // スーパークラスを展開
+            // dig into super class
             Class<?> superClass = clazz.getSuperclass();
             if (superClass != null && !isNotExpanded(superClass)) {
 //              String name = getClassName(superClass);
@@ -251,7 +251,7 @@ public final class StringUtil {
     }
 
     /**
-     * 展開しないクラスかどうか。
+     * if a class marked as expandable or not.
      * @see "StringUtil.properties#vavi.util.StringUtil.isNotExpanded.*"
      */
     private static boolean isNotExpanded(Class<?> clazz) {
@@ -260,7 +260,7 @@ public final class StringUtil {
     }
 
     /**
-     * 表示しないクラスかどうか。
+     * if a class marked as visible or not.
      * @see "StringUtil.properties#vavi.util.StringUtil.isIgnored.*"
      */
     private static boolean isIgnored(Class<?> clazz) {
@@ -289,7 +289,7 @@ public final class StringUtil {
     }
 
     /**
-     * 配列を展開します．
+     * expand array string.
      * TODO deep flag
      */
     public static final String expand(int[] array) {

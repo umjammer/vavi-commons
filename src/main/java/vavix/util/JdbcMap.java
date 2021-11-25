@@ -52,7 +52,7 @@ public class JdbcMap<K extends Serializable, V extends Serializable> implements 
     private String username = "sa";
     @Property(name = "vavix.uti.JdbcMap.password")
     private String password = "sa";
-    
+
     /** */
     private Connection connection;
 

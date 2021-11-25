@@ -50,9 +50,9 @@ public class VaviFormatterTest {
 
     @Test
     public void test2() {
-    	Pattern p = Pattern.compile("sun\\.util\\.logging\\.PlatformLogger.JavaLoggerProxy#doLog");
-    	Matcher m = p.matcher("sun.util.logging.PlatformLogger$JavaLoggerProxy#doLog");
-    	assertTrue(m.matches());
+        Pattern p = Pattern.compile("sun\\.util\\.logging\\.PlatformLogger.JavaLoggerProxy#doLog");
+        Matcher m = p.matcher("sun.util.logging.PlatformLogger$JavaLoggerProxy#doLog");
+        assertTrue(m.matches());
     }
 }
 
