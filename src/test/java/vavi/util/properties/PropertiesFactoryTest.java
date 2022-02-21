@@ -43,6 +43,17 @@ class PropertiesFactoryTest {
         assertEquals(fpf.get(3 + ".icon"), "icon3");
         assertEquals(fpf.get(3 + ".name"), "name3");
     }
+
+    @Test
+    void testBasic() {
+        FormattedPropertiesFactory.Basic fpf = new FormattedPropertiesFactory.Basic("test.properties", "formatted.%s");
+        int i = 0;
+        while (fpf.get(i + ".icon") != null) {
+            assertEquals(fpf.get(i + ".icon"), "icon" + i);
+            assertEquals(fpf.get(i + ".name"), "name" + i);
+            i++;
+        }
+    }
 }
 
 /* */
