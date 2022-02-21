@@ -99,15 +99,15 @@ Debug.printStackTrace(Level.SEVERE, e);
     }
 
     /**
-     * @return same instance for each name
-     * @throws IllegalArgumentException does not contains key
-     * @param partOfAKey used by {@link // #getRestoreKey(Object)} that returns real key for {@link // #instances}.
+     * @param partOfAKey used by {@link #getRestoreKey(Object)} that returns real key for {@link #instances}.
+     * @return same instance for each name, or null does not contains key
      */
     public V get(K partOfAKey) {
         if (instances.containsKey(getRestoreKey(partOfAKey))) {
             return instances.get(getRestoreKey(partOfAKey));
         } else {
-            throw new IllegalArgumentException(partOfAKey.toString());
+Debug.print(Level.FINE, "key: [" + getRestoreKey(partOfAKey) + "], [" + partOfAKey + "]");
+            return null;
         }
     }
 
