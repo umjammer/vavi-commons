@@ -7,6 +7,7 @@
 package vavi.io;
 
 import java.io.DataInput;
+import java.nio.channels.SeekableByteChannel;
 
 
 /**
@@ -17,6 +18,7 @@ import java.io.DataInput;
  */
 public interface SeekableDataInput extends Seekable, DataInput {
 
+    SeekableByteChannel origin();
 }
 
 /* */
