@@ -83,7 +83,7 @@ public class Test1 {
         }
         gis.close();
         String r = new String(b, 0, l);
-System.err.println(r);
+Debug.println(r);
         assertEquals(s.substring(1), r);
     }
 
@@ -114,7 +114,7 @@ System.err.println(r);
         os.write(bytes);
         os.flush();
         os.close();
-System.err.println(baos.getByteArray().length);
+Debug.println(baos.getByteArray().length);
         FastByteArrayInputStream bais = new FastByteArrayInputStream(baos.getByteArray());
         InputStream is = new GZIPInputStream(bais);
 //        InputStream is = bais;
@@ -128,9 +128,9 @@ System.err.println(baos.getByteArray().length);
             l += r;
         }
         is.close();
-System.err.println(l);
+Debug.println(l);
         String r = new String(b, 0, l);
-System.err.println(r);
+Debug.println(r);
         assertEquals(s, r);
     }
 

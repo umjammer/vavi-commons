@@ -6,11 +6,13 @@
 
 package vavi.util.properties;
 
+import java.util.logging.Level;
+
 import vavi.util.Debug;
 
 
 /**
- * PrefixedPropertiesFactory.
+ * properties -> class instance (V).
  *
  * @param <V> stored value type
  * @param <K> part of stored key type
@@ -20,6 +22,7 @@ import vavi.util.Debug;
 public class PrefixedClassPropertiesFactory<K, V> extends PrefixedPropertiesFactory<K, V> {
 
     /**
+     * @param path properties file
      * @param prefix if target is "foo.bar.1", "foo.bar.2"... then "foo.bar"
      * @throws IllegalStateException at {@link #getStoreValue(String)}
      */
@@ -37,12 +40,12 @@ public class PrefixedClassPropertiesFactory<K, V> extends PrefixedPropertiesFact
             Class<V> clazz = (Class<V>) Class.forName(value);
             return clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-Debug.println(value);
-Debug.printStackTrace(e);
+Debug.println(Level.SEVERE, value);
+Debug.printStackTrace(Level.SEVERE, e);
             throw new IllegalStateException(e);
         } catch (Error e) {
-Debug.println(value);
-Debug.printStackTrace(e);
+Debug.println(Level.SEVERE, value);
+Debug.printStackTrace(Level.SEVERE, e);
             throw e;
         }
     }

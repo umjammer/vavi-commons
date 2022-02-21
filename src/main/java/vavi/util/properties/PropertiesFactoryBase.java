@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import vavi.util.Debug;
 
@@ -72,7 +73,7 @@ public abstract class PropertiesFactoryBase<K, V, Args> implements Iterable<Map.
         try {
             // props
             Properties props = new Properties();
-//Debug.println("path: " + path);
+Debug.println(Level.FINE, "path: " + path);
             props.load(PropertiesFactoryBase.class.getResourceAsStream(path));
 
             //
@@ -80,27 +81,27 @@ public abstract class PropertiesFactoryBase<K, V, Args> implements Iterable<Map.
             while (i.hasNext()) {
                 String key = (String) i.next();
                 if (match(key)) {
-//Debug.println("matched: " + key + "=" + props.getProperty(key));
+Debug.println(Level.FINE, "matched: " + key + "=" + props.getProperty(key));
                     instances.put(getStoreKey(key), getStoreValue(props.getProperty(key)));
                 }
             }
         } catch (IOException e) {
-Debug.print("path: " + path);
+Debug.print(Level.SEVERE, "path: " + path);
 Arrays.asList(args).forEach(Debug::print);
-Debug.printStackTrace(e);
+Debug.printStackTrace(Level.SEVERE, e);
             throw new IllegalStateException(e);
         } catch (Throwable e) {
-Debug.print("path: " + path);
+Debug.print(Level.SEVERE, "path: " + path);
 Arrays.asList(args).forEach(Debug::print);
-Debug.printStackTrace(e);
+Debug.printStackTrace(Level.SEVERE, e);
             throw e;
         }
     }
 
     /**
-     * @param partOfAKey used by {@link #getRestoreKey(Object)} that returns real key for {@link #instances}.
      * @return same instance for each name
      * @throws IllegalArgumentException does not contains key
+     * @param partOfAKey used by {@link // #getRestoreKey(Object)} that returns real key for {@link // #instances}.
      */
     public V get(K partOfAKey) {
         if (instances.containsKey(getRestoreKey(partOfAKey))) {

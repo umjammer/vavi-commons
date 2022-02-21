@@ -105,7 +105,7 @@ class ChannelInputStreamTest {
     //----
 
     /**
-     * @param args
+     * creates test data.
      */
     public static void main(String[] args) throws IOException {
         Path path = Paths.get("src/test/resources/cis-test.dat");
