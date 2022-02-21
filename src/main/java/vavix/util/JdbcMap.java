@@ -107,8 +107,7 @@ Debug.println(Level.FINE, "containsKey: " + resultSet.getInt(1));
 
     @Override
     public boolean containsValue(Object value) {
-        // TODO Auto-generated method stub
-        return false;
+        return get(value) != null;
     }
 
     @SuppressWarnings("unchecked")
