@@ -8,7 +8,7 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.1.5</version>
+  <version>1.1.6</version>
 
   <name>Vavi Commons API</name>
   <developers>
@@ -51,6 +51,7 @@
           <argLine>
             -javaagent:${project.build.directory}/vavi-instrumentation-${project.version}.jar
             -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
+            -Dvavi.test=true
           </argLine>
           <trimStackTrace>false</trimStackTrace>
           <environmentVariables>
