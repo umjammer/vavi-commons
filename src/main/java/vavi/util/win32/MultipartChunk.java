@@ -8,7 +8,7 @@ package vavi.util.win32;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -38,7 +38,7 @@ public abstract class MultipartChunk extends Chunk {
 
     /** Gets the multipart chunk name. */
     public String getMultipartName() {
-        return new String(multipartId, Charset.forName("ASCII"));
+        return new String(multipartId, StandardCharsets.US_ASCII);
     }
 
     /** Gets chunks. */

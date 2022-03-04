@@ -10,7 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -55,7 +55,7 @@ public class Chunk {
 
     /** Gets the chunk name. */
     public String getName() {
-        return new String(id, Charset.forName("ASCII"));
+        return new String(id, StandardCharsets.US_ASCII);
     }
 
     /** Gets the chunk name. */
@@ -140,7 +140,7 @@ Debug.print(Level.FINEST, chunk);
 
         byte[] tmp = new byte[4];
         ledis.readFully(tmp);
-        String name = new String(tmp, Charset.forName("ASCII"));
+        String name = new String(tmp, StandardCharsets.US_ASCII);
 
         int length = ledis.readInt();
 Debug.println(Level.FINER, StringUtil.getDump(tmp) + ", " + length);
