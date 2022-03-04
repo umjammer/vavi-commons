@@ -123,6 +123,11 @@ public class LittleEndianSeekableDataInputStream extends InputStream
     public byte readByte() throws IOException {
         return ledis.readByte();
     }
+
+    @Override
+    public SeekableByteChannel origin() {
+        return sbc;
+    }
 }
 
 /* */

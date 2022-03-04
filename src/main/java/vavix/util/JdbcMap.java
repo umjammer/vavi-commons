@@ -52,7 +52,7 @@ public class JdbcMap<K extends Serializable, V extends Serializable> implements 
     private String username = "sa";
     @Property(name = "vavix.uti.JdbcMap.password")
     private String password = "sa";
-    
+
     /** */
     private Connection connection;
 
@@ -107,8 +107,7 @@ Debug.println(Level.FINE, "containsKey: " + resultSet.getInt(1));
 
     @Override
     public boolean containsValue(Object value) {
-        // TODO Auto-generated method stub
-        return false;
+        return get(value) != null;
     }
 
     @SuppressWarnings("unchecked")

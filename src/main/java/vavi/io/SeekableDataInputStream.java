@@ -14,7 +14,10 @@ import java.nio.channels.SeekableByteChannel;
 
 /**
  * SeekableDataInputStream.
- *
+ * <p>
+ * Don't use this class in an API library. It makes low compatibility.
+ * This class is for inner API use or test cases.
+ * </p>
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2021/11/18 umjammer initial version <br>
  */
@@ -123,6 +126,11 @@ public class SeekableDataInputStream extends InputStream
     @Override
     public byte readByte() throws IOException {
         return dis.readByte();
+    }
+
+    @Override
+    public SeekableByteChannel origin() {
+        return sbc;
     }
 }
 

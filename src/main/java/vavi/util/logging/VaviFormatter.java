@@ -112,7 +112,8 @@ t.printStackTrace();
             }
             return sb.toString();
         } else {
-            String message = record.getMessage() != null ? record.getMessage().replaceFirst(EOL + "$", "") : "";
+            String message = formatMessage(record);
+            message = message != null ? message.replaceFirst(EOL + "$", "") : "";
             StackTraceElement[] stes = new Exception().getStackTrace();
             StackTraceElement ste = findStackTraceElement(stes);
             if (ste != null) {

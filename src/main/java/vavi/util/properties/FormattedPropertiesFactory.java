@@ -23,6 +23,7 @@ public abstract class FormattedPropertiesFactory<K, V> extends PropertiesFactory
     private String format;
 
     /**
+     * @param path properties file
      * @param format "foo.%s.bar", only %s, %d supported
      * @throws IllegalStateException at {@link #getStoreValue(String)}
      */
@@ -52,6 +53,21 @@ public abstract class FormattedPropertiesFactory<K, V> extends PropertiesFactory
 
     @Override
     protected abstract V getStoreValue(String value);
+
+    /** */
+    public static class Basic extends FormattedPropertiesFactory<String, String> {
+        /**
+         * @param path properties file
+         */
+        public Basic(String path, String format) {
+            super(path, format);
+        }
+
+        @Override
+        protected String getStoreValue(String value) {
+            return value;
+        }
+    }
 }
 
 /* */

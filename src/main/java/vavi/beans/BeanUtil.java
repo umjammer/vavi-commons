@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 
@@ -238,7 +239,7 @@ logger.fine("method access exception: " + method.getName());
             }
         }
         if (method == null) {
-            throw new NoSuchMethodException();
+            throw new NoSuchMethodException(name + "(" + Arrays.toString(argTypes) + ")");
         }
         return method;
     }

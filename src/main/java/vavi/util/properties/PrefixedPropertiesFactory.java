@@ -9,7 +9,9 @@ package vavi.util.properties;
 
 /**
  * PrefixedPropertiesFactory.
- *
+ * <p>
+ * don't include prefix in {@link #get(Object)} method's argument.
+ * </p>
  * @param <V> stored value type
  * @param <K> part of stored key type
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
@@ -21,6 +23,7 @@ public abstract class PrefixedPropertiesFactory<K, V> extends PropertiesFactoryB
     private String prefix;
 
     /**
+     * @param path properties file
      * @param prefix if target is "foo.bar.1", "foo.bar.2"... then "foo.bar"
      */
     public PrefixedPropertiesFactory(String path, String prefix) {
