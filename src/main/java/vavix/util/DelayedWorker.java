@@ -54,7 +54,8 @@ public final class DelayedWorker {
                 boolean exec = false;
                 public boolean come() {
                     if (exec == false) {
-                        exec();
+                        later(millis, this::exec);
+Debug.println(Level.FINE, "exec after: " + millis + " [ms], " + this.hashCode() + ", " + Thread.currentThread().getId());
                         exec = true;
                     }
                     if (flag) {
@@ -64,11 +65,8 @@ Debug.println(Level.FINE, "cleanup: " + this.hashCode() + ", " + Thread.currentT
                     return flag;
                 }
                 private void exec() {
-Debug.println(Level.FINE, "exec after: " + millis + " [ms], " + this.hashCode() + ", " + Thread.currentThread().getId());
-                    later(millis, () -> {
+                    flag = true;
 Debug.println(Level.FINE, "time to come: " + this.hashCode() + ", " + Thread.currentThread().getId());
-                        flag = true;
-                    });
                 }
             };
 Debug.println(Level.FINE, "new detector: " + detector.hashCode());

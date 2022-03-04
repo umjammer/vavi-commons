@@ -24,7 +24,7 @@ class DelayedWorkerTest {
 
     @Test
     synchronized void test() {
-        long w = 1 * 1000;
+        long w = Boolean.valueOf(System.getProperty("vavi.test")) ? 1 * 1000 : 10 * 1000;
         long s = System.currentTimeMillis();
         while (!later(w).come()) {
             Thread.yield();
