@@ -100,6 +100,36 @@ public class CharNormalizerJaTest {
     public void testToFullKana() throws Exception {
         assertEquals(fullKanas, CharNormalizerJa.ToFullKana.normalize(halfKanas));
     }
+
+    static final String fullTable =
+            "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ" +
+            "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ" +
+            "０１２３４５６７８９" +
+            "　（）“”’．，｛｝［］＿＆";
+    private static final String halfTable =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+            "abcdefghijklmnopqrstuvwxyz" +
+            "0123456789" +
+            " ()\"\"'.,{}[]_&";
+
+    @Test
+    public void testToFullAns2() throws Exception {
+//for (int i = 0; i < fullTable.length(); i++) {
+// char c1 = fullTable.charAt(i);
+// char c2 = CharNormalizerJa.ToFullAns2.normalize(halfTable).charAt(i);
+// System.err.printf("[%d] %c, %x: %c, %x: %s%n", i, c1, (int) c1 & 0xffff, c2, (int) c2 & 0xffff, c1 == c2);
+//}
+        // because both "“" and "”" -> '"'
+        char[] ca = fullTable.toCharArray();
+        ca[66] = ca[65];
+        String expect = new String(ca);
+        assertEquals(expect, CharNormalizerJa.ToFullAns2.normalize(halfTable));
+    }
+
+    @Test
+    public void testToHalfAns2() throws Exception {
+        assertEquals(halfTable, CharNormalizerJa.ToHalfAns2.normalize(fullTable));
+    }
 }
 
 /* */

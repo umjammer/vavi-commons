@@ -6,8 +6,14 @@
 
 package vavi.util;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.lang.String;
 import java.lang.StringBuilder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.Scanner;
 
 
 /**
@@ -19,7 +25,9 @@ import java.lang.StringBuilder;
  * @version 0.20 T.O original version <br>
  *          0.30 021120 nsano refine <br>
  */
+@Locales(countries = "Japan", languages = "Japanese")
 public enum CharNormalizerJa implements CharNormalizer {
+
     /**
      * 平仮名をカタカナに変換変換する。
      */
@@ -284,85 +292,36 @@ public enum CharNormalizerJa implements CharNormalizer {
         }
     };
 
-    /** */
-    private static final String kanaTableJa[] = {
-        "｡。##",
-        "｢「##",
-        "｣」##",
-        "･・##",
-        "ｦヲ##",
-        "ｧァ##",
-        "ｨィ##",
-        "ｩゥ##",
-        "ｪェ##",
-        "ｫォ##",
-        "ｬャ##",
-        "ｭュ##",
-        "ｮョ##",
-        "ｯッ##",
-        "ｰー##",
-        "ｱア##",
-        "ｲイ##",
-        "ｳウ##",
-        "ｴエ##",
-        "ｵオ##",
-        "ｶカガ#",
-        "ｷキギ#",
-        "ｸクグ#",
-        "ｹケゲ#",
-        "ｺコゴ#",
-        "ｻサザ#",
-        "ｼシジ#",
-        "ｽスズ#",
-        "ｾセゼ#",
-        "ｿソゾ#",
-        "ﾀタダ#",
-        "ﾁチヂ#",
-        "ﾂツヅ#",
-        "ﾃテデ#",
-        "ﾄトド#",
-        "ﾅナ##",
-        "ﾆニ##",
-        "ﾇヌ##",
-        "ﾈネ##",
-        "ﾉノ##",
-        "ﾊハバパ",
-        "ﾋヒビピ",
-        "ﾌフブプ",
-        "ﾍヘベペ",
-        "ﾎホボポ",
-        "ﾏマ##",
-        "ﾐミ##",
-        "ﾑム##",
-        "ﾒメ##",
-        "ﾓモ##",
-        "ﾔヤ##",
-        "ﾕユ##",
-        "ﾖヨ##",
-        "ﾗラ##",
-        "ﾘリ##",
-        "ﾙル##",
-        "ﾚレ##",
-        "ﾛロ##",
-        "ﾜワ##",
-        "ﾝン##",
-        "ﾞ゛##",
-        "ﾟ゜##"
-    };
+    /** @see "kanaTableJa.txt" */
+    private static final String[] kanaTableJa;
 
-    /** TODO out source */
-    private static final String fullTable =
-        "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ" +
-        "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ" +
-        "０１２３４５６７８９" +
-        "　（）“”’．，｛｝［］＿＆";
+    /** @see "ans2.properties" */
+    private static final String fullTable;
 
-    /** TODO out source */
-    private static final String halfTable =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-            "abcdefghijklmnopqrstuvwxyz" +
-            "0123456789" +
-            " ()\"\"'.,{}[]_&";
+    /** @see "ans2.properties" */
+    private static final String halfTable;
+
+    static {
+        //
+        List<String> kanaTableJaList = new ArrayList<>();
+        Scanner s = new Scanner(CharNormalizerJa.class.getResourceAsStream("kanaTableJa.txt"));
+        while (s.hasNextLine()) {
+            String l = s.nextLine();
+            kanaTableJaList.add(l);
+        }
+        kanaTableJa = kanaTableJaList.toArray(new String[0]);
+        //
+        try {
+            Properties p = new Properties();
+            p.load(CharNormalizerJa.class.getResourceAsStream("ans2.properties"));
+            fullTable = p.getProperty("fullTable");
+            halfTable = p.getProperty("halfTable");
+//Debug.println("fullTable: " + fullTable.length());
+//Debug.println("halfTable: " + halfTable.length());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 }
 
 /* */
