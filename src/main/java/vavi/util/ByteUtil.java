@@ -121,6 +121,12 @@ public class ByteUtil {
         return bytes;
     }
 
+    public static byte[] getLeBytes(long value) {
+        byte[] bytes = new byte[Long.BYTES];
+        writeLeLong(value, bytes);
+        return bytes;
+    }
+
     public static short readLeShort(byte[] buffer) {
         return readLeShort(buffer, 0);
     }
