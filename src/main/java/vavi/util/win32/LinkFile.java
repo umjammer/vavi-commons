@@ -9,6 +9,7 @@ package vavi.util.win32;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -169,7 +170,7 @@ if (buf[0] == 0x4c && buf[1] == 0x50) {
  boolean f2 = false;
  LittleEndianDataInputStream is2 =
   new LittleEndianDataInputStream(new ByteArrayInputStream(buf));
- is2.skip(26);
+ is2.skipBytes(26);
  while (true) {
   String s2 = readString(is2);
   if (s2 == null && f2) {
@@ -189,7 +190,7 @@ Debug.println(" s2: " + s2);
 
         }
 
-        /** has been read */
+        // has been read
         int read = 0;
 
         // File location info
@@ -261,7 +262,7 @@ Debug.println(" s2_label: " + s2_label);
             }
 
 Debug.println(" length - read: " + (length - read));
-            is.skip(length - read);
+            ledis.skipBytes(length - read);
         }
 
         // Description string
@@ -322,7 +323,7 @@ Debug.println("string len: " + length);
         while (l < length) {
             l += leis.read(buf, l, length - l);
         }
-        String result = new String(buf, "UTF-16LE");
+        String result = new String(buf, StandardCharsets.UTF_16LE);
 //        String result = CharConverter.toUTF8(buf);
         return result;
     }
@@ -353,20 +354,20 @@ Debug.println("string len: " + length);
     public String toString() {
         StringBuilder sb = new StringBuilder();
         DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        sb.append(super.toString() + " {");
-        sb.append("guid: " + guid + ", ");
-        sb.append("flags: " + flags + ", ");
-        sb.append("attributes: " + attributes + ", ");
-        sb.append("time1: " + time1 + ": " + StringUtil.toHex16(time1) + ", ");
-        sb.append("time1: " + sdf.format(new Date(DateUtil.filetimeToLong(time1))) + ", ");
-        sb.append("time2: " + time2 + ": " + StringUtil.toHex16(time2) + ", ");
-        sb.append("time2: " + sdf.format(new Date(DateUtil.filetimeToLong(time2))) + ", ");
-        sb.append("time3: " + time3 + ": " + StringUtil.toHex16(time3) + ", ");
-        sb.append("time3: " + sdf.format(new Date(DateUtil.filetimeToLong(time3))) + ", ");
-        sb.append("length: " + length + ", ");
-        sb.append("iconNumber: " + iconNumber + ", ");
-        sb.append("showWnd: " + showWnd + ", ");
-        sb.append("hotKey: " + hotKey + "}");
+        sb.append(super.toString()).append(" {");
+        sb.append("guid: ").append(guid).append(", ");
+        sb.append("flags: ").append(flags).append(", ");
+        sb.append("attributes: ").append(attributes).append(", ");
+        sb.append("time1: ").append(time1).append(": ").append(String.format("%02x", time1)).append(", ");
+        sb.append("time1: ").append(sdf.format(new Date(DateUtil.filetimeToLong(time1)))).append(", ");
+        sb.append("time2: ").append(time2).append(": ").append(String.format("%02x", time2)).append(", ");
+        sb.append("time2: ").append(sdf.format(new Date(DateUtil.filetimeToLong(time2)))).append(", ");
+        sb.append("time3: ").append(time3).append(": ").append(StringUtil.toHex16(time3)).append(", ");
+        sb.append("time3: ").append(sdf.format(new Date(DateUtil.filetimeToLong(time3)))).append(", ");
+        sb.append("length: ").append(length).append(", ");
+        sb.append("iconNumber: ").append(iconNumber).append(", ");
+        sb.append("showWnd: ").append(showWnd).append(", ");
+        sb.append("hotKey: ").append(hotKey).append("}");
         return sb.toString();
     }
 }

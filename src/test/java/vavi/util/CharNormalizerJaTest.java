@@ -34,13 +34,11 @@ public class CharNormalizerJaTest {
     /** */
     static final String fullHandakuon = "パピプペポ";
 
-    /** */
     @Test
     public void testToKatakana() throws Exception {
         assertEquals(fullKana, CharNormalizerJa.ToKatakana.normalize(fullHira));
     }
 
-    /** */
     @Test
     public void testToHiragana() throws Exception {
         assertEquals(fullHira, CharNormalizerJa.ToHiragana.normalize(fullKana));
@@ -51,7 +49,6 @@ public class CharNormalizerJaTest {
     /** */
     static final String fullANS = "！\uff02＃＄％＆\uff07（）＊＋，－．／０１２３４５６７８９：；＜＝＞？＠ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ［＼］＾＿｀ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ｛｜｝～";
 
-    /** */
     @Test
     public void testToHalfANS() throws Exception {
 //  System.err.println(CharNormalizerJa.ToHalfANS.normalize(fullANS));
@@ -65,7 +62,6 @@ public class CharNormalizerJaTest {
         }
     }
 
-    /** */
     @Test
     public void testToHalf() throws Exception {
         assertEquals(halfANS, CharNormalizerJa.ToHalf.normalize(fullANS));
@@ -73,7 +69,6 @@ public class CharNormalizerJaTest {
         assertEquals(halfHandakuon, CharNormalizerJa.ToHalf.normalize(fullHandakuon));
     }
 
-    /** */
     @Test
     public void testToFull() throws Exception {
         assertEquals(fullANS, CharNormalizerJa.ToFull.normalize(halfANS));
@@ -81,7 +76,6 @@ public class CharNormalizerJaTest {
         assertEquals(fullHandakuon, CharNormalizerJa.ToFull.normalize(halfHandakuon));
     }
 
-    /** */
     @Test
     public void testToFullANS() throws Exception {
         String result = CharNormalizerJa.ToFull.normalize(halfANS);

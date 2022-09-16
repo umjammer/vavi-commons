@@ -17,10 +17,10 @@ import java.io.IOException;
  */
 public interface Seekable {
 
-    /** @see java.nio.SeekableByteChannel */
+    /** @see java.nio.channels.SeekableByteChannel */
     void position(long newPosition) throws IOException;
 
-    /** @see java.nio.ReadableByteChannel */
+    /** @see java.nio.channels.ReadableByteChannel */
     long position() throws IOException;
 }
 

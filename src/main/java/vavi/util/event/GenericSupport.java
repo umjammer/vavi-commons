@@ -7,7 +7,8 @@
 package vavi.util.event;
 
 import java.io.Serializable;
-import javax.swing.event.EventListenerList;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -19,25 +20,22 @@ import javax.swing.event.EventListenerList;
 public class GenericSupport implements Serializable {
 
     /** The generic listeners */
-    private EventListenerList listenerList = new EventListenerList();
+    private List<GenericListener> listeners = new ArrayList<>();
 
     /** GenericListener を追加します． */
     public void addGenericListener(GenericListener l) {
-        listenerList.add(GenericListener.class, l);
+        listeners.add(l);
     }
 
     /** GenericListener を削除します． */
     public void removeGenericListener(GenericListener l) {
-        listenerList.remove(GenericListener.class, l);
+        listeners.remove(l);
     }
 
     /** 汎用イベントを発行します． */
     public void fireEventHappened(GenericEvent ev) {
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == GenericListener.class) {
-                ((GenericListener) listeners[i + 1]).eventHappened(ev);
-            }
+        for (GenericListener listener : listeners) {
+            listener.eventHappened(ev);
         }
     }
 }

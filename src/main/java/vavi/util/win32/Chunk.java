@@ -128,7 +128,7 @@ Debug.println(Level.FINER, StringUtil.getDump(tmp));
         chunk.id = tmp;
         chunk.length = length;
         chunk.setData(is);
-        ledis.skip(length % 2); // padding
+        ledis.skipBytes(length % 2); // padding
 Debug.print(Level.FINEST, chunk);
         return (T) chunk;
     }
@@ -161,7 +161,7 @@ Debug.println(Level.FINER, e);
         chunk.length = length;
         chunk.setParent(parent);
         chunk.setData(is);
-        ledis.skip(length % 2); // padding
+        ledis.skipBytes(length % 2); // padding
 Debug.print(Level.FINEST, chunk);
         return chunk;
     }

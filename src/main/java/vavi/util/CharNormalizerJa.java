@@ -11,8 +11,8 @@ import java.lang.StringBuilder;
 
 
 /**
- * 日本語文字の平仮名とカタカナの相互変換と，
- * 半角と全角文字の相互変換を行います．
+ * Converts between Japanese Hiragana and Katakana,
+ * Full-Width and Half-Width also.
  *
  * @author Takashi Okamoto
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
@@ -258,7 +258,7 @@ public enum CharNormalizerJa implements CharNormalizer {
         }
     },
     /**
-     * Converts by @link #halfTable}
+     * Converts by {@link #halfTable}
      */
     ToFullAns2 {
         /** */
@@ -271,7 +271,7 @@ public enum CharNormalizerJa implements CharNormalizer {
         }
     },
     /**
-     * Converts by @link #fullTable}
+     * Converts by {@link #fullTable}
      */
     ToHalfAns2 {
         /** */

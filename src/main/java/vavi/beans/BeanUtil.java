@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * Set and get a field value easily using the Java reflection API.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
- * @version $Revision: 1.0 $ $Date: 2008/01/24 14:17:10 $ $Author: sano-n $
+ * @version 2008/01/24 nsano initial version
  */
 public abstract class BeanUtil {
 
@@ -31,9 +31,9 @@ public abstract class BeanUtil {
      * Second, try to get by a getter method using Bean naming method, for boolean isFoo also.
      * Finally force to get a private field.
      *
-     * TODO use {@link java.beans.Introspector} ??? or "org.apache.commons.beanutils.BeanUtils"
+     * TODO use {@link java.beans.Introspector} ???
      *
-     * @param name a target field definition
+     * @param field a target field definition
      * @param bean a object that is a target field owner 
      */
     public static Object getFieldValue(Field field, Object bean) {
@@ -116,7 +116,7 @@ logger.fine("no method: " + name);
         }
 
         try {
-            setByMethod(bean,  getSetterName(name), valueClass, value);
+            setByMethod(bean, getSetterName(name), valueClass, value);
         } catch (NoSuchMethodException e) {
 logger.fine("no method: " + getSetterName(name));
         }
@@ -191,9 +191,7 @@ logger.fine("method access exception: " + method.getName());
         try {
             Field accessibleField = getPrivateField(field.getDeclaringClass(), field.getName());
             return accessibleField.get(bean);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        } catch (PrivilegedActionException e) {
+        } catch (IllegalAccessException | PrivilegedActionException e) {
             throw new IllegalStateException(e);
         }
     }
@@ -203,9 +201,7 @@ logger.fine("method access exception: " + method.getName());
         try {
             Field accessibleField = getPrivateField(field.getDeclaringClass(), field.getName());
             accessibleField.set(bean, value);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        } catch (PrivilegedActionException e) {
+        } catch (IllegalAccessException | PrivilegedActionException e) {
             throw new IllegalStateException(e);
         }
     }
