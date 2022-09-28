@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -64,7 +66,7 @@ public final class StringUtil {
      * 指定したオブジェクトのフィールドの文字列を取得します。
      * @param object 表示するオブジェクト
      */
-    public static final String paramString(Object object) {
+    public static String paramString(Object object) {
         hashes.clear();
         return paramString(object, 0);
     }
@@ -74,7 +76,7 @@ public final class StringUtil {
      * フィールドがオブジェクトなら再帰的に取得します。
      * @param object 表示するオブジェクト
      */
-    public static final String paramStringDeep(Object object, int depth) {
+    public static String paramStringDeep(Object object, int depth) {
         hashes.clear();
         return paramString(object, depth);
     }
@@ -84,7 +86,7 @@ public final class StringUtil {
      * @param object 表示するオブジェクト
      * @param depth 再帰的の深さ、0 の場合は再帰しません。
      */
-    private static final String paramString(Object object, int depth) {
+    private static String paramString(Object object, int depth) {
 
         // null
         if (object == null) {
@@ -107,9 +109,9 @@ public final class StringUtil {
      * @param object 表示するオブジェクト
      * @param depth 再帰的の深さ、0 の場合は再帰しません。
      */
-    private static final String paramString(Class<?> clazz,
-                                            Object object,
-                                            int depth) {
+    private static String paramString(Class<?> clazz,
+                                      Object object,
+                                      int depth) {
 
         // 表示しないもの
         if (isIgnored(clazz)) {
@@ -158,9 +160,7 @@ public final class StringUtil {
 // Debug.println("fialds: " + fields.length);
         boolean isFirst = true;
 
-        for (int i = 0; i < fields.length; i++) {
-            Field field = fields[i];
-
+        for (Field field : fields) {
             // we need to accessible flag true, when accessing private field
             // jdk9+ cause java.lang.reflect.InaccessibleObjectException?
             field.setAccessible(true);
@@ -190,15 +190,15 @@ public final class StringUtil {
             } else if (ignoredFinals && Modifier.isFinal(modifiers)) {
                 // ignore final
 //         if (name.startsWith("this$")) {
-                    // static でない inner class の outer class オブジェクト
+                // static でない inner class の outer class オブジェクト
 // Debug.println("value: " + value);
 //             } else {
 // Debug.println("ignore final: " + modifiers);
 //             }
             } else if (ignoredInnerClasses &&
 //                       value != null &&
-                       (value instanceof Class<?> || value instanceof String) &&
-                       name.startsWith("class$")) {
+                    (value instanceof Class<?> || value instanceof String) &&
+                    name.startsWith("class$")) {
                 // ignore inner classes TODO `class$` may depend on SUN j2se
 // Debug.println("ignore innerclass: " + value.getClass());
             } else {
@@ -212,7 +212,7 @@ public final class StringUtil {
                 // TODO if (formattable) {
                 if (value instanceof Calendar) {
                     sb.append(new SimpleDateFormat().format(((Calendar) value).getTime()));
-                } else if (value  instanceof java.util.Date) {
+                } else if (value instanceof Date) {
                     sb.append(new SimpleDateFormat().format((Date) value));
                 } else {
                     sb.append(value);
@@ -273,8 +273,10 @@ public final class StringUtil {
      *
      * @param name パッケージ付きのクラス名
      * @return パッケージ名を取り除いたクラス名
+     * @deprecated use {@link Class#getSimpleName()}
      */
-    public static final String getClassName(String name) {
+    @Deprecated
+    public static String getClassName(String name) {
         return name.substring(name.lastIndexOf(".") + 1);
     }
 
@@ -283,16 +285,20 @@ public final class StringUtil {
      *
      * @param clazz クラス
      * @return パッケージ名を取り除いたクラス名
+     * @deprecated use {@link Class#getSimpleName()}
      */
-    public static final String getClassName(Class<?> clazz) {
+    @Deprecated
+    public static String getClassName(Class<?> clazz) {
         return getClassName(clazz.getName());
     }
 
     /**
      * expand array string.
      * TODO deep flag
+     * @deprecated use {@link java.util.Arrays#toString}
      */
-    public static final String expand(int[] array) {
+    @Deprecated
+    public static String expand(int[] array) {
         Integer[] objectArray = new Integer[array.length];
         for (int i = 0; i < array.length; i++) {
             objectArray[i] = Integer.valueOf(array[i]);
@@ -305,7 +311,8 @@ public final class StringUtil {
      * @see #bytesExpand 展開する最大値
      * TODO deep flag
      */
-    public static final String expand(byte[] array) {
+    @Deprecated
+    public static String expand(byte[] array) {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         sb.append(array.length);
@@ -322,14 +329,15 @@ public final class StringUtil {
      * 配列を展開します．
      * TODO deep flag
      */
-    public static final String expand(Object[] array) {
+    @Deprecated
+    public static String expand(Object[] array) {
         StringBuilder sb = new StringBuilder(array.getClass().getName());
         sb.append("[");
         sb.append(array.length);
         sb.append("]");
         sb.append("{");
-        for (int i = 0; i < array.length; i++) {
-            sb.append(paramString(array[i], 1));
+        for (Object o : array) {
+            sb.append(paramString(o, 1));
             sb.append(",");
         }
         if (array.length > 0) {
@@ -346,18 +354,18 @@ public final class StringUtil {
      * className[collectionSize]{value0,value1,value2,...}
      * </pre>
      * TODO deep flag
+     * @deprecated use {@link List#toString()}
      */
-    public static final String expand(List<?> list) {
+    @Deprecated
+    public static String expand(List<?> list) {
 //Debug.println(list.getClass() + ", " + list.hashCode());
         StringBuilder sb = new StringBuilder(list.getClass().getName());
         sb.append("[");
         sb.append(list.size());
         sb.append("]");
         sb.append("{");
-        Iterator<?> i = list.iterator();
-        while (i.hasNext()) {
-            Object object = i.next();
-//Debug.println(object.getClass() + ", " + object.hashCode());
+        for (Object object : list) {
+            //Debug.println(object.getClass() + ", " + object.hashCode());
             sb.append(paramString(object, 0));
             sb.append(",");
         }
@@ -375,16 +383,16 @@ public final class StringUtil {
      * className[collectionSize]{value0,value1,value2,...}
      * </pre>
      * TODO deep flag
+     * @deprecated use {@link Set#toString()}
      */
-    public static final String expand(Set<?> set) {
+    @Deprecated
+    public static String expand(Set<?> set) {
         StringBuilder sb = new StringBuilder(set.getClass().getName());
         sb.append("[");
         sb.append(set.size());
         sb.append("]");
         sb.append("{");
-        Iterator<?> i = set.iterator();
-        while (i.hasNext()) {
-            Object object = i.next();
+        for (Object object : set) {
             sb.append(paramString(object, 1));
             sb.append(",");
         }
@@ -402,18 +410,18 @@ public final class StringUtil {
      * className[collectionSize]{key0=value0,key1=value1,key2=value2,...}
      * </pre>
      * TODO deep flag
+     * @deprecated use {@link Map#toString()}
      */
-    public static final String expand(Map<?, ?> map) {
+    @Deprecated
+    public static String expand(Map<?, ?> map) {
         StringBuilder sb = new StringBuilder(map.getClass().getName());
         sb.append("[");
         sb.append(map.size());
         sb.append("]");
         sb.append("{");
-        Iterator<?> i = map.keySet().iterator();
-        while (i.hasNext()) {
-            Object key = i.next();
+        for (Object key : map.keySet()) {
             Object value = map.get(key);
-            sb.append(paramString(key, 1) + "=" + paramString(value, 1));
+            sb.append(paramString(key, 1)).append("=").append(paramString(value, 1));
             sb.append(",");
         }
         if (map.size() > 0) {
@@ -427,28 +435,28 @@ public final class StringUtil {
     /**
      * バイト配列を 16 進数でダンプします．
      */
-    public static final String getDump(byte[] buf) {
+    public static String getDump(byte[] buf) {
         return getDump(buf, 0, buf.length);
     }
 
     /**
      * Dumps double array.
      */
-    public static final String getDump(double[] buf, int length) {
+    public static String getDump(double[] buf, int length) {
         return getDump(buf, 0, length);
     }
 
     /**
      * 長さ制限付でバイト配列を 16 進数でダンプします．
      */
-    public static final String getDump(byte[] buf, int length) {
+    public static String getDump(byte[] buf, int length) {
         return getDump(buf, 0, length);
     }
 
     /**
      * Dumps double array limited by length.
      */
-    public static final String getDump(double[] buf, int offset, int length) {
+    public static String getDump(double[] buf, int offset, int length) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             for (int i = offset; i < Math.min(offset + length, buf.length - offset); i++) {
@@ -463,14 +471,14 @@ public final class StringUtil {
     /**
      * Dumps double array limited by length.
      */
-    public static final String getNumberDump(double[] buf, int length) {
+    public static String getNumberDump(double[] buf, int length) {
         return getNumberDump(buf, 0, length);
     }
 
     /**
      * Dumps double array limited by length.
      */
-    public static final String getNumberDump(double[] buf, int offset, int length) {
+    public static String getNumberDump(double[] buf, int offset, int length) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         for (int i = offset; i < Math.min(offset + length, buf.length - offset); i++) {
@@ -485,25 +493,25 @@ public final class StringUtil {
     /**
      * 長さ制限付で offset からのバイト配列を 16 進数でダンプします．
      */
-    public static final String getDump(byte[] buf, int offset, int length) {
+    public static String getDump(byte[] buf, int offset, int length) {
         return getDump(new ByteArrayInputStream(buf), offset, length);
     }
 
     /** TODO make '.' property */
-    private static final char getPrintableChar(char c) {
+    private static char getPrintableChar(char c) {
         return isPrintableChar(c) ? c : '.';
     }
 
     /**
      * Creates byte array declaration string.
      */
-    public static final String getByteArrayDeclaration(byte[] bytes) {
+    public static String getByteArrayDeclaration(byte[] bytes) {
         return getByteArrayDeclaration(new ByteArrayInputStream(bytes));
     }
     /**
      * Creates byte array declaration string.
      */
-    public static final String getByteArrayDeclaration(InputStream is) {
+    public static String getByteArrayDeclaration(InputStream is) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
@@ -513,7 +521,6 @@ public final class StringUtil {
                 is.mark(is.available());
             }
 
-            byte[] buf = new byte[16];
             boolean breakFlag = false;
 
 top:
@@ -531,7 +538,6 @@ top:
                             }
                             ps.print("0x");
                             ps.printf("%02X, ", c);
-                            buf[x] = (byte) c;
                         }
                     }
                     ps.println();
@@ -556,7 +562,7 @@ Debug.printStackTrace(e);
     /**
      * Dumps a stream.
      */
-    public static final String getDump(InputStream is) {
+    public static String getDump(InputStream is) {
         return getDump(is, 0, Integer.MAX_VALUE);
     }
 
@@ -565,13 +571,17 @@ Debug.printStackTrace(e);
      *
      * @param length 制限する長さ
      */
-    public static final String getDump(InputStream is, int offset, int length) {
+    public static String getDump(InputStream is, int offset, int length) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
 
         try {
-            is.skip(offset);
+            long l = 0;
+            while (l < offset) {
+                long r = is.skip(offset);
+                l += r;
+            }
 
             int count = 0;
 
@@ -640,7 +650,7 @@ Debug.printStackTrace(e);
     /**
      * 文字列を 16 進数でダンプします．
      */
-    public static final String getDump(String s) {
+    public static String getDump(String s) {
         StringBuilder sb = new StringBuilder();
         int l = s.length();
         for (int i = 0; i < l; i++) {
@@ -653,7 +663,7 @@ Debug.printStackTrace(e);
     /**
      * 文字列を 16 進数でダンプします．
      */
-    public static final String getDump(String s, String encoding) {
+    public static String getDump(String s, String encoding) {
         try {
             byte[] b = s.getBytes(encoding);
             StringBuilder sb = new StringBuilder();
@@ -671,7 +681,7 @@ e.printStackTrace(System.err);
     /**
      * 文字列を char でダンプします．
      */
-    public static final String getCharDump(String s) {
+    public static String getCharDump(String s) {
         StringBuilder sb = new StringBuilder();
         int l = s.length();
         for (int i = 0; i < l; i++) {
@@ -687,7 +697,7 @@ e.printStackTrace(System.err);
      * 先頭を 0 で埋めた 2 桁の大文字の 16 進数を返します．
      */
     @Deprecated
-    public static final String toHex2(int i) {
+    public static String toHex2(int i) {
         String s = "0" + Integer.toHexString(i);
         s = s.substring(s.length() - 2);
         return hexUpperCase ? s.toUpperCase() : s;
@@ -697,7 +707,7 @@ e.printStackTrace(System.err);
      * 先頭を 0 で埋めた 4 桁の大文字の 16 進数を返します．
      */
     @Deprecated
-    public static final String toHex4(int i) {
+    public static String toHex4(int i) {
         String s = "000" + Integer.toHexString(i);
         s = s.substring(s.length() - 4);
         return hexUpperCase ? s.toUpperCase() : s;
@@ -707,7 +717,7 @@ e.printStackTrace(System.err);
      * 先頭を 0 で埋めた 8 桁の大文字の 16 進数を返します．
      */
     @Deprecated
-    public static final String toHex8(int i) {
+    public static String toHex8(int i) {
         String s = "0000000" + Integer.toHexString(i);
         s = s.substring(s.length() - 8);
         return hexUpperCase ? s.toUpperCase() : s;
@@ -717,7 +727,7 @@ e.printStackTrace(System.err);
      * 先頭を 0 で埋めた 16 桁の大文字の 16 進数を返します．
      */
     @Deprecated
-    public static final String toHex16(long l) {
+    public static String toHex16(long l) {
         String s = "000000000000000" + Long.toHexString(l);
         s = s.substring(s.length() - 16);
         return hexUpperCase ? s.toUpperCase() : s;
@@ -726,7 +736,7 @@ e.printStackTrace(System.err);
     /**
      * ビット列を表す文字列を返します．
      */
-    public static final String toBits(int b) {
+    public static String toBits(int b) {
         return toBits(b, 8);
     }
 
@@ -736,7 +746,7 @@ e.printStackTrace(System.err);
      * @param b ビット列にしたい数値
      * @param n ビット列の桁数
      */
-    public static final String toBits(int b, int n) {
+    public static String toBits(int b, int n) {
         int mask = 0x0001 << (n - 1);
 //Debug.println(toHex8(mask));
         StringBuilder sb = new StringBuilder();
@@ -853,7 +863,26 @@ e.printStackTrace(System.err);
             }
         }
 
-        return commandList.toArray(new String[commandList.size()]);
+        return commandList.toArray(new String[0]);
+    }
+
+    /**
+     * @see "https://stackoverflow.com/a/31869147"
+     */
+    public static String abbreviate(String input, String middle, int length) {
+        if (input != null && input.length() > length) {
+            int half = (length - middle.length()) / 2;
+
+            Pattern pattern = Pattern.compile(
+                    "^(.{" + half + ",}?)" + "\\b.*\\b" + "(.{" + half + ",}?)$");
+            Matcher matcher = pattern.matcher(input);
+
+            if (matcher.matches()) {
+                return matcher.group(1) + middle + matcher.group(2);
+            }
+        }
+
+        return input;
     }
 
     //----
@@ -894,13 +923,13 @@ e.printStackTrace(System.err);
     /** @see "https://hacknote.jp/archives/30235/" */
     public static String getRandomString() {
         try {
-            byte bytes[] = new byte[16];
+            byte[] bytes = new byte[16];
             SecureRandom secRandom = SecureRandom.getInstance("SHA1PRNG");
             secRandom.nextBytes(bytes);
 
-            StringBuffer buf = new StringBuffer();
-            for (int i = 0; i < bytes.length; i++) {
-                buf.append(String.format("%02x", bytes[i]));
+            StringBuilder buf = new StringBuilder();
+            for (byte aByte : bytes) {
+                buf.append(String.format("%02x", aByte));
             }
             return buf.toString();
         } catch (NoSuchAlgorithmException e) {
@@ -908,7 +937,7 @@ e.printStackTrace(System.err);
         }
     }
 
-    /** */
+    /* */
     static {
         try {
             Properties props = new Properties();
@@ -945,37 +974,37 @@ e.printStackTrace(System.err);
 
             // recursive depth
             value = props.getProperty("vavi.util.StringUtil.recursiveDepth");
-            recursiveDepth = Integer.valueOf(value).intValue();
+            recursiveDepth = Integer.parseInt(value);
 //Debug.println("recursiveDepth: " + recursiveDepth);
 
             // bytes expand
             value = props.getProperty("vavi.util.StringUtil.bytesExpand");
-            bytesExpand = Integer.valueOf(value).intValue();
+            bytesExpand = Integer.parseInt(value);
 //Debug.println("bytesExpand: " + bytesExpand);
 
             // ignore static
             value = props.getProperty("vavi.util.StringUtil.isIgnored.static");
-            ignoredStatics = Boolean.valueOf(value);
+            ignoredStatics = Boolean.parseBoolean(value);
 //Debug.println("ignoredStatics: " + ignoredStatics);
 
             // ignore final
             value = props.getProperty("vavi.util.StringUtil.isIgnored.final");
-            ignoredFinals = Boolean.valueOf(value);
+            ignoredFinals = Boolean.parseBoolean(value);
 //Debug.println("ignoredFinals: " + ignoredFinals);
 
             // ignore inner class
             value = props.getProperty("vavi.util.StringUtil.isIgnored.inner");
-            ignoredInnerClasses = Boolean.valueOf(value);
+            ignoredInnerClasses = Boolean.parseBoolean(value);
 //Debug.println("ignoredInnerClasses: " + ignoredInnerClasses);
 
             // ignore super class
             value = props.getProperty("vavi.util.StringUtil.isIgnored.super");
-            ignoredSuperClass = Boolean.valueOf(value);
+            ignoredSuperClass = Boolean.parseBoolean(value);
 //Debug.println("ignoredSuperClass: " + ignoredSuperClass);
 
             // hex case upper
             value = props.getProperty("vavi.util.StringUtil.toHex.upperCase");
-            hexUpperCase = Boolean.valueOf(value);
+            hexUpperCase = Boolean.parseBoolean(value);
 //Debug.println("hexUpperCase: " + hexUpperCase);
         } catch (Exception e) {
 Debug.printStackTrace(e);

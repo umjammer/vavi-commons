@@ -36,7 +36,9 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -46,12 +48,11 @@
 
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.0.0-M7</version>
         <configuration>
           <argLine>
             -javaagent:${project.build.directory}/vavi-instrumentation-${project.version}.jar
             -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
-            -Dvavi.test=true
           </argLine>
           <trimStackTrace>false</trimStackTrace>
           <environmentVariables>
@@ -63,7 +64,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.8</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <phase>compile</phase>
@@ -88,7 +89,9 @@
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-install-plugin</artifactId>
+        <version>3.0.0-M1</version>
         <executions>
           <execution>
             <id>install-library</id>
@@ -108,9 +111,11 @@
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.0.0-M2</version>
         <configuration>
-          <skip>true</skip>
+          <skip>true</skip> <!-- use exec-maven-plugin instead of this -->
         </configuration>
       </plugin>
 
@@ -168,7 +173,6 @@
       <groupId>org.javassist</groupId>
       <artifactId>javassist</artifactId>
       <version>3.23.0-GA</version>
-      <scope>provided</scope> <!--  TODO check -->
     </dependency>
 
     <dependency>
