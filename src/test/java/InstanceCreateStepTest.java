@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
  * Test steps of instance creation.
  *
  * @author eric
- * @date Jan 7, 2018 3:31:12 AM
+ * @version Jan 7, 2018 3:31:12 AM
  */
 class InstanceCreateStepTest {
 
@@ -89,6 +89,6 @@ class InstanceCreateStepTest {
             "sub - constructor",
             "sub - method"
         };
-        assertArrayEquals(exepected, log.toArray(new String[log.size()]));
+        assertArrayEquals(exepected, log.toArray(new String[0]));
     }
 }

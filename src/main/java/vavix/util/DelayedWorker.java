@@ -53,7 +53,7 @@ public final class DelayedWorker {
                 boolean flag = false;
                 boolean exec = false;
                 public boolean come() {
-                    if (exec == false) {
+                    if (!exec) {
                         later(millis, this::exec);
 Debug.println(Level.FINE, "exec after: " + millis + " [ms], " + this.hashCode() + ", " + Thread.currentThread().getId());
                         exec = true;

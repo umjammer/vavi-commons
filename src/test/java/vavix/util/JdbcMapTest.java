@@ -9,13 +9,16 @@ package vavix.util;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import vavi.util.Debug;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -23,9 +26,9 @@ class JdbcMapTest {
 
     static {
         System.setProperty("jdbc.drivers", "org.sqlite.JDBC");
-        System.setProperty("vavix.uti.JdbcMap.url", "jdbc:sqlite:file:tmp/myDb");
-        System.setProperty("vavix.uti.JdbcMap.username", "sa");
-        System.setProperty("vavix.uti.JdbcMap.password", "sa");
+        System.setProperty("vavix.util.JdbcMap.url", "jdbc:sqlite:file:tmp/myDb");
+        System.setProperty("vavix.util.JdbcMap.username", "sa");
+        System.setProperty("vavix.util.JdbcMap.password", "sa");
     }
 
     static class Test1 implements Serializable {
@@ -57,6 +60,33 @@ class JdbcMapTest {
         assertEquals(1000, map.get("umjammer").i);
         assertTrue(map.containsKey("sano"));
         assertFalse(map.containsKey("uniquro"));
+    }
+
+    @Test
+    void test2() throws Exception {
+        Map<String, Map<String, Map<String, Integer>>> map = new JdbcMap<>();
+        Map<String, Integer> map21 = new HashMap<>();
+        map21.put("nsano", 100);
+        map21.put("vavi", 80);
+        map21.put("umjammer", 60);
+        Map<String, Integer> map22 = new HashMap<>();
+        map22.put("java", 1);
+        map22.put("scala", 2);
+        map22.put("clojure", 3);
+        Map<String, Map<String, Integer>> map3 = new HashMap<>();
+        map3.put("alias", map21);
+        map3.put("cl", map22);
+        map.put("github", map3);
+        map.put("gitlab", new HashMap<>());
+        map.get("gitlab").put("alias", new HashMap<>());
+
+Debug.println("github: " + map.get("github"));
+Debug.println("github.alias: " + map.get("github").get("alias"));
+        assertEquals(100, map.get("github").get("alias").get("nsano"));
+        assertEquals(3, map.get("github").get("cl").get("clojure"));
+Debug.println("gitlab: " + map.get("gitlab"));
+Debug.println("gitlab.alias: " + map.get("gitlab").get("alias")); // null because put after serialization
+        assertNull(map.get("gitlab").get("alias"));
     }
 }
 

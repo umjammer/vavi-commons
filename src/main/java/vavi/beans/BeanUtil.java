@@ -12,15 +12,21 @@ import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
+
+import vavi.util.Debug;
 
 
 /**
  * Set and get a field value easily using the Java reflection API.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
- * @version $Revision: 1.0 $ $Date: 2008/01/24 14:17:10 $ $Author: sano-n $
+ * @version 2008/01/24 nsano initial version
  */
 public abstract class BeanUtil {
 
@@ -31,10 +37,11 @@ public abstract class BeanUtil {
      * Second, try to get by a getter method using Bean naming method, for boolean isFoo also.
      * Finally force to get a private field.
      *
-     * TODO use {@link java.beans.Introspector} ??? or "org.apache.commons.beanutils.BeanUtils"
+     * TODO use {@link java.beans.Introspector} ???
      *
-     * @param name a target field definition
-     * @param bean a object that is a target field owner 
+     * @param field a target field definition
+     * @param bean an object that is a target field owner
+     * @throws IllegalArgumentException when getter is not found
      */
     public static Object getFieldValue(Field field, Object bean) {
         String name = field.getName();
@@ -43,6 +50,12 @@ public abstract class BeanUtil {
             return field.get(bean);
         } catch (IllegalAccessException e) {
 logger.fine("no field: " + field.getName());
+        }
+
+        try {
+            return getPrivateFieldValue(field, bean);
+        } catch (IllegalStateException e) {
+logger.fine("no private field: " + field.getName());
         }
 
         try {
@@ -65,7 +78,7 @@ logger.fine("no method: " + getBooleanGetterName(name));
             }
         }
 
-        return getPrivateFieldValue(field, bean);
+        throw new IllegalArgumentException(field.getName());
     }
 
     /** */
@@ -94,10 +107,12 @@ logger.fine("no method: " + getBooleanGetterName(name));
      * Finally force to set a private field.
      *
      * TODO use {@link java.beans.Introspector} ??? or "org.apache.commons.beanutils.BeanUtils"
+     * TODO setting methods order should be optimized dynamically?
      *
      * @param field a target field definition
      * @param bean an object to be set
-     * @param value value to be set 
+     * @param value value to be set
+     * @throws IllegalArgumentException when setter is not found
      */
     public static void setFieldValue(Field field, Object bean, Object value) {
         Class<?> valueClass = field.getType();
@@ -105,23 +120,33 @@ logger.fine("no method: " + getBooleanGetterName(name));
 
         try {
             field.set(bean, value);
+            return;
         } catch (IllegalAccessException e) {
 logger.fine("no field: " + name);
         }
 
         try {
+            setPrivateFieldValue(field, bean, value);
+            return;
+        } catch (IllegalStateException e) {
+logger.fine("no private field: " + name);
+        }
+
+        try {
             setByMethod(bean, name, valueClass, value);
+            return;
         } catch (NoSuchMethodException e) {
 logger.fine("no method: " + name);
         }
 
         try {
-            setByMethod(bean,  getSetterName(name), valueClass, value);
+            setByMethod(bean, getSetterName(name), valueClass, value);
+            return;
         } catch (NoSuchMethodException e) {
 logger.fine("no method: " + getSetterName(name));
         }
 
-        setPrivateFieldValue(field, bean, value);
+        throw new IllegalArgumentException(field.getName());
     }
 
     /** */
@@ -191,9 +216,7 @@ logger.fine("method access exception: " + method.getName());
         try {
             Field accessibleField = getPrivateField(field.getDeclaringClass(), field.getName());
             return accessibleField.get(bean);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        } catch (PrivilegedActionException e) {
+        } catch (IllegalAccessException | PrivilegedActionException e) {
             throw new IllegalStateException(e);
         }
     }
@@ -203,9 +226,7 @@ logger.fine("method access exception: " + method.getName());
         try {
             Field accessibleField = getPrivateField(field.getDeclaringClass(), field.getName());
             accessibleField.set(bean, value);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        } catch (PrivilegedActionException e) {
+        } catch (IllegalAccessException | PrivilegedActionException e) {
             throw new IllegalStateException(e);
         }
     }
@@ -250,9 +271,11 @@ logger.fine("method access exception: " + method.getName());
      * Finally force to get a private field.
      *
      * TODO use {@link java.beans.Introspector} ??? or "org.apache.commons.beanutils.BeanUtils"
+     * TODO getting methods order should be optimized dynamically?
      *
      * @param name a target field or method name
-     * @param bean a object that is a target field owner 
+     * @param bean an object that is a target field owner
+     * @throws IllegalArgumentException when getter for name is not found
      */
     public static Object getValue(String name, Object bean) {
         try {
@@ -260,6 +283,14 @@ logger.fine("method access exception: " + method.getName());
             return getFieldValue(field, bean);
         } catch (NoSuchFieldException e) {
 logger.fine("no field: " + name);
+        }
+
+
+        try {
+            Field field = getFieldByNameOf(bean.getClass(), name);
+            return getPrivateFieldValue(field, bean);
+        } catch (NoSuchFieldException e) {
+logger.fine("no private field: " + name);
         }
 
         try {
@@ -280,13 +311,7 @@ logger.fine("no method: " + getGetterName(name));
 logger.fine("no method: " + getBooleanGetterName(name));
         }
 
-        try {
-            Field field = getFieldByNameOf(bean.getClass(), name);
-            return getPrivateFieldValue(field, bean);
-        } catch (NoSuchFieldException e) {
-logger.fine("no private field: " + name);
-            throw new IllegalStateException(e);
-        }
+        throw new IllegalArgumentException(name);
     }
 }
 

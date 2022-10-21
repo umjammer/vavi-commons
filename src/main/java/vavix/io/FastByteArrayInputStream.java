@@ -67,7 +67,7 @@ public class FastByteArrayInputStream extends InputStream {
             n = count - pos;
         if (n < 0)
             return 0;
-        pos += n;
+        pos += (int) n;
         return n;
     }
 }

@@ -34,13 +34,11 @@ public class CharNormalizerJaTest {
     /** */
     static final String fullHandakuon = "パピプペポ";
 
-    /** */
     @Test
     public void testToKatakana() throws Exception {
         assertEquals(fullKana, CharNormalizerJa.ToKatakana.normalize(fullHira));
     }
 
-    /** */
     @Test
     public void testToHiragana() throws Exception {
         assertEquals(fullHira, CharNormalizerJa.ToHiragana.normalize(fullKana));
@@ -51,7 +49,6 @@ public class CharNormalizerJaTest {
     /** */
     static final String fullANS = "！\uff02＃＄％＆\uff07（）＊＋，－．／０１２３４５６７８９：；＜＝＞？＠ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ［＼］＾＿｀ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ｛｜｝～";
 
-    /** */
     @Test
     public void testToHalfANS() throws Exception {
 //  System.err.println(CharNormalizerJa.ToHalfANS.normalize(fullANS));
@@ -65,7 +62,6 @@ public class CharNormalizerJaTest {
         }
     }
 
-    /** */
     @Test
     public void testToHalf() throws Exception {
         assertEquals(halfANS, CharNormalizerJa.ToHalf.normalize(fullANS));
@@ -73,7 +69,6 @@ public class CharNormalizerJaTest {
         assertEquals(halfHandakuon, CharNormalizerJa.ToHalf.normalize(fullHandakuon));
     }
 
-    /** */
     @Test
     public void testToFull() throws Exception {
         assertEquals(fullANS, CharNormalizerJa.ToFull.normalize(halfANS));
@@ -81,7 +76,6 @@ public class CharNormalizerJaTest {
         assertEquals(fullHandakuon, CharNormalizerJa.ToFull.normalize(halfHandakuon));
     }
 
-    /** */
     @Test
     public void testToFullANS() throws Exception {
         String result = CharNormalizerJa.ToFull.normalize(halfANS);
@@ -105,6 +99,36 @@ public class CharNormalizerJaTest {
     @Test
     public void testToFullKana() throws Exception {
         assertEquals(fullKanas, CharNormalizerJa.ToFullKana.normalize(halfKanas));
+    }
+
+    static final String fullTable =
+            "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ" +
+            "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ" +
+            "０１２３４５６７８９" +
+            "　（）“”’．，｛｝［］＿＆";
+    private static final String halfTable =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+            "abcdefghijklmnopqrstuvwxyz" +
+            "0123456789" +
+            " ()\"\"'.,{}[]_&";
+
+    @Test
+    public void testToFullAns2() throws Exception {
+//for (int i = 0; i < fullTable.length(); i++) {
+// char c1 = fullTable.charAt(i);
+// char c2 = CharNormalizerJa.ToFullAns2.normalize(halfTable).charAt(i);
+// System.err.printf("[%d] %c, %x: %c, %x: %s%n", i, c1, (int) c1 & 0xffff, c2, (int) c2 & 0xffff, c1 == c2);
+//}
+        // because both "“" and "”" -> '"'
+        char[] ca = fullTable.toCharArray();
+        ca[66] = ca[65];
+        String expect = new String(ca);
+        assertEquals(expect, CharNormalizerJa.ToFullAns2.normalize(halfTable));
+    }
+
+    @Test
+    public void testToHalfAns2() throws Exception {
+        assertEquals(halfTable, CharNormalizerJa.ToHalfAns2.normalize(fullTable));
     }
 }
 

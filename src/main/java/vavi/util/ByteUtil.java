@@ -121,6 +121,12 @@ public class ByteUtil {
         return bytes;
     }
 
+    public static byte[] getLeBytes(long value) {
+        byte[] bytes = new byte[Long.BYTES];
+        writeLeLong(value, bytes);
+        return bytes;
+    }
+
     public static short readLeShort(byte[] buffer) {
         return readLeShort(buffer, 0);
     }
@@ -134,8 +140,8 @@ public class ByteUtil {
     }
 
     public static int readLeInt(byte[] buffer, int offset) {
-        return ((buffer[offset + 3] << 24) & 0xFF000000) | ((buffer[offset + 2] << 16) & 0x00FF0000) |
-            ((buffer[offset + 1] << 8) & 0x0000FF00) | ((buffer[offset + 0] << 0) & 0x000000FF);
+        return ((buffer[offset + 3] << 24) & 0xFF00_0000) | ((buffer[offset + 2] << 16) & 0x00FF_0000) |
+            ((buffer[offset + 1] << 8) & 0x0000_FF00) | ((buffer[offset + 0] << 0) & 0x000_000FF);
     }
 
     public static long readLeLong(byte[] buffer) {
@@ -143,8 +149,8 @@ public class ByteUtil {
     }
 
     public static long readLeLong(byte[] buffer, int offset) {
-        return ((readLeInt(buffer, offset + 4) & 0xffffffffl) << 32) |
-                (readLeInt(buffer, offset + 0) & 0xffffffffl);
+        return ((readLeInt(buffer, offset + 4) & 0xffff_ffffL) << 32) |
+                (readLeInt(buffer, offset + 0) & 0xffff_ffffL);
     }
 
     public static short readBeShort(byte[] buffer) {
@@ -160,8 +166,8 @@ public class ByteUtil {
     }
 
     public static int readBeInt(byte[] buffer, int offset) {
-        int value = ((buffer[offset + 0] << 24) & 0xFF000000) | ((buffer[offset + 1] << 16) & 0x00FF0000) |
-            ((buffer[offset + 2] << 8) & 0x0000FF00) | ((buffer[offset + 3] << 0) & 0x000000FF);
+        int value = ((buffer[offset + 0] << 24) & 0xFF00_0000) | ((buffer[offset + 1] << 16) & 0x00FF_0000) |
+            ((buffer[offset + 2] << 8) & 0x0000_FF00) | ((buffer[offset + 3] << 0) & 0x0000_00FF);
         return value;
     }
 
@@ -170,8 +176,8 @@ public class ByteUtil {
     }
 
     public static long readBeLong(byte[] buffer, int offset) {
-        return ((readBeInt(buffer, offset + 0) & 0xffffffffl) << 32) |
-                (readBeInt(buffer, offset + 4) & 0xffffffffl);
+        return ((readBeInt(buffer, offset + 0) & 0xffff_ffffL) << 32) |
+                (readBeInt(buffer, offset + 4) & 0xffff_ffffL);
     }
 
     public static void writeLeUUID(UUID value, byte[] buffer, int offset) {

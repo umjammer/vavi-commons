@@ -39,6 +39,7 @@ public class VaviFormatter extends Formatter {
     @Property(name = "vavi.util.logging.VaviFormatter.classMethod")
     private String defaultClassMethod;
 
+    // TODO make it enabled to put this in user logging.properties
     /** user defined excluding pattern */
     @Property(name = "vavi.util.logging.VaviFormatter.extraClassMethod", useSystem = true)
     private String extraClassMethod;
@@ -74,7 +75,10 @@ t.printStackTrace();
     // wtf thread unsafe?
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss,SSS");
 
-    /** TODO check other logging library */
+    /**
+     * TODO - check other logging library
+     *      - profiler reports slow
+     */
     private StackTraceElement findStackTraceElement(StackTraceElement[] stes) {
 //java.util.List<String> x = new java.util.ArrayList<>();
         for (int i = stes.length - 1; i >= 0; i--) {
@@ -90,7 +94,7 @@ t.printStackTrace();
     }
 
     /** restoring */
-    private static final String color0 = (char) 0x1b + "[" + 00 + "m";
+    private static final String color0 = (char) 0x1b + "[" + 0 + "m";
 
     /** highlighting */
     private static final String color1 = (char) 0x1b + "[" + 37 + "m";
@@ -105,9 +109,9 @@ t.printStackTrace();
             sb.append(record.getThrown());
             sb.append(EOL);
             StackTraceElement[] stes = record.getThrown().getStackTrace();
-            for (int i = 0; i < stes.length; i++) {
+            for (StackTraceElement ste : stes) {
                 sb.append("\tat ");
-                sb.append(stes[i]);
+                sb.append(ste);
                 sb.append(EOL);
             }
             return sb.toString();
