@@ -8,7 +8,7 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.1.6</version>
+  <version>1.1.7</version>
 
   <name>Vavi Commons API</name>
   <developers>
@@ -47,6 +47,44 @@
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.4.0</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <additionalJOption>-J-Duser.language=en_US</additionalJOption>  <!-- TODO ad-hoc -->
+              <locale>en_US</locale> <!-- TODO doesn't work why ??? -->
+              <additionalOptions>-Xdoclint:none</additionalOptions>
+              <debug>true</debug>
+              <verbose>false</verbose>
+              <failOnError>false</failOnError>
+              <quiet>true</quiet>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M7</version>
         <configuration>
@@ -79,7 +117,7 @@
                     <include name="vavix/lang/instrumentation/*Instrumentation.class" />
                     <include name="vavix/lang/instrumentation/*ClassFileTransformer*.class" />
                   </fileset>
-                  <zipfileset src="${maven.dependency.org.javassist.javassist.jar.path}"
+                  <zipfileset src="${org.javassist:javassist:jar}"
                               excludes="META-INF/**"/>
                 </jar>
               </target>
@@ -161,7 +199,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.8.1</version>
+        <version>5.9.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -172,14 +210,8 @@
     <dependency>
       <groupId>org.javassist</groupId>
       <artifactId>javassist</artifactId>
-      <version>3.23.0-GA</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.xerial</groupId>
-      <artifactId>sqlite-jdbc</artifactId>
-      <version>3.36.0.3</version>
-      <scope>test</scope>
+      <version>3.23.1-GA</version> <!-- 3.24.0-GA ~ for java11 -->
+      <scope>provided</scope> <!-- don't touch to avoid not showing this as a dependency at another project -->
     </dependency>
 
     <dependency>
@@ -195,6 +227,13 @@
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-commons</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
+      <version>3.39.3.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

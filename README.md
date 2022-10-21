@@ -1,8 +1,13 @@
-[![Release](https://jitpack.io/v/umjammer/vavi-commons.svg)](https://jitpack.io/#umjammer/vavi-commons) [![Actions Status](https://github.com/umjammer/vavi-commons/workflows/Java%20CI/badge.svg)](https://github.com/umjammer/vavi-commons/actions)
+[![Release](https://jitpack.io/v/umjammer/vavi-commons.svg)](https://jitpack.io/#umjammer/vavi-commons)
+[![Actions Status](https://github.com/umjammer/vavi-commons/workflows/Java%20CI/badge.svg)](https://github.com/umjammer/vavi-commons/actions)
+[![CodeQL](https://github.com/umjammer/vavi-commons/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/umjammer/vavi-commons/actions/workflows/codeql-analysis.yml)
+![Java](https://img.shields.io/badge/Java-8-b07219)
 
 # vavi-commons
 
 Swiss-Army Knife
+
+most functions are used by me for every development. so those are super durable.
 
 ## 🧰 Contents
 
@@ -37,6 +42,7 @@ Swiss-Army Knife
 ### 🔧 Win32 Structures
 
   * useful win32 structures
+    * wav, avi, datetime
 
 ### 🔧 Easy Property Binding
 
@@ -46,7 +52,17 @@ Swiss-Army Knife
 
 ### 🔧 Instrumentation
 
-  * easy instrumentation
+  * easy instrumentation 
+
+### 🔧 String Utilities
+
+  * Levenshtein distance
+  * Google DiffMatchPatch
+  * Hex dump
+
+### 🔧 Unit Test Helper
+
+  * Delayed Worker
 
 ## License
 
