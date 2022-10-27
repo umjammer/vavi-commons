@@ -9,6 +9,9 @@ package vavi.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.SeekableByteChannel;
+import java.util.logging.Level;
+
+import vavi.util.Debug;
 
 
 /**
@@ -18,7 +21,7 @@ import java.nio.channels.SeekableByteChannel;
  * @version 0.00 2021/11/11 umjammer initial version <br>
  */
 public class LittleEndianSeekableDataInputStream extends InputStream
-    implements LittleEndianDataInput, SeekableDataInput {
+    implements LittleEndianDataInput, SeekableDataInput<SeekableByteChannel> {
 
     private SeekableByteChannel sbc;
     private LittleEndianDataInputStream ledis;
@@ -31,6 +34,7 @@ public class LittleEndianSeekableDataInputStream extends InputStream
     @Override
     public void position(long pos) throws IOException {
         sbc.position(pos);
+Debug.printf(Level.FINER, "%d, %d", pos, position());
     }
 
     @Override
@@ -76,7 +80,8 @@ public class LittleEndianSeekableDataInputStream extends InputStream
 
     @Override
     public void readFully(byte[] b, int offset, int len) throws IOException {
-        ledis.readFully(b, offset, len);
+        ledis.readFully(b, offset, len); // TODO maybe different from spec.
+Debug.printf(Level.FINER, "%d, %d", len, ledis.available());
     }
 
     @Override

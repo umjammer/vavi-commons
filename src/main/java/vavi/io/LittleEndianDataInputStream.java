@@ -76,7 +76,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
     @Override
     public void readFully(byte[] b, int offset, int len) throws IOException {
         int l = in.read(b, offset, len);
-        if (l == -1) {
+        if (l == -1) { // TODO maybe different from spec.
             throw new EOFException();
         }
     }

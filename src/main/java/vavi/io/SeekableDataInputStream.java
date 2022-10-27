@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.SeekableByteChannel;
 
+import vavi.util.Debug;
+
 
 /**
  * SeekableDataInputStream.
@@ -22,7 +24,7 @@ import java.nio.channels.SeekableByteChannel;
  * @version 0.00 2021/11/18 umjammer initial version <br>
  */
 public class SeekableDataInputStream extends InputStream
-    implements SeekableDataInput {
+    implements SeekableDataInput<SeekableByteChannel> {
 
     private SeekableByteChannel sbc;
     private DataInputStream dis;
