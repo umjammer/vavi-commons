@@ -6,6 +6,8 @@
 
 package vavi.util;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -141,6 +143,31 @@ class ByteUtilTest {
         byte[] buf = new byte[16];
         ByteUtil.writeLeUUID(expected, buf, 0);
         assertArrayEquals(bytes, buf);
+    }
+
+    @Test
+    void testToHexString() {
+        byte[] b = new byte[] {0x12, 0x34, 0x56, 0x78, (byte) 0xde, (byte) 0xad, (byte) 0xbe, (byte) 0xef};
+        assertEquals("12345678deadbeef", ByteUtil.toHexString(b));
+        byte[] b2 = new byte[] {(byte) 0xca, (byte) 0xfe, (byte) 0xba, (byte) 0xbe};
+        assertEquals("cafebabe", ByteUtil.toHexString(b2));
+    }
+
+    @Test
+    void testStrlen() {
+        byte[] b = "umjammer\u0000vavivavi".getBytes();
+        assertEquals(8, ByteUtil.strlen(b));
+        assertEquals(5, ByteUtil.strlen(b, 3));
+        assertEquals(8, ByteUtil.strlen(b, 9));
+
+    }
+    @Test
+    void testIndexOf() {
+        byte[] b = "abcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.US_ASCII);
+        assertEquals(13, ByteUtil.indexOf(b, (byte) 'n'));
+        assertEquals(14, ByteUtil.indexOf(b, (byte) 'o', 13));
+        assertEquals(14, ByteUtil.indexOf(b, (byte) 'o', 14));
+        assertEquals(-1, ByteUtil.indexOf(b, (byte) 'a', 14));
     }
 }
 

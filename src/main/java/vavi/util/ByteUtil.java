@@ -265,6 +265,11 @@ public class ByteUtil {
     }
 
     /** @return length */
+    public static int strlen(byte[] buf) {
+        return strlen(buf, 0);
+    }
+
+    /** @return length */
     public static int strlen(byte[] buf, int pos) {
         for (int i = pos; i < buf.length; i++) {
             if (buf[i] == 0) {
@@ -272,6 +277,21 @@ public class ByteUtil {
             }
         }
         return buf.length - pos;
+    }
+
+    /** @return index, -1: not found */
+    public static int indexOf(byte[] buf, byte target) {
+        return indexOf(buf, target, 0);
+    }
+
+    /** @return index, -1: not found */
+    public static int indexOf(byte[] buf, byte target, int pos) {
+        for (int i = pos; i < buf.length; i++) {
+            if (buf[i] == target) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
 
