@@ -42,15 +42,11 @@ import java.nio.channels.SelectableChannel;
  * @author Mark Reinhold
  * @since 1.4
  */
-public class ChannelInputStream
-    extends InputStream
-{
-    public static int read(ReadableByteChannel ch, ByteBuffer bb,
-                           boolean block)
-        throws IOException
-    {
+public class ChannelInputStream extends InputStream {
+
+    public static int read(ReadableByteChannel ch, ByteBuffer bb, boolean block) throws IOException {
         if (ch instanceof SelectableChannel) {
-            SelectableChannel sc = (SelectableChannel)ch;
+            SelectableChannel sc = (SelectableChannel) ch;
             synchronized (sc.blockingLock()) {
                 boolean bm = sc.isBlocking();
                 if (!bm)
@@ -69,13 +65,14 @@ public class ChannelInputStream
 
     protected final ReadableByteChannel ch;
     private ByteBuffer bb = null;
-    private byte[] bs = null;           // Invoker's previous array
+    private byte[] bs = null; // Invoker's previous array
     private byte[] b1 = null;
 
     public ChannelInputStream(ReadableByteChannel ch) {
         this.ch = ch;
     }
 
+    @Override
     public synchronized int read() throws IOException {
         if (b1 == null)
             b1 = new byte[1];
@@ -85,18 +82,17 @@ public class ChannelInputStream
         return -1;
     }
 
-    public synchronized int read(byte[] bs, int off, int len)
-        throws IOException
-    {
+    @Override
+    public synchronized int read(byte[] bs, int off, int len) throws IOException {
         if ((off < 0) || (off > bs.length) || (len < 0) ||
-            ((off + len) > bs.length) || ((off + len) < 0)) {
+                ((off + len) > bs.length) || ((off + len) < 0)) {
             throw new IndexOutOfBoundsException();
         } else if (len == 0)
             return 0;
 
         ByteBuffer bb = ((this.bs == bs)
-                         ? this.bb
-                         : ByteBuffer.wrap(bs));
+                ? this.bb
+                : ByteBuffer.wrap(bs));
         bb.limit(Math.min(off + len, bb.capacity()));
         bb.position(off);
         this.bb = bb;
@@ -104,22 +100,22 @@ public class ChannelInputStream
         return read(bb);
     }
 
-    protected int read(ByteBuffer bb)
-        throws IOException
-    {
+    protected int read(ByteBuffer bb) throws IOException {
         return ChannelInputStream.read(ch, bb, true);
     }
 
+    @Override
     public int available() throws IOException {
         // special case where the channel is to a file
         if (ch instanceof SeekableByteChannel) {
-            SeekableByteChannel sbc = (SeekableByteChannel)ch;
+            SeekableByteChannel sbc = (SeekableByteChannel) ch;
             long rem = Math.max(0, sbc.size() - sbc.position());
-            return (rem > Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int)rem;
+            return (rem > Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int) rem;
         }
         return 0;
     }
 
+    @Override
     public void close() throws IOException {
         ch.close();
     }

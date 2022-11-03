@@ -77,25 +77,25 @@ class ByteUtilTest {
     void testBe64U() throws Exception {
         byte[] buf = new byte[8];
 
-        ByteUtil.writeBeLong(0xfedcba9876543210l, buf, 0);
+        ByteUtil.writeBeLong(0xfedc_ba98_7654_3210L, buf, 0);
         long v = ByteUtil.readBeLong(buf, 0);
-        assertEquals(0xfedcba9876543210l, v);
+        assertEquals(0xfedc_ba98_7654_3210L, v);
     }
 
     @Test
     void testLe64() throws Exception {
         byte[] buf = new byte[8];
-        ByteUtil.writeLeLong(0xfedcba9876543210l, buf, 0);
+        ByteUtil.writeLeLong(0xfed_cba98_7654_3210L, buf, 0);
         long v = ByteUtil.readLeLong(buf, 0);
-        assertEquals(0xfedcba9876543210l, v);
+        assertEquals(0xfedc_ba98_7654_3210L, v);
     }
 
     @Test
     void testLe64U() throws Exception {
         byte[] buf = new byte[8];
-        ByteUtil.writeLeLong(0xfedcba9876543210l, buf, 0);
+        ByteUtil.writeLeLong(0xfedc_ba98_7654_3210L, buf, 0);
         long v = ByteUtil.readLeLong(buf, 0);
-        assertEquals(0xfedcba9876543210l, v);
+        assertEquals(0xfedc_ba98_7654_3210L, v);
     }
 
     @Test
@@ -129,7 +129,7 @@ class ByteUtilTest {
     }
 
     @Test
-    void textXXX() {
+    void textUUID() {
         byte[] bytes = new byte[] {
             0x66, 0x77, (byte) 0xC2, 0x2D, 0x23, (byte) 0xF6, 0x00, 0x42, (byte) 0x9D, 0x64, 0x11, 0x5E, (byte) 0x9B,
             (byte) 0xFD, 0x4A, 0x08

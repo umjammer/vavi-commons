@@ -13,6 +13,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -48,16 +49,14 @@ public class LittleEndianDataOutputStreamTest {
         baos.close();
     }
 
-    /** */
     @Test
     public void testWriteByte() throws Exception {
         byte[] sample = { (byte) 0x11 };
         ledos.writeByte(0x11);
         byte[] result = baos.toByteArray();
-        assertTrue(Arrays.equals(sample, result));
+        assertArrayEquals(sample, result);
     }
 
-    /** */
     @Test
     public void testWriteShort() throws Exception {
         byte[] sample = {
@@ -66,10 +65,9 @@ public class LittleEndianDataOutputStreamTest {
         };
         ledos.writeShort(0x1122);
         byte[] result = baos.toByteArray();
-        assertTrue(Arrays.equals(sample, result));
+        assertArrayEquals(sample, result);
     }
 
-    /** */
     @Test
     public void testWriteInt() throws Exception {
         byte[] sample = {
@@ -80,10 +78,9 @@ public class LittleEndianDataOutputStreamTest {
         };
         ledos.writeInt(0x11223344);
         byte[] result = baos.toByteArray();
-        assertTrue(Arrays.equals(sample, result));
+        assertArrayEquals(sample, result);
     }
 
-    /** */
     @Test
     public void testWriteLong() throws Exception {
         byte[] sample = {
@@ -98,7 +95,7 @@ public class LittleEndianDataOutputStreamTest {
         };
         ledos.writeLong(0x1122334455667788L);
         byte[] result = baos.toByteArray();
-        assertTrue(Arrays.equals(sample, result));
+        assertArrayEquals(sample, result);
     }
 }
 

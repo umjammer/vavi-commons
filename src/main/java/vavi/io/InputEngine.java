@@ -20,7 +20,7 @@ public interface InputEngine {
     void initialize(InputStream in) throws IOException;
 
     /**
-     * in が -1 を返すまで読み込む必要がある
+     * must read until <code>in</code> returns -1
      */
     void execute() throws IOException;
 

@@ -38,7 +38,6 @@ public class LittleEndianDataInputStreamTest {
     /** */
     LittleEndianDataInputStream ledis2;
 
-    /** */
     @BeforeEach
     public void setUp() throws Exception {
         byte[] sample = {
@@ -68,21 +67,18 @@ public class LittleEndianDataInputStreamTest {
         ledis2 = new LittleEndianDataInputStream(bais2);
     }
 
-    /** */
     @AfterEach
     public void tearDown() throws Exception {
         ledis.close();
         bais.close();
     }
 
-    /** */
     @Test
     public void testReadShort() throws Exception {
         short actual = ledis.readShort();
         assertEquals(0x2211, actual);
     }
 
-    /** */
     @Test
     public void testReadInt() throws Exception {
         int actual = ledis.readInt();
@@ -90,35 +86,30 @@ Debug.println(StringUtil.toHex4(actual));
         assertEquals(0x44332211, actual);
     }
 
-    /** */
     @Test
     public void testReadLong() throws Exception  {
         long actual = ledis.readLong();
-        assertEquals(0x8877665544332211L, actual);
+        assertEquals(0x88776655_44332211L, actual);
     }
 
-    /** */
     @Test
     public void testReadShort2() throws Exception {
         short actual = ledis2.readShort();
         assertEquals((short) 0xf2f1, actual);
     }
 
-    /** */
     @Test
     public void testReadUnsignedShort() throws Exception {
         int actual = ledis.readUnsignedShort();
         assertEquals(0x2211, actual);
     }
 
-    /** */
     @Test
     public void testReadUnsignedShort2() throws Exception {
         int actual = ledis2.readUnsignedShort();
         assertEquals(0xf2f1, actual);
     }
 
-    /** */
     @Test
     public void testReadInt2() throws Exception {
         int actual = ledis2.readInt();
@@ -126,10 +117,9 @@ Debug.println(StringUtil.toHex4(actual));
         assertEquals(0xf4f3f2f1, actual);
     }
 
-    /** */
     @Test
     public void testReadLong2() throws Exception  {
         long actual = ledis2.readLong();
-        assertEquals(0xf8f7f6f5f4f3f2f1L, actual);
+        assertEquals(0xf8f7f6f5_f4f3f2f1L, actual);
     }
 }

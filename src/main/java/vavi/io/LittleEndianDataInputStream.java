@@ -57,7 +57,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
 
         long b32L, b32H;
 
-        b32L = readInt() & 0xffffffffL;
+        b32L = readInt() & 0xffff_ffffL;
         b32H = readInt();
         return (b32H << 32) | b32L;
     }

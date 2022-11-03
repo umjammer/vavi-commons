@@ -17,49 +17,49 @@ import java.io.IOException;
  * @version 0.00 040929 nsano initial version <br>
  */
 public interface LittleEndianDataInput extends DataInput {
-    /** @see java.io.DataInput#readShort() */
+    @Override
     short readShort() throws IOException;
 
-    /** @see java.io.DataInput#readInt() */
+    @Override
     int readInt() throws IOException;
 
-    /** @see java.io.DataInput#readLong() */
+    @Override
     long readLong() throws IOException;
 
-    /** @see java.io.DataInput#readUTF() */
+    @Override
     String readUTF() throws IOException;
 
-    /** @see java.io.DataInput#readLine() */
+    @Override
     String readLine() throws IOException;
 
-    /** @see java.io.DataInput#readFully(byte[], int, int) */
+    @Override
     void readFully(byte[] b, int offset, int len) throws IOException;
 
-    /** @see java.io.DataInput#readFully(byte[]) */
+    @Override
     void readFully(byte[] b) throws IOException;
 
-    /** @see java.io.DataInput#skipBytes(int) */
+    @Override
     int skipBytes(int len) throws IOException;
 
-    /** @see java.io.DataInput#readBoolean() */
+    @Override
     boolean readBoolean() throws IOException;
 
-    /** @see java.io.DataInput#readUnsignedShort() */
+    @Override
     int readUnsignedShort() throws IOException;
 
-    /** @see java.io.DataInput#readUnsignedByte() */
+    @Override
     int readUnsignedByte() throws IOException;
 
-    /** @see java.io.DataInput#readFloat() */
+    @Override
     float readFloat() throws IOException;
 
-    /** @see java.io.DataInput#readDouble() */
+    @Override
     double readDouble() throws IOException;
 
-    /** @see java.io.DataInput#readChar() */
+    @Override
     char readChar() throws IOException;
 
-    /** @see java.io.DataInput#readByte() */
+    @Override
     byte readByte() throws IOException;
 }
 

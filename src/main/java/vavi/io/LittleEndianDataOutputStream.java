@@ -27,62 +27,62 @@ public class LittleEndianDataOutputStream extends FilterOutputStream
         super(out);
     }
 
-    /** @see java.io.DataOutput#writeDouble(double) */
+    @Override
     public void writeDouble(double d) throws IOException {
         writeLong(Double.doubleToLongBits(d));
     }
 
-    /** @see java.io.DataOutput#writeFloat(float) */
+    @Override
     public void writeFloat(float f) throws IOException {
         writeInt(Float.floatToIntBits(f));
     }
 
-    /** @see java.io.DataOutput#writeByte(int) */
+    @Override
     public void writeByte(int b) throws IOException {
         out.write(b);
     }
 
-    /** @see java.io.DataOutput#writeChar(int) */
+    @Override
     public void writeChar(int c) throws IOException {
         throw new UnsupportedOperationException("not implemented");
     }
 
-    /** @see java.io.DataOutput#writeInt(int) */
+    @Override
     public void writeInt(int i) throws IOException {
         writeShort((i & 0xffff));
         writeShort(((i >> 16) & 0xffff));
     }
 
-    /** @see java.io.DataOutput#writeShort(int) */
-    public void writeShort(int i) throws IOException {
-        out.write(i & 0xff);
-        out.write((i >> 8) & 0xff);
+    @Override
+    public void writeShort(int s) throws IOException {
+        out.write(s & 0xff);
+        out.write((s >> 8) & 0xff);
     }
 
-    /** @see java.io.DataOutput#writeLong(long) */
+    @Override
     public void writeLong(long l) throws IOException {
-        writeInt((int) (l & 0xffffffff));
-        writeInt((int) ((l >> 32) & 0xffffffff));
+        writeInt((int) l);
+        writeInt((int) (l >> 32));
     }
 
-    /** @see java.io.DataOutput#writeBoolean(boolean) */
+    @Override
     public void writeBoolean(boolean b) throws IOException {
         throw new UnsupportedOperationException("not implemented");
     }
 
-    /** @see java.io.DataOutput#writeBytes(java.lang.String) */
+    @Override
     public void writeBytes(String s) throws IOException {
         for (byte b : s.getBytes()) {
             writeByte(b);
         }
     }
 
-    /** @see java.io.DataOutput#writeChars(java.lang.String) */
+    @Override
     public void writeChars(String s) throws IOException {
         throw new UnsupportedOperationException("not implemented");
     }
 
-    /** @see java.io.DataOutput#writeUTF(java.lang.String) */
+    @Override
     public void writeUTF(String s) throws IOException {
         throw new UnsupportedOperationException("not implemented");
     }
