@@ -16,9 +16,9 @@ import java.nio.channels.SeekableByteChannel;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2021/11/11 umjammer initial version <br>
  */
-public interface SeekableDataInput extends Seekable, DataInput {
+public interface SeekableDataInput<T> extends Seekable, DataInput {
 
-    SeekableByteChannel origin();
+    T origin();
 }
 
 /* */

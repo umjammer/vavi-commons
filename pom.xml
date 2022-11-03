@@ -8,7 +8,7 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.1.7</version>
+  <version>1.1.8</version>
 
   <name>Vavi Commons API</name>
   <developers>
@@ -71,11 +71,17 @@
               <goal>jar</goal>
             </goals>
             <configuration>
-              <additionalJOption>-J-Duser.language=en_US</additionalJOption>  <!-- TODO ad-hoc -->
+              <additionalJOptions>
+                <additionalJOption>-J-Duser.language=en_US</additionalJOption>  <!-- TODO ad-hoc -->
+              </additionalJOptions>
+              <additionalOptions>
+                <additionalOption>-Xdoclint:none</additionalOption>
+                <additionalOption>-Xdoclint:-missing</additionalOption>
+              </additionalOptions>
               <locale>en_US</locale> <!-- TODO doesn't work why ??? -->
-              <additionalOptions>-Xdoclint:none</additionalOptions>
               <debug>true</debug>
               <verbose>false</verbose>
+              <failOnWarnings>false</failOnWarnings>
               <failOnError>false</failOnError>
               <quiet>true</quiet>
             </configuration>

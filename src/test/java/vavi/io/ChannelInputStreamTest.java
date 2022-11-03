@@ -68,7 +68,7 @@ class ChannelInputStreamTest {
     void test3() throws IOException {
         Path path = Paths.get("src/test/resources/cis-test.dat");
         SeekableByteChannel sbc = Files.newByteChannel(path);
-        SeekableDataInput di = new LittleEndianSeekableDataInputStream(sbc);
+        SeekableDataInput<?> di = new LittleEndianSeekableDataInputStream(sbc);
         di.position(55);
         int c = di.readUnsignedByte();
         assertEquals(55, c);
@@ -87,7 +87,7 @@ class ChannelInputStreamTest {
     void test4() throws IOException {
         Path path = Paths.get("src/test/resources/cis-test.dat");
         SeekableByteChannel sbc = Files.newByteChannel(path);
-        SeekableDataInput di = new SeekableDataInputStream(sbc);
+        SeekableDataInput<?> di = new SeekableDataInputStream(sbc);
         di.position(55);
         int c = di.readUnsignedByte();
         assertEquals(55, c);

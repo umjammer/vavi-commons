@@ -49,13 +49,13 @@ public class OutputEngineInputStream extends InputStream {
     /** */
     private byte[] one = new byte[1];
 
-    /* */
+    @Override
     public int read() throws IOException {
         int amount = read(one, 0, 1);
         return (amount < 0) ? -1 : one[0] & 0xff;
     }
 
-    /* */
+    @Override
     public int read(byte[] data, int offset, int length) throws IOException {
         if (data == null) {
             throw new NullPointerException();
@@ -78,7 +78,7 @@ public class OutputEngineInputStream extends InputStream {
         }
     }
 
-    /* */
+    @Override
     public long skip(long amount) throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -99,7 +99,7 @@ public class OutputEngineInputStream extends InputStream {
         }
     }
 
-    /* */
+    @Override
     public int available() throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -108,7 +108,7 @@ public class OutputEngineInputStream extends InputStream {
         }
     }
 
-    /* */
+    @Override
     public void close() throws IOException {
         if (!closed) {
             closed = true;
@@ -135,13 +135,13 @@ public class OutputEngineInputStream extends InputStream {
 
     /** */
     private class OutputStreamImpl extends OutputStream {
-        /** */
+        @Override
         public void write(int datum) throws IOException {
             one[0] = (byte) datum;
             write(one, 0, 1);
         }
 
-        /** */
+        @Override
         public void write(byte[] data, int offset, int length) throws IOException {
             if (data == null) {
                 throw new NullPointerException();
@@ -154,7 +154,7 @@ public class OutputEngineInputStream extends InputStream {
             }
         }
 
-        /** */
+        @Override
         public void close() {
             eof = true;
         }

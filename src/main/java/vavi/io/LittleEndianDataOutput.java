@@ -17,38 +17,38 @@ import java.io.IOException;
  * @version 0.00 040929 nsano initial version <br>
  */
 public interface LittleEndianDataOutput extends DataOutput {
-    /** @see java.io.DataOutput#writeDouble(double) */
-    void writeDouble(double arg0) throws IOException;
+    @Override
+    void writeDouble(double d) throws IOException;
 
-    /** @see java.io.DataOutput#writeFloat(float) */
-    void writeFloat(float arg0) throws IOException;
+    @Override
+    void writeFloat(float f) throws IOException;
 
-    /** @see java.io.DataOutput#writeByte(int) */
+    @Override
     void writeByte(int b) throws IOException;
 
-    /** @see java.io.DataOutput#writeChar(int) */
-    void writeChar(int arg0) throws IOException;
+    @Override
+    void writeChar(int c) throws IOException;
 
-    /** @see java.io.DataOutput#writeInt(int) */
+    @Override
     void writeInt(int i) throws IOException;
 
-    /** @see java.io.DataOutput#writeShort(int) */
-    void writeShort(int i) throws IOException;
+    @Override
+    void writeShort(int s) throws IOException;
 
-    /** @see java.io.DataOutput#writeLong(long) */
+    @Override
     void writeLong(long l) throws IOException;
 
-    /** @see java.io.DataOutput#writeBoolean(boolean) */
-    void writeBoolean(boolean arg0) throws IOException;
+    @Override
+    void writeBoolean(boolean z) throws IOException;
 
-    /** @see java.io.DataOutput#writeBytes(java.lang.String) */
-    void writeBytes(String arg0) throws IOException;
+    @Override
+    void writeBytes(String b) throws IOException;
 
-    /** @see java.io.DataOutput#writeChars(java.lang.String) */
-    void writeChars(String arg0) throws IOException;
+    @Override
+    void writeChars(String s) throws IOException;
 
-    /** @see java.io.DataOutput#writeUTF(java.lang.String) */
-    void writeUTF(String arg0) throws IOException;
+    @Override
+    void writeUTF(String s) throws IOException;
 }
 
 /* */

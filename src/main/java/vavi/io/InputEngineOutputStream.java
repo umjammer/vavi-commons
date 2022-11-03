@@ -48,14 +48,14 @@ public class InputEngineOutputStream extends OutputStream {
     /** */
     private byte[] one = new byte[1];
 
-    /* */
+    @Override
     public void write(int b) throws IOException {
         one[0] = (byte) (b & 0xff);
         write(one, 0, 1);
     }
 
     /**
-     * <li> limit が capacity に達したら {@link InputEngine#execute()}</li>
+     * <li> when capacity reaches limit {@link InputEngine#execute()}</li>
      *
      * <pre>
      * buffer
@@ -66,6 +66,7 @@ public class InputEngineOutputStream extends OutputStream {
      * |xxx+------------------|
      * </pre>
      */
+    @Override
     public void write(byte[] data, int offset, int length) throws IOException {
 //Debug.println("offset: " + offset + ", length: " + length + "\n" + StringUtil.getDump(data, offset, length));
         if (data == null) {
@@ -127,7 +128,8 @@ public class InputEngineOutputStream extends OutputStream {
         }
     }
 
-    /** 必ずすること */
+    /** this must be called */
+    @Override
     public void flush() throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -135,7 +137,7 @@ public class InputEngineOutputStream extends OutputStream {
         engine.execute();
     }
 
-    /* */
+    @Override
     public void close() throws IOException {
         if (!closed) {
             closed = true;
@@ -164,12 +166,12 @@ public class InputEngineOutputStream extends OutputStream {
 
     /** */
     private class InputStreamImpl extends InputStream {
-        /* */
+        @Override
         public int available() {
             return index;
         }
 
-        /* */
+        @Override
         public int read() throws IOException {
             int r = read(one, 0, 1);
             if (r != 1) {
@@ -179,7 +181,7 @@ public class InputEngineOutputStream extends OutputStream {
             }
         }
 
-        /* */
+        @Override
         public int read(byte[] data, int offset, int length) throws IOException {
             if (data == null) {
                 throw new NullPointerException("data");
@@ -194,7 +196,7 @@ public class InputEngineOutputStream extends OutputStream {
             }
         }
 
-        /* */
+        @Override
         public void close() {
             eof = true;
         }

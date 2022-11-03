@@ -85,9 +85,9 @@ public class UtilInputStream extends FilterInputStream {
             baos.write(b);
         }
         if (encoding == null) {
-            return new String(baos.toByteArray());
+            return baos.toString();
         } else {
-            return new String(baos.toByteArray(), encoding);
+            return baos.toString(encoding);
         }
     }
 }
