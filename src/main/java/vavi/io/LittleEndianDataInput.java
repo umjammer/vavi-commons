@@ -50,9 +50,11 @@ public interface LittleEndianDataInput extends DataInput {
     @Override
     int readUnsignedByte() throws IOException;
 
+    /** @see "https://en.wikipedia.org/wiki/Endianness#Floating_point" */
     @Override
     float readFloat() throws IOException;
 
+    /** @see "https://en.wikipedia.org/wiki/Endianness#Floating_point" */
     @Override
     double readDouble() throws IOException;
 

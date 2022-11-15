@@ -121,11 +121,13 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
 
     @Override
     public float readFloat() throws IOException {
+        // @see "https://en.wikipedia.org/wiki/Endianness#Floating_point"
         return Float.intBitsToFloat(readInt());
     }
 
     @Override
     public double readDouble() throws IOException {
+        // @see "https://en.wikipedia.org/wiki/Endianness#Floating_point"
         return Double.longBitsToDouble(readLong());
     }
 
