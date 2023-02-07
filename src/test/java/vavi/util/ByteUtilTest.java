@@ -8,12 +8,14 @@ package vavi.util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 
 /**
@@ -168,6 +170,34 @@ class ByteUtilTest {
         assertEquals(14, ByteUtil.indexOf(b, (byte) 'o', 13));
         assertEquals(14, ByteUtil.indexOf(b, (byte) 'o', 14));
         assertEquals(-1, ByteUtil.indexOf(b, (byte) 'a', 14));
+    }
+
+    @Test
+    void testToByteArray() {
+        byte[] r = ByteUtil.toByteArray(Arrays.asList((byte) 0x30, (byte) 0x31, (byte) 0x32));
+        assertArrayEquals(new byte[] {'0', '1', '2'}, r);
+    }
+
+    @Test
+    void testToList() throws Exception {
+        List<Byte> r = ByteUtil.toList(new byte[] {'0', '1', '2'});
+        assertIterableEquals(Arrays.asList((byte) '0', (byte) '1', (byte) '2'), r);
+    }
+
+    @Test
+    void testToByteArrayGenerics() {
+        byte[] r = ByteUtil.toByteArrayGenerics(Arrays.asList(0x30, 0x31, 0x32));
+        assertArrayEquals(new byte[] {'0', '1', '2'}, r);
+        r = ByteUtil.toByteArrayGenerics(Arrays.asList(0x80, 0x31, 0xf2));
+        assertArrayEquals(new byte[] {(byte) 0x80, '1', (byte) 0xf2}, r);
+    }
+
+    @Test
+    void testHexStringToBytes() {
+        byte[] r = ByteUtil.hexStringToBytes("303132");
+        assertArrayEquals(new byte[] {'0', '1', '2'}, r);
+        r = ByteUtil.hexStringToBytes("8031f2");
+        assertArrayEquals(new byte[] {(byte) 0x80, '1', (byte) 0xf2}, r);
     }
 }
 
