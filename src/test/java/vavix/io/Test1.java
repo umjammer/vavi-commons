@@ -40,6 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @version 0.00 2011/10/15 umjammer initial version <br>
  */
 public class Test1 {
+
     @BeforeAll
     static void setup() throws IOException {
         if (!Files.exists(Paths.get("tmp"))) {
@@ -47,7 +48,7 @@ public class Test1 {
         }
     }
 
-    class GZIPOutputStreamFactory implements IOStreamOutputEngine.OutputStreamFactory {
+    static class GZIPOutputStreamFactory implements IOStreamOutputEngine.OutputStreamFactory {
         public OutputStream getOutputStream(OutputStream out) throws IOException {
             return new GZIPOutputStream(out);
         }
@@ -87,10 +88,10 @@ Debug.println(r);
         assertEquals(s.substring(1), r);
     }
 
-    class GZIPInputStreamFactory implements IOStreamInputEngine.InputStreamFactory {
+    static class GZIPInputStreamFactory implements IOStreamInputEngine.InputStreamFactory {
         public InputStream getInputStream(InputStream in) throws IOException {
-            // header を読み込むため IOStreamInputEngine はいくらか読み込んでから
-            // initialize() する必要がある (*1)
+            // IOStreamInputEngine needs to read some bytes before initialize()
+            // for reading header (*1)
             return new GZIPInputStream(in);
         }
     }
@@ -134,7 +135,7 @@ Debug.println(r);
         assertEquals(s, r);
     }
 
-    class Rot13OutputStreamFactory implements IOStreamOutputEngine.OutputStreamFactory {
+    static class Rot13OutputStreamFactory implements IOStreamOutputEngine.OutputStreamFactory {
         public OutputStream getOutputStream(OutputStream out) throws IOException {
             return new Rot13.OutputStream(out);
         }
@@ -166,7 +167,7 @@ System.err.println(r);
         assertEquals(s, r);
     }
 
-    class Rot13InputStreamFactory implements IOStreamInputEngine.InputStreamFactory {
+    static class Rot13InputStreamFactory implements IOStreamInputEngine.InputStreamFactory {
         public InputStream getInputStream(InputStream in) throws IOException {
               return new Rot13.InputStream(in);
         }
@@ -219,10 +220,10 @@ System.err.println(r);
 
         File inFile = new File("src/test/java/vavi/io/Test1.java");
 Debug.println(inFile.length());
-        InputStream fis = new BufferedInputStream(new FileInputStream(inFile));
+        InputStream fis = new BufferedInputStream(Files.newInputStream(inFile.toPath()));
         InputStream is = new OutputEngineInputStream(new IOStreamOutputEngine(fis, new Rot13OutputStreamFactory()));
         File outFile = new File("tmp/out.txt");
-        OutputStream fos = new BufferedOutputStream(new FileOutputStream(outFile));
+        OutputStream fos = new BufferedOutputStream(Files.newOutputStream(outFile.toPath()));
         OutputStream os = new InputEngineOutputStream(new IOStreamInputEngine(fos, new Rot13InputStreamFactory()));
         byte[] buf = new byte[8192];
         while (true) {
@@ -252,7 +253,7 @@ Debug.println(inFile.length() + ", " + outFile.length());
 
         File inFile = new File("src/test/java/vavi/io/Test1.java");
 Debug.println(inFile.length());
-        final InputStream in = new Rot13.InputStream(new BufferedInputStream(new FileInputStream(inFile)));
+        final InputStream in = new Rot13.InputStream(new BufferedInputStream(Files.newInputStream(inFile.toPath())));
         final File outFile = new File("tmp/out.txt");
 
         AdvancedPipedInputStream source = new AdvancedPipedInputStream();
@@ -260,7 +261,7 @@ Debug.println(inFile.length());
         Thread thread = new Thread() {
             public void run() {
                 try {
-                    OutputStream os = new Rot13.OutputStream(new BufferedOutputStream(new FileOutputStream(outFile)));
+                    OutputStream os = new Rot13.OutputStream(new BufferedOutputStream(Files.newOutputStream(outFile.toPath())));
                     Streams.io(in, os);
                     os.close();
                 } catch (IOException e) {

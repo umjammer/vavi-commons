@@ -28,7 +28,6 @@
   <distributionManagement>
     <repository>
       <id>github</id>
-      <name>GitHub umjammer Apache Maven Packages</name>
       <url>https://maven.pkg.github.com/umjammer/vavi-commons</url>
     </repository>
   </distributionManagement>

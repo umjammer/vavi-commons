@@ -67,7 +67,7 @@ class Test2 {
         os.write(result);
         os.close();
 
-        assertEquals(data, new String(baos.toByteArray()));
+        assertEquals(data, baos.toString());
     }
 
     @Test
