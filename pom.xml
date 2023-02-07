@@ -8,7 +8,7 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.1.8</version>
+  <version>1.1.9</version>
 
   <name>Vavi Commons API</name>
   <developers>
@@ -204,7 +204,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.9.1</version>
+        <version>5.9.2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -238,7 +238,7 @@
     <dependency>
       <groupId>org.xerial</groupId>
       <artifactId>sqlite-jdbc</artifactId>
-      <version>3.39.3.0</version>
+      <version>3.40.1.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
