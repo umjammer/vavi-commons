@@ -354,7 +354,7 @@ public final class StringUtil {
      * className[collectionSize]{value0,value1,value2,...}
      * </pre>
      * TODO deep flag
-     * @deprecated use {@link List#toString()}
+     * @deprecated use {@link Object#toString()}
      */
     @Deprecated
     public static String expand(List<?> list) {
@@ -383,7 +383,7 @@ public final class StringUtil {
      * className[collectionSize]{value0,value1,value2,...}
      * </pre>
      * TODO deep flag
-     * @deprecated use {@link Set#toString()}
+     * @deprecated use {@link Object#toString()}
      */
     @Deprecated
     public static String expand(Set<?> set) {
@@ -410,7 +410,7 @@ public final class StringUtil {
      * className[collectionSize]{key0=value0,key1=value1,key2=value2,...}
      * </pre>
      * TODO deep flag
-     * @deprecated use {@link Map#toString()}
+     * @deprecated use {@link Object#toString()}
      */
     @Deprecated
     public static String expand(Map<?, ?> map) {

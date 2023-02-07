@@ -40,6 +40,8 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class XPathDebugger {
 
+    private XPathDebugger() {}
+
     /** */
     public static void debug(InputSource is) {
         try {
@@ -86,7 +88,7 @@ public class XPathDebugger {
         }
     }
 
-    /** */
+    /** list xPath */
     public static List<String> getEntryList(InputSource is) {
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();

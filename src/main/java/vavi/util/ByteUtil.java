@@ -8,7 +8,12 @@ package vavi.util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 /**
@@ -292,6 +297,33 @@ public class ByteUtil {
             }
         }
         return -1;
+    }
+
+    /** @since 1.1.9 */
+    public static byte[] toByteArray(List<Byte> o) {
+        byte[] a = new byte[o.size()];
+        IntStream.range(0, o.size()).forEach(i -> a[i] = o.get(i));
+        return a;
+    }
+
+    /** @since 1.1.9 */
+    public static List<Byte> toList(byte[] o) {
+        List<Byte> a = new ArrayList<>(o.length);
+        IntStream.range(0, o.length).forEach(i -> a.add(o[i]));
+        return a;
+    }
+
+    /** @since 1.1.9 */
+    public static <T extends Number> byte[] toByteArrayGenerics(List<T> o) {
+        byte[] a = new byte[o.size()];
+        IntStream.range(0, o.size()).forEach(i -> a[i] = o.get(i).byteValue());
+        return a;
+    }
+
+    /** @since 1.1.9 */
+    public static byte[] hexStringToBytes(String h) {
+        return toByteArrayGenerics(Arrays.stream(h.split("(?<=\\G.{2})"))
+                .map(a -> Integer.parseInt(a, 16)).collect(Collectors.toList()));
     }
 }
 

@@ -17,9 +17,12 @@ import java.io.IOException;
  * @version 0.00 040929 nsano initial version <br>
  */
 public interface LittleEndianDataOutput extends DataOutput {
+
+    /** @see "https://en.wikipedia.org/wiki/Endianness#Floating_point" */
     @Override
     void writeDouble(double d) throws IOException;
 
+    /** @see "https://en.wikipedia.org/wiki/Endianness#Floating_point" */
     @Override
     void writeFloat(float f) throws IOException;
 

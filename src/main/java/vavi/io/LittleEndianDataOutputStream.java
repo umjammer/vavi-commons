@@ -29,11 +29,13 @@ public class LittleEndianDataOutputStream extends FilterOutputStream
 
     @Override
     public void writeDouble(double d) throws IOException {
+        // @see "https://en.wikipedia.org/wiki/Endianness#Floating_point"
         writeLong(Double.doubleToLongBits(d));
     }
 
     @Override
     public void writeFloat(float f) throws IOException {
+        // @see "https://en.wikipedia.org/wiki/Endianness#Floating_point"
         writeInt(Float.floatToIntBits(f));
     }
 
