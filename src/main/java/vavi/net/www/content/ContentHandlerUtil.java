@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class ContentHandlerUtil {
 
-    private static Logger logger = Logger.getLogger(ContentHandlerUtil.class.getName());
+    private static final Logger logger = Logger.getLogger(ContentHandlerUtil.class.getName());
 
     private ContentHandlerUtil() {
     }

@@ -82,9 +82,9 @@ public class PassClassFileTransformer implements VaviClassFileTransformer {
             } catch (Exception e) {
 System.err.println("PassClassFileTransformer::transform: bad pattern: " + prefix + "." + id + "." + "pattern");
             }
-            normalize = Boolean.valueOf(props.getProperty(prefix + "." + "normalize", "false"));
-            cleaning = Boolean.valueOf(props.getProperty(prefix + "." + "cleaning", "true"));
-            duplication = Boolean.valueOf(props.getProperty(prefix + "." + "duplication", "false"));
+            normalize = Boolean.parseBoolean(props.getProperty(prefix + "." + "normalize", "false"));
+            cleaning = Boolean.parseBoolean(props.getProperty(prefix + "." + "cleaning", "true"));
+            duplication = Boolean.parseBoolean(props.getProperty(prefix + "." + "duplication", "false"));
         }
 
         ClassPool classPool = ClassPool.getDefault();
@@ -97,29 +97,29 @@ System.err.println("PassClassFileTransformer::transform: bad pattern: " + prefix
 
                 CtMethod[] ctMethods = ctClass.getDeclaredMethods();
 
-                for (int i = 0; i < ctMethods.length; i++) {
-                    if (cleaning && !available(ctMethods[i].getName())) {
+                for (CtMethod ctMethod : ctMethods) {
+                    if (cleaning && !available(ctMethod.getName())) {
                         continue;
                     }
-                    String key = getKey(ctClass, ctMethods[i]);
-try {
-                    if (duplication) {
-                        ctMethods[i].insertBefore(
-                            "{" +
-                            "    System.err.println(\"" + key + "\");" +
-                            "}");
-                    } else {
-                        ctMethods[i].insertBefore(
-                            "{" +
-                            "    if (!vavix.lang.instrumentation.PassClassFileTransformer.signatures.contains(\"" + key + "\")) {" +
-                            "        System.err.println(\"" + key + "\");" +
-                            "        vavix.lang.instrumentation.PassClassFileTransformer.signatures.add(\"" + key + "\");" +
-                            "    }" +
-                            "}");
+                    String key = getKey(ctClass, ctMethod);
+                    try {
+                        if (duplication) {
+                            ctMethod.insertBefore(
+                                    "{" +
+                                            "    System.err.println(\"" + key + "\");" +
+                                            "}");
+                        } else {
+                            ctMethod.insertBefore(
+                                    "{" +
+                                            "    if (!vavix.lang.instrumentation.PassClassFileTransformer.signatures.contains(\"" + key + "\")) {" +
+                                            "        System.err.println(\"" + key + "\");" +
+                                            "        vavix.lang.instrumentation.PassClassFileTransformer.signatures.add(\"" + key + "\");" +
+                                            "    }" +
+                                            "}");
+                        }
+                    } catch (Exception e) {
+                        System.err.println("PassClassFileTransformer::transform: " + key + ": " + e.getMessage());
                     }
-} catch (Exception e) {
- System.err.println("PassClassFileTransformer::transform: " + key + ": " + e.getMessage());
-}
                 }
 
                 return ctClass.toBytecode();

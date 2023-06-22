@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +39,7 @@ class WAVETest {
 
     /** */
     public static void main(String[] args) throws Exception {
-        InputStream is = new BufferedInputStream(new FileInputStream(args[0]));
+        InputStream is = new BufferedInputStream(Files.newInputStream(Paths.get(args[0])));
         WAVE wave = WAVE.readFrom(is, WAVE.class);
 
 //      WAVE wave = new WAVE();
@@ -50,7 +52,7 @@ class WAVETest {
 //      header.setBlockSize(2 * 8000);
 //      header.setSamplingBits(16);
 
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(args[1]));
+        OutputStream os = new BufferedOutputStream(Files.newOutputStream(Paths.get(args[1])));
         wave.writeTo(os);
     }
 }

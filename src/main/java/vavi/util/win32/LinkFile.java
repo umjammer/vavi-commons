@@ -225,7 +225,7 @@ Debug.println(" offsetOfRemainingPathname: " + offsetOfRemainingPathname);
                 String s1_label = new String(buf, "JISAutoDetect");
 Debug.println(" s1_length: " + s1_length);
 Debug.println(" s1_type: " + s1_type);
-Debug.println(" s1_serial: " + StringUtil.toHex8(s1_serial));
+Debug.printf(" s1_serial: %08x%n", s1_serial);
 Debug.println(" s1_offset: " + s1_offset);
 Debug.println(" s1_label: " + s1_label);
 
@@ -250,7 +250,7 @@ Debug.println(" s1_length: " + s1_length);
 Debug.println(" s1_unknown: " + s1_unknown);
 Debug.println(" s1_offset: " + s1_offset);
 Debug.println(" s1_unknown2: " + s1_unknown2);
-Debug.println(" s1_unknown3: " + StringUtil.toHex8(s1_unknown3));
+Debug.printf(" s1_unknown3: %08x%n", s1_unknown3);
 Debug.println(" s1_name: " + s1_name);
 
                 buf = readAsciiz(is);
@@ -362,7 +362,7 @@ Debug.println("string len: " + length);
         sb.append("time1: ").append(sdf.format(new Date(DateUtil.filetimeToLong(time1)))).append(", ");
         sb.append("time2: ").append(time2).append(": ").append(String.format("%02x", time2)).append(", ");
         sb.append("time2: ").append(sdf.format(new Date(DateUtil.filetimeToLong(time2)))).append(", ");
-        sb.append("time3: ").append(time3).append(": ").append(StringUtil.toHex16(time3)).append(", ");
+        sb.append("time3: ").append(time3).append(": ").append(String.format("%16x", time3)).append(", ");
         sb.append("time3: ").append(sdf.format(new Date(DateUtil.filetimeToLong(time3)))).append(", ");
         sb.append("length: ").append(length).append(", ");
         sb.append("iconNumber: ").append(iconNumber).append(", ");

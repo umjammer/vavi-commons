@@ -46,7 +46,7 @@ public abstract class MultipartChunk extends Chunk {
         return chunks;
     }
 
-    /** */
+    @Override
     public void setData(InputStream is) throws IOException {
         LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
@@ -74,7 +74,7 @@ if (l != 0) {
         is.skipBytes(l);
     }
 
-    /* */
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getName() + "(" + getMultipartName() + ")\n");
@@ -85,8 +85,7 @@ if (l != 0) {
     /** */
     @SuppressWarnings("unchecked")
     public <T extends Chunk> T findChildOf(Class<T> clazz) {
-        for (int i = 0; i < chunks.size(); i++) {
-            Chunk chunk = chunks.get(i);
+        for (Chunk chunk : chunks) {
             if (clazz.isInstance(chunk)) {
                 return (T) chunk;
             }
@@ -98,8 +97,7 @@ if (l != 0) {
     @SuppressWarnings("unchecked")
     public <T extends Chunk> List<T> findChildrenOf(Class<T> clazz) {
         List<T> result = new ArrayList<>();
-        for (int i = 0; i < chunks.size(); i++) {
-            Chunk chunk = chunks.get(i);
+        for (Chunk chunk : chunks) {
             if (clazz.isInstance(chunk)) {
                 result.add((T) chunk);
             }

@@ -28,15 +28,15 @@ public class MSF {
     /** */
     public MSF(String msf) {
         StringTokenizer st = new StringTokenizer(msf, ":");
-        min   = Integer.valueOf(st.nextToken()).intValue();
-        sec   = Integer.valueOf(st.nextToken()).intValue();
-        frame = Integer.valueOf(st.nextToken()).intValue();
+        min   = Integer.parseInt(st.nextToken());
+        sec   = Integer.parseInt(st.nextToken());
+        frame = Integer.parseInt(st.nextToken());
     }
 
     /** */
     public MSF(int frames) {
-        this.min   = (int) Math.floor(frames / (60 * 75));
-        this.sec   = (int) Math.floor((frames - (min * 60 * 75)) / 75);
+        this.min   = (int) (frames / (60. * 75));
+        this.sec   = (int) ((frames - (min * 60. * 75)) / 75);
         this.frame = frames - (min * 60 * 75) - (sec * 75);
     }
 
@@ -61,7 +61,7 @@ public class MSF {
     }
 
     /** TODO */
-    private static final String toInt2(int i) {
+    private static String toInt2(int i) {
         String s = "0" + i;
         return s.substring(s.length() - 2);
     }

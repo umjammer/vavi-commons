@@ -77,8 +77,8 @@ public class IOStreamOutputEngine implements OutputEngine {
     }
 
     /** */
-    public static interface OutputStreamFactory {
-        public OutputStream getOutputStream(OutputStream out) throws IOException;
+    public interface OutputStreamFactory {
+        OutputStream getOutputStream(OutputStream out) throws IOException;
     }
 }
 

@@ -88,6 +88,7 @@ public class AVI extends RIFF {
             int length;
 
             /** */
+            @Override
             public void setData(InputStream is) throws IOException {
                 LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 

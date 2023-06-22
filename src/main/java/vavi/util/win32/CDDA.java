@@ -118,6 +118,7 @@ public class CDDA extends RIFF {
          * Creates a CDA object from a stream.
          * 24 bytes
          */
+        @Override
         public void setData(InputStream is) throws IOException {
 
             LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);

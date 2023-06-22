@@ -37,7 +37,7 @@ public class IniTest {
         URL url = new URL("classpath:test.ini");
         Object content = url.getContent();
 System.err.println(content);
-        assertTrue(WindowsProperties.class.isInstance(content));
+        assertTrue(content instanceof WindowsProperties);
     }
 
     /** TODO doesn't work */
@@ -55,7 +55,7 @@ System.err.println(mimetype); // got
         URL url = new URL("classpath:test.ini");
         Object content = url.getContent();
 System.err.println(content);
-        assertTrue(WindowsProperties.class.isInstance(content));
+        assertTrue(content instanceof WindowsProperties);
     }
 }
 

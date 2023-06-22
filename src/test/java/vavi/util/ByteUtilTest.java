@@ -72,9 +72,9 @@ class ByteUtilTest {
     void testBe64() throws Exception {
         byte[] buf = new byte[8];
 
-        ByteUtil.writeBeLong(0xfedcba9876543210l, buf, 0);
+        ByteUtil.writeBeLong(0xfedcba9876543210L, buf, 0);
         long v = ByteUtil.readBeLong(buf, 0);
-        assertEquals(0xfedcba9876543210l, v);
+        assertEquals(0xfedcba9876543210L, v);
     }
 
     @Test

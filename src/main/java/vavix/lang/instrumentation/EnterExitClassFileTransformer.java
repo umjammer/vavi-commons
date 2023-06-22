@@ -73,9 +73,9 @@ System.err.println("EnterExitClassFileTransformer::transform: bad pattern: " + p
                 CtClass ctClass = classPool.makeClass(stream);
 
                 CtMethod[] ctMethods = ctClass.getDeclaredMethods();
-                for (int i = 0; i < ctMethods.length; i++) {
-                    ctMethods[i].insertBefore("{System.err.println(\"Enter " + ctClass.getName() + "#" + ctMethods[i].getName() + ctMethods[i].getSignature() + "\");}");
-                    ctMethods[i].insertAfter("{System.err.println(\"Exit " + ctClass.getName() + "#" + ctMethods[i].getName() + ctMethods[i].getSignature() + "\");}");
+                for (CtMethod ctMethod : ctMethods) {
+                    ctMethod.insertBefore("{System.err.println(\"Enter " + ctClass.getName() + "#" + ctMethod.getName() + ctMethod.getSignature() + "\");}");
+                    ctMethod.insertAfter("{System.err.println(\"Exit " + ctClass.getName() + "#" + ctMethod.getName() + ctMethod.getSignature() + "\");}");
                 }
 
                 return ctClass.toBytecode();

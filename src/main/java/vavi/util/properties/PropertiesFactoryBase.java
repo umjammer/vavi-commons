@@ -61,13 +61,14 @@ public abstract class PropertiesFactoryBase<K, V, Args> implements Iterable<Map.
     /**
      * @param args set by the {@link #PropertiesFactoryBase(String, Object...)}
      */
-    protected abstract void preInit(@SuppressWarnings("unchecked") Args... args);
+    protected abstract void preInit(Args... args);
 
     /**
      * {@link #preInit(Object...)} will be called.
      * @param path should be full path
      */
-    public PropertiesFactoryBase(String path, @SuppressWarnings("unchecked") Args... args) {
+    @SafeVarargs
+    public PropertiesFactoryBase(String path, Args... args) {
         preInit(args);
 
         try {
@@ -77,11 +78,10 @@ Debug.println(Level.FINE, "path: " + path);
             props.load(PropertiesFactoryBase.class.getResourceAsStream(path));
 
             //
-            Iterator<?> i = props.keySet().iterator();
-            while (i.hasNext()) {
-                String key = (String) i.next();
+            for (Object o : props.keySet()) {
+                String key = (String) o;
                 if (match(key)) {
-Debug.println(Level.FINE, "matched: " + key + "=" + props.getProperty(key));
+                    Debug.println(Level.FINE, "matched: " + key + "=" + props.getProperty(key));
                     instances.put(getStoreKey(key), getStoreValue(props.getProperty(key)));
                 }
             }

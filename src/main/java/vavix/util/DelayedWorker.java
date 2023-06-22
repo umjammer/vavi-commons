@@ -24,7 +24,7 @@ public final class DelayedWorker {
 
     private DelayedWorker() {}
 
-    private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     /**
      * @param millis delay in milliseconds
@@ -41,7 +41,7 @@ public final class DelayedWorker {
         boolean come();
     }
 
-    private static ThreadLocal<DelayedWorkDetector> detectors = new ThreadLocal<>();
+    private static final ThreadLocal<DelayedWorkDetector> detectors = new ThreadLocal<>();
 
     /**
      * @param millis delay in milliseconds
@@ -52,7 +52,7 @@ public final class DelayedWorker {
             detector = new DelayedWorkDetector() {
                 boolean flag = false;
                 boolean exec = false;
-                public boolean come() {
+                @Override public boolean come() {
                     if (!exec) {
                         later(millis, this::exec);
 Debug.println(Level.FINE, "exec after: " + millis + " [ms], " + this.hashCode() + ", " + Thread.currentThread().getId());

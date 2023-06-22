@@ -131,7 +131,7 @@ public class BitInputStream extends FilterInputStream {
     /**
      * こいつがないとこのクラスの read を使用しない時がある。
      */
-    public int read(byte b[], int off, int len) throws IOException {
+    public int read(byte[] b, int off, int len) throws IOException {
         if (b == null) {
             throw new NullPointerException();
         } else if ((off < 0) || (off > b.length) || (len < 0) || ((off + len) > b.length) || ((off + len) < 0)) {

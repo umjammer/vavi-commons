@@ -49,7 +49,7 @@ public final class Debug {
     private Debug() {}
 
     /** */
-    public static final boolean isLoggable(Level level) {
+    public static boolean isLoggable(Level level) {
         return logger.isLoggable(level);
     }
 
@@ -59,7 +59,7 @@ public final class Debug {
      * @param level このメッセージの表示レベル
      * @param message 表示メッセージ
      */
-    public static final void println(Level level, Object message) {
+    public static void println(Level level, Object message) {
         print(level, message + "\n");
     }
 
@@ -70,7 +70,7 @@ public final class Debug {
      * @param message 表示メッセージ
      * @see #print(Level, Object)
      */
-    public static final void println(Level level, boolean message) {
+    public static void println(Level level, boolean message) {
         println(level, String.valueOf(message));
     }
 
@@ -81,7 +81,7 @@ public final class Debug {
      * @param message 表示メッセージ
      * @see #println(Level, Object)
      */
-    public static final void println(Level level, int message) {
+    public static void println(Level level, int message) {
         println(level, String.valueOf(message));
     }
 
@@ -91,7 +91,7 @@ public final class Debug {
      * @param message 表示メッセージ
      * @see #println(Level, Object)
      */
-    public static final void println(Object message) {
+    public static void println(Object message) {
         println(Level.INFO, message);
     }
 
@@ -101,7 +101,7 @@ public final class Debug {
      * @param message 表示メッセージ
      * @see #println(Level, Object)
      */
-    public static final void println(int message) {
+    public static void println(int message) {
         println(Level.INFO, String.valueOf(message));
     }
 
@@ -111,7 +111,7 @@ public final class Debug {
      * @param message 表示メッセージ
      * @see #println(Level, Object)
      */
-    public static final void println(char message) {
+    public static void println(char message) {
         println(Level.INFO, String.valueOf(message));
     }
 
@@ -121,7 +121,7 @@ public final class Debug {
      * @param message 表示メッセージ
      * @see #println(Level, Object)
      */
-    public static final void println(boolean message) {
+    public static void println(boolean message) {
         println(Level.INFO, String.valueOf(message));
     }
 
@@ -131,7 +131,7 @@ public final class Debug {
      * @param message 表示メッセージ
      * @see #println(Level, Object)
      */
-    public static final void println(double message) {
+    public static void println(double message) {
         println(Level.INFO, String.valueOf(message));
     }
 
@@ -141,7 +141,7 @@ public final class Debug {
      * @param message 表示メッセージ
      * @see #println(Level, Object)
      */
-    public static final void println(float message) {
+    public static void println(float message) {
         println(Level.INFO, String.valueOf(message));
     }
 
@@ -151,7 +151,7 @@ public final class Debug {
      * @param message 表示メッセージ
      * @see #println(Level, Object)
      */
-    public static final void println(long message) {
+    public static void println(long message) {
         println(Level.INFO, String.valueOf(message));
     }
 
@@ -161,8 +161,17 @@ public final class Debug {
      * @param message 表示メッセージ
      * @see #println(Level, Object)
      */
-    public static final void println(byte message) {
+    public static void println(byte message) {
         println(Level.INFO, String.valueOf(message));
+    }
+
+    /**
+     * Outputs new line.
+     *
+     * @see #println(Level, Object)
+     */
+    public static void println() {
+        println(Level.INFO);
     }
 
     /**
@@ -170,7 +179,7 @@ public final class Debug {
      *
      * @param message 表示メッセージ
      */
-    public static final void printf(String message, Object... args) {
+    public static void printf(String message, Object... args) {
         printf(Level.INFO, message, args);
     }
 
@@ -179,7 +188,7 @@ public final class Debug {
      *
      * @param message 表示メッセージ
      */
-    public static final void printf(Level level, String message, Object... args) {
+    public static void printf(Level level, String message, Object... args) {
         print(level, String.format(message, args));
     }
 
@@ -189,7 +198,7 @@ public final class Debug {
      * @param level このメッセージの表示レベル
      * @param message 表示メッセージ
      */
-    public static final void print(Level level, Object message) {
+    public static void print(Level level, Object message) {
         StackTraceElement ste = getStackTraceElement(0);
         logger.logp(level,
                     StringUtil.getClassName(ste.getClassName()),
@@ -203,7 +212,7 @@ public final class Debug {
      * @param message 表示メッセージ
      * @see #println(Level, Object)
      */
-    public static final void print(Object message) {
+    public static void print(Object message) {
         print(Level.INFO, message);
     }
 
@@ -211,7 +220,7 @@ public final class Debug {
      * デバッグモードならスタックトレースを出力します．
      * @param e exception
      */
-    public static final void printStackTrace(Throwable e) {
+    public static void printStackTrace(Throwable e) {
         printStackTrace(Level.INFO, e);
     }
 
@@ -220,7 +229,7 @@ public final class Debug {
      * @param level
      * @param e exception
      */
-    public static final void printStackTrace(Level level, Throwable e) {
+    public static void printStackTrace(Level level, Throwable e) {
         logger.log(level, e.getMessage(), e);
     }
 
@@ -228,7 +237,7 @@ public final class Debug {
      * バイト配列を 16 進数でダンプします．
      */
     @Deprecated
-    public static final void dump(byte[] buf) {
+    public static void dump(byte[] buf) {
         dump(new ByteArrayInputStream(buf));
     }
 
@@ -236,7 +245,7 @@ public final class Debug {
      * バイト配列を 16 進数でダンプします．
      */
     @Deprecated
-    public static final void dump(byte[] buf, int length) {
+    public static void dump(byte[] buf, int length) {
         dump(buf, 0, length);
     }
 
@@ -244,7 +253,7 @@ public final class Debug {
      * バイト配列を 16 進数でダンプします．
      */
     @Deprecated
-    public static final void dump(byte[] buf, int offset, int length) {
+    public static void dump(byte[] buf, int offset, int length) {
         dump(new ByteArrayInputStream(buf, offset, length));
     }
 
@@ -252,11 +261,8 @@ public final class Debug {
      * ストリームを 16 進数でダンプします．
      */
     @Deprecated
-    public static final void dump(InputStream is) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n");
-        sb.append(StringUtil.getDump(is));
-        print(sb.toString());
+    public static void dump(InputStream is) {
+        print("\n" + StringUtil.getDump(is));
     }
 
     /**
@@ -264,7 +270,7 @@ public final class Debug {
      * @param length 制限する長さ
      */
     @Deprecated
-    public static final void dump(InputStream is, int length) {
+    public static void dump(InputStream is, int length) {
         StringBuilder sb = new StringBuilder();
         sb.append("dumped ");
         try {
@@ -292,7 +298,7 @@ public final class Debug {
      * </pre>
      * <p>
      */
-    public static final String getCallerMethod() {
+    public static String getCallerMethod() {
         return getCallerMethod(0);
     }
 
@@ -303,7 +309,7 @@ public final class Debug {
      * 対象メソッドを呼ぶメソッドを呼ぶ場合は 1，
      * のように指定する。
      */
-    public static final String getCallerMethod(int depth) {
+    public static String getCallerMethod(int depth) {
         StackTraceElement ste = getStackTraceElement(depth);
         return format(ste);
     }
@@ -312,7 +318,7 @@ public final class Debug {
      * フォーマットした StackTraceElement の文字列を返します．
      * @param ste StackTraceElement
      */
-    private static final String format(StackTraceElement ste) {
+    private static String format(StackTraceElement ste) {
         StringBuilder sb = new StringBuilder();
 //    sb.append(StringUtil.getClassName(ste.getClassName()));
 //    sb.append("::");
@@ -334,7 +340,7 @@ public final class Debug {
     /**
      * このクラスのの呼び出し元メソッドを返します．
      */
-    private static final StackTraceElement getStackTraceElement(int depth) {
+    private static StackTraceElement getStackTraceElement(int depth) {
         Throwable t = new Throwable();
         StackTraceElement[] stes = t.getStackTrace();
 //  System.err.println("----");
@@ -356,14 +362,14 @@ public final class Debug {
      * <code>vavi.xxx</code> パッケージを例とすれば <code>
      * getTopCallerMethod("vavi")</code> と指定します．
      */
-    public static final String getTopCallerMethod(String packageName) {
+    public static String getTopCallerMethod(String packageName) {
 
         Throwable t = new Throwable();
         StackTraceElement[] stes = t.getStackTrace();
 
-        for (int i = 0; i < stes.length; i++) {
-            if (stes[i].getClassName().startsWith(packageName)) {
-                return format(stes[i]);
+        for (StackTraceElement ste : stes) {
+            if (ste.getClassName().startsWith(packageName)) {
+                return format(ste);
             }
         }
 

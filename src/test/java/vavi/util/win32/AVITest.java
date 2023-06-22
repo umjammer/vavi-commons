@@ -9,6 +9,8 @@ package vavi.util.win32;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +34,7 @@ public class AVITest {
 
     /** */
     public static void main(String[] args) throws Exception {
-        InputStream is = new BufferedInputStream(new FileInputStream(args[0]));
+        InputStream is = new BufferedInputStream(Files.newInputStream(Paths.get(args[0])));
         AVI avi = AVI.readFrom(is, AVI.class);
         System.err.println("AVI: " + avi);
     }

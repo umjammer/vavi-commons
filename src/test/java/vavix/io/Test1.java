@@ -9,8 +9,6 @@ package vavix.io;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -258,20 +256,18 @@ Debug.println(inFile.length());
 
         AdvancedPipedInputStream source = new AdvancedPipedInputStream();
         final AdvancedPipedInputStream.OutputStreamEx sink = source.getOutputStream();
-        Thread thread = new Thread() {
-            public void run() {
+        Thread thread = new Thread(() -> {
+            try {
+                OutputStream os = new Rot13.OutputStream(new BufferedOutputStream(Files.newOutputStream(outFile.toPath())));
+                Streams.io(in, os);
+                os.close();
+            } catch (IOException e) {
                 try {
-                    OutputStream os = new Rot13.OutputStream(new BufferedOutputStream(Files.newOutputStream(outFile.toPath())));
-                    Streams.io(in, os);
-                    os.close();
-                } catch (IOException e) {
-                    try {
-                        sink.setException(e);
-                    } catch (IOException ignored) {
-                    }
+                    sink.setException(e);
+                } catch (IOException ignored) {
                 }
             }
-        };
+        });
         thread.start();
         thread.join();
         source.close();

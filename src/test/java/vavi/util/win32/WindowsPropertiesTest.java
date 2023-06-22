@@ -9,6 +9,8 @@ package vavi.util.win32;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -41,10 +43,10 @@ public class WindowsPropertiesTest {
      */
     public static void main(String[] args) throws IOException {
         WindowsProperties ini = new WindowsProperties();
-        ini.load(new FileInputStream(args[0]));
+        ini.load(Files.newInputStream(Paths.get(args[0])));
         ini.list(System.out);
         ini.removePropertiesOfSection(args[2]);
-        ini.store(new FileOutputStream(args[1]), args[1]);
+        ini.store(Files.newOutputStream(Paths.get(args[1])), args[1]);
     }
 }
 

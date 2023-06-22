@@ -54,7 +54,7 @@ public class BetterFormatter extends Formatter {
         root.setUseParentHandlers(false);
         for (Handler h : root.getHandlers()) {
             if (h instanceof ConsoleHandler)
-            root.removeHandler(h);
+                root.removeHandler(h);
         }
         root.addHandler(handler);
     }
@@ -129,11 +129,11 @@ public class BetterFormatter extends Formatter {
             }
         }
 
-        String result = String.join(".", fragment);
+        StringBuilder result = new StringBuilder(String.join(".", fragment));
         while (result.length() < aimLength) {
-            result += " ";
+            result.append(" ");
         }
 
-        return result;
+        return result.toString();
     }
 }

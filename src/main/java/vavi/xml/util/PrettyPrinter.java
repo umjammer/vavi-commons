@@ -67,9 +67,7 @@ public class PrettyPrinter {
     public void print(InputSource source) throws IOException {
         try {
             print(DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(source));
-        } catch (SAXException e) {
-            throw new IllegalStateException(e);
-        } catch (ParserConfigurationException e) {
+        } catch (SAXException | ParserConfigurationException e) {
             throw new IllegalStateException(e);
         }
     }
@@ -109,7 +107,7 @@ public class PrettyPrinter {
     /** */
     private static Transformer transformer;
 
-    /** */
+    /* */
     static {
         try {
             TransformerFactory tf = TransformerFactory.newInstance();

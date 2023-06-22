@@ -39,14 +39,14 @@ public final class DateUtil {
     /**
      * FILETIME (long) から java long (msec since 1970/1/1) を取得します．
      */
-    public static final long filetimeToLong(long filetime) {
+    public static long filetimeToLong(long filetime) {
 
         if ((filetime & H_MASK) == 0) {
             return 0;
         }
 
         double d = ((filetime & H_MASK) >>> 32) * 4.0D * (1 << 30);
-        d += (filetime & L_MASK & 0xfff00000);
+        d += (filetime & L_MASK & 0xfff00000L);
         d *= 1.0e-4;
 
         /* now adjust by 369 years to make the secs since 1970 */
@@ -64,10 +64,10 @@ public final class DateUtil {
      *
      * @param date OLE Automation date.
      */
-    public static final long dateToLong(double date) {
+    public static long dateToLong(double date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-        calendar.set(1899, Calendar.DECEMBER, 30, 00, 00, 00);
+        calendar.set(1899, Calendar.DECEMBER, 30, 0, 0, 0);
         double past = 24 * 60 * 60 * 1000 * date;
         return calendar.getTime().getTime() + (long) past;
     }
@@ -79,7 +79,7 @@ public final class DateUtil {
      * @param date 上位から 7 bit が 1980 年からの年数，4 bit が月， 残りの 5 bit が日を表す
      * @param time 上位から 5 bit が時間，6 bit が分， 残りの 5 bit が秒を 2 で割ったもの
      */
-    public static final long dosDateTimeToLong(int date, int time) {
+    public static long dosDateTimeToLong(int date, int time) {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));

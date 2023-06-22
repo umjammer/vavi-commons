@@ -48,6 +48,16 @@ public class Chunk {
     private int length;
 
     /** */
+    public void setId(byte[] id) {
+        this.id = id;
+    }
+
+    /** */
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    /** */
     private byte[] data;
 
     /** */
@@ -93,7 +103,7 @@ Debug.println(Level.FINER, getName() + ": " + length + " / " + is.available());
           ledis.readFully(data);
     }
 
-    /** */
+    @Override
     public String toString() {
         return getName() + ": " + getLength();
     }
@@ -101,7 +111,6 @@ Debug.println(Level.FINER, getName() + ": " + length + " / " + is.available());
     /**
      * Creates a Chunk object from a stream.
      */
-    @SuppressWarnings("unchecked")
     public static <T extends Chunk> T readFrom(InputStream is, Class<T> clazz)
         throws IOException {
 
@@ -113,7 +122,7 @@ Debug.println(Level.FINER, getName() + ": " + length + " / " + is.available());
         int length = ledis.readInt();
 Debug.println(Level.FINER, StringUtil.getDump(tmp));
 
-        Chunk chunk = null;
+        T chunk = null;
 
         try {
             if (chunkClasses == null) {
@@ -125,12 +134,12 @@ Debug.println(Level.FINER, StringUtil.getDump(tmp));
             throw new IllegalStateException(e);
         }
 
-        chunk.id = tmp;
-        chunk.length = length;
+        chunk.setId(tmp);
+        chunk.setLength(length);
         chunk.setData(is);
         ledis.skipBytes(length % 2); // padding
 Debug.print(Level.FINEST, chunk);
-        return (T) chunk;
+        return chunk;
     }
 
     protected static Chunk readFrom(InputStream is, Chunk parent)
@@ -176,6 +185,7 @@ Debug.print(Level.FINEST, chunk);
     protected static List<Class<? extends Chunk>> chunkClasses; 
 
     /** */
+    @SuppressWarnings({"unchecked", "rawtypes"})
     protected static List<Class<? extends Chunk>> getChunkClasses(Class<? extends Chunk> clazz) {
         List<Class<? extends Chunk>> results = new ArrayList<>();
         while (clazz != null) {
@@ -183,20 +193,20 @@ Debug.print(Level.FINEST, chunk);
                 results.add(clazz);
             }
             results.addAll(getChildChunkClasses(clazz));
-            clazz = Class.class.cast(clazz.getSuperclass());
+            clazz = (Class) clazz.getSuperclass();
         }
         return results;
     }
 
     /** */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     protected static List<Class<? extends Chunk>> getChildChunkClasses(Class<? extends Chunk> clazz) {
         List<Class<? extends Chunk>> results = new ArrayList<>();
         for (Class<?> childClass : clazz.getDeclaredClasses()) {
 //System.err.println(childClass);
             if (Chunk.class.isAssignableFrom(childClass)) {
-                results.add(Class.class.cast(childClass));
-                results.addAll(getChildChunkClasses(Class.class.cast(childClass)));
+                results.add((Class) childClass);
+                results.addAll(getChildChunkClasses((Class) childClass));
             }
         }
         return results;

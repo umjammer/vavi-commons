@@ -9,6 +9,7 @@ package vavi.util.properties;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -23,9 +24,9 @@ class PropertiesFactoryTest {
     @Test
     void testPrefixedClassPropertiesFactory() {
         PrefixedPropertiesFactory<Integer, Number> ppf = new PrefixedClassPropertiesFactory<>("test.properties", "prefix.");
-        assertTrue(String.class.isInstance(ppf.get(1)));
-        assertTrue(StringBuilder.class.isInstance(ppf.get(2)));
-        assertTrue(StringBuffer.class.isInstance(ppf.get(3)));
+        assertInstanceOf(String.class, ppf.get(1));
+        assertInstanceOf(StringBuilder.class, ppf.get(2));
+        assertInstanceOf(StringBuffer.class, ppf.get(3));
     }
 
     @Test
