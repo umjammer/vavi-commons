@@ -5,8 +5,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +34,6 @@ class InstanceCreateStepTest {
             log.add(String.format("%s - %s", "base", "constructor"));
         }
 
-        @PostConstruct
         public void init() {
             log.add(String.format("%s - %s", "base", "PostConstruct"));
         }
@@ -58,7 +55,7 @@ class InstanceCreateStepTest {
             log.add(String.format("%s - %s", "sub", "constructor"));
         }
 
-        @PostConstruct
+        @Override
         public void init() {
             log.add(String.format("%s - %s", "sub", "PostConstruct"));
         }

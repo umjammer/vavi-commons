@@ -7,6 +7,9 @@
 package vavi.util;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
@@ -48,6 +51,17 @@ class StringUtilTest {
         assertEquals(expexted4, StringUtil.getDump(dump, 4, 4));
         String expexted5 = "";
         assertEquals(expexted5, StringUtil.getDump(dump, 0));
+    }
+
+    @Test
+    void test3() throws IOException {
+        byte[] bytes = new byte[256];
+        for (int i = 0; i < 256; i++) {
+            bytes[i] = (byte) i;
+        }
+        Path p = Paths.get("tmp/b.dat");
+        Files.write(p, bytes);
+        Debug.println("\n" + StringUtil.getDump(Files.newInputStream(p), 0, 128));
     }
 
     //----
