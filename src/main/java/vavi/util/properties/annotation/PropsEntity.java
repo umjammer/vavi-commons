@@ -142,7 +142,7 @@ public @interface PropsEntity {
          * Replaces <code>${Foo}</code> with <code>System.getProperty("Foo")</code> or <code>System.getenv("Foo")</code>.
          */
         private static String replaceWithEnvOrProps(String url) {
-logger.finer("url: origin: " + url);
+logger.finest("url: origin: " + url);
             Matcher matcher = pattern.matcher(url);
             while (matcher.find()) {
                String key = matcher.group();
@@ -155,14 +155,14 @@ logger.finer("url: origin: " + url);
                        continue;
                    }
 else {
- logger.finer("url: replaced with props: " + value);
+ logger.finest("url: replaced with props: " + value);
 }
                }
 else {
- logger.finer("url: replaced with env: " + value);
+ logger.finest("url: replaced with env: " + value);
 }
                url = url.replace(key, value);
-logger.finer("url: replace: " + key + ": " + url);
+logger.finest("url: replace: " + key + ": " + url);
             }
             return url;
         }
@@ -174,7 +174,7 @@ logger.finer("url: replace: " + key + ": " + url);
             for (int i = 0; i < args.length; i++) {
                 String key = "{" + i + "}";
                 name = name.replace(key, args[i]);
-logger.finer("replace: " + name + ", " + key + ", " + args[i]);
+logger.finest("replace: " + name + ", " + key + ", " + args[i]);
             }
             return name;
         }
@@ -223,12 +223,12 @@ try {
             if (!baseUrl.isEmpty()) {
                 props = new Properties();
                 String url = replaceWithArgs(replaceWithEnvOrProps(baseUrl), args);
-logger.finer("url: finally: " + url);
+logger.finest("url: finally: " + url);
                 try {
                     props.load(new URL(url).openStream());
                 } catch (IOException e) {
                     if (useSystem(bean)) {
-logger.info("url: useSystem is enabled");
+logger.finer("url: useSystem is enabled");
                         props = System.getProperties();
                         isSystem = true;
                     } else {
@@ -236,7 +236,7 @@ logger.info("url: useSystem is enabled");
                     }
                 }
             } else {
-logger.finer("url: use system properties");
+logger.finest("url: use system properties");
                 props = System.getProperties();
                 isSystem = true;
             }
@@ -245,13 +245,13 @@ logger.finer("url: use system properties");
             for (Field field : getPropertyFields(bean)) {
                 String name = Property.Util.getName(field);
                 String defaultValue = Property.Util.getValue(field);
-logger.finer("before: " + name);
+logger.finest("before: " + name);
                 name = replaceWithArgs(name, args);
-logger.finer("after: " + name);
+logger.finest("after: " + name);
                 String value = null;
                 if (exception != null) {
                     if (!defaultValue.isEmpty()) {
-logger.info("bad url but has default");
+logger.finer("bad url but has default");
                         value = defaultValue;
                     }
                 } else {
@@ -262,10 +262,10 @@ logger.info("bad url but has default");
                     }
                 }
                 if (!isSystem && Property.Util.useSystem(field) && !System.getProperty(name, "").isEmpty()) {
-logger.info("overridden by system properties");
+logger.finer("overridden by system properties");
                     value = System.getProperty(name);
                 }
-logger.fine("value: " + name + ", " + value);
+logger.finest("value: " + name + ", " + value);
                 if (value != null) {
                     Binder binder = Property.Util.getBinder(field);
                     binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
@@ -276,15 +276,15 @@ logger.fine("value: " + name + ", " + value);
             for (Field field : getEnvFields(bean)) {
                 String name = Env.Util.getName(field);
                 String defaultValue = Env.Util.getValue(field);
-logger.finer("before: " + name);
+logger.finest("before: " + name);
                 name = replaceWithArgs(name, args);
-logger.finer("after: " + name);
+logger.finest("after: " + name);
                 String value = null;
                 value = System.getenv(name);
                 if (!defaultValue.isEmpty() && (value == null || value.isEmpty())) {
                     value = defaultValue;
                 }
-logger.fine("env: " + name + ", " + value);
+logger.finest("env: " + name + ", " + value);
                 if (value != null) {
                     Binder binder = Env.Util.getBinder(field);
                     binder.bind(bean, field, field.getType(), value, value); // TODO elseValue is used for type String
