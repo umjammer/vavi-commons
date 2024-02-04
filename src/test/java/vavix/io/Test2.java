@@ -43,12 +43,7 @@ class Test2 {
         ByteArrayInputStream bais = new ByteArrayInputStream(data.getBytes());
 
         // encode
-        DataInputStream is = new DataInputStream(new OutputEngineInputStream(new IOStreamOutputEngine(bais, new IOStreamOutputEngine.OutputStreamFactory() {
-            @Override
-            public OutputStream getOutputStream(OutputStream out) throws IOException {
-                return new Rot13.OutputStream(out);
-            }
-        })));
+        DataInputStream is = new DataInputStream(new OutputEngineInputStream(new IOStreamOutputEngine(bais, out -> new Rot13.OutputStream(out))));
 
         byte[] result = new byte[data.length()];
         is.readFully(result);
@@ -57,12 +52,7 @@ class Test2 {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         // decode
-        DataOutputStream os = new DataOutputStream(new InputEngineOutputStream(new IOStreamInputEngine(baos, new IOStreamInputEngine.InputStreamFactory() {
-            @Override
-            public InputStream getInputStream(InputStream in) throws IOException {
-                return new Rot13.InputStream(in);
-            }
-        })));
+        DataOutputStream os = new DataOutputStream(new InputEngineOutputStream(new IOStreamInputEngine(baos, in -> new Rot13.InputStream(in))));
 
         os.write(result);
         os.close();

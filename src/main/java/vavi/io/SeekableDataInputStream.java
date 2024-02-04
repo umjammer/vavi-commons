@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.SeekableByteChannel;
 
-import vavi.util.Debug;
-
 
 /**
  * SeekableDataInputStream.

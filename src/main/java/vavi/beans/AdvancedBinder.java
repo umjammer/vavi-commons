@@ -30,7 +30,7 @@ public class AdvancedBinder extends DefaultBinder {
         } else if (fieldClass.equals(InputStream.class)) {
             BeanUtil.setFieldValue(field, destBean, value == null || value.isEmpty() ? null : AdvancedBinder.class.getResourceAsStream(value));
         } else if (fieldClass.isEnum()) {
-            BeanUtil.setFieldValue(field, destBean, value == null || value.isEmpty() ? null : Enum.valueOf(Class.class.cast(fieldClass), value));
+            BeanUtil.setFieldValue(field, destBean, value == null || value.isEmpty() ? null : Enum.valueOf((Class) fieldClass, value));
         } else {
             super.bind(destBean, field, fieldClass, value, elseValue);
         }

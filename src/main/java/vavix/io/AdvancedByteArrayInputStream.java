@@ -54,7 +54,7 @@ public class AdvancedByteArrayInputStream extends InputStream {
     }
 
     /* */
-    public int read(byte data[], int offset, int length) throws IOException {
+    public int read(byte[] data, int offset, int length) throws IOException {
         if (data == null) {
             throw new NullPointerException();
         } else if ((offset < 0) || (offset + length > data.length) || (length < 0)) {

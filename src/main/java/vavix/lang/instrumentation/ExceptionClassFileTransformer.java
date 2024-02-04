@@ -48,8 +48,8 @@ public class ExceptionClassFileTransformer implements VaviClassFileTransformer {
                 CtClass ctClass = classPool.makeClass(stream);
 
                 CtMethod[] ctMethods = ctClass.getDeclaredMethods();
-                for (int i = 0; i < ctMethods.length; i++) {
-                    ctMethods[i].insertBefore("{new Exception(\"*** DUMMY ***\").printStackTrace();}");
+                for (CtMethod ctMethod : ctMethods) {
+                    ctMethod.insertBefore("{new Exception(\"*** DUMMY ***\").printStackTrace();}");
                 }
 
                 return ctClass.toBytecode();

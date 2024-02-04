@@ -50,9 +50,9 @@ public class DefaultBinder implements Binder {
         } else if (fieldClass.equals(Double.TYPE)) {
             BeanUtil.setFieldValue(field, destBean, value == null || value.length() == 0 ? 0 : Double.parseDouble(value));
         } else if (fieldClass.equals(Character.class)) {
-            BeanUtil.setFieldValue(field, destBean, value == null || value.length() == 0 ? null : Character.valueOf(value.charAt(0))); // TODO ???
+            BeanUtil.setFieldValue(field, destBean, value == null || value.length() == 0 ? null : value.charAt(0)); // TODO ???
         } else if (fieldClass.equals(Character.TYPE)) {
-            BeanUtil.setFieldValue(field, destBean, value == null || value.length() == 0 ? 0 : Character.valueOf(value.charAt(0))); // TODO ???
+            BeanUtil.setFieldValue(field, destBean, value == null || value.length() == 0 ? 0 : value.charAt(0)); // TODO ???
         } else {
             BeanUtil.setFieldValue(field, destBean, elseValue);
         }

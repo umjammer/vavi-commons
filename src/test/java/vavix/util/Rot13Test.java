@@ -49,7 +49,7 @@ Debug.println(sb.toString());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Rot13.OutputStream ros = new Rot13.OutputStream(baos);
         ros.write(string.getBytes());
-Debug.println(new String(baos.toByteArray()));
+Debug.println(baos.toString());
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         Rot13.InputStream ris = new Rot13.InputStream(bais);
         byte[] b = new byte[256];

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import vavi.util.Debug;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static vavix.util.DelayedWorker.cleanup;
 import static vavix.util.DelayedWorker.later;
 
 
@@ -44,6 +45,23 @@ Debug.println("time: " + t);
         t = e - s;
 Debug.println("time: " + t);
         assertTrue( w - delta < t && t < w + delta);
+    }
+
+    @Test
+    synchronized void test2() throws Exception {
+        long w = System.getProperty("vavi.test", "").equals("ide") ? 10 * 1000 : 5 * 1000;
+        long s = System.currentTimeMillis();
+        DelayedWorker.DelayedWorkDetector dw = later(w);
+        int dw1 = dw.hashCode();
+        while (!dw.come()) {
+            Thread.sleep(2000);
+            break;
+        }
+        assertFalse(dw.come());
+        cleanup();
+        dw = later(w);
+        int dw2 = dw.hashCode();
+        assertNotEquals(dw1, dw2);
     }
 }
 

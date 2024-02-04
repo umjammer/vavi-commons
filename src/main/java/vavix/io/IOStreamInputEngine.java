@@ -84,8 +84,8 @@ public class IOStreamInputEngine implements InputEngine {
     }
 
     /** */
-    public static interface InputStreamFactory {
-        public InputStream getInputStream(InputStream in) throws IOException;
+    public interface InputStreamFactory {
+        InputStream getInputStream(InputStream in) throws IOException;
     }
 }
 

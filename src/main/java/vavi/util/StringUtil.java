@@ -7,6 +7,7 @@
 package vavi.util;
 
 import java.awt.event.KeyEvent;
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -275,7 +277,6 @@ public final class StringUtil {
      * @return パッケージ名を取り除いたクラス名
      * @deprecated use {@link Class#getSimpleName()}
      */
-    @Deprecated
     public static String getClassName(String name) {
         return name.substring(name.lastIndexOf(".") + 1);
     }
@@ -301,7 +302,7 @@ public final class StringUtil {
     public static String expand(int[] array) {
         Integer[] objectArray = new Integer[array.length];
         for (int i = 0; i < array.length; i++) {
-            objectArray[i] = Integer.valueOf(array[i]);
+            objectArray[i] = array[i];
         }
         return expand(objectArray);
     }
@@ -588,7 +589,9 @@ Debug.printStackTrace(e);
             if (is.markSupported()) {
                 is.mark(is.available());
             } else {
-                Debug.println("mark is not supported, your input stream position will be lost.");
+Debug.println(Level.FINER, "mark is not supported");
+                is = new BufferedInputStream(is);
+                is.mark(is.available());
             }
 
             byte[] buf = new byte[16];

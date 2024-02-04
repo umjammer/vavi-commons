@@ -140,9 +140,9 @@ public class WAVE extends RIFF {
 
         /** for debug */
         public String toString() {
-             String key = "format.id." + StringUtil.toHex4(formatId);
+             String key = "format.id." + String.format("%04x", formatId);
              String type = pcmTypes.getProperty(key);
-             return "formatId:\t" + (type == null ? StringUtil.toHex4(formatId) : type) +
+             return "formatId:\t" + (type == null ? String.format("%04x", formatId) : type) +
                 "numberChannels:\t" + numberChannels +
                 "samplingRate:\t"   + samplingRate +
                 "bytesPerSecond:\t" + bytesPerSecond +
@@ -152,7 +152,7 @@ public class WAVE extends RIFF {
                 "expanded:\t" + ((extended == null) ? "null" : "\n" + StringUtil.getDump(extended));
         }
 
-        /** */
+        @Override
         public void setData(InputStream is) throws IOException {
             LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
@@ -196,10 +196,10 @@ public class WAVE extends RIFF {
             }
         }
 
-        /** */
+        @Override
         public void setData(InputStream is) throws IOException {
             if (dealBigSize && is instanceof FileInputStream) {
-                FileChannel inputChannel = FileInputStream.class.cast(is).getChannel();
+                FileChannel inputChannel = ((FileInputStream) is).getChannel();
                 buffer = inputChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) inputChannel.size());
             } else {
                 wave = new byte[getLength()];
@@ -222,7 +222,7 @@ public class WAVE extends RIFF {
         public String toString() {
             return "fileSize: " + fileSize;
         }
-        /** */
+        @Override
         public void setData(InputStream is) throws IOException {
             LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
             fileSize = ledis.readInt();
@@ -236,16 +236,16 @@ public class WAVE extends RIFF {
 
     //-------------------------------------------------------------------------
 
-    /** */
+    @Override
     public void writeTo(OutputStream os) throws IOException {
     }
 
     //-------------------------------------------------------------------------
 
     /** PCM types table */
-    private static Properties pcmTypes = new Properties();
+    private static final Properties pcmTypes = new Properties();
 
-    /**  */
+    /* */
     static {
         try {
             pcmTypes.load(WAVE.class.getResourceAsStream("wave.properties"));

@@ -8,6 +8,8 @@ package vavi.util.win32;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +34,7 @@ public class LinkFileTest {
 
     /** */
     public static void main(String[] args) throws IOException {
-        LinkFile lf = LinkFile.readFrom(new FileInputStream(args[0]));
+        LinkFile lf = LinkFile.readFrom(Files.newInputStream(Paths.get(args[0])));
         System.err.println(lf.getPath());
     }
 }

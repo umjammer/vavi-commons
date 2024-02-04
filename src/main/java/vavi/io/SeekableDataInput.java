@@ -7,7 +7,6 @@
 package vavi.io;
 
 import java.io.DataInput;
-import java.nio.channels.SeekableByteChannel;
 
 
 /**

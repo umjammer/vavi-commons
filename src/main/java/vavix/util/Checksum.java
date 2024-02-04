@@ -28,7 +28,7 @@ public final class Checksum {
      * Compute Adler-32 checksum.
      */
     public static long getChecksum(File file) throws IOException {
-        return getChecksum(new FileInputStream(file));
+        return getChecksum(Files.newInputStream(file.toPath()));
     }
 
     /**

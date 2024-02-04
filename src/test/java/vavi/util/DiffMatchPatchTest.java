@@ -114,7 +114,7 @@ class DiffMatchPatchTest {
     @Test
     void testDiffLinesToChars() {
         // Convert lines down to characters.
-        ArrayList<String> tmpVector = new ArrayList<String>();
+        ArrayList<String> tmpVector = new ArrayList<>();
         tmpVector.add("");
         tmpVector.add("alpha\n");
         tmpVector.add("beta\n");
@@ -141,7 +141,7 @@ class DiffMatchPatchTest {
         for (int i = 1; i < n + 1; i++) {
             tmpVector.add(i + "\n");
             lineList.append(i).append("\n");
-            charList.append(String.valueOf((char) i));
+            charList.append((char) i);
         }
         assertEquals("Test initialization fail #1.", n, tmpVector.size());
         String lines = lineList.toString();
@@ -160,7 +160,7 @@ class DiffMatchPatchTest {
 
         // Convert chars up to lines.
         LinkedList<Diff> diffs = diffList(new Diff(EQUAL, "\u0001\u0002\u0001"), new Diff(INSERT, "\u0002\u0001\u0002"));
-        ArrayList<String> tmpVector = new ArrayList<String>();
+        ArrayList<String> tmpVector = new ArrayList<>();
         tmpVector.add("");
         tmpVector.add("alpha\n");
         tmpVector.add("beta\n");
@@ -175,7 +175,7 @@ class DiffMatchPatchTest {
         for (int i = 1; i < n + 1; i++) {
             tmpVector.add(i + "\n");
             lineList.append(i).append("\n");
-            charList.append(String.valueOf((char) i));
+            charList.append((char) i);
         }
         assertEquals("Test initialization fail #3.", n, tmpVector.size());
         String lines = lineList.toString();
@@ -592,13 +592,13 @@ class DiffMatchPatchTest {
     void testMatchAlphabet() {
         // Initialise the bitmasks for Bitap.
         Map<Character, Integer> bitmask;
-        bitmask = new HashMap<Character, Integer>();
+        bitmask = new HashMap<>();
         bitmask.put('a', 4);
         bitmask.put('b', 2);
         bitmask.put('c', 1);
         assertEquals("match_alphabet: Unique.", bitmask, dmp.match_alphabet("abc"));
 
-        bitmask = new HashMap<Character, Integer>();
+        bitmask = new HashMap<>();
         bitmask.put('a', 37);
         bitmask.put('b', 18);
         bitmask.put('c', 8);

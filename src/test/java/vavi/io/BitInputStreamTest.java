@@ -11,10 +11,13 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.ByteOrder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
 import vavi.util.Debug;
+import vavi.util.StringUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -105,11 +108,11 @@ public class BitInputStreamTest {
 
     /** */
     public static void main(String[] args) throws Exception {
-        InputStream is1 = new BufferedInputStream(new FileInputStream(args[0]));
-Debug.dump(is1);
+        InputStream is1 = new BufferedInputStream(Files.newInputStream(Paths.get(args[0])));
+Debug.println(StringUtil.getDump(is1));
         is1.close();
-        InputStream is2 = new BitInputStream(new BufferedInputStream(new FileInputStream(args[0])));
-Debug.dump(is2);
+        InputStream is2 = new BitInputStream(new BufferedInputStream(Files.newInputStream(Paths.get(args[0]))));
+Debug.println(StringUtil.getDump(is2));
         is2.close();
     }
 }

@@ -75,15 +75,15 @@ System.err.println("CallGraphClassFileTransformer::transform: bad pattern: " + p
                 CtClass ctClass = classPool.makeClass(stream);
 
                 CtMethod[] ctMethods = ctClass.getDeclaredMethods();
-                for (int i = 0; i < ctMethods.length; i++) {
-                    key = getKey(ctClass, ctMethods[i]);
-                    ctMethods[i].insertBefore("{" +
-                                              "    vavix.lang.instrumentation.CallGraphClassFileTransformer.CallLogger.INSTANCE.pushMethod(\"" + key + "\");" +
-                                              "    vavix.lang.instrumentation.CallGraphClassFileTransformer.CallLogger.INSTANCE.logCall();" +
-                                              "}");
-                    ctMethods[i].insertAfter("{" +
-                                             "    vavix.lang.instrumentation.CallGraphClassFileTransformer.CallLogger.INSTANCE.popMethod();" +
-                                             "}");
+                for (CtMethod ctMethod : ctMethods) {
+                    key = getKey(ctClass, ctMethod);
+                    ctMethod.insertBefore("{" +
+                            "    vavix.lang.instrumentation.CallGraphClassFileTransformer.CallLogger.INSTANCE.pushMethod(\"" + key + "\");" +
+                            "    vavix.lang.instrumentation.CallGraphClassFileTransformer.CallLogger.INSTANCE.logCall();" +
+                            "}");
+                    ctMethod.insertAfter("{" +
+                            "    vavix.lang.instrumentation.CallGraphClassFileTransformer.CallLogger.INSTANCE.popMethod();" +
+                            "}");
                 }
 
                 return ctClass.toBytecode();

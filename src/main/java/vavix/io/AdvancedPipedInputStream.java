@@ -97,7 +97,7 @@ public class AdvancedPipedInputStream extends InputStream {
     }
 
     /* */
-    public synchronized int read(byte data[], int offset, int length) throws IOException {
+    public synchronized int read(byte[] data, int offset, int length) throws IOException {
         // take a reference to the reader thread
         if (reader == null)
             reader = Thread.currentThread();
@@ -123,7 +123,7 @@ public class AdvancedPipedInputStream extends InputStream {
                 // calculate amount of contiguous data in pipe buffer
                 int contiguous = capacity - (readx % capacity);
                 // calculate how much we will read this time
-                int amount = (length > available) ? available : length;
+                int amount = Math.min(length, available);
                 if (amount > contiguous) {
                     // two array copies needed if data wrap around the buffer
                     System.arraycopy(buffer, readx % capacity, data, offset, contiguous);
@@ -194,7 +194,7 @@ public class AdvancedPipedInputStream extends InputStream {
         // determine how much can be read
         int amount = available(READER);
         // return 0 on EOF, otherwise the amount readable
-        return (amount < 0) ? 0 : amount;
+        return Math.max(amount, 0);
     }
 
     /** */
@@ -322,7 +322,7 @@ public class AdvancedPipedInputStream extends InputStream {
                     // calculate amount of contiguous space in pipe buffer
                     int contiguous = capacity - (writex % capacity);
                     // calculate how much we will write this time
-                    int amount = (length > available) ? available : length;
+                    int amount = Math.min(length, available);
                     if (amount > contiguous) {
                         // two array copies needed if space wraps around the
                         // buffer

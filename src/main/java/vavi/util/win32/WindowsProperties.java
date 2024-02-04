@@ -43,6 +43,7 @@ public class WindowsProperties extends Properties {
     /**
      * .ini のストリームを読み込みます．
      */
+    @Override
     public void load(InputStream in) throws IOException {
 
         String section = null;
@@ -67,7 +68,7 @@ Debug.println("comment: " + s);
                     int p = s.indexOf('=');
                     if (p != -1) {
                         String key = s.substring(0, p);
-                        String value = s.substring(p + 1, s.length());
+                        String value = s.substring(p + 1);
 //System.err.println("set prop: " + section + "." + key + "=" + value);
                         this.setProperty(section + "." + key, value);
                     } else {
@@ -86,6 +87,7 @@ Debug.println("outside section: " + s);
      * @param key "セクション名" + "." + "キー名"
      * @throws IllegalArgumentException セクション名が無いとき
      */
+    @Override
     public Object setProperty(String key, String value) {
         int p = key.indexOf('.');
         if (p == -1) {
@@ -103,6 +105,7 @@ Debug.println("outside section: " + s);
      * .ini 形式でストリームに書き込みます．
      * 注意：プロパティの順序、コメントは保存されません。
      */
+    @Override
     public void store(OutputStream out, String header) throws IOException {
 
         BufferedWriter w = new BufferedWriter(new OutputStreamWriter(out));

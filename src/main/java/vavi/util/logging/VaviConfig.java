@@ -9,6 +9,7 @@ package vavi.util.logging;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.LogManager;
+import java.util.stream.Stream;
 
 
 /**
@@ -29,7 +30,7 @@ public final class VaviConfig {
                 this.getClass().getResourceAsStream("/logging.properties"));
 String rootLevel = LogManager.getLogManager().getProperty(".level");
 // TODO isLoggable()
-if (Arrays.asList("FINE", "FINER", "FINEST").stream().anyMatch(l -> l.equals(rootLevel))) {
+if (Stream.of("FINE", "FINER", "FINEST").anyMatch(l -> l.equals(rootLevel))) {
  System.err.println("---- classpath:logging.properties " + LogManager.getLogManager().getProperty(".level"));
  Scanner scanner = new Scanner(this.getClass().getResourceAsStream("/logging.properties"));
  while (scanner.hasNextLine()) {

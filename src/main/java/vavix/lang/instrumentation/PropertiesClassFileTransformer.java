@@ -115,12 +115,12 @@ e.printStackTrace(System.err);
                 if (method != null) {
                     if ("*".equals(method)) {
                         CtMethod[] ctMethods = ctClass.getDeclaredMethods();
-                        for (int i = 0; i < ctMethods.length; i++) {
+                        for (CtMethod ctMethod : ctMethods) {
                             if (insertBefore != null) {
-                                ctMethods[i].insertBefore(insertBefore);
+                                ctMethod.insertBefore(insertBefore);
                             }
                             if (insertAfter != null) {
-                                ctMethods[i].insertAfter(insertAfter);
+                                ctMethod.insertAfter(insertAfter);
                             }
                         }
                     } else {
@@ -135,12 +135,12 @@ e.printStackTrace(System.err);
                 } else if (constructor != null) {
                     if ("*".equals(constructor)) {
                         CtConstructor[] ctConstructors = ctClass.getConstructors();
-                        for (int i = 0; i < ctConstructors.length; i++) {
+                        for (CtConstructor ctConstructor : ctConstructors) {
                             if (insertBefore != null) {
-                                ctConstructors[i].insertBefore(insertBefore);
+                                ctConstructor.insertBefore(insertBefore);
                             }
                             if (insertAfter != null) {
-                                ctConstructors[i].insertAfter(insertAfter);
+                                ctConstructor.insertAfter(insertAfter);
                             }
                         }
                     } else {

@@ -82,7 +82,7 @@ public class LittleEndianDataInputStreamTest {
     @Test
     public void testReadInt() throws Exception {
         int actual = ledis.readInt();
-Debug.println(StringUtil.toHex4(actual));
+Debug.printf("%04x%n", actual);
         assertEquals(0x44332211, actual);
     }
 
@@ -113,7 +113,7 @@ Debug.println(StringUtil.toHex4(actual));
     @Test
     public void testReadInt2() throws Exception {
         int actual = ledis2.readInt();
-Debug.println(StringUtil.toHex4(actual));
+Debug.printf("%04x%n", actual);
         assertEquals(0xf4f3f2f1, actual);
     }
 
