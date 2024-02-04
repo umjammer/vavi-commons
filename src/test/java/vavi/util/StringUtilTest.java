@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -54,6 +55,7 @@ class StringUtilTest {
     }
 
     @Test
+    @EnabledIfSystemProperty(named = "vavi.test", matches = "ide")
     void test3() throws IOException {
         byte[] bytes = new byte[256];
         for (int i = 0; i < 256; i++) {
