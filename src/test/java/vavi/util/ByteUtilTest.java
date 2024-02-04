@@ -199,6 +199,27 @@ class ByteUtilTest {
         r = ByteUtil.hexStringToBytes("8031f2");
         assertArrayEquals(new byte[] {(byte) 0x80, '1', (byte) 0xf2}, r);
     }
+
+    @Test
+    void test24() throws Exception {
+        byte[] buf = new byte[3];
+
+        ByteUtil.writeBe24(0xfedcba, buf, 0);
+        int v = ByteUtil.readBe24(buf, 0);
+        assertEquals(0xfedcba, v);
+
+//        ByteUtil.writeLe24(0xfedcba, buf, 0);
+//        v = ByteUtil.readLe24(buf, 0);
+//        assertEquals(0xfedcba, v);
+
+        ByteUtil.writeBe24(0xfedcba, buf, 0);
+        v = ByteUtil.readBe24(buf, 0);
+        assertEquals(0xfedcba, v);
+
+//        ByteUtil.writeLe24(0xfedcba, buf, 0);
+//        v = ByteUtil.readLe24(buf, 0);
+//        assertEquals(0xfedcba, v);
+    }
 }
 
 /* */

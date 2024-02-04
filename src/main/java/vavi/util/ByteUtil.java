@@ -107,6 +107,18 @@ public class ByteUtil {
         return bytes;
     }
 
+    /** @since 1.1.10 */
+    public static void writeBe24(int value, byte[] buffer) {
+        writeBe24(value, buffer, 0);
+    }
+
+    /** @since 1.1.10 */
+    public static void writeBe24(int value, byte[] buffer, int offset) {
+        buffer[offset] = (byte) ((value >>> 16) & 0xFF);
+        buffer[offset + 1] = (byte) ((value >>> 8) & 0xFF);
+        buffer[offset + 2] = (byte) (value & 0xFF);
+    }
+
     /** */
     public static void writeBeInt(int value, byte[] buffer) {
         writeBeInt(value, buffer, 0);
@@ -191,6 +203,18 @@ public class ByteUtil {
     /** */
     public static short readBeShort(byte[] buffer, int offset) {
         return (short) (((buffer[offset] << 8) & 0xFF00) | ((buffer[offset + 1] << 0) & 0x00FF));
+    }
+
+    /** @since 1.1.10 */
+    public static int readBe24(byte[] buffer) {
+        return readBe24(buffer, 0);
+    }
+
+    /** @since 1.1.10 */
+    public static int readBe24(byte[] buffer, int offset) {
+        int value = ((buffer[offset + 0] << 16) & 0x00FF_0000) |
+                ((buffer[offset + 1] << 8) & 0x0000_FF00) | ((buffer[offset + 2] << 0) & 0x0000_00FF);
+        return value;
     }
 
     /** */
