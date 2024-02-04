@@ -9,6 +9,7 @@ package vavix.util;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 
 import vavi.util.Debug;
@@ -55,24 +56,31 @@ public final class DelayedWorker {
                 @Override public boolean come() {
                     if (!exec) {
                         later(millis, this::exec);
-Debug.println(Level.FINE, "exec after: " + millis + " [ms], " + this.hashCode() + ", " + Thread.currentThread().getId());
+Debug.println(Level.FINEST, "exec after: " + millis + " [ms], @" + this.hashCode() + ", " + Thread.currentThread().getId());
                         exec = true;
                     }
                     if (flag) {
-Debug.println(Level.FINE, "cleanup: " + this.hashCode() + ", " + Thread.currentThread().getId());
-                        detectors.remove();
+                        cleanup();
                     }
                     return flag;
                 }
                 private void exec() {
                     flag = true;
-Debug.println(Level.FINE, "time to come: " + this.hashCode() + ", " + Thread.currentThread().getId());
+Debug.println(Level.FINEST, "time to come: @" + this.hashCode() + ", " + Thread.currentThread().getId());
                 }
             };
-Debug.println(Level.FINE, "new detector: " + detector.hashCode());
+Debug.println(Level.FINEST, "new detector: @" + detector.hashCode());
             detectors.set(detector);
         }
         return detector;
+    }
+
+    /**
+     * clean up if stop checking come() before schedule
+     */
+    public static void cleanup() {
+Debug.println(Level.FINEST, "cleanup: @" + detectors.get().hashCode() + ", " + Thread.currentThread().getId());
+        detectors.remove();
     }
 }
 
