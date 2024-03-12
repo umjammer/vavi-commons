@@ -100,8 +100,9 @@ t.printStackTrace();
     private static final String color1 = (char) 0x1b + "[" + 37 + "m";
 
     /** */
-    private static final String EOL = System.getProperty("line.separator");
+    private static final String EOL = System.lineSeparator();
 
+    @Override
     public String format(LogRecord record) {
         StringBuilder sb = new StringBuilder();
         if (record.getThrown() != null) {

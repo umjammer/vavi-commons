@@ -39,7 +39,7 @@ logger.info("content: " + handler.getClass().getName());
             String packageName = handler.getClass().getPackage().getName();
             String superPackageName = packageName.substring(0, packageName.lastIndexOf('.'));
             if (packages.indexOf(superPackageName) < 0) {
-                if (packages.length() != 0) {
+                if (!packages.isEmpty()) {
                     packages.append('|');
                 }
                 packages.append(superPackageName);

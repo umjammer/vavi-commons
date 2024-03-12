@@ -25,7 +25,7 @@ public class OutputEngineInputStream extends InputStream {
     private static final int DEFAULT_INITIAL_BUFFER_SIZE = 8192;
 
     /** */
-    private OutputEngine engine;
+    private final OutputEngine engine;
 
     /** */
     private byte[] buffer;
@@ -50,7 +50,7 @@ public class OutputEngineInputStream extends InputStream {
     }
 
     /** */
-    private byte[] one = new byte[1];
+    private final byte[] one = new byte[1];
 
     @Override
     public int read() throws IOException {

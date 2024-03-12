@@ -54,12 +54,12 @@ public class VaviInstrumentation {
                     String cftClassName = props.getProperty(key);
 //System.err.println("VaviInstrumentation::premain: cftClassName: " + cftClassName);
                     Class<?> cftClass = Class.forName(cftClassName);
-                    VaviClassFileTransformer vcft = (VaviClassFileTransformer) cftClass.newInstance();
+                    VaviClassFileTransformer vcft = (VaviClassFileTransformer) cftClass.getDeclaredConstructor().newInstance();
                     vcft.setId(id);
                     instrumentation.addTransformer(vcft);
                 }
             } catch (Exception f) {
-                f.printStackTrace();
+                f.printStackTrace(System.err);
             }
         }
     }

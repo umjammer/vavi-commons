@@ -19,6 +19,7 @@ import java.util.logging.Logger;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2016/03/06 umjammer initial version <br>
  */
+@Deprecated
 public class URLStreamHandlerUtil {
 
     private static final Logger logger = Logger.getLogger(URLStreamHandlerUtil.class.getName());
@@ -34,6 +35,7 @@ public class URLStreamHandlerUtil {
      * @see "classpath:META-INF/services/java.net.URLStreamHandler"
      * @see "https://docs.oracle.com/javase/8/docs/api/java/net/URL.html#URL-java.lang.String-java.lang.String-int-java.lang.String-"
      */
+    @Deprecated
     public static void loadService() {
         ServiceLoader<URLStreamHandler> loader = ServiceLoader.load(URLStreamHandler.class);
         StringBuilder packages = new StringBuilder(System.getProperty("java.protocol.handler.pkgs", ""));

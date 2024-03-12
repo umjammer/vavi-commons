@@ -47,6 +47,7 @@ public class Test1 {
     }
 
     static class GZIPOutputStreamFactory implements IOStreamOutputEngine.OutputStreamFactory {
+        @Override
         public OutputStream getOutputStream(OutputStream out) throws IOException {
             return new GZIPOutputStream(out);
         }
@@ -134,6 +135,7 @@ Debug.println(r);
     }
 
     static class Rot13OutputStreamFactory implements IOStreamOutputEngine.OutputStreamFactory {
+        @Override
         public OutputStream getOutputStream(OutputStream out) throws IOException {
             return new Rot13.OutputStream(out);
         }

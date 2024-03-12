@@ -45,6 +45,7 @@ public class AdvancedByteArrayOutputStream extends OutputStream {
         buffer = new byte[capacity];
     }
 
+    @Override
     public void write(int datum) throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -63,6 +64,7 @@ public class AdvancedByteArrayOutputStream extends OutputStream {
         }
     }
 
+    @Override
     public void write(byte[] data, int offset, int length) throws IOException {
         if (data == null) {
             throw new NullPointerException();
@@ -86,6 +88,7 @@ public class AdvancedByteArrayOutputStream extends OutputStream {
         }
     }
 
+    @Override
     public void close() {
         closed = true;
     }

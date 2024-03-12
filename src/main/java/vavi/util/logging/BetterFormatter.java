@@ -30,17 +30,17 @@ public class BetterFormatter extends Formatter {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS");
 
     private static final Map<Level, String> levelMsgMap = Collections.unmodifiableMap(
-            new HashMap<Level, String>() {{
-                put(Level.SEVERE,  "SEVERE");
+            new HashMap<>() {{
+                put(Level.SEVERE, "SEVERE");
                 put(Level.WARNING, "WARN");
-                put(Level.INFO,    "INFO");
-                put(Level.CONFIG,  "CONF");
-                put(Level.FINE,    "FINE");
-                put(Level.FINER,   "FINE");
-                put(Level.FINEST,  "FINE");
+                put(Level.INFO, "INFO");
+                put(Level.CONFIG, "CONF");
+                put(Level.FINE, "FINE");
+                put(Level.FINER, "FINE");
+                put(Level.FINEST, "FINE");
             }});
 
-    private AtomicInteger nameColumnWidth = new AtomicInteger(16);
+    private final AtomicInteger nameColumnWidth = new AtomicInteger(16);
 
     public static void applyToRoot() {
         applyToRoot(new ConsoleHandler());

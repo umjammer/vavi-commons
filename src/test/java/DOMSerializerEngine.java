@@ -47,6 +47,7 @@ public class DOMSerializerEngine implements OutputEngine {
         this.encoding = encoding;
     }
 
+    @Override
     public void initialize(OutputStream out) throws IOException {
         if (writer != null) {
             throw new IOException("Already initialised");
@@ -55,6 +56,7 @@ public class DOMSerializerEngine implements OutputEngine {
         }
     }
 
+    @Override
     public void execute() throws IOException {
         if (writer == null) {
             throw new IOException("Not yet initialised");
@@ -71,6 +73,7 @@ public class DOMSerializerEngine implements OutputEngine {
         }
     }
 
+    @Override
     public void finish() throws IOException {
     }
 

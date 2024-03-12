@@ -30,13 +30,13 @@ public class ReaderWriterOutputEngine implements OutputEngine {
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 
     /** */
-    private Reader reader;
+    private final Reader reader;
 
     /** */
-    private String encoding;
+    private final String encoding;
 
     /** */
-    private char[] buffer;
+    private final char[] buffer;
 
     /** */
     private Writer writer;
@@ -53,6 +53,7 @@ public class ReaderWriterOutputEngine implements OutputEngine {
         buffer = new char[bufferSize];
     }
 
+    @Override
     public void initialize(OutputStream out) throws IOException {
         if (writer != null) {
             throw new IOException("Already initialized");
@@ -61,6 +62,7 @@ public class ReaderWriterOutputEngine implements OutputEngine {
         }
     }
 
+    @Override
     public void execute() throws IOException {
         if (writer == null) {
             throw new IOException("Not yet initialized");
@@ -74,6 +76,7 @@ public class ReaderWriterOutputEngine implements OutputEngine {
         }
     }
 
+    @Override
     public void finish() throws IOException {
         reader.close();
     }

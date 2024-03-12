@@ -18,6 +18,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class InstanciationBinder extends DefaultBinder {
 
+    @Override
     public void bind(Object destBean, Field field, Class<?> fieldClass, String value, Object elseValue) {
         try {
             Class<?> clazz = Class.forName(value);

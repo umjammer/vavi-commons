@@ -65,10 +65,12 @@ public class PropertiesClassFileTransformer implements VaviClassFileTransformer 
     /** never use before call #transform() */
     private String id;
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String key) {
         this.id = key;
     }
@@ -83,6 +85,7 @@ public class PropertiesClassFileTransformer implements VaviClassFileTransformer 
      * vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.insertAfter ... ex. {System.err.println("result: " + $_);}
      * </pre>
      */
+    @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         ClassPool classPool = ClassPool.getDefault();
 

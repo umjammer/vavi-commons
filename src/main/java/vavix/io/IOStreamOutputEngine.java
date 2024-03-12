@@ -50,6 +50,7 @@ public class IOStreamOutputEngine implements OutputEngine {
         buffer = new byte[bufferSize];
     }
 
+    @Override
     public void initialize(OutputStream out) throws IOException {
         if (this.out != null) {
             throw new IOException("Already initialized");
@@ -58,6 +59,7 @@ public class IOStreamOutputEngine implements OutputEngine {
         }
     }
 
+    @Override
     public void execute() throws IOException {
         if (out == null) {
             throw new IOException("Not yet initialized");
@@ -71,6 +73,7 @@ public class IOStreamOutputEngine implements OutputEngine {
         }
     }
 
+    @Override
     public void finish() throws IOException {
         in.close();
     }
