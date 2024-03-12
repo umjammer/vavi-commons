@@ -64,5 +64,3 @@ Debug.println("time: " + t);
         assertNotEquals(dw1, dw2);
     }
 }
-
-/* */

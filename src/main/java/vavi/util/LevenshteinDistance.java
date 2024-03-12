@@ -114,5 +114,3 @@ public class LevenshteinDistance implements Comparable<LevenshteinDistance> {
         return this.distance - o.distance;
     }
 }
-
-/* */

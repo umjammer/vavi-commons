@@ -153,5 +153,3 @@ Debug.println("delete: " + key);
         sections.removeElement(section);
     }
 }
-
-/* */

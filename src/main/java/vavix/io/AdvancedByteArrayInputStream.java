@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2002 Merlin Hughes
+ *
  * http://www.ibm.com/developerworks/jp/java/library/j-io2/
  */
 
@@ -11,9 +13,10 @@ import java.io.InputStream;
 /**
  * An unsynchronized ByteArrayInputStream alternative.
  *
- * @author Copyright (c) 2002 Merlin Hughes <merlin@merlin.org>
+ * @author <a href="mailto:merlin@merlin.org">Merlin Hughes</a>
  */
 public class AdvancedByteArrayInputStream extends InputStream {
+
     /** buffer from which to read */
     private byte[] buffer;
 
@@ -42,7 +45,6 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
     public int read() throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -53,7 +55,6 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
     public int read(byte[] data, int offset, int length) throws IOException {
         if (data == null) {
             throw new NullPointerException();
@@ -74,7 +75,6 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
     public long skip(long amount) throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -89,7 +89,6 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
     public int available() throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -98,17 +97,14 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
     public void close() {
         closed = true;
     }
 
-    /* */
     public void mark(int readLimit) {
         mark = index;
     }
 
-    /* */
     public void reset() throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -118,10 +114,7 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
     public boolean markSupported() {
         return true;
     }
 }
-
-/* */

@@ -62,5 +62,3 @@ System.err.println("ExceptionClassFileTransformer::transform: " + className + ":
         }
     }
 }
-
-/* */

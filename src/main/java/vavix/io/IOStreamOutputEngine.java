@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2002 Merlin Hughes
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -18,7 +20,7 @@ import vavi.io.OutputEngine;
  * An output engine that copies data from an InputStream through a
  * FilterOutputStream to the target OutputStream.
  *
- * @author Copyright (c) 2002 Merlin Hughes <merlin@merlin.org>
+ * @author <a href="mailto:merlin@merlin.org" />
  */
 public class IOStreamOutputEngine implements OutputEngine {
     /** */
@@ -48,7 +50,6 @@ public class IOStreamOutputEngine implements OutputEngine {
         buffer = new byte[bufferSize];
     }
 
-    /* */
     public void initialize(OutputStream out) throws IOException {
         if (this.out != null) {
             throw new IOException("Already initialized");
@@ -57,7 +58,6 @@ public class IOStreamOutputEngine implements OutputEngine {
         }
     }
 
-    /* */
     public void execute() throws IOException {
         if (out == null) {
             throw new IOException("Not yet initialized");
@@ -71,7 +71,6 @@ public class IOStreamOutputEngine implements OutputEngine {
         }
     }
 
-    /* */
     public void finish() throws IOException {
         in.close();
     }
@@ -81,5 +80,3 @@ public class IOStreamOutputEngine implements OutputEngine {
         OutputStream getOutputStream(OutputStream out) throws IOException;
     }
 }
-
-/* */

@@ -80,5 +80,3 @@ public class EclipseFormatter extends Formatter {
         return sb.toString();
     }
 }
-
-/* */

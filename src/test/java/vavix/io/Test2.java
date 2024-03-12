@@ -94,5 +94,3 @@ System.err.println(StringUtil.getDump(writer.getBuffer().toString().getBytes()))
         assertEquals(data, writer.getBuffer().toString());
     }
 }
-
-/* */

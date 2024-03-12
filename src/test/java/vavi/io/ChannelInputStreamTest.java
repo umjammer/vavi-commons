@@ -116,5 +116,3 @@ class ChannelInputStreamTest {
         os.close();
     }
 }
-
-/* */

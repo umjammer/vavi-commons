@@ -53,5 +53,3 @@ logger.fine("java.protocol.handler.pkgs: after: " + packages);
         System.setProperty("java.protocol.handler.pkgs", packages.toString());
     }
 }
-
-/* */

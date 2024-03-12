@@ -371,5 +371,3 @@ Debug.println("string len: " + length);
         return sb.toString();
     }
 }
-
-/* */

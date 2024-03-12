@@ -19,5 +19,3 @@ public interface SeekableDataOutput<T> extends Seekable, DataOutput {
 
     T origin();
 }
-
-/* */

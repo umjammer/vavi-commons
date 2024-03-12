@@ -25,5 +25,3 @@ public interface GenericListener extends EventListener {
      */
     void eventHappened(GenericEvent ev);
 }
-
-/* */

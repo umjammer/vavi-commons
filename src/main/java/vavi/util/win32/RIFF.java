@@ -33,5 +33,3 @@ package vavi.util.win32;
 public class RIFF extends MultipartChunk {
 
 }
-
-/* */

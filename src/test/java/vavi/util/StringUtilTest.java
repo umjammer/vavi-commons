@@ -84,5 +84,3 @@ class StringUtilTest {
         System.err.println(StringUtil.toBits(0xc6, 8));
     }
 }
-
-/* */

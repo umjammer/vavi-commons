@@ -49,5 +49,3 @@ logger.info("java.content.handler.pkgs: after: " + packages);
         System.setProperty("java.content.handler.pkgs", packages.toString());
     }
 }
-
-/* */

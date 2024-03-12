@@ -165,5 +165,3 @@ System.err.println("PassClassFileTransformer::transform: " + className + ": " + 
         }
     }
 }
-
-/* */

@@ -53,5 +53,3 @@ public abstract class PrefixedPropertiesFactory<K, V> extends PropertiesFactoryB
     @Override
     protected abstract V getStoreValue(String value);
 }
-
-/* */

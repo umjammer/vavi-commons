@@ -120,5 +120,3 @@ public class AVI extends RIFF {
     public static class ISFT extends Chunk {
     }
 }
-
-/* */

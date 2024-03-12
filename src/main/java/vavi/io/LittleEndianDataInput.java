@@ -64,5 +64,3 @@ public interface LittleEndianDataInput extends DataInput {
     @Override
     byte readByte() throws IOException;
 }
-
-/* */

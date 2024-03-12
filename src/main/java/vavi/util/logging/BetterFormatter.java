@@ -42,11 +42,9 @@ public class BetterFormatter extends Formatter {
 
     private AtomicInteger nameColumnWidth = new AtomicInteger(16);
 
-
     public static void applyToRoot() {
         applyToRoot(new ConsoleHandler());
     }
-
 
     public static void applyToRoot(Handler handler) {
         handler.setFormatter(new BetterFormatter());
@@ -58,7 +56,6 @@ public class BetterFormatter extends Formatter {
         }
         root.addHandler(handler);
     }
-
 
     @Override
     public String format(LogRecord record) {
@@ -110,8 +107,6 @@ public class BetterFormatter extends Formatter {
 
         return sb.toString();
     }
-
-
 
     static String adjustLength(String packageName, int aimLength) {
 

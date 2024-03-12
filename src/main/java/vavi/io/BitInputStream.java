@@ -163,5 +163,3 @@ public class BitInputStream extends FilterInputStream {
         return i;
     }
 }
-
-/* */

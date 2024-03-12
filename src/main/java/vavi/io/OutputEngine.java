@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2002 Merlin Hughes
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -14,9 +16,10 @@ import java.io.OutputStream;
 /**
  * An incremental data source that writes data to an OutputStream.
  *
- * @author Copyright (c) 2002 Merlin Hughes <merlin@merlin.org>
+ * @author <a href="mailto:merlin@merlin.org" />
  */
 public interface OutputEngine {
+
     /** */
     void initialize(OutputStream out) throws IOException;
 
@@ -26,5 +29,3 @@ public interface OutputEngine {
     /** */
     void finish() throws IOException;
 }
-
-/* */

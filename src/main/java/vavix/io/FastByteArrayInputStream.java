@@ -71,5 +71,3 @@ public class FastByteArrayInputStream extends InputStream {
         return n;
     }
 }
-
-/* */

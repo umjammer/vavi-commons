@@ -55,5 +55,3 @@ public class VaviFormatterTest {
         assertTrue(m.matches());
     }
 }
-
-/* */

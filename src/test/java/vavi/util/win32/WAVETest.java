@@ -56,5 +56,3 @@ class WAVETest {
         wave.writeTo(os);
     }
 }
-
-/* */

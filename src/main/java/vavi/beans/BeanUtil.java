@@ -308,5 +308,3 @@ logger.fine("no method: " + getBooleanGetterName(name));
         throw new IllegalArgumentException(name);
     }
 }
-
-/* */

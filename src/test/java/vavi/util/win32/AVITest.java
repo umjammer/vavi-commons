@@ -39,5 +39,3 @@ public class AVITest {
         System.err.println("AVI: " + avi);
     }
 }
-
-/* */

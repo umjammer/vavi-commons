@@ -49,7 +49,7 @@ import javassist.CtMethod;
  * </pre>
  * </p>
  *
- * TODO 同じクラスを2回書き換えられない isFrozen(), deFrost() ???
+ * TODO not able to rewrite the same class twice or more: isFrozen(), deFrost() ???
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 050320 nsano initial version <br>
@@ -65,12 +65,10 @@ public class PropertiesClassFileTransformer implements VaviClassFileTransformer 
     /** never use before call #transform() */
     private String id;
 
-    /* */
     public String getId() {
         return id;
     }
 
-    /* */
     public void setId(String key) {
         this.id = key;
     }
@@ -164,5 +162,3 @@ e.printStackTrace(System.err);
         }
     }
 }
-
-/* */

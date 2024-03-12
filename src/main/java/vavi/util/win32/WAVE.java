@@ -254,5 +254,3 @@ public class WAVE extends RIFF {
         }
     }
 }
-
-/* */

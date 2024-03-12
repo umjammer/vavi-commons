@@ -86,5 +86,3 @@ class Test1 {
         assertEquals(data, baos.toString());
     }
 }
-
-/* */

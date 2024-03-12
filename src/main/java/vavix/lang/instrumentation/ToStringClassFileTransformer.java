@@ -104,5 +104,3 @@ System.err.println("ToStringClassFileTransformer::transform: " + className + ": 
         }
     }
 }
-
-/* */

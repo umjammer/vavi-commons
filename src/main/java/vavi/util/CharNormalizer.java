@@ -18,5 +18,3 @@ public interface CharNormalizer {
     /** */
     String normalize(String string);
 }
-
-/* */

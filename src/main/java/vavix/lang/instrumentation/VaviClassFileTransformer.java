@@ -29,5 +29,3 @@ public interface VaviClassFileTransformer extends ClassFileTransformer {
     /** */
     String getId();
 }
-
-/* */

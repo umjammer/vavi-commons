@@ -53,5 +53,3 @@ public interface LittleEndianDataOutput extends DataOutput {
     @Override
     void writeUTF(String s) throws IOException;
 }
-
-/* */

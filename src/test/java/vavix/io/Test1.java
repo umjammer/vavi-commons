@@ -276,5 +276,3 @@ Debug.println(inFile.length() + ", " + outFile.length());
         assertEquals(Checksum.getChecksum(inFile), Checksum.getChecksum(outFile));
     }
 }
-
-/* */

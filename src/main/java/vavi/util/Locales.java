@@ -19,5 +19,3 @@ public @interface Locales {
 
     String[] languages() default "";
 }
-
-/* */

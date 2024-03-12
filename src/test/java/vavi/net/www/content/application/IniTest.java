@@ -58,5 +58,3 @@ System.err.println(content);
         assertTrue(content instanceof WindowsProperties);
     }
 }
-
-/* */

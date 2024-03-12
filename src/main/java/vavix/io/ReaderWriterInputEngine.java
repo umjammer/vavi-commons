@@ -78,5 +78,3 @@ public class ReaderWriterInputEngine implements InputEngine {
         writer.close();
     }
 }
-
-/* */

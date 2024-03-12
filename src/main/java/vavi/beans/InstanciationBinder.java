@@ -11,14 +11,13 @@ import java.lang.reflect.InvocationTargetException;
 
 
 /**
- * フィールドへの代入を行うクラスです。
+ * Assign a value to a field.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 200227 nsano initial version <br>
  */
 public class InstanciationBinder extends DefaultBinder {
 
-    /** */
     public void bind(Object destBean, Field field, Class<?> fieldClass, String value, Object elseValue) {
         try {
             Class<?> clazz = Class.forName(value);
@@ -28,5 +27,3 @@ public class InstanciationBinder extends DefaultBinder {
         }
     }
 }
-
-/* */

@@ -88,5 +88,3 @@ public class IOStreamInputEngine implements InputEngine {
         InputStream getInputStream(InputStream in) throws IOException;
     }
 }
-
-/* */

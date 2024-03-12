@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2002 Merlin Hughes
+ *
  * http://www.ibm.com/developerworks/jp/java/library/j-io2/
  */
 
@@ -16,10 +18,12 @@ import java.io.OutputStream;
  * streams, resulting in much-improved performance. Also supports non-blocking
  * operation.
  *
- * @author Copyright (c) 2002 Merlin Hughes <merlin@merlin.org>
+ * @author <a href="mailto:merlin@merlin.org">Merlin Hughes</a>
  */
 public class AdvancedPipedInputStream extends InputStream {
+
     // default values
+
     /** */
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 
@@ -88,7 +92,6 @@ public class AdvancedPipedInputStream extends InputStream {
     /** */
     private byte[] one = new byte[1];
 
-    /* */
     public int read() throws IOException {
         // read 1 byte
         int amount = read(one, 0, 1);
@@ -96,7 +99,6 @@ public class AdvancedPipedInputStream extends InputStream {
         return (amount < 0) ? -1 : one[0] & 0xff;
     }
 
-    /* */
     public synchronized int read(byte[] data, int offset, int length) throws IOException {
         // take a reference to the reader thread
         if (reader == null)
@@ -140,7 +142,6 @@ public class AdvancedPipedInputStream extends InputStream {
         }
     }
 
-    /* */
     public synchronized long skip(long amount) throws IOException {
         // take a reference to the reader thread
         if (reader == null)
@@ -185,7 +186,6 @@ public class AdvancedPipedInputStream extends InputStream {
         }
     }
 
-    /* */
     public synchronized int available() throws IOException {
         // throw an exception if the stream is closed
         closedCheck();
@@ -246,13 +246,12 @@ public class AdvancedPipedInputStream extends InputStream {
         }
     }
 
-    /* */
     public void close() throws IOException {
         // close the read end of this pipe
         close(READER);
     }
 
-    /* */
+    /** */
     private synchronized void close(boolean rw) throws IOException {
         if (rw == READER) { // reader
             // set closed flag
@@ -372,18 +371,17 @@ public class AdvancedPipedInputStream extends InputStream {
 
     /** */
     private class OutputStreamImpl extends OutputStreamEx {
+
         /** */
         @SuppressWarnings("hiding")
         private byte[] one = new byte[1];
 
-        /** */
         public void write(int datum) throws IOException {
             // write one byte using internal array
             one[0] = (byte) datum;
             write(one, 0, 1);
         }
 
-        /** */
         public void write(byte[] data, int offset, int length) throws IOException {
             // check parameters
             if (data == null) {
@@ -396,13 +394,11 @@ public class AdvancedPipedInputStream extends InputStream {
             }
         }
 
-        /** */
         public void close() throws IOException {
             // close the write end of this pipe
             AdvancedPipedInputStream.this.close(WRITER);
         }
 
-        /** */
         public void setException(IOException ex) throws IOException {
             // set a pending exception
             AdvancedPipedInputStream.this.setException(ex);
@@ -411,9 +407,8 @@ public class AdvancedPipedInputStream extends InputStream {
 
     /** static OutputStream extension with setException() method */
     public static abstract class OutputStreamEx extends OutputStream {
+
         /** */
         public abstract void setException(IOException ex) throws IOException;
     }
 }
-
-/* */

@@ -134,5 +134,3 @@ Debug.printf(Level.FINER, "%d, %d", len, ledis.available());
         return sbc;
     }
 }
-
-/* */

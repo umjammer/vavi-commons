@@ -130,5 +130,3 @@ Debug.println("stacked bits: " + stackedBits + " flushed.");
         super.close();
     }
 }
-
-/* */

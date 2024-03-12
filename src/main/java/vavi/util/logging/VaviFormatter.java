@@ -102,7 +102,6 @@ t.printStackTrace();
     /** */
     private static final String EOL = System.getProperty("line.separator");
 
-    /* */
     public String format(LogRecord record) {
         StringBuilder sb = new StringBuilder();
         if (record.getThrown() != null) {
@@ -169,5 +168,3 @@ t.printStackTrace();
         }
     }
 }
-
-/* */

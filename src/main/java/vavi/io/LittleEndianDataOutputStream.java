@@ -89,5 +89,3 @@ public class LittleEndianDataOutputStream extends FilterOutputStream
         throw new UnsupportedOperationException("not implemented");
     }
 }
-
-/* */

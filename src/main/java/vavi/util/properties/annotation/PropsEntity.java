@@ -298,5 +298,3 @@ logger.finest("env: " + name + ", " + value);
         }
     }
 }
-
-/* */

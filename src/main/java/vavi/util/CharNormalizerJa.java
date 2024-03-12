@@ -323,5 +323,3 @@ public enum CharNormalizerJa implements CharNormalizer {
         }
     }
 }
-
-/* */

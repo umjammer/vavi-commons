@@ -105,5 +105,3 @@ if (l != 0) {
         return result;
     }
 }
-
-/* */

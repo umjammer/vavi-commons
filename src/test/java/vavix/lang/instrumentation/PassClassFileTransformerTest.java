@@ -33,5 +33,3 @@ public class PassClassFileTransformerTest {
         assertEquals("jp.noids.image.scaling.gui.l", PassClassFileTransformer.normalize("jp.noids.image.scaling.gui.MugenSampleDialog$N$l"));
     }
 }
-
-/* */

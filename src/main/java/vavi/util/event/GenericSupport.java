@@ -39,5 +39,3 @@ public class GenericSupport implements Serializable {
         }
     }
 }
-
-/* */
