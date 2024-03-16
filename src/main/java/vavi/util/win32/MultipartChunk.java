@@ -30,11 +30,11 @@ import vavi.util.StringUtil;
  */
 public abstract class MultipartChunk extends Chunk {
 
-    /** */
-    private byte[] multipartId;
+    /** foreCC for this multipart chunk */
+    protected byte[] multipartId;
 
-    /** */
-    private List<Chunk> chunks = new ArrayList<>();
+    /** child chunks */
+    private final List<Chunk> chunks = new ArrayList<>();
 
     /** Gets the multipart chunk name. */
     public String getMultipartName() {
@@ -59,7 +59,7 @@ Debug.println(Level.FINER, "multipart: " + StringUtil.getDump(tmp));
         setChildrenData(ledis);
     }
 
-    /** */
+    /** Creates children from a stream. */
     protected void setChildrenData(LittleEndianDataInputStream is) throws IOException {
         int l = getLength() - 4; // - len(length)
         while (l > 8) {
@@ -67,6 +67,10 @@ Debug.println(Level.FINER, "multipart: " + StringUtil.getDump(tmp));
             chunks.add(chunk);
             l -= chunk.getLength() + (chunk.getLength() % 2) + 4 + 4; // + padding + len(name) + len(length)
 Debug.println(Level.FINER, getName() + "." + chunk.getName() + ", " + l + "/" + (getLength() - 4));
+            if (!parsing.get()) {
+Debug.print(Level.FINER, "children chunk parsing canceled: " + getClass().getSimpleName());
+                break;
+            }
         }
 if (l != 0) {
  Debug.println(Level.WARNING, getName() + ", " + l + " bytes left");
@@ -82,7 +86,7 @@ if (l != 0) {
         return sb.toString();
     }
 
-    /** */
+    /** Find a child chunk by a class */
     @SuppressWarnings("unchecked")
     public <T extends Chunk> T findChildOf(Class<T> clazz) {
         for (Chunk chunk : chunks) {
@@ -93,7 +97,7 @@ if (l != 0) {
         throw new NoSuchElementException(clazz.getName());
     }
 
-    /** */
+    /** Find child chunks by a class */
     @SuppressWarnings("unchecked")
     public <T extends Chunk> List<T> findChildrenOf(Class<T> clazz) {
         List<T> result = new ArrayList<>();

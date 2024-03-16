@@ -18,6 +18,8 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 /**
@@ -33,6 +35,16 @@ class WAVETest {
         InputStream is = new BufferedInputStream(WAVETest.class.getResourceAsStream("/test.wav"));
         WAVE wave = WAVE.readFrom(is, WAVE.class);
         assertEquals(176470, wave.getLength());
+        assertNotNull(wave.findChildOf(WAVE.data.class).getWave());
+    }
+
+    @Test
+    void test2() throws Exception {
+        System.setProperty("vavi.util.win32.WAVE.data.notLoadData", "true");
+        InputStream is = new BufferedInputStream(WAVETest.class.getResourceAsStream("/test.wav"));
+        WAVE wave = WAVE.readFrom(is, WAVE.class);
+        assertEquals(176470, wave.getLength());
+        assertNull(wave.findChildOf(WAVE.data.class).getWave());
     }
 
     //----

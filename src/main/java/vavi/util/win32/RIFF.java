@@ -7,6 +7,9 @@
 package vavi.util.win32;
 
 
+import java.util.Arrays;
+
+
 /**
  * Resource Interchange File Format.
  *
@@ -17,8 +20,6 @@ package vavi.util.win32;
  * 08  04  chunk type
  * 0c (*1) chunk data ...
  * </pre>
- *
- * @target    1.1
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 020424 nsano initial version <br>
@@ -31,5 +32,4 @@ package vavi.util.win32;
  *          1.11 030711 nsano deprecate setChildData() <br>
  */
 public class RIFF extends MultipartChunk {
-
 }
