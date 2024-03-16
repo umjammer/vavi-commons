@@ -6,42 +6,32 @@
 
 package vavi.util.logging;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.logging.LogManager;
-import java.util.stream.Stream;
+import java.io.IOException;
+
+import vavi.util.properties.annotation.Property;
+import vavi.util.properties.annotation.PropsEntity;
 
 
 /**
- * The configuration class for debug.
+ * The configuration for users class for {@link VaviFormatter}.
  * <p>
- * system property
- * <li> java.util.logging.config.class
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021104 nsano initial version <br>
  */
-public final class VaviConfig {
+@PropsEntity(url = "classpath:logging.properties")
+final class VaviConfig {
 
-    /** */
-    public VaviConfig() {
+    /* initialize */
+    {
         try {
-            LogManager.getLogManager().readConfiguration(
-                this.getClass().getResourceAsStream("/logging.properties"));
-String rootLevel = LogManager.getLogManager().getProperty(".level");
-// TODO isLoggable()
-if (List.of("FINE", "FINER", "FINEST").contains(rootLevel)) {
- System.err.println("---- classpath:logging.properties " + LogManager.getLogManager().getProperty(".level"));
- Scanner scanner = new Scanner(this.getClass().getResourceAsStream("/logging.properties"));
- while (scanner.hasNextLine()) {
-  System.err.println(scanner.nextLine());
- }
- scanner.close();
- System.err.println("----");
-}
-        } catch (Exception e) {
-e.printStackTrace();
+            PropsEntity.Util.bind(this);
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
         }
     }
+
+    /** user defined excluding pattern */
+    @Property(name = "vavi.util.logging.VaviFormatter.extraClassMethod", useSystem = true)
+    String extraClassMethod;
 }

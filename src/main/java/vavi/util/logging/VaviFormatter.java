@@ -26,49 +26,47 @@ import vavi.util.properties.annotation.PropsEntity;
  * <pre>
  *   System.setProperty("vavi.util.logging.VaviFormatter.extraClassMethod", "co\\.paralleluniverse\\.fuse\\.LoggedFuseFilesystem#log");
  * </pre>
+ * or set in logging.properties in classpath like
+ * <pre>
+ *   vavi.util.logging.VaviFormatter.extraClassMethod=co\\.paralleluniverse\\.fuse\\.LoggedFuseFilesystem#log
+ * </pre>
  * </p>
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021027 nsano initial version <br>
  *          0.01 031220 nsano clean imports <br>
  */
-@PropsEntity(url = "classpath:vavi/util/logging/logging.properties")
+@PropsEntity(url = "classpath:vavi/util/logging/logging.properties", useSystem = true)
 public class VaviFormatter extends Formatter {
 
     /** default excluding pattern */
     @Property(name = "vavi.util.logging.VaviFormatter.classMethod")
     private String defaultClassMethod;
 
-    // TODO make it enabled to put this in user logging.properties
-    /** user defined excluding pattern */
-    @Property(name = "vavi.util.logging.VaviFormatter.extraClassMethod", useSystem = true)
-    private String extraClassMethod;
+    /** user setting from logging.properties in classpath */
+    VaviConfig config = new VaviConfig();
 
     /** excluding pattern */
     private Pattern pattern;
 
-    /* */
+    /* initialize */
     {
         try {
-            String systemProperty = System.getProperty("vavi.util.logging.VaviFormatter.classMethod");
-
-            if (systemProperty == null) {
-                try {
-                    PropsEntity.Util.bind(this);
-                } catch (IOException e) {
-e.printStackTrace();
-                }
-            } else {
-                defaultClassMethod = systemProperty;
+            try {
+                PropsEntity.Util.bind(this);
+            } catch (IOException e) {
+e.printStackTrace(System.err);
             }
 
-            if (extraClassMethod != null && !extraClassMethod.isEmpty()) {
-                defaultClassMethod = defaultClassMethod.substring(0, defaultClassMethod.length() - 1) + "|" + extraClassMethod + ")";
+            if (config.extraClassMethod != null && !config.extraClassMethod.isEmpty()) {
+                defaultClassMethod =
+                        defaultClassMethod.substring(0, defaultClassMethod.length() - (defaultClassMethod.endsWith(")") ? 1 : 0))
+                        + "|" + config.extraClassMethod + ")";
             }
-//System.err.println("default + extra: " + defaultClassMethod);
             pattern = Pattern.compile(defaultClassMethod);
+//System.err.println("default + extra: " + pattern);
         } catch (Throwable t) {
-t.printStackTrace();
+t.printStackTrace(System.err);
         }
     }
 
@@ -80,15 +78,18 @@ t.printStackTrace();
      *      - profiler reports slow
      */
     private StackTraceElement findStackTraceElement(StackTraceElement[] stes) {
+//System.err.println("--------");
 //java.util.List<String> x = new java.util.ArrayList<>();
-        for (int i = stes.length - 1; i >= 0; i--) {
+        StackTraceElement result = null;
+        for (int i = 0; i < stes.length - 1; i++) {
             Matcher matcher = pattern.matcher(stes[i].getClassName() + "#" + stes[i].getMethodName());
 //System.err.println("[" + i + "]: " + stes[i].getClassName() + "#" + stes[i].getMethodName() + " - " + matcher.matches());
 //x.add("[" + i + "]: " + stes[i].getClassName() + "#" + stes[i].getMethodName() + " - " + matcher.matches());
-            if (i != stes.length - 1 && matcher.matches()) {
-                return stes[i + 1];
+            if (!matcher.matches()) {
+                return stes[i];
             }
         }
+//System.err.println(result);
 //x.forEach(System.err::println);
         return null;
     }
@@ -156,7 +157,7 @@ t.printStackTrace();
                 sb.append(EOL);
                 sb.append(color1);
                 sb.append("\tat ");
-                sb.append(StringUtil.getClassName(record.getSourceClassName()));
+                sb.append(record.getSourceClassName() != null ? StringUtil.getClassName(record.getSourceClassName()) : "???");
                 sb.append(".");
                 sb.append(record.getSourceMethodName());
                 sb.append("(");

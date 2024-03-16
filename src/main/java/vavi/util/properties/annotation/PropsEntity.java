@@ -20,7 +20,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import vavi.beans.Binder;
-import vavi.net.www.protocol.URLStreamHandlerUtil;
 
 
 /**
@@ -56,7 +55,7 @@ public @interface PropsEntity {
     /** */
     final class Util {
 
-        private static Logger logger = Logger.getLogger(Util.class.getName());
+        private static final Logger logger = Logger.getLogger(Util.class.getName());
 
         private Util() {
         }
@@ -179,20 +178,11 @@ logger.finest("replace: " + name + ", " + key + ", " + args[i]);
             return name;
         }
 
-        /* for "classpath" schema */
-        static {
-try {
-            URLStreamHandlerUtil.loadService();
-} catch (Throwable t) {
- t.printStackTrace();
-}
-        }
-
         /**
          * Entry point.
          *
          * @param args replace <code>"{#}"</code> (# is 0, 1, 2 ...)
-         * <pre>
+         * <pre>{@code
          * $ cat some.properties
          * foo.bar.buz=xxx
          * foo.bar.aaa=yyy
@@ -200,12 +190,12 @@ try {
          * @Property(name = "foo.bar.{0})
          * Foo bar;
          *
-         *    :
+         *    ︙
          *
          * PropsEntity.Util.bind(bean, "buz");
          * assertEquals(bean.bar, "xxx");
          *
-         * </pre>
+         * }</pre>
          * @throws IOException when {@link PropsEntity#url()} is wrong, but after all default value will be set.
          */
         public static void bind(Object bean, String... args) throws IOException {

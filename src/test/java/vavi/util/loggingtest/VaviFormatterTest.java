@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2016 by Naohide Sano, All rights reserved.
+ * Copyright (c) 2024 by Naohide Sano, All rights reserved.
  *
  * Programmed by Naohide Sano
  */
 
-package vavi.util.logging;
+package vavi.util.loggingtest; // for not excluding this class (corner cutting)
 
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import vavi.util.logging.VaviFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -45,7 +46,7 @@ public class VaviFormatterTest {
         System.setProperty("vavi.util.logging.VaviFormatter.classMethod", "vavi\\.util\\.logging\\.VaviFormatter#format");
         LogRecord record = new LogRecord(Level.INFO, "test");
         VaviFormatter formatter = new VaviFormatter();
-        assertTrue(formatter.format(record).contains("at vavi.util.logging.VaviFormatterTest.test(VaviFormatterTest.java:"));
+        assertTrue(formatter.format(record).contains("at vavi.util.loggingtest.VaviFormatterTest.test(VaviFormatterTest.java:"), formatter.format(record));
     }
 
     @Test
