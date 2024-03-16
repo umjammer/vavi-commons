@@ -30,23 +30,21 @@ public class BetterFormatter extends Formatter {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS");
 
     private static final Map<Level, String> levelMsgMap = Collections.unmodifiableMap(
-            new HashMap<Level, String>() {{
-                put(Level.SEVERE,  "SEVERE");
+            new HashMap<>() {{
+                put(Level.SEVERE, "SEVERE");
                 put(Level.WARNING, "WARN");
-                put(Level.INFO,    "INFO");
-                put(Level.CONFIG,  "CONF");
-                put(Level.FINE,    "FINE");
-                put(Level.FINER,   "FINE");
-                put(Level.FINEST,  "FINE");
+                put(Level.INFO, "INFO");
+                put(Level.CONFIG, "CONF");
+                put(Level.FINE, "FINE");
+                put(Level.FINER, "FINE");
+                put(Level.FINEST, "FINE");
             }});
 
-    private AtomicInteger nameColumnWidth = new AtomicInteger(16);
-
+    private final AtomicInteger nameColumnWidth = new AtomicInteger(16);
 
     public static void applyToRoot() {
         applyToRoot(new ConsoleHandler());
     }
-
 
     public static void applyToRoot(Handler handler) {
         handler.setFormatter(new BetterFormatter());
@@ -58,7 +56,6 @@ public class BetterFormatter extends Formatter {
         }
         root.addHandler(handler);
     }
-
 
     @Override
     public String format(LogRecord record) {
@@ -110,8 +107,6 @@ public class BetterFormatter extends Formatter {
 
         return sb.toString();
     }
-
-
 
     static String adjustLength(String packageName, int aimLength) {
 

@@ -19,5 +19,3 @@ public interface SeekableDataInput<T> extends Seekable, DataInput {
 
     T origin();
 }
-
-/* */

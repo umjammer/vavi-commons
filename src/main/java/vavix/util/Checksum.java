@@ -49,5 +49,3 @@ public final class Checksum {
         }
     }
 }
-
-/* */

@@ -91,5 +91,3 @@ System.err.println("EnterExitClassFileTransformer::transform: " + className + ":
         }
     }
 }
-
-/* */

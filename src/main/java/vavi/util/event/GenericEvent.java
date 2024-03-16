@@ -57,5 +57,3 @@ public class GenericEvent extends EventObject {
         return arguments;
     }
 }
-
-/* */

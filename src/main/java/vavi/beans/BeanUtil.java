@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  */
 public abstract class BeanUtil {
 
-    private static Logger logger = Logger.getLogger(BeanUtil.class.getName());
+    private static final Logger logger = Logger.getLogger(BeanUtil.class.getName());
 
     /**
      * First, try to get by a normal field.
@@ -163,9 +163,9 @@ logger.fine("no method: " + getSetterName(name));
 
     /** Recurse super classes. */
     public static Field getPrivateField(Class<?> clazz, String name) throws PrivilegedActionException {
-        return AccessController.doPrivileged(new PrivilegedExceptionAction<Field>() {
-            /** @throws NoSuchFieldException */
-            public Field run() throws Exception {
+        return AccessController.doPrivileged(new PrivilegedExceptionAction<>() {
+            /** @throws NoSuchFieldException when no method found */
+            @Override public Field run() throws Exception {
                 Field field = getFieldByNameOf(clazz, name);
                 field.setAccessible(true);
                 return field;
@@ -177,9 +177,9 @@ logger.fine("no method: " + getSetterName(name));
      * Recurse super classes.
      */
     public static Method getPrivateMethod(Class<?> clazz, String name, Class<?>... argTypes) throws PrivilegedActionException {
-        return AccessController.doPrivileged(new PrivilegedExceptionAction<Method>() {
-            /** @throws NoSuchMethodException */
-            public Method run() throws Exception {
+        return AccessController.doPrivileged(new PrivilegedExceptionAction<>() {
+            /** @throws NoSuchMethodException when no method found */
+            @Override public Method run() throws Exception {
                 Method method = getMethodByNameOf(clazz, name, argTypes);
                 method.setAccessible(true);
                 return method;
@@ -308,5 +308,3 @@ logger.fine("no method: " + getBooleanGetterName(name));
         throw new IllegalArgumentException(name);
     }
 }
-
-/* */

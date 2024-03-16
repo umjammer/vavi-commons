@@ -41,12 +41,9 @@ public class WAVE extends RIFF {
         return findChildOf(fmt.class);
     }
 
-    /** TODO now construction */
-    private static boolean dealBigSize = false;
+    //----
 
-    //-------------------------------------------------------------------------
-
-    /** */
+    /** Represents wave format data. */
     public static class fmt extends Chunk {
 
         static final String ID = "fmt ";
@@ -158,25 +155,38 @@ public class WAVE extends RIFF {
 
             formatId       = ledis.readShort();
             numberChannels = ledis.readShort();
-            samplingRate   = ledis.readInt() & 0xffff;
+            samplingRate   = ledis.readInt();
             bytesPerSecond = ledis.readInt();
             blockSize      = ledis.readShort();
             samplingBits   = ledis.readShort();
             if (getLength() > 16) {
                 sizeofExtended = ledis.readShort();
                 extended = new byte[sizeofExtended];
-                int l = 0;
-                while (l < sizeofExtended) {
-                    l += ledis.read(extended, l, sizeofExtended - l);
-                }
+                ledis.readFully(extended);
             }
         }
     }
 
-    //-------------------------------------------------------------------------
+    //----
 
-    /** */
+    /**
+     * Represents wave data.
+     * <p>
+     * system properties
+     * <ul>
+     *  <li>vavi.util.win32.WAVE.data.dealBigSize ... use DataBuffer map for data handler</li>
+     *  <li>vavi.util.win32.WAVE.data.notLoadData ... to stop parsing before loading data or not</li>
+     * </ul>
+     */
     public static class data extends Chunk {
+
+        /** TODO now construction */
+        private final boolean dealBigSize =
+                Boolean.parseBoolean(System.getProperty("vavi.util.win32.WAVE.data.dealBigSize", "false"));
+
+        /** to stop parsing before loading data or not */
+        private final boolean notLoadData =
+                Boolean.parseBoolean(System.getProperty("vavi.util.win32.WAVE.data.notLoadData", "false"));
 
         /** buffer for data */
         private byte[] wave;
@@ -186,7 +196,7 @@ public class WAVE extends RIFF {
 
         /**
          * Gets data.
-         * getData() はオーバライドできない．
+         * getData() cannot be overridden
          */
         public byte[] getWave() {
             if (dealBigSize && buffer != null) {
@@ -198,6 +208,9 @@ public class WAVE extends RIFF {
 
         @Override
         public void setData(InputStream is) throws IOException {
+            if (notLoadData) {
+                throw new ChunkParseStopException();
+            }
             if (dealBigSize && is instanceof FileInputStream) {
                 FileChannel inputChannel = ((FileInputStream) is).getChannel();
                 buffer = inputChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) inputChannel.size());
@@ -229,18 +242,20 @@ public class WAVE extends RIFF {
         }
     }
 
+    /** */
     public static class LIST extends MultipartChunk {
+
         public static class ISFT extends Chunk {
         }
     }
 
-    //-------------------------------------------------------------------------
+    //----
 
     @Override
     public void writeTo(OutputStream os) throws IOException {
     }
 
-    //-------------------------------------------------------------------------
+    //----
 
     /** PCM types table */
     private static final Properties pcmTypes = new Properties();
@@ -254,5 +269,3 @@ public class WAVE extends RIFF {
         }
     }
 }
-
-/* */

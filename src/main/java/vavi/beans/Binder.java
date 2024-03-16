@@ -24,5 +24,3 @@ public interface Binder {
      */
     void bind(Object destBean, Field field, Class<?> fieldClass, String value, Object elseValue);
 }
-
-/* */

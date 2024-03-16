@@ -221,5 +221,3 @@ class ByteUtilTest {
 //        assertEquals(0xfedcba, v);
     }
 }
-
-/* */

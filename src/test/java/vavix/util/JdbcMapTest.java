@@ -89,5 +89,3 @@ Debug.println("gitlab.alias: " + map.get("gitlab").get("alias")); // null becaus
         assertNull(map.get("gitlab").get("alias"));
     }
 }
-
-/* */

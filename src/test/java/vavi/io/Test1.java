@@ -40,17 +40,20 @@ class Test1 {
         DataInputStream is = new DataInputStream(new OutputEngineInputStream(new OutputEngine() {
             OutputStream out;
 
+            @Override
             public void initialize(OutputStream out) throws IOException {
                 this.out = new Rot13.OutputStream(out);
             }
 
             byte[] buf = new byte[8192];
 
+            @Override
             public void execute() throws IOException {
                 int r = bais.read(buf);
                 out.write(buf, 0, r);
             }
 
+            @Override
             public void finish() throws IOException {
             }
         }));
@@ -86,5 +89,3 @@ class Test1 {
         assertEquals(data, baos.toString());
     }
 }
-
-/* */

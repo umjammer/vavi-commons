@@ -96,5 +96,3 @@ public class LittleEndianDataOutputStreamTest {
         assertArrayEquals(sample, result);
     }
 }
-
-/* */

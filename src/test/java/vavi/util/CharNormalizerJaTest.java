@@ -131,5 +131,3 @@ public class CharNormalizerJaTest {
         assertEquals(halfTable, CharNormalizerJa.ToHalfAns2.normalize(fullTable));
     }
 }
-
-/* */

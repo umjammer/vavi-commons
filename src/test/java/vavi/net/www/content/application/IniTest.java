@@ -16,6 +16,7 @@ import vavi.net.www.content.ContentHandlerUtil;
 import vavi.net.www.protocol.URLStreamHandlerUtil;
 import vavi.util.win32.WindowsProperties;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -37,7 +38,7 @@ public class IniTest {
         URL url = new URL("classpath:test.ini");
         Object content = url.getContent();
 System.err.println(content);
-        assertTrue(content instanceof WindowsProperties);
+        assertInstanceOf(WindowsProperties.class, content);
     }
 
     /** TODO doesn't work */
@@ -55,8 +56,6 @@ System.err.println(mimetype); // got
         URL url = new URL("classpath:test.ini");
         Object content = url.getContent();
 System.err.println(content);
-        assertTrue(content instanceof WindowsProperties);
+        assertInstanceOf(WindowsProperties.class, content);
     }
 }
-
-/* */

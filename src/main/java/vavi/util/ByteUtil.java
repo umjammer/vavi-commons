@@ -350,5 +350,3 @@ public class ByteUtil {
                 .map(a -> Integer.parseInt(a, 16)).collect(Collectors.toList()));
     }
 }
-
-/* */

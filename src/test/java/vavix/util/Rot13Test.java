@@ -60,5 +60,3 @@ Debug.println(new String(b, 0, r));
         assertEquals("Naohide Sano 1970", new String(b, 0, r));
     }
 }
-
-/* */

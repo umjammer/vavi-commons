@@ -38,5 +38,3 @@ public class LinkFileTest {
         System.err.println(lf.getPath());
     }
 }
-
-/* */

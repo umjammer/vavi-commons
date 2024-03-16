@@ -66,5 +66,3 @@ public class MSF {
         return s.substring(s.length() - 2);
     }
 }
-
-/* */

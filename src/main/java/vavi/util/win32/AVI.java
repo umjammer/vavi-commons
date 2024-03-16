@@ -8,6 +8,7 @@ package vavi.util.win32;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import vavi.io.LittleEndianDataInputStream;
 
@@ -26,6 +27,7 @@ public class AVI extends RIFF {
     //-------------------------------------------------------------------------
 
     public static class LIST extends MultipartChunk {
+
         /** */
         public static class strh extends Chunk {
         }
@@ -120,5 +122,3 @@ public class AVI extends RIFF {
     public static class ISFT extends Chunk {
     }
 }
-
-/* */

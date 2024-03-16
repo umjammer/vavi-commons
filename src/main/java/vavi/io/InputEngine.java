@@ -27,5 +27,3 @@ public interface InputEngine {
     /** */
     void finish() throws IOException;
 }
-
-/* */

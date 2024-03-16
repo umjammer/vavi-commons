@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2002 Merlin Hughes
+ *
  * http://www.ibm.com/developerworks/jp/java/library/j-io2/
  */
 
@@ -11,14 +13,19 @@ import java.io.InputStream;
 /**
  * An unsynchronized ByteArrayInputStream alternative.
  *
- * @author Copyright (c) 2002 Merlin Hughes <merlin@merlin.org>
+ * @author <a href="mailto:merlin@merlin.org">Merlin Hughes</a>
  */
 public class AdvancedByteArrayInputStream extends InputStream {
+
     /** buffer from which to read */
-    private byte[] buffer;
+    private final byte[] buffer;
 
     /** */
-    private int index, limit, mark;
+    private int index;
+    /** */
+    private final int limit;
+    /** */
+    private int mark;
 
     /** is the stream closed? */
     private boolean closed;
@@ -42,7 +49,7 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
+    @Override
     public int read() throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -53,7 +60,7 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
+    @Override
     public int read(byte[] data, int offset, int length) throws IOException {
         if (data == null) {
             throw new NullPointerException();
@@ -74,7 +81,7 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
+    @Override
     public long skip(long amount) throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -89,7 +96,7 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
+    @Override
     public int available() throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -98,17 +105,17 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
+    @Override
     public void close() {
         closed = true;
     }
 
-    /* */
+    @Override
     public void mark(int readLimit) {
         mark = index;
     }
 
-    /* */
+    @Override
     public void reset() throws IOException {
         if (closed) {
             throw new IOException("Stream closed");
@@ -118,10 +125,8 @@ public class AdvancedByteArrayInputStream extends InputStream {
         }
     }
 
-    /* */
+    @Override
     public boolean markSupported() {
         return true;
     }
 }
-
-/* */

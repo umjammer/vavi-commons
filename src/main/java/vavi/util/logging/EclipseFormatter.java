@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
-import vavi.net.www.protocol.URLStreamHandlerUtil;
 import vavi.util.properties.annotation.Property;
 import vavi.util.properties.annotation.PropsEntity;
 
@@ -32,8 +31,6 @@ public class EclipseFormatter extends Formatter {
     /* */
     {
         try {
-            URLStreamHandlerUtil.loadService();
-
             PropsEntity.Util.bind(this);
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,5 +77,3 @@ public class EclipseFormatter extends Formatter {
         return sb.toString();
     }
 }
-
-/* */

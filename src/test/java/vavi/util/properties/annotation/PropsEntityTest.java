@@ -341,5 +341,3 @@ public class PropsEntityTest {
         assertEquals("bye!!", bean.data1); // use defined
     }
 }
-
-/* */

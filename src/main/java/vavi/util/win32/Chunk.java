@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 
 import vavi.io.LittleEndianDataInputStream;
@@ -37,30 +38,30 @@ import vavi.util.StringUtil;
  */
 public class Chunk {
 
-    /** */
+    /** not opened */
     protected Chunk() {
     }
 
-    /** */
+    /** foreCC of this chunk */
     private byte[] id;
 
     /** chunk length */
     private int length;
 
-    /** */
+    /** Sets chunk foreCC */
     public void setId(byte[] id) {
         this.id = id;
     }
 
-    /** */
+    /** Sets chunk length */
     public void setLength(int length) {
         this.length = length;
     }
 
-    /** */
+    /** chunk data */
     private byte[] data;
 
-    /** */
+    /** a chunk which this chunk belongs to */
     private Chunk parent;
 
     /** Gets the chunk name. */
@@ -73,27 +74,32 @@ public class Chunk {
         return length;
     }
 
+    /** Gets a chunk which this chunk belongs to */
     protected Chunk getParent() {
         return parent;
     }
 
+    /** Sets a chunk which this chunk belongs to */
     protected void setParent(Chunk parent) {
         this.parent = parent;
     }
 
+    /** represents parser is working or not */
+    protected static ThreadLocal<Boolean> parsing = new ThreadLocal<>();
+
     /**
-     * ストリームデータをシリアライズするメソッドです。
-     * オブジェクト内のデータを取得するためにオーバーライドしてください。
-     * @throws NullPointerException {@link #setData(InputStream)} を実装していない場合 {@link #data} が null
+     * A method to serialize stream data.
+     * Override to retrieve data within the object.
+     * @throws NullPointerException {@link #data} is null if you do not implement {@link #setData(InputStream)}
      */
     public InputStream getData() throws IOException {
         return new ByteArrayInputStream(data);
     }
 
     /**
-     * ストリームデータをデシリアライズするメソッドです。
-     * オブジェクト内のデータを埋めるためにオーバーライドしてください。
-     * {@link Chunk} クラスの実装では {@link #data} は fill されません。
+     * This method deserializes stream data.
+     * Override to fill data in the object.
+     * {@link Chunk} class implementation does not fill {@link #data}.
      */
     public void setData(InputStream is) throws IOException {
 Debug.println(Level.FINER, getName() + ": " + length + " / " + is.available());
@@ -111,18 +117,20 @@ Debug.println(Level.FINER, getName() + ": " + length + " / " + is.available());
     /**
      * Creates a Chunk object from a stream.
      */
-    public static <T extends Chunk> T readFrom(InputStream is, Class<T> clazz)
-        throws IOException {
+    public static <T extends Chunk> T readFrom(InputStream is, Class<T> clazz) throws IOException {
+
+        parsing.set(true);
 
         LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
         byte[] tmp = new byte[4];
         ledis.readFully(tmp);
+Debug.println(Level.FINER, "start chunk: " + new String(tmp, StandardCharsets.US_ASCII));
 
         int length = ledis.readInt();
 Debug.println(Level.FINER, StringUtil.getDump(tmp));
 
-        T chunk = null;
+        T chunk;
 
         try {
             if (chunkClasses == null) {
@@ -142,6 +150,7 @@ Debug.print(Level.FINEST, chunk);
         return chunk;
     }
 
+    /** Create a chunk from <code>is</code>. */
     protected static Chunk readFrom(InputStream is, Chunk parent)
         throws IOException {
 
@@ -169,12 +178,18 @@ Debug.println(Level.FINER, e);
         chunk.id = tmp;
         chunk.length = length;
         chunk.setParent(parent);
-        chunk.setData(is);
-        ledis.skipBytes(length % 2); // padding
+        try {
+            chunk.setData(is);
+            ledis.skipBytes(length % 2); // padding
+        } catch (ChunkParseStopException e) {
+Debug.print(Level.FINER, "chunk parsing canceled: " + chunk.getClass().getSimpleName());
+            parsing.set(false);
+        }
 Debug.print(Level.FINEST, chunk);
         return chunk;
     }
 
+    /** Write this chunk into <code>os</code>. */
     public void writeTo(OutputStream os) throws IOException {
         LittleEndianDataOutputStream ledos = new LittleEndianDataOutputStream(os);
         ledos.write(id);
@@ -184,7 +199,7 @@ Debug.print(Level.FINEST, chunk);
 
     protected static List<Class<? extends Chunk>> chunkClasses; 
 
-    /** */
+    /** Gets all chunk classes defined in this chunk class and super classes. */
     @SuppressWarnings({"unchecked", "rawtypes"})
     protected static List<Class<? extends Chunk>> getChunkClasses(Class<? extends Chunk> clazz) {
         List<Class<? extends Chunk>> results = new ArrayList<>();
@@ -198,7 +213,7 @@ Debug.print(Level.FINEST, chunk);
         return results;
     }
 
-    /** */
+    /** Gets all chunk classes defined in this chunk class. */
     @SuppressWarnings({"unchecked", "rawtypes"})
     protected static List<Class<? extends Chunk>> getChildChunkClasses(Class<? extends Chunk> clazz) {
         List<Class<? extends Chunk>> results = new ArrayList<>();
@@ -212,13 +227,19 @@ Debug.print(Level.FINEST, chunk);
         return results;
     }
 
-    /** */
+    /**
+     * chunk class name rule
+     * <ul>
+     * <li>white spaces are trimmed</li>
+     * <li>not alphabet characters are replaced to '_'</li>
+     * </ul>
+     */
     protected static String normalize(String name) {
         String trimmed = name.trim();
         return trimmed.matches("^[^\\p{Alpha}].*$") ? "_" + trimmed : trimmed;
     }
 
-    /** */
+    /** Get a chunk class defined in this chunk class specified by the name. */
     protected static Class<? extends Chunk> getClassOf(String name) {
         Optional<Class<? extends Chunk>> o = chunkClasses.stream().filter(c -> normalize(name).equals(c.getSimpleName())).findFirst();
         if (o.isPresent()) {
@@ -227,6 +248,7 @@ Debug.print(Level.FINEST, chunk);
             throw new NoSuchElementException("value for " + name);
         }
     }
-}
 
-/* */
+    /** Using to stop parsing. */
+    static class ChunkParseStopException extends RuntimeException {}
+}

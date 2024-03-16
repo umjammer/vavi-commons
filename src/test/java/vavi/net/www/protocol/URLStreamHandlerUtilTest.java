@@ -8,6 +8,7 @@ package vavi.net.www.protocol;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 
@@ -42,22 +44,19 @@ public class URLStreamHandlerUtilTest {
     }
 
     @Test
+    @Disabled("because implemented java9 URLStreamHandlerProvider")
     public void test() throws Exception {
         System.setProperty("java.protocol.handler.pkgs", "");
 
-        @SuppressWarnings("unused")
-        URL url = null;
-        try {
-            url = new URL("classpath:test");
-            fail(); // TODO
-        } catch (MalformedURLException e) {
-        }
+        assertThrows(MalformedURLException.class, () -> { // on java9 no exception because of description in @Disabled.
+            new URL("classpath:test");
+        });
 
         System.setProperty("java.protocol.handler.pkgs", "");
         URLStreamHandlerUtil.loadService();
         assertEquals("vavi.net.www.protocol", System.getProperty("java.protocol.handler.pkgs"));
 
-        url = new URL("classpath:test");
+        URL url = new URL("classpath:test");
 
         System.setProperty("java.protocol.handler.pkgs", "unknown.protocol");
         URLStreamHandlerUtil.loadService();
@@ -69,6 +68,9 @@ public class URLStreamHandlerUtilTest {
 
         url = new URL("classpath:test3"); // should be success, cause already the handler loaded?
     }
-}
 
-/* */
+    @Test
+    public void test2() throws Exception {
+        new URL("classpath:test");
+    }
+}

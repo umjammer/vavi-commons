@@ -49,5 +49,3 @@ public class WindowsPropertiesTest {
         ini.store(Files.newOutputStream(Paths.get(args[1])), args[1]);
     }
 }
-
-/* */

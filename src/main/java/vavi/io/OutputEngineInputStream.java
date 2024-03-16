@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2002 Merlin Hughes
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -15,14 +17,15 @@ import java.io.OutputStream;
 /**
  * An input stream that reads data from an OutputEngine.
  *
- * @author Copyright (c) 2002 Merlin Hughes <merlin@merlin.org>
+ * @author <a href="mailto:merlin@merlin.org">Merlin Hughes</a>
  */
 public class OutputEngineInputStream extends InputStream {
+
     /** */
     private static final int DEFAULT_INITIAL_BUFFER_SIZE = 8192;
 
     /** */
-    private OutputEngine engine;
+    private final OutputEngine engine;
 
     /** */
     private byte[] buffer;
@@ -47,7 +50,7 @@ public class OutputEngineInputStream extends InputStream {
     }
 
     /** */
-    private byte[] one = new byte[1];
+    private final byte[] one = new byte[1];
 
     @Override
     public int read() throws IOException {
@@ -135,6 +138,7 @@ public class OutputEngineInputStream extends InputStream {
 
     /** */
     private class OutputStreamImpl extends OutputStream {
+
         @Override
         public void write(int datum) throws IOException {
             one[0] = (byte) datum;
@@ -160,5 +164,3 @@ public class OutputEngineInputStream extends InputStream {
         }
     }
 }
-
-/* */

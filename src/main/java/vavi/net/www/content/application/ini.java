@@ -31,5 +31,3 @@ public class ini extends ContentHandler {
         return properties;
     }
 }
-
-/* */

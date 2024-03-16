@@ -49,5 +49,3 @@ class DateUtilTest {
         assertEquals(312854402761L / 1000, actual / 1000);
     }
 }
-
-/* */

@@ -133,5 +133,3 @@ public class SeekableDataInputStream extends InputStream
         return sbc;
     }
 }
-
-/* */

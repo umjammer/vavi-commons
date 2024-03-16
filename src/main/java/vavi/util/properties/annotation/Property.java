@@ -115,5 +115,3 @@ public @interface Property {
         }
     }
 }
-
-/* */

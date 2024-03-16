@@ -83,5 +83,3 @@ Debug.println(Level.FINEST, "cleanup: @" + detectors.get().hashCode() + ", " + T
         detectors.remove();
     }
 }
-
-/* */

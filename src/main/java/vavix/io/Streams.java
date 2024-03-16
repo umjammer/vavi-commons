@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2002 Merlin Hughes
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -15,7 +17,7 @@ import java.io.OutputStream;
 /**
  * Various stream-related utility methods.
  *
- * @author Copyright (c) 2002 Merlin Hughes <merlin@merlin.org>
+ * @author <a href="mailto:merlin@merlin.org">Merlin Hughes</a>
  */
 public class Streams {
 
@@ -49,7 +51,8 @@ public class Streams {
 
     /** */
     static class SynchronizedOutputStream extends OutputStream {
-        private OutputStream out;
+
+        private final OutputStream out;
 
         private final Object lock;
 
@@ -62,30 +65,35 @@ public class Streams {
             this.lock = lock;
         }
 
+        @Override
         public void write(int datum) throws IOException {
             synchronized (lock) {
                 out.write(datum);
             }
         }
 
+        @Override
         public void write(byte[] data) throws IOException {
             synchronized (lock) {
                 out.write(data);
             }
         }
 
+        @Override
         public void write(byte[] data, int offset, int length) throws IOException {
             synchronized (lock) {
                 out.write(data, offset, length);
             }
         }
 
+        @Override
         public void flush() throws IOException {
             synchronized (lock) {
                 out.flush();
             }
         }
 
+        @Override
         public void close() throws IOException {
             synchronized (lock) {
                 out.close();

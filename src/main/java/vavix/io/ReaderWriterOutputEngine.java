@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2002 Merlin Hughes
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -20,20 +22,21 @@ import vavi.io.OutputEngine;
  * An output engine that copies data from a Reader through a OutputStreamWriter
  * to the target OutputStream.
  *
- * @author Copyright (c) 2002 Merlin Hughes <merlin@merlin.org>
+ * @author <a href="mailto:merlin@merlin.org">Merlin Hughes</a>
  */
 public class ReaderWriterOutputEngine implements OutputEngine {
+
     /** */
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 
     /** */
-    private Reader reader;
+    private final Reader reader;
 
     /** */
-    private String encoding;
+    private final String encoding;
 
     /** */
-    private char[] buffer;
+    private final char[] buffer;
 
     /** */
     private Writer writer;
@@ -50,7 +53,7 @@ public class ReaderWriterOutputEngine implements OutputEngine {
         buffer = new char[bufferSize];
     }
 
-    /* */
+    @Override
     public void initialize(OutputStream out) throws IOException {
         if (writer != null) {
             throw new IOException("Already initialized");
@@ -59,7 +62,7 @@ public class ReaderWriterOutputEngine implements OutputEngine {
         }
     }
 
-    /* */
+    @Override
     public void execute() throws IOException {
         if (writer == null) {
             throw new IOException("Not yet initialized");
@@ -73,10 +76,8 @@ public class ReaderWriterOutputEngine implements OutputEngine {
         }
     }
 
-    /* */
+    @Override
     public void finish() throws IOException {
         reader.close();
     }
 }
-
-/* */

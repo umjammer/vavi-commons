@@ -69,5 +69,3 @@ public abstract class FormattedPropertiesFactory<K, V> extends PropertiesFactory
         }
     }
 }
-
-/* */

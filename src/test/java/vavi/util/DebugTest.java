@@ -24,5 +24,3 @@ class DebugTest {
         Debug.printf("%d, %08x\n", 100, 257);
     }
 }
-
-/* */

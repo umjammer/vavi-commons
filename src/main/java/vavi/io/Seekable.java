@@ -23,5 +23,3 @@ public interface Seekable {
     /** @see java.nio.channels.ReadableByteChannel */
     long position() throws IOException;
 }
-
-/* */
