@@ -1,5 +1,5 @@
 [![Release](https://jitpack.io/v/umjammer/vavi-commons.svg)](https://jitpack.io/#umjammer/vavi-commons)
-[![Actions Status](https://github.com/umjammer/vavi-commons/workflows/Java%20CI/badge.svg)](https://github.com/umjammer/vavi-commons/actions)
+[![Java CI](https://github.com/umjammer/vavi-commons/actions/workflows/maven.yml/badge.svg)](https://github.com/umjammer/vavi-commons/actions/workflows/maven.yml)
 [![CodeQL](https://github.com/umjammer/vavi-commons/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/umjammer/vavi-commons/actions/workflows/codeql-analysis.yml)
 ![Java](https://img.shields.io/badge/Java-17-b07219)
 
@@ -50,6 +50,8 @@ most functions are used by me for every development. so those are super reliable
 
 ### 🔧 Generic Event
 
+  * usable for any observer pattern
+
 ### 🔧 Instrumentation
 
   * easy instrumentation 
@@ -61,6 +63,8 @@ most functions are used by me for every development. so those are super reliable
   * Hex dump
 
 ### 🔧 Binary I/O
+
+  * ByteUtil
 
 ### 🔧 Unit Test Helper
 
@@ -80,7 +84,12 @@ most functions are used by me for every development. so those are super reliable
 ## TODO
 
  * ~~deploy to bintray via github actions~~
- * https://www.gwtcenter.com/raise-checked-as-unchecked
+ * exception
+   * https://www.gwtcenter.com/raise-checked-as-unchecked
+   * java.util.Stream exception handler
  * jar in jar loader
- * native jar
- * stream exception handler
+ * ~~native jar~~ -> [NLL](https://github.com/scijava/native-lib-loader)
+ * use jpl for Debug
+ * urlstreamhandler
+   * ~~use java11 urlstreamhandler spi~~
+   * import image:data:base64 from jwinzip 

@@ -32,6 +32,93 @@
     </repository>
   </distributionManagement>
 
+  <profiles>
+    <profile>
+      <!-- mvn -P jdeps jdeps:jdkinternals -->
+      <id>jdpes</id>
+      <reports>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jdeps-plugin</artifactId>
+            <version>3.1.2</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jdkinternals</goal> <!-- verify main classes -->
+                  <goal>test-jdkinternals</goal> <!-- verify test classes -->
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reports>
+    </profile>
+
+    <profile>
+      <id>local (not on jitpack)</id>
+      <activation>
+        <property>
+          <name>env.GITHUB_WORKFLOW</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>3.1.1</version>
+            <executions>
+              <execution>
+                <id>default-deploy</id>
+                <configuration>
+                  <skip>true</skip> <!-- use exec-maven-plugin instead of this -->
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <!--
+              because of maven deploy-file uploads source, jar also
+              TODO maven-metadata.xml!/metadata/versioning/latest is not updated
+              TODO how about https://stackoverflow.com/a/37552776/6102938
+             -->
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+              <execution>
+                <id>deploy-library</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <executable>mvn</executable>
+              <arguments>
+                <argument>deploy:deploy-file</argument>
+                <argument>-DgroupId=${project.groupId}</argument>
+                <argument>-DartifactId=vavi-instrumentation</argument>
+                <argument>-Dversion=${project.version}</argument>
+                <argument>-Dpackaging=jar</argument>
+                <argument>-Dfile=${project.build.directory}/vavi-instrumentation-${project.version}.jar</argument>
+                <argument>-DrepositoryId=github</argument>
+                <argument>-Durl=https://maven.pkg.github.com/umjammer/vavi-commons</argument>
+                <argument>-s</argument>
+                <argument>${env.GITHUB_WORKSPACE}/settings.xml</argument>
+              </arguments>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
@@ -150,55 +237,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>3.1.1</version>
-        <executions>
-          <execution>
-            <id>default-deploy</id>
-            <configuration>
-              <skip>true</skip> <!-- use exec-maven-plugin instead of this -->
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <!--
-          because of maven deploy-file uploads source, jar also
-          TODO maven-metadata.xml!/metadata/versioning/latest is not updated
-          TODO how about https://stackoverflow.com/a/37552776/6102938
-         -->
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <id>deploy-library</id>
-            <phase>deploy</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <executable>mvn</executable>
-          <arguments>
-            <argument>deploy:deploy-file</argument>
-            <argument>-DgroupId=${project.groupId}</argument>
-            <argument>-DartifactId=vavi-instrumentation</argument>
-            <argument>-Dversion=${project.version}</argument>
-            <argument>-Dpackaging=jar</argument>
-            <argument>-Dfile=${project.build.directory}/vavi-instrumentation-${project.version}.jar</argument>
-            <argument>-DrepositoryId=github</argument>
-            <argument>-Durl=https://maven.pkg.github.com/umjammer/vavi-commons</argument>
-            <argument>-s</argument>
-            <argument>${env.GITHUB_WORKSPACE}/settings.xml</argument>
-          </arguments>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 
@@ -207,7 +245,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.10.1</version>
+        <version>5.10.2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -218,7 +256,7 @@
     <dependency>
       <groupId>org.javassist</groupId>
       <artifactId>javassist</artifactId>
-      <version>3.29.2-GA</version>
+      <version>3.30.2-GA</version>
       <scope>provided</scope> <!-- don't touch to avoid not showing this as a dependency at another project -->
     </dependency>
 
@@ -241,7 +279,13 @@
     <dependency>
       <groupId>org.xerial</groupId>
       <artifactId>sqlite-jdbc</artifactId>
-      <version>3.42.0.0</version>
+      <version>3.45.2.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>1.7.36</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
