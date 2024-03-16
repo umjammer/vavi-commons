@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+import java.util.logging.Level;
+
+import vavi.util.Debug;
 
 
 /**
@@ -38,6 +41,10 @@ public class Handler extends URLStreamHandler {
     @Override
     protected URLConnection openConnection(URL u) throws IOException {
         final URL resourceUrl = classLoader.getResource(u.getPath());
+        if (resourceUrl == null) {
+            throw new IOException(u.getPath());
+        }
+//System.err.println("url: " + u);
         return resourceUrl.openConnection();
     }
 }
