@@ -28,17 +28,17 @@ public class ExceptionClassFileTransformer implements VaviClassFileTransformer {
     /** never use before call #transform() */
     private String id;
 
-    /* */
+    @Override
     public String getId() {
         return id;
     }
 
-    /* */
+    @Override
     public void setId(String id) {
         this.id = id;
     }
 
-    /** */
+    @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         ClassPool classPool = ClassPool.getDefault();
 

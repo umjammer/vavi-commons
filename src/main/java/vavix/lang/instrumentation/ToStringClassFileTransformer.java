@@ -50,12 +50,12 @@ public class ToStringClassFileTransformer implements VaviClassFileTransformer {
     /** never use before call #transform() */
     private String id;
 
-    /* */
+    @Override
     public String getId() {
         return id;
     }
 
-    /* */
+    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -67,6 +67,7 @@ public class ToStringClassFileTransformer implements VaviClassFileTransformer {
      * vavix.lang.instrumentation.ToStringClassFileTransformer.${id}.body ... method body
      * </pre>
      */
+    @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         if (pattern == null) {
             Properties props = System.getProperties();

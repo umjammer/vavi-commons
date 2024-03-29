@@ -25,8 +25,8 @@ import vavi.io.OutputEngine;
  */
 public class DOMSerializerEngine implements OutputEngine {
 
-    private NodeIterator iterator;
-    private String encoding;
+    private final NodeIterator iterator;
+    private final String encoding;
     private OutputStreamWriter writer;
 
     public DOMSerializerEngine(Node root) {

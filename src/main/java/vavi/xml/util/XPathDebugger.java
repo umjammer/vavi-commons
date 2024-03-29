@@ -55,7 +55,7 @@ public class XPathDebugger {
             xr.setContentHandler(handler);
             xr.parse(is);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

@@ -81,7 +81,7 @@ if (l != 0) {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getName() + "(" + getMultipartName() + ")\n");
+        sb.append(getName()).append("(").append(getMultipartName()).append(")\n");
         chunks.stream().map(c -> " " + c + "\n").forEach(sb::append);
         return sb.toString();
     }

@@ -18,10 +18,10 @@ import java.util.EventObject;
 public class GenericEvent extends EventObject {
 
     /** */
-    private String name;
+    private final String name;
 
     /** */
-    private Object[] arguments;
+    private final Object[] arguments;
 
     /**
      * Creates a generic event.

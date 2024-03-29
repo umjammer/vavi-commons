@@ -22,17 +22,18 @@ import vavi.io.InputEngine;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  */
 public class ReaderWriterInputEngine implements InputEngine {
+
     /** */
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 
     /** */
-    private Writer writer;
+    private final Writer writer;
 
     /** */
-    private String encoding;
+    private final String encoding;
 
     /** */
-    private char[] buffer;
+    private final char[] buffer;
 
     /** */
     private Reader reader;
@@ -49,7 +50,7 @@ public class ReaderWriterInputEngine implements InputEngine {
         buffer = new char[bufferSize];
     }
 
-    /* */
+    @Override
     public void initialize(InputStream in) throws IOException {
         if (reader != null) {
             throw new IOException("Already initialized");
@@ -58,7 +59,7 @@ public class ReaderWriterInputEngine implements InputEngine {
         }
     }
 
-    /* */
+    @Override
     public void execute() throws IOException {
         if (reader == null) {
             throw new IOException("Not yet initialized");
@@ -72,7 +73,7 @@ public class ReaderWriterInputEngine implements InputEngine {
         }
     }
 
-    /* */
+    @Override
     public void finish() throws IOException {
         writer.flush();
         writer.close();

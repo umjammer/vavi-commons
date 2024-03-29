@@ -260,7 +260,6 @@ public class WAVE extends RIFF {
     /** PCM types table */
     private static final Properties pcmTypes = new Properties();
 
-    /* */
     static {
         try {
             pcmTypes.load(WAVE.class.getResourceAsStream("wave.properties"));

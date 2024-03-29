@@ -45,7 +45,7 @@ class Test1 {
                 this.out = new Rot13.OutputStream(out);
             }
 
-            byte[] buf = new byte[8192];
+            final byte[] buf = new byte[8192];
 
             @Override
             public void execute() throws IOException {
@@ -68,17 +68,20 @@ class Test1 {
         DataOutputStream os = new DataOutputStream(new InputEngineOutputStream(new InputEngine() {
             InputStream in;
 
+            @Override
             public void initialize(InputStream in) throws IOException {
                 this.in = new Rot13.InputStream(in);
             }
 
-            byte[] buf = new byte[8192];
+            final byte[] buf = new byte[8192];
 
+            @Override
             public void execute() throws IOException {
                 int r = in.read(buf);
                 baos.write(buf, 0, r);
             }
 
+            @Override
             public void finish() throws IOException {
             }
         }));

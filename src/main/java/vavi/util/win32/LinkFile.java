@@ -234,7 +234,7 @@ Debug.println(" s1_label: " + s1_label);
                 String s2_label = new String(buf, "JISAutoDetect");
 Debug.println(" s2_label: " + s2_label);
 
-                lf.path = s1_label + (s1_label.length() > 0 ? "\\" : "") + s2_label;
+                lf.path = s1_label + (!s1_label.isEmpty() ? "\\" : "") + s2_label;
             }
             if ((flags & FLAG_AVAILABLE_ON_A_NETWORK_SHARE) != 0) {
                 int s1_length = ledis.readInt();

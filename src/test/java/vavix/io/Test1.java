@@ -88,6 +88,7 @@ Debug.println(r);
     }
 
     static class GZIPInputStreamFactory implements IOStreamInputEngine.InputStreamFactory {
+        @Override
         public InputStream getInputStream(InputStream in) throws IOException {
             // IOStreamInputEngine needs to read some bytes before initialize()
             // for reading header (*1)
@@ -168,6 +169,7 @@ System.err.println(r);
     }
 
     static class Rot13InputStreamFactory implements IOStreamInputEngine.InputStreamFactory {
+        @Override
         public InputStream getInputStream(InputStream in) throws IOException {
               return new Rot13.InputStream(in);
         }

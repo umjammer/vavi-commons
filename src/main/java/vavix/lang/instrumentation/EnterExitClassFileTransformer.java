@@ -35,12 +35,12 @@ public class EnterExitClassFileTransformer implements VaviClassFileTransformer {
     /** never use before call #transform() */
     private String id;
 
-    /* */
+    @Override
     public String getId() {
         return id;
     }
 
-    /* */
+    @Override
     public void setId(String id) {
         this.id = id;
 //System.err.println("EnterExitClassFileTransformer::setId: id: " + id);
@@ -52,6 +52,7 @@ public class EnterExitClassFileTransformer implements VaviClassFileTransformer {
      * vavix.lang.instrumentation.EnterExitClassFileTransformer.${id}.pattern ... class name matcher in regex
      * </pre>
      */
+    @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         if (pattern == null) {
             Properties props = System.getProperties();

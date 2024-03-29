@@ -20,8 +20,8 @@ import java.nio.channels.SeekableByteChannel;
 public class LittleEndianSeekableDataOutputStream extends OutputStream
         implements LittleEndianDataOutput, SeekableDataOutput<SeekableByteChannel> {
 
-    private SeekableByteChannel sbc;
-    private LittleEndianDataOutputStream ledos;
+    private final SeekableByteChannel sbc;
+    private final LittleEndianDataOutputStream ledos;
 
     public LittleEndianSeekableDataOutputStream(SeekableByteChannel sbc) {
         this.sbc = sbc;

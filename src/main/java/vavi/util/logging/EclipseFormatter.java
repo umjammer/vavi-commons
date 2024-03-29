@@ -28,19 +28,17 @@ public class EclipseFormatter extends Formatter {
     @Property(name = "vavi.util.logging.excludes", value = "vavi.util.logging,java.util.logging,vavi.util.Debug,org.apache.commons.logging,sun.util.logging")
     private String defaultExcludingPackages;
 
-    /* */
     {
         try {
             PropsEntity.Util.bind(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
     /** */
-    private static String excludingPackages;
+    private static final String excludingPackages;
 
-    /* */
     static {
         excludingPackages = System.getProperty("vavi.util.logging.excludes", "");
     }
@@ -55,7 +53,7 @@ public class EclipseFormatter extends Formatter {
         return false;
     }
 
-    /** */
+    @Override
     public String format(LogRecord record) {
         StringBuilder sb = new StringBuilder();
         StackTraceElement[] stes = new Throwable().getStackTrace();

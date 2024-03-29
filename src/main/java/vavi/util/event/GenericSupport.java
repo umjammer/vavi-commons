@@ -20,7 +20,7 @@ import java.util.List;
 public class GenericSupport implements Serializable {
 
     /** The generic listeners */
-    private List<GenericListener> listeners = new ArrayList<>();
+    private final List<GenericListener> listeners = new ArrayList<>();
 
     /** GenericListener を追加します． */
     public void addGenericListener(GenericListener l) {
@@ -34,8 +34,6 @@ public class GenericSupport implements Serializable {
 
     /** 汎用イベントを発行します． */
     public void fireEventHappened(GenericEvent ev) {
-        for (GenericListener listener : listeners) {
-            listener.eventHappened(ev);
-        }
+        listeners.forEach(listener -> listener.eventHappened(ev));
     }
 }

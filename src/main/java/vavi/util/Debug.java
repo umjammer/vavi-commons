@@ -41,7 +41,7 @@ public final class Debug {
     //-------------------------------------------------------------------------
 
     /** デバッグ情報の出力先ストリーム */
-    private static Logger logger = Logger.getLogger(Debug.class.getName()); // TODO fixed namespace
+    private static final Logger logger = Logger.getLogger(Debug.class.getName()); // TODO fixed namespace
 
     /**
      * アクセスできません．
@@ -319,22 +319,22 @@ public final class Debug {
      * @param ste StackTraceElement
      */
     private static String format(StackTraceElement ste) {
-        StringBuilder sb = new StringBuilder();
-//    sb.append(StringUtil.getClassName(ste.getClassName()));
-//    sb.append("::");
-//    sb.append(ste.getMethodName());
-//    sb.append("(");
-//    sb.append(ste.getLineNumber());
-//    sb.append(")");
-        sb.append(ste.getClassName());
-        sb.append(".");
-        sb.append(ste.getMethodName());
-        sb.append("(");
-        sb.append(ste.getFileName());
-        sb.append(":");
-        sb.append(ste.getLineNumber());
-        sb.append(")");
-        return sb.toString();
+        String sb =
+//                StringUtil.getClassName(ste.getClassName()) +
+//                "::" +
+//                ste.getMethodName() +
+//                "(" +
+//                ste.getLineNumber() +
+//                ")" +
+                ste.getClassName() +
+                "." +
+                ste.getMethodName() +
+                "(" +
+                ste.getFileName() +
+                ":" +
+                ste.getLineNumber() +
+                ")";
+        return sb;
     }
 
     /**

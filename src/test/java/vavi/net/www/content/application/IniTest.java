@@ -17,7 +17,6 @@ import vavi.net.www.protocol.URLStreamHandlerUtil;
 import vavi.util.win32.WindowsProperties;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**

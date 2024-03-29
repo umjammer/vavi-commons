@@ -64,8 +64,7 @@ public class ChannelOutputStream extends OutputStream {
      * @throws IllegalBlockingModeException If the channel is selectable and configured non-blocking.
      */
     private static void writeFully(WritableByteChannel ch, ByteBuffer bb) throws IOException {
-        if (ch instanceof SelectableChannel) {
-            SelectableChannel sc = (SelectableChannel) ch;
+        if (ch instanceof SelectableChannel sc) {
             synchronized (sc.blockingLock()) {
                 if (!sc.isBlocking())
                     throw new IllegalBlockingModeException();

@@ -8,7 +8,6 @@ package vavi.util.win32;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 import vavi.io.LittleEndianDataInputStream;
 

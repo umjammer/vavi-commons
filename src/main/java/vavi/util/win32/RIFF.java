@@ -7,9 +7,6 @@
 package vavi.util.win32;
 
 
-import java.util.Arrays;
-
-
 /**
  * Resource Interchange File Format.
  *

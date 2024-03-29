@@ -21,13 +21,15 @@ public class InputEngineOutputStream extends OutputStream {
     private static final int DEFAULT_INITIAL_BUFFER_SIZE = 8192;
 
     /** */
-    private InputEngine engine;
+    private final InputEngine engine;
 
     /** */
-    private byte[] buffer;
+    private final byte[] buffer;
 
     /** */
-    private int index, limit, capacity;
+    private int index;
+    private int limit;
+    private final int capacity;
 
     /** */
     private boolean closed, eof;
@@ -46,7 +48,7 @@ public class InputEngineOutputStream extends OutputStream {
     }
 
     /** */
-    private byte[] one = new byte[1];
+    private final byte[] one = new byte[1];
 
     @Override
     public void write(int b) throws IOException {

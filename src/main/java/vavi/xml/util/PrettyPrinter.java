@@ -39,7 +39,7 @@ import org.xml.sax.SAXException;
 public class PrettyPrinter {
 
     /** */
-    private StreamResult result;
+    private final StreamResult result;
 
     /** */
     public PrettyPrinter(Writer writer) {
@@ -105,9 +105,8 @@ public class PrettyPrinter {
     }
 
     /** */
-    private static Transformer transformer;
+    private static final Transformer transformer;
 
-    /* */
     static {
         try {
             TransformerFactory tf = TransformerFactory.newInstance();

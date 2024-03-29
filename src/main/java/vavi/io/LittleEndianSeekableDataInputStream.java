@@ -23,8 +23,8 @@ import vavi.util.Debug;
 public class LittleEndianSeekableDataInputStream extends InputStream
     implements LittleEndianDataInput, SeekableDataInput<SeekableByteChannel> {
 
-    private SeekableByteChannel sbc;
-    private LittleEndianDataInputStream ledis;
+    private final SeekableByteChannel sbc;
+    private final LittleEndianDataInputStream ledis;
 
     public LittleEndianSeekableDataInputStream(SeekableByteChannel sbc) {
         this.sbc = sbc;

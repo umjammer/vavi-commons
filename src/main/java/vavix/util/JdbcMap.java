@@ -53,7 +53,7 @@ public class JdbcMap<K, V> implements Map<K, V> {
     private String password = "sa";
 
     /** */
-    private Connection connection;
+    private final Connection connection;
 
     /** */
     private final String table;

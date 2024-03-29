@@ -38,7 +38,7 @@ import vavi.util.Debug;
 public class WindowsProperties extends Properties {
 
     /** The vector for section */
-    private Vector<String> sections = new Vector<>();
+    private final Vector<String> sections = new Vector<>();
 
     /**
      * .ini のストリームを読み込みます．

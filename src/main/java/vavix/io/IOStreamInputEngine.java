@@ -20,30 +20,31 @@ import vavi.io.InputEngine;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  */
 public class IOStreamInputEngine implements InputEngine {
+
     /** */
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 
-    /** 実際に書き出すストリーム */
-    private OutputStream out;
+    /** the stream to actually write out */
+    private final OutputStream out;
 
     /** */
-    private InputStreamFactory factory;
+    private final InputStreamFactory factory;
 
     /** */
-    private byte[] buffer;
+    private final byte[] buffer;
 
     /** @see InputStreamFactory#getInputStream(InputStream) */
     private InputStream in;
 
     /**
-     * @param out 実際に書き出すストリーム
+     * @param out the stream to actually write out
      */
     public IOStreamInputEngine(OutputStream out, InputStreamFactory factory) {
         this(out, factory, DEFAULT_BUFFER_SIZE);
     }
 
     /**
-     * @param out 実際に書き出すストリーム
+     * @param out the stream to actually write out
      */
     public IOStreamInputEngine(OutputStream out, InputStreamFactory factory, int bufferSize) {
         this.out = out;
@@ -54,6 +55,7 @@ public class IOStreamInputEngine implements InputEngine {
     /**
      * @param in InputEngineOutputStream.InputStreamImpl
      */
+    @Override
     public void initialize(InputStream in) throws IOException {
         if (this.in != null) {
             throw new IOException("Already initialized");
@@ -62,7 +64,7 @@ public class IOStreamInputEngine implements InputEngine {
         }
     }
 
-    /* */
+    @Override
     public void execute() throws IOException {
         if (in == null) {
             throw new IOException("Not yet initialized");
@@ -77,7 +79,7 @@ public class IOStreamInputEngine implements InputEngine {
         }
     }
 
-    /* */
+    @Override
     public void finish() throws IOException {
         out.flush();
         out.close();

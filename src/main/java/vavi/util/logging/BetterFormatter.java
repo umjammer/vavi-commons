@@ -7,8 +7,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.ConsoleHandler;
@@ -29,16 +27,15 @@ public class BetterFormatter extends Formatter {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS");
 
-    private static final Map<Level, String> levelMsgMap = Collections.unmodifiableMap(
-            new HashMap<>() {{
-                put(Level.SEVERE, "SEVERE");
-                put(Level.WARNING, "WARN");
-                put(Level.INFO, "INFO");
-                put(Level.CONFIG, "CONF");
-                put(Level.FINE, "FINE");
-                put(Level.FINER, "FINE");
-                put(Level.FINEST, "FINE");
-            }});
+    private static final Map<Level, String> levelMsgMap = Map.of(
+            Level.SEVERE, "SEVERE",
+            Level.WARNING, "WARN",
+            Level.INFO, "INFO",
+            Level.CONFIG, "CONF",
+            Level.FINE, "FINE",
+            Level.FINER, "FINE",
+            Level.FINEST, "FINE"
+    );
 
     private final AtomicInteger nameColumnWidth = new AtomicInteger(16);
 

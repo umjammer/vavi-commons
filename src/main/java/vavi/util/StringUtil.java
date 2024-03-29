@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
 
 
 /**
- * 文字列に関するユーティリティのクラスです．
+ * This is a utility class related to strings.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021027 nsano separated from Debug class <br>
@@ -65,8 +65,8 @@ public final class StringUtil {
     private StringUtil() {}
 
     /**
-     * 指定したオブジェクトのフィールドの文字列を取得します。
-     * @param object 表示するオブジェクト
+     * Gets the string of the field of the specified object.
+     * @param object object to display
      */
     public static String paramString(Object object) {
         hashes.clear();
@@ -74,9 +74,9 @@ public final class StringUtil {
     }
 
     /**
-     * 指定したオブジェクトのフィールドの文字列を表示します。
-     * フィールドがオブジェクトなら再帰的に取得します。
-     * @param object 表示するオブジェクト
+     * Displays the string in the field of the specified object.
+     * If the field is an object, it will be retrieved recursively.
+     * @param object object to display
      */
     public static String paramStringDeep(Object object, int depth) {
         hashes.clear();
@@ -84,9 +84,9 @@ public final class StringUtil {
     }
 
     /**
-     * オブジェクトをテキストダンプします。
-     * @param object 表示するオブジェクト
-     * @param depth 再帰的の深さ、0 の場合は再帰しません。
+     * Text dump the object.
+     * @param object object to display
+     * @param depth recursion depth, 0 means no recursion
      */
     private static String paramString(Object object, int depth) {
 
@@ -102,25 +102,25 @@ public final class StringUtil {
     }
 
     /** {hashCode, loopCount} */
-    private static Map<Integer, Integer> hashes = new HashMap<>();
+    private static final Map<Integer, Integer> hashes = new HashMap<>();
 
     /**
-     * オブジェクトをテキストダンプします。
-     * toString() で使用すると便利です。
-     * @param clazz オブジェクトを指定したクラスとして扱う
-     * @param object 表示するオブジェクト
-     * @param depth 再帰的の深さ、0 の場合は再帰しません。
+     * Text dump the object.
+     * Convenient to use with {@code toString()}.
+     * @param clazz treat an object as a specified class
+     * @param object object to display
+     * @param depth recursion depth, 0 means no recursion
      */
     private static String paramString(Class<?> clazz,
                                       Object object,
                                       int depth) {
 
-        // 表示しないもの
+        // what not to display
         if (isIgnored(clazz)) {
             return "";
         }
 
-        // 展開しないものはそのまま
+        // those that do not expand remain as they are.
         if (isNotExpanded(clazz)) {
             return String.valueOf(object);
         }
@@ -136,7 +136,7 @@ public final class StringUtil {
             hashes.put(object.hashCode(), 0);
         }
 
-        // 配列やコレクションなら展開する TODO 配列はまだ...
+        // if it is an array or collection, it will be expanded. TODO array is not yet...
         if (object instanceof List<?>) {
             return expand((List<?>) object);
         } else if (object instanceof Set<?>) {
@@ -156,8 +156,8 @@ public final class StringUtil {
         sb.append(clazz.getName());
         sb.append("{");
 
-        // private メソッド、フィールドの取得には getDeclared...
-        // を使います。
+        // uses getDeclared...
+        // to get private methods and fields.
         Field[] fields = clazz.getDeclaredFields();
 // Debug.println("fialds: " + fields.length);
         boolean isFirst = true;
@@ -192,7 +192,7 @@ public final class StringUtil {
             } else if (ignoredFinals && Modifier.isFinal(modifiers)) {
                 // ignore final
 //         if (name.startsWith("this$")) {
-                // static でない inner class の outer class オブジェクト
+                // outer class object of non-static inner class
 // Debug.println("value: " + value);
 //             } else {
 // Debug.println("ignore final: " + modifiers);
@@ -271,10 +271,10 @@ public final class StringUtil {
     }
 
     /**
-     * パッケージ名を取り除いたクラス名を取得します．
+     * Gets the class name with the package name removed.
      *
-     * @param name パッケージ付きのクラス名
-     * @return パッケージ名を取り除いたクラス名
+     * @param name class name with package
+     * @return class name with package name removed
      * @deprecated use {@link Class#getSimpleName()}
      */
     public static String getClassName(String name) {
@@ -282,10 +282,10 @@ public final class StringUtil {
     }
 
     /**
-     * パッケージ名を取り除いたクラス名を取得します．
+     * Gets the class name with the package name removed.
      *
-     * @param clazz クラス
-     * @return パッケージ名を取り除いたクラス名
+     * @param clazz class
+     * @return class name with package name removed
      * @deprecated use {@link Class#getSimpleName()}
      */
     @Deprecated
@@ -294,7 +294,7 @@ public final class StringUtil {
     }
 
     /**
-     * expand array string.
+     * Expands the array string.
      * TODO deep flag
      * @deprecated use {@link java.util.Arrays#toString}
      */
@@ -308,8 +308,8 @@ public final class StringUtil {
     }
 
     /**
-     * 配列を展開します．
-     * @see #bytesExpand 展開する最大値
+     * Expands the array.
+     * @see #bytesExpand maximum value to expand
      * TODO deep flag
      */
     @Deprecated
@@ -327,7 +327,7 @@ public final class StringUtil {
     }
 
     /**
-     * 配列を展開します．
+     * Expands the array.
      * TODO deep flag
      */
     @Deprecated
@@ -350,7 +350,7 @@ public final class StringUtil {
     }
 
     /**
-     * List を展開します．
+     * Expands List.
      * <pre>
      * className[collectionSize]{value0,value1,value2,...}
      * </pre>
@@ -370,7 +370,7 @@ public final class StringUtil {
             sb.append(paramString(object, 0));
             sb.append(",");
         }
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             sb.setLength(sb.length() - 1);
         }
         sb.append("}");
@@ -379,7 +379,7 @@ public final class StringUtil {
     }
 
     /**
-     * Set を展開します．
+     * Expands Set.
      * <pre>
      * className[collectionSize]{value0,value1,value2,...}
      * </pre>
@@ -397,7 +397,7 @@ public final class StringUtil {
             sb.append(paramString(object, 1));
             sb.append(",");
         }
-        if (set.size() > 0) {
+        if (!set.isEmpty()) {
             sb.setLength(sb.length() - 1);
         }
         sb.append("}");
@@ -406,7 +406,7 @@ public final class StringUtil {
     }
 
     /**
-     * Map を展開します．
+     * Expands Map.
      * <pre>
      * className[collectionSize]{key0=value0,key1=value1,key2=value2,...}
      * </pre>
@@ -425,7 +425,7 @@ public final class StringUtil {
             sb.append(paramString(key, 1)).append("=").append(paramString(value, 1));
             sb.append(",");
         }
-        if (map.size() > 0) {
+        if (!map.isEmpty()) {
             sb.setLength(sb.length() - 1);
         }
         sb.append("}");
@@ -434,7 +434,7 @@ public final class StringUtil {
     }
 
     /**
-     * バイト配列を 16 進数でダンプします．
+     * Dumps a byte array in hexadecimal.
      */
     public static String getDump(byte[] buf) {
         return getDump(buf, 0, buf.length);
@@ -448,7 +448,7 @@ public final class StringUtil {
     }
 
     /**
-     * 長さ制限付でバイト配列を 16 進数でダンプします．
+     * Dumps a byte array in hexadecimal with limited length.
      */
     public static String getDump(byte[] buf, int length) {
         return getDump(buf, 0, length);
@@ -492,7 +492,7 @@ public final class StringUtil {
     }
 
     /**
-     * 長さ制限付で offset からのバイト配列を 16 進数でダンプします．
+     * Dumps the byte array starting at offset in hexadecimal with limited length.
      */
     public static String getDump(byte[] buf, int offset, int length) {
         return getDump(new ByteArrayInputStream(buf), offset, length);
@@ -568,9 +568,9 @@ Debug.printStackTrace(e);
     }
 
     /**
-     * 長さ制限付でストリームを 16 進数でダンプします．
+     * Dumps a stream in hexadecimal with a length limit.
      *
-     * @param length 制限する長さ
+     * @param length limiting length
      */
     public static String getDump(InputStream is, int offset, int length) {
 
@@ -651,7 +651,7 @@ Debug.printStackTrace(e);
     }
 
     /**
-     * 文字列を 16 進数でダンプします．
+     * Dumps a string in hexadecimal.
      */
     public static String getDump(String s) {
         StringBuilder sb = new StringBuilder();
@@ -664,7 +664,7 @@ Debug.printStackTrace(e);
     }
 
     /**
-     * 文字列を 16 進数でダンプします．
+     * Dumps a string in hexadecimal.
      */
     public static String getDump(String s, String encoding) {
         try {
@@ -682,7 +682,7 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * 文字列を char でダンプします．
+     * Dumps a string as char.
      */
     public static String getCharDump(String s) {
         StringBuilder sb = new StringBuilder();
@@ -697,7 +697,7 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * 先頭を 0 で埋めた 2 桁の大文字の 16 進数を返します．
+     * Returns a two-digit uppercase hexadecimal number padded with leading zeros.
      */
     @Deprecated
     public static String toHex2(int i) {
@@ -707,7 +707,7 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * 先頭を 0 で埋めた 4 桁の大文字の 16 進数を返します．
+     * Returns a two-digit uppercase hexadecimal number padded with leading zeros.
      */
     @Deprecated
     public static String toHex4(int i) {
@@ -717,7 +717,7 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * 先頭を 0 で埋めた 8 桁の大文字の 16 進数を返します．
+     * Returns an 8-digit uppercase hexadecimal number padded with leading zeros.
      */
     @Deprecated
     public static String toHex8(int i) {
@@ -727,7 +727,7 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * 先頭を 0 で埋めた 16 桁の大文字の 16 進数を返します．
+     * Returns a 16-digit uppercase hexadecimal number padded with leading zeros.
      */
     @Deprecated
     public static String toHex16(long l) {
@@ -737,17 +737,17 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * ビット列を表す文字列を返します．
+     * Returns a string representing a bit string.
      */
     public static String toBits(int b) {
         return toBits(b, 8);
     }
 
     /**
-     * ビット列を表す文字列を返します．
+     * Returns a string representing a bit string.
      *
-     * @param b ビット列にしたい数値
-     * @param n ビット列の桁数
+     * @param b The number you want to convert into a bit string
+     * @param n Number of digits in bit string
      */
     public static String toBits(int b, int n) {
         int mask = 0x0001 << (n - 1);
@@ -776,7 +776,7 @@ e.printStackTrace(System.err);
     }
 
     /**
-     * コマンドラインを分割します。
+     * Split the command line.
      *
      * @param line The String to tokenize
      * @return An array of substrings.
@@ -834,7 +834,7 @@ e.printStackTrace(System.err);
             case StreamTokenizer.TT_WORD:
             case StreamTokenizer.TT_NUMBER:
                 if (inDoubleQuotedString) {
-                    if (token.length() > 0) {
+                    if (!token.isEmpty()) {
                         token += " ";
                     }
                     token += singleToken + streamTokenizer.sval;
@@ -917,11 +917,11 @@ e.printStackTrace(System.err);
     /** @see #paramString(Object) */
     private static boolean ignoredSuperClass = false;
 
-    /** isNotExpanded のクラス集 */
-    private static Set<String> classesNotExpanded = new HashSet<>();
+    /** isNotExpanded class collection */
+    private static final Set<String> classesNotExpanded = new HashSet<>();
 
-    /** isIgnored のクラス集 */
-    private static Set<String> classesIgnored = new HashSet<>();
+    /** isIgnored class collection */
+    private static final Set<String> classesIgnored = new HashSet<>();
 
     /** @see "https://hacknote.jp/archives/30235/" */
     public static String getRandomString() {
@@ -940,7 +940,6 @@ e.printStackTrace(System.err);
         }
     }
 
-    /* */
     static {
         try {
             Properties props = new Properties();
@@ -973,7 +972,7 @@ e.printStackTrace(System.err);
                 }
             }
 
-            String value = null;
+            String value;
 
             // recursive depth
             value = props.getProperty("vavi.util.StringUtil.recursiveDepth");

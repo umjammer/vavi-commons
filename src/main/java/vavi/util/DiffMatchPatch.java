@@ -18,9 +18,9 @@
 
 package vavi.util;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -166,7 +166,7 @@ public class DiffMatchPatch {
         LinkedList<Diff> diffs;
         if (text1.equals(text2)) {
             diffs = new LinkedList<>();
-            if (text1.length() != 0) {
+            if (!text1.isEmpty()) {
                 diffs.add(new Diff(Operation.EQUAL, text1));
             }
             return diffs;
@@ -188,10 +188,10 @@ public class DiffMatchPatch {
         diffs = diff_compute(text1, text2, checklines, deadline);
 
         // Restore the prefix and suffix.
-        if (commonprefix.length() != 0) {
+        if (!commonprefix.isEmpty()) {
             diffs.addFirst(new Diff(Operation.EQUAL, commonprefix));
         }
-        if (commonsuffix.length() != 0) {
+        if (!commonsuffix.isEmpty()) {
             diffs.addLast(new Diff(Operation.EQUAL, commonsuffix));
         }
 
@@ -215,13 +215,13 @@ public class DiffMatchPatch {
                                           boolean checklines, long deadline) {
         LinkedList<Diff> diffs = new LinkedList<>();
 
-        if (text1.length() == 0) {
+        if (text1.isEmpty()) {
             // Just add some text (speedup).
             diffs.add(new Diff(Operation.INSERT, text2));
             return diffs;
         }
 
-        if (text2.length() == 0) {
+        if (text2.isEmpty()) {
             // Just delete some text (speedup).
             diffs.add(new Diff(Operation.DELETE, text1));
             return diffs;
@@ -950,7 +950,7 @@ public class DiffMatchPatch {
                 bestEquality2 = equality2;
                 bestScore = diff_cleanupSemanticScore(equality1, edit)
                         + diff_cleanupSemanticScore(edit, equality2);
-                while (edit.length() != 0 && equality2.length() != 0
+                while (!edit.isEmpty() && !equality2.isEmpty()
                         && edit.charAt(0) == equality2.charAt(0)) {
                     equality1 += edit.charAt(0);
                     edit = edit.substring(1) + equality2.charAt(0);
@@ -968,7 +968,7 @@ public class DiffMatchPatch {
 
                 if (!prevDiff.text.equals(bestEquality1)) {
                     // We have an improvement, save it back to the diff.
-                    if (bestEquality1.length() != 0) {
+                    if (!bestEquality1.isEmpty()) {
                         prevDiff.text = bestEquality1;
                     } else {
                         pointer.previous(); // Walk past nextDiff.
@@ -979,7 +979,7 @@ public class DiffMatchPatch {
                         pointer.next(); // Walk past nextDiff.
                     }
                     thisDiff.text = bestEdit;
-                    if (bestEquality2.length() != 0) {
+                    if (!bestEquality2.isEmpty()) {
                         nextDiff.text = bestEquality2;
                     } else {
                         pointer.remove(); // Delete nextDiff.
@@ -1004,7 +1004,7 @@ public class DiffMatchPatch {
      * @return The score.
      */
     private int diff_cleanupSemanticScore(String one, String two) {
-        if (one.length() == 0 || two.length() == 0) {
+        if (one.isEmpty() || two.isEmpty()) {
             // Edges are the best.
             return 6;
         }
@@ -1232,10 +1232,10 @@ public class DiffMatchPatch {
                         }
                     }
                     // Insert the merged records.
-                    if (text_delete.length() != 0) {
+                    if (!text_delete.isEmpty()) {
                         pointer.add(new Diff(Operation.DELETE, text_delete));
                     }
-                    if (text_insert.length() != 0) {
+                    if (!text_insert.isEmpty()) {
                         pointer.add(new Diff(Operation.INSERT, text_insert));
                     }
                     // Step forward to the equality.
@@ -1256,7 +1256,7 @@ public class DiffMatchPatch {
             }
             thisDiff = pointer.hasNext() ? pointer.next() : null;
         }
-        if (diffs.getLast().text.length() == 0) {
+        if (diffs.getLast().text.isEmpty()) {
             diffs.removeLast();  // Remove the dummy entry at the end.
         }
 
@@ -1456,13 +1456,8 @@ public class DiffMatchPatch {
         for (Diff aDiff : diffs) {
             switch (aDiff.operation) {
             case INSERT:
-                try {
-                    text.append("+").append(URLEncoder.encode(aDiff.text, "UTF-8")
-                            .replace('+', ' ')).append("\t");
-                } catch (UnsupportedEncodingException e) {
-                    // Not likely on modern system.
-                    throw new Error("This system does not support UTF-8.", e);
-                }
+                text.append("+").append(URLEncoder.encode(aDiff.text, StandardCharsets.UTF_8)
+                        .replace('+', ' ')).append("\t");
                 break;
             case DELETE:
                 text.append("-").append(aDiff.text.length()).append("\t");
@@ -1473,7 +1468,7 @@ public class DiffMatchPatch {
             }
         }
         String delta = text.toString();
-        if (delta.length() != 0) {
+        if (!delta.isEmpty()) {
             // Strip off trailing tab character.
             delta = delta.substring(0, delta.length() - 1);
             delta = unescapeForEncodeUriCompatability(delta);
@@ -1496,7 +1491,7 @@ public class DiffMatchPatch {
         int pointer = 0;  // Cursor in text1
         String[] tokens = delta.split("\t");
         for (String token : tokens) {
-            if (token.length() == 0) {
+            if (token.isEmpty()) {
                 // Blank tokens are ok (from a trailing \t).
                 continue;
             }
@@ -1508,10 +1503,7 @@ public class DiffMatchPatch {
                 // decode would change all "+" to " "
                 param = param.replace("+", "%2B");
                 try {
-                    param = URLDecoder.decode(param, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    // Not likely on modern system.
-                    throw new Error("This system does not support UTF-8.", e);
+                    param = URLDecoder.decode(param, StandardCharsets.UTF_8);
                 } catch (IllegalArgumentException e) {
                     // Malformed URI sequence.
                     throw new IllegalArgumentException(
@@ -1583,7 +1575,7 @@ public class DiffMatchPatch {
         if (text.equals(pattern)) {
             // Shortcut (potentially not guaranteed by the algorithm)
             return 0;
-        } else if (text.length() == 0) {
+        } else if (text.isEmpty()) {
             // Nothing to match.
             return -1;
         } else if (loc + pattern.length() <= text.length()
@@ -1749,7 +1741,7 @@ public class DiffMatchPatch {
      * @param text  Source text.
      */
     protected void patch_addContext(Patch patch, String text) {
-        if (text.length() == 0) {
+        if (text.isEmpty()) {
             return;
         }
         String pattern = text.substring(patch.start2, patch.start2 + patch.length1);
@@ -1769,13 +1761,13 @@ public class DiffMatchPatch {
         // Add the prefix.
         String prefix = text.substring(Math.max(0, patch.start2 - padding),
                 patch.start2);
-        if (prefix.length() != 0) {
+        if (!prefix.isEmpty()) {
             patch.diffs.addFirst(new Diff(Operation.EQUAL, prefix));
         }
         // Add the suffix.
         String suffix = text.substring(patch.start2 + patch.length1,
                 Math.min(text.length(), patch.start2 + patch.length1 + padding));
-        if (suffix.length() != 0) {
+        if (!suffix.isEmpty()) {
             patch.diffs.addLast(new Diff(Operation.EQUAL, suffix));
         }
 
@@ -2158,7 +2150,7 @@ public class DiffMatchPatch {
                 empty = true;
                 patch.start1 = start1 - precontext.length();
                 patch.start2 = start2 - precontext.length();
-                if (precontext.length() != 0) {
+                if (!precontext.isEmpty()) {
                     patch.length1 = patch.length2 = precontext.length();
                     patch.diffs.add(new Diff(Operation.EQUAL, precontext));
                 }
@@ -2212,7 +2204,7 @@ public class DiffMatchPatch {
                 } else {
                     postcontext = diff_text1(bigpatch.diffs);
                 }
-                if (postcontext.length() != 0) {
+                if (!postcontext.isEmpty()) {
                     patch.length1 += postcontext.length();
                     patch.length2 += postcontext.length();
                     if (!patch.diffs.isEmpty()
@@ -2255,7 +2247,7 @@ public class DiffMatchPatch {
     public List<Patch> patch_fromText(String textline)
             throws IllegalArgumentException {
         List<Patch> patches = new LinkedList<>();
-        if (textline.length() == 0) {
+        if (textline.isEmpty()) {
             return patches;
         }
         List<String> textList = Arrays.asList(textline.split("\n"));
@@ -2275,7 +2267,7 @@ public class DiffMatchPatch {
             patch = new Patch();
             patches.add(patch);
             patch.start1 = Integer.parseInt(m.group(1));
-            if (m.group(2).length() == 0) {
+            if (m.group(2).isEmpty()) {
                 patch.start1--;
                 patch.length1 = 1;
             } else if (m.group(2).equals("0")) {
@@ -2286,7 +2278,7 @@ public class DiffMatchPatch {
             }
 
             patch.start2 = Integer.parseInt(m.group(3));
-            if (m.group(4).length() == 0) {
+            if (m.group(4).isEmpty()) {
                 patch.start2--;
                 patch.length2 = 1;
             } else if (m.group(4).equals("0")) {
@@ -2308,10 +2300,7 @@ public class DiffMatchPatch {
                 line = text.getFirst().substring(1);
                 line = line.replace("+", "%2B");  // decode would change all "+" to " "
                 try {
-                    line = URLDecoder.decode(line, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    // Not likely on modern system.
-                    throw new Error("This system does not support UTF-8.", e);
+                    line = URLDecoder.decode(line, StandardCharsets.UTF_8);
                 } catch (IllegalArgumentException e) {
                     // Malformed URI sequence.
                     throw new IllegalArgumentException(
@@ -2478,13 +2467,8 @@ public class DiffMatchPatch {
                     text.append(' ');
                     break;
                 }
-                try {
-                    text.append(URLEncoder.encode(aDiff.text, "UTF-8").replace('+', ' '))
-                            .append("\n");
-                } catch (UnsupportedEncodingException e) {
-                    // Not likely on modern system.
-                    throw new Error("This system does not support UTF-8.", e);
-                }
+                text.append(URLEncoder.encode(aDiff.text, StandardCharsets.UTF_8).replace('+', ' '))
+                        .append("\n");
             }
             return unescapeForEncodeUriCompatability(text.toString());
         }

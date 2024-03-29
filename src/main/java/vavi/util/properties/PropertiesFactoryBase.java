@@ -61,6 +61,7 @@ public abstract class PropertiesFactoryBase<K, V, Args> implements Iterable<Map.
     /**
      * @param args set by the {@link #PropertiesFactoryBase(String, Object...)}
      */
+    @SuppressWarnings("unchecked")
     protected abstract void preInit(Args... args);
 
     /**

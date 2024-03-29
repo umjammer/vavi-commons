@@ -15,39 +15,39 @@ import vavi.util.Debug;
 
 
 /**
- * Bit 単位で書き込むストリームです．
+ * A stream to write bit by bit.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030713 nsano initial version <br>
  */
 public class BitOutputStream extends FilterOutputStream {
 
-    /** ビット数 */
+    /** bits number */
     private int bits = 4;
-    /** ビットオーダ */
+    /** bit order */
     private ByteOrder bitOrder = ByteOrder.BIG_ENDIAN;
 
     /**
-     * Bit 単位で読み込むストリームを作成します．
-     * 4Bit, ビッグエンディアン．
+     * Creates a stream to write bit by bit.
+     * 4Bit, big endian
      */
     public BitOutputStream(OutputStream out) {
         this(out, 4, ByteOrder.BIG_ENDIAN);
     }
 
     /**
-     * Bit 単位で読み込むストリームを作成します．
-     * ビッグエンディアン．
+     * Creates a stream to write bit by bit.
+     * big endian
      */
     public BitOutputStream(OutputStream out, int bits) {
         this(out, bits, ByteOrder.BIG_ENDIAN);
     }
 
-    /** LSB が立っています。 */
+    /** LSB is on */
     private int mask;
 
     /**
-     * Bit 単位で書き込むストリームを作成します．
+     * Creates a stream to write bit by bit.
      */
     public BitOutputStream(OutputStream out, int bits, ByteOrder bitOrder) {
         super(out);
@@ -64,13 +64,13 @@ if (bits != 4 && bits != 2) {
 //Debug.println(bits + ", " + StringUtil.toBits(mask << 4, 8));
     }
 
-    /** 積み上げられたビット数 */
+    /** stacked bits */
     private int stackedBits = 0;
-    /** ビッグエンディアンで積み上げる */
+    /** stuck in big endian */
     private int current = 0;
 
     /**
-     * 8 ビットをリトルエンディアンに変換します。
+     * convert 8bits to little endian.
      * <pre>
      * 2Bit
      *   1    2    3    4         4    3    2    1
@@ -92,8 +92,9 @@ if (bits != 4 && bits != 2) {
     }
 
     /**
-     * 指定した bit 書き込みます．
+     * Writes bits specified by {@link #bits}.
      */
+    @Override
     public void write(int b) throws IOException {
 
         b &= mask;
@@ -115,7 +116,7 @@ if (bits != 4 && bits != 2) {
         }
     }
 
-    /** */
+    @Override
     public void flush() throws IOException {
 //Debug.println("stacked bits: " + stackedBits);
         super.flush();
@@ -125,7 +126,7 @@ Debug.println("stacked bits: " + stackedBits + " flushed.");
         }
     }
 
-    /** */
+    @Override
     public void close() throws IOException {
         super.close();
     }
