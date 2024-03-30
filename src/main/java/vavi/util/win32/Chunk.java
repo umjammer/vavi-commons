@@ -12,9 +12,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.logging.Level;
 
 import vavi.io.LittleEndianDataInputStream;
@@ -25,6 +27,11 @@ import vavi.util.StringUtil;
 
 /**
  * Chunk format.
+ * <p>
+ * system properties
+ * <ul>
+ *  <li>vavi.util.win32.Chunk.strict ... allows undefined chunk in a chunk class, default false</li>
+ * </ul>
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 020507 nsano initial version <br>
@@ -36,6 +43,20 @@ import vavi.util.StringUtil;
  *          1.03 030711 nsano change #readFrom <br>
  */
 public class Chunk {
+
+    /** to set true makes this class allows undefined chunk in a chunk class */
+    public static final String CHUNK_PARSE_STRICT_KEY = "vavi.util.win32.Chunk.strict";
+
+    /** for cancel parsing */
+    protected static final String CHUNK_PARSING_KEY = "vavi.util.win32.Chunk.parse";
+
+    /** key name base for user defined chunk class */
+    public static final String CHUNK_SUB_CHUNK_KEY_BASE = "vavi.util.win32.Chunk.class.";
+
+    /** utility for {@link #CHUNK_PARSE_STRICT_KEY} */
+    protected static boolean isStrict() {
+        return (boolean) Objects.requireNonNullElse(context.get().get(CHUNK_PARSE_STRICT_KEY), false);
+    }
 
     /** not opened */
     protected Chunk() {
@@ -84,7 +105,7 @@ public class Chunk {
     }
 
     /** represents parser is working or not */
-    protected static ThreadLocal<Boolean> parsing = new ThreadLocal<>();
+    protected static ThreadLocal<Map<String, Object>> context = new ThreadLocal<>();
 
     /**
      * A method to serialize stream data.
@@ -115,52 +136,95 @@ Debug.println(Level.FINER, getName() + ": " + length + " / " + is.available());
 
     /**
      * Creates a Chunk object from a stream.
+     * @throws IllegalStateException sub chunk instantiation related
+     * @throws IllegalArgumentException input is not wav or there is undefined chunk
      */
     public static <T extends Chunk> T readFrom(InputStream is, Class<T> clazz) throws IOException {
+        return Chunk.readFrom(is, clazz, new HashMap<>());
+    }
 
-        parsing.set(true);
+    /** at beginning */
+    private static void initContext(Class<? extends Chunk> clazz, Map<String, Object> context) {
+        Chunk.context.set(context);
+
+        context.put(CHUNK_PARSING_KEY, true);
+
+        getChunkClasses(clazz).forEach(chunkClass -> {
+            String key = CHUNK_SUB_CHUNK_KEY_BASE + chunkClass.getSimpleName();
+            if (!context.containsKey(key)) {
+                context.put(key, chunkClass);
+            }
+Debug.println(Level.FINEST, "predefined class: " + key + ", " + chunkClass);
+        });
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Class<? extends Chunk> getChunkClass(Class<? extends Chunk> clazz) {
+        return  (Class<? extends Chunk>) context.get().get(CHUNK_SUB_CHUNK_KEY_BASE + clazz.getSimpleName());
+    }
+
+    /**
+     * Creates a Chunk object from a stream.
+     * @param context user settings
+     * @throws IllegalStateException sub chunk instantiation related
+     * @throws IllegalArgumentException input is not wav or there is undefined chunk
+     * @throws NoSuchElementException no such a chunk definition
+     */
+    public static <T extends Chunk> T readFrom(InputStream is, Class<T> clazz, Map<String, Object> context) throws IOException {
+
+        initContext(clazz, context);
 
         LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
-        byte[] tmp = new byte[4];
-        ledis.readFully(tmp);
-Debug.println(Level.FINER, "start chunk: " + new String(tmp, StandardCharsets.US_ASCII));
+        byte[] fourcc = new byte[4];
+        ledis.readFully(fourcc);
+Debug.println(Level.FINER, "start chunk: " + new String(fourcc, StandardCharsets.US_ASCII));
 
         int length = ledis.readInt();
-Debug.println(Level.FINER, StringUtil.getDump(tmp));
+        int p1 = is.available();
+Debug.println(Level.FINER, StringUtil.getDump(fourcc));
+
+        Class<? extends Chunk> chunkClass = getClassOf(clazz.getSimpleName());
 
         T chunk;
-
         try {
-            if (chunkClasses == null) {
-                chunkClasses = getChunkClasses(clazz);
-//chunkClasses.forEach(Debug::println);
-            }
             chunk = clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
 
-        chunk.setId(tmp);
+        chunk.setId(fourcc);
         chunk.setLength(length);
         chunk.setData(is);
-        ledis.skipBytes(length % 2); // padding
+        if ((boolean) context.get(CHUNK_PARSING_KEY)) {
+            int p2 = is.available();
+            if (p1 != length + p2) {
+Debug.print(Level.FINEST, "correction: " + (length - (p1 - p2)) + ", 1: " + p1 + ", 2: " + p2 + ", l: " + length);
+                ledis.skipBytes(length - (p1 - p2)); // correction
+            }
+            ledis.skipBytes(length % 2); // padding
 Debug.print(Level.FINEST, chunk);
+        } else {
+Debug.print(Level.FINEST, "parse stop because strict is set");
+        }
         return chunk;
     }
 
-    /** Create a chunk from <code>is</code>. */
-    protected static Chunk readFrom(InputStream is, Chunk parent)
-        throws IOException {
+    /**
+     * Create a chunk from <code>is</code>.
+     * @throws IllegalArgumentException input is not wav or there is undefined chunk
+     */
+    protected static Chunk readFrom(InputStream is, Chunk parent) throws IOException {
 
         LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
-        byte[] tmp = new byte[4];
-        ledis.readFully(tmp);
-        String name = new String(tmp, StandardCharsets.US_ASCII);
+        byte[] fourcc = new byte[4];
+        ledis.readFully(fourcc);
+        String name = new String(fourcc, StandardCharsets.US_ASCII);
 
         int length = ledis.readInt();
-Debug.println(Level.FINER, StringUtil.getDump(tmp) + ", " + length);
+        int p1 = is.available();
+Debug.println(Level.FINER, StringUtil.getDump(fourcc) + ", " + length);
 
         Chunk chunk = null;
 
@@ -168,21 +232,30 @@ Debug.println(Level.FINER, StringUtil.getDump(tmp) + ", " + length);
             Class<? extends Chunk> chunkClass = getClassOf(name);
             chunk = chunkClass.getDeclaredConstructor().newInstance();
         } catch (NoSuchElementException e) {
+            if (isStrict()) {
+Debug.print(Level.FINEST, "exception because strict is set");
+                throw new IllegalArgumentException("undefined chunk: " + name);
+            }
 Debug.println(Level.FINER, e);
             chunk = new Chunk();
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
 
-        chunk.id = tmp;
+        chunk.id = fourcc;
         chunk.length = length;
         chunk.setParent(parent);
         try {
             chunk.setData(is);
+            int p2 = is.available();
+            if (p1 != length + p2) {
+Debug.print(Level.FINEST, "correction: " + (length - (p1 - p2)) + ", 1: " + p1 + ", 2: " + p2 + ", l: " + length);
+                ledis.skipBytes(length - (p1 - p2)); // correction
+            }
             ledis.skipBytes(length % 2); // padding
         } catch (ChunkParseStopException e) {
 Debug.print(Level.FINER, "chunk parsing canceled: " + chunk.getClass().getSimpleName());
-            parsing.set(false);
+            context.get().put(CHUNK_PARSING_KEY, false);
         }
 Debug.print(Level.FINEST, chunk);
         return chunk;
@@ -196,11 +269,9 @@ Debug.print(Level.FINEST, chunk);
         ledos.write(data);
     }
 
-    protected static List<Class<? extends Chunk>> chunkClasses; 
-
     /** Gets all chunk classes defined in this chunk class and super classes. */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    protected static List<Class<? extends Chunk>> getChunkClasses(Class<? extends Chunk> clazz) {
+    private static List<Class<? extends Chunk>> getChunkClasses(Class<? extends Chunk> clazz) {
         List<Class<? extends Chunk>> results = new ArrayList<>();
         while (clazz != null) {
             if (Chunk.class.isAssignableFrom(clazz)) {
@@ -214,7 +285,7 @@ Debug.print(Level.FINEST, chunk);
 
     /** Gets all chunk classes defined in this chunk class. */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    protected static List<Class<? extends Chunk>> getChildChunkClasses(Class<? extends Chunk> clazz) {
+    private static List<Class<? extends Chunk>> getChildChunkClasses(Class<? extends Chunk> clazz) {
         List<Class<? extends Chunk>> results = new ArrayList<>();
         for (Class<?> childClass : clazz.getDeclaredClasses()) {
 //System.err.println(childClass);
@@ -238,13 +309,19 @@ Debug.print(Level.FINEST, chunk);
         return trimmed.matches("^[^\\p{Alpha}].*$") ? "_" + trimmed : trimmed;
     }
 
-    /** Get a chunk class defined in this chunk class specified by the name. */
+    /**
+     * Get a chunk class defined in this chunk class specified by the name.
+     * @throws NoSuchElementException no such a class of the name
+     */
+    @SuppressWarnings("unchecked")
     protected static Class<? extends Chunk> getClassOf(String name) {
-        Optional<Class<? extends Chunk>> o = chunkClasses.stream().filter(c -> normalize(name).equals(c.getSimpleName())).findFirst();
-        if (o.isPresent()) {
-            return o.get();
+        String key = CHUNK_SUB_CHUNK_KEY_BASE + normalize(name);
+        Class<? extends Chunk> clazz = (Class<? extends Chunk>) context.get().get(key);
+        if (clazz != null) {
+            return clazz;
         } else {
-            throw new NoSuchElementException("value for " + name);
+Debug.println(Level.FINE, "no chunk class for: " + name);
+            throw new NoSuchElementException("no chunk class for: " + name);
         }
     }
 
