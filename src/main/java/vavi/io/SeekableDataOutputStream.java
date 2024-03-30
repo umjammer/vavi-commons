@@ -21,8 +21,8 @@ import java.nio.channels.SeekableByteChannel;
 public class SeekableDataOutputStream extends OutputStream
         implements SeekableDataOutput<SeekableByteChannel> {
 
-    private SeekableByteChannel sbc;
-    private DataOutputStream dos;
+    private final SeekableByteChannel sbc;
+    private final DataOutputStream dos;
 
     public SeekableDataOutputStream(SeekableByteChannel sbc) {
         this.sbc = sbc;

@@ -26,15 +26,15 @@ public class FragmentContentHandler extends DefaultHandler {
 
     private String xPath = "";
 
-    private XMLReader xmlReader;
+    private final XMLReader xmlReader;
 
     private FragmentContentHandler parent;
 
-    private StringBuilder characters = new StringBuilder();
+    private final StringBuilder characters = new StringBuilder();
 
-    private Map<String, Integer> elementNameCount = new HashMap<>();
+    private final Map<String, Integer> elementNameCount = new HashMap<>();
 
-    private PrintWriter writer;
+    private final PrintWriter writer;
 
     public FragmentContentHandler(XMLReader xmlReader, PrintStream ps) {
         this(xmlReader, new PrintWriter(ps));
@@ -74,7 +74,7 @@ public class FragmentContentHandler extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         String value = characters.toString().trim();
-        if (value.length() > 0) {
+        if (!value.isEmpty()) {
 //            writer.println(xPath + "='" + characters.toString() + "'");
             writer.println(xPath + "/text()");
         }

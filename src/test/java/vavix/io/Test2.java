@@ -10,9 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -23,6 +21,7 @@ import vavi.io.OutputEngineInputStream;
 import vavi.util.StringUtil;
 
 import vavix.util.Rot13;
+import vavix.util.Rot13.OutputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -43,7 +42,7 @@ class Test2 {
         ByteArrayInputStream bais = new ByteArrayInputStream(data.getBytes());
 
         // encode
-        DataInputStream is = new DataInputStream(new OutputEngineInputStream(new IOStreamOutputEngine(bais, out -> new Rot13.OutputStream(out))));
+        DataInputStream is = new DataInputStream(new OutputEngineInputStream(new IOStreamOutputEngine(bais, OutputStream::new)));
 
         byte[] result = new byte[data.length()];
         is.readFully(result);
@@ -52,7 +51,7 @@ class Test2 {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         // decode
-        DataOutputStream os = new DataOutputStream(new InputEngineOutputStream(new IOStreamInputEngine(baos, in -> new Rot13.InputStream(in))));
+        DataOutputStream os = new DataOutputStream(new InputEngineOutputStream(new IOStreamInputEngine(baos, Rot13.InputStream::new)));
 
         os.write(result);
         os.close();

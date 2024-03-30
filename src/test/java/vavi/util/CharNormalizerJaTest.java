@@ -84,18 +84,18 @@ public class CharNormalizerJaTest {
         }
     }
 
-    /** 半角カタカナ */
+    /** half-width katakana */
     static final String halfKanas = "｡｢｣･ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ";
-    /** 全角カタカナ */
+    /** full-width katakana */
     static final String fullKanas = "。「」・ヲァィゥェォャュョッーアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜";
 
-    /** 全角カタカナ → 半角カタカナ */
+    /** Full-width katakana → half-width katakana */
     @Test
     public void testToHalfKana() throws Exception {
         assertEquals(halfKanas, CharNormalizerJa.ToHalfKana.normalize(fullKanas));
     }
 
-    /** 半角カタカナ → 全角カタカナ */
+    /** Half-width katakana → full-width katakana */
     @Test
     public void testToFullKana() throws Exception {
         assertEquals(fullKanas, CharNormalizerJa.ToFullKana.normalize(halfKanas));

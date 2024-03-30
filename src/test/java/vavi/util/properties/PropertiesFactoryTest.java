@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
@@ -31,7 +30,7 @@ class PropertiesFactoryTest {
 
     @Test
     void testFormattedPropertiesFactory() {
-        FormattedPropertiesFactory<String, String> fpf = new FormattedPropertiesFactory<String, String>("test.properties", "formatted.%s") {
+        FormattedPropertiesFactory<String, String> fpf = new FormattedPropertiesFactory<>("test.properties", "formatted.%s") {
             @Override
             protected String getStoreValue(String value) {
                 return value;

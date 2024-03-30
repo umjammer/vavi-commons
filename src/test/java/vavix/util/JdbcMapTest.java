@@ -6,6 +6,7 @@
 
 package vavix.util;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,6 +33,7 @@ class JdbcMapTest {
     }
 
     static class Test1 implements Serializable {
+        @Serial
         private static final long serialVersionUID = -3948269119832569132L;
         int i;
         String a;

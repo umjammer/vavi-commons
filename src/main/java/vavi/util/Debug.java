@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 
 /**
- * デバッグのユーティリティクラスです．
+ * This is a debugging utility class.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 010821 nsano initial version <br>
@@ -38,13 +38,11 @@ import java.util.logging.Logger;
  */
 public final class Debug {
 
-    //-------------------------------------------------------------------------
-
-    /** デバッグ情報の出力先ストリーム */
-    private static Logger logger = Logger.getLogger(Debug.class.getName()); // TODO fixed namespace
+    /** Debug information output stream */
+    private static final Logger logger = Logger.getLogger(Debug.class.getName()); // TODO fixed namespace
 
     /**
-     * アクセスできません．
+     * can not access.
      */
     private Debug() {}
 
@@ -54,20 +52,20 @@ public final class Debug {
     }
 
     /**
-     * 改行付きでメッセージを出力します．
+     * Outputs the message with a newline.
      *
-     * @param level このメッセージの表示レベル
-     * @param message 表示メッセージ
+     * @param level display level of this message
+     * @param message display message
      */
     public static void println(Level level, Object message) {
         print(level, message + "\n");
     }
 
     /**
-     * 改行付きでメッセージを出力します．
+     * Outputs the message with a newline.
      *
-     * @param level このメッセージの表示レベル
-     * @param message 表示メッセージ
+     * @param level display level of this message
+     * @param message display message
      * @see #print(Level, Object)
      */
     public static void println(Level level, boolean message) {
@@ -75,10 +73,10 @@ public final class Debug {
     }
 
     /**
-     * 改行付きでメッセージを出力します．
+     * Outputs the message with a newline.
      *
-     * @param level このメッセージの表示レベル
-     * @param message 表示メッセージ
+     * @param level display level of this message
+     * @param message display message
      * @see #println(Level, Object)
      */
     public static void println(Level level, int message) {
@@ -86,9 +84,9 @@ public final class Debug {
     }
 
     /**
-     * 改行付きでメッセージを出力します．
+     * Outputs the message with a newline.
      *
-     * @param message 表示メッセージ
+     * @param message display message
      * @see #println(Level, Object)
      */
     public static void println(Object message) {
@@ -96,9 +94,9 @@ public final class Debug {
     }
 
     /**
-     * 改行付きでメッセージを出力します．
+     * Outputs the message with a newline.
      *
-     * @param message 表示メッセージ
+     * @param message display message
      * @see #println(Level, Object)
      */
     public static void println(int message) {
@@ -106,9 +104,9 @@ public final class Debug {
     }
 
     /**
-     * 改行付きでメッセージを出力します．
+     * Outputs the message with a newline.
      *
-     * @param message 表示メッセージ
+     * @param message display message
      * @see #println(Level, Object)
      */
     public static void println(char message) {
@@ -116,9 +114,9 @@ public final class Debug {
     }
 
     /**
-     * 改行付きでメッセージを出力します．
+     * Outputs the message with a newline.
      *
-     * @param message 表示メッセージ
+     * @param message display message
      * @see #println(Level, Object)
      */
     public static void println(boolean message) {
@@ -126,9 +124,9 @@ public final class Debug {
     }
 
     /**
-     * 改行付きでメッセージを出力します．
+     * Outputs the message with a newline.
      *
-     * @param message 表示メッセージ
+     * @param message display message
      * @see #println(Level, Object)
      */
     public static void println(double message) {
@@ -136,9 +134,9 @@ public final class Debug {
     }
 
     /**
-     * 改行付きでメッセージを出力します．
+     * Outputs the message with a newline.
      *
-     * @param message 表示メッセージ
+     * @param message display message
      * @see #println(Level, Object)
      */
     public static void println(float message) {
@@ -146,9 +144,9 @@ public final class Debug {
     }
 
     /**
-     * 改行付きでメッセージを出力します．
+     * Outputs the message with a newline.
      *
-     * @param message 表示メッセージ
+     * @param message display message
      * @see #println(Level, Object)
      */
     public static void println(long message) {
@@ -156,9 +154,9 @@ public final class Debug {
     }
 
     /**
-     * 改行付きでメッセージを出力します．
+     * Outputs the message with a newline.
      *
-     * @param message 表示メッセージ
+     * @param message display message
      * @see #println(Level, Object)
      */
     public static void println(byte message) {
@@ -175,28 +173,28 @@ public final class Debug {
     }
 
     /**
-     * フォーマットしてメッセージを出力します．
+     * Formats and output the message.
      *
-     * @param message 表示メッセージ
+     * @param message display message
      */
     public static void printf(String message, Object... args) {
         printf(Level.INFO, message, args);
     }
 
     /**
-     * フォーマットしてメッセージを出力します．
+     * Formats and output the message.
      *
-     * @param message 表示メッセージ
+     * @param message display message
      */
     public static void printf(Level level, String message, Object... args) {
         print(level, String.format(message, args));
     }
 
     /**
-     * メッセージを出力します.
+     * Outputs the message.
      *
-     * @param level このメッセージの表示レベル
-     * @param message 表示メッセージ
+     * @param level display level of this message
+     * @param message display message
      */
     public static void print(Level level, Object message) {
         StackTraceElement ste = getStackTraceElement(0);
@@ -207,9 +205,9 @@ public final class Debug {
     }
 
     /**
-     * メッセージを出力します．
+     * Outputs the message.
      *
-     * @param message 表示メッセージ
+     * @param message display message
      * @see #println(Level, Object)
      */
     public static void print(Object message) {
@@ -217,7 +215,7 @@ public final class Debug {
     }
 
     /**
-     * デバッグモードならスタックトレースを出力します．
+     * In debug mode, a stack trace will be output.
      * @param e exception
      */
     public static void printStackTrace(Throwable e) {
@@ -225,8 +223,8 @@ public final class Debug {
     }
 
     /**
-     * デバッグモードならスタックトレースを出力します．
-     * @param level
+     * In debug mode, a stack trace will be output.
+     * @param level display level of this stack trace
      * @param e exception
      */
     public static void printStackTrace(Level level, Throwable e) {
@@ -234,7 +232,7 @@ public final class Debug {
     }
 
     /**
-     * バイト配列を 16 進数でダンプします．
+     * Dumps a byte array in hexadecimal.
      */
     @Deprecated
     public static void dump(byte[] buf) {
@@ -242,7 +240,7 @@ public final class Debug {
     }
 
     /**
-     * バイト配列を 16 進数でダンプします．
+     * Dumps a byte array in hexadecimal.
      */
     @Deprecated
     public static void dump(byte[] buf, int length) {
@@ -250,7 +248,7 @@ public final class Debug {
     }
 
     /**
-     * バイト配列を 16 進数でダンプします．
+     * Dumps a byte array in hexadecimal.
      */
     @Deprecated
     public static void dump(byte[] buf, int offset, int length) {
@@ -258,7 +256,7 @@ public final class Debug {
     }
 
     /**
-     * ストリームを 16 進数でダンプします．
+     * Dump the stream in hexadecimal.
      */
     @Deprecated
     public static void dump(InputStream is) {
@@ -266,8 +264,8 @@ public final class Debug {
     }
 
     /**
-     * 制限付でストリームを 16 進数でダンプします．
-     * @param length 制限する長さ
+     * Dumps the stream in hexadecimal with limitations.
+     * @param length limiting length
      */
     @Deprecated
     public static void dump(InputStream is, int length) {
@@ -288,12 +286,12 @@ public final class Debug {
     }
 
     /**
-     * 現在実行中のプログラムの情報を取得します．
+     * Gets information about the currently running program.
      * <p>
-     * 使用例：
+     * Example of use:
      * <pre>
      * <tt>
-     * Debug.println("呼び元のメソッドは" + Debug.getCallerMethod() + "です");
+     * Debug.println("The calling method is " + Debug.getCallerMethod())
      * </tt>
      * </pre>
      * <p>
@@ -303,11 +301,11 @@ public final class Debug {
     }
 
     /**
-     * 現在実行中のプログラムの情報を取得します．
-     * @param depth 呼び出し元の深さ，0 以上を指定する．
-     * 対象メソッドを直接呼ぶ場合は 0，
-     * 対象メソッドを呼ぶメソッドを呼ぶ場合は 1，
-     * のように指定する。
+     * Gets information about the currently running program.
+     * @param depth specify the depth of the caller, 0 or more.
+     *              specify as follows,
+     *              0 if calling the target method directly,
+     *              1 to call a method that calls the target method,
      */
     public static String getCallerMethod(int depth) {
         StackTraceElement ste = getStackTraceElement(depth);
@@ -315,30 +313,30 @@ public final class Debug {
     }
 
     /**
-     * フォーマットした StackTraceElement の文字列を返します．
+     * Returns a formatted string of StackTraceElement.
      * @param ste StackTraceElement
      */
     private static String format(StackTraceElement ste) {
-        StringBuilder sb = new StringBuilder();
-//    sb.append(StringUtil.getClassName(ste.getClassName()));
-//    sb.append("::");
-//    sb.append(ste.getMethodName());
-//    sb.append("(");
-//    sb.append(ste.getLineNumber());
-//    sb.append(")");
-        sb.append(ste.getClassName());
-        sb.append(".");
-        sb.append(ste.getMethodName());
-        sb.append("(");
-        sb.append(ste.getFileName());
-        sb.append(":");
-        sb.append(ste.getLineNumber());
-        sb.append(")");
-        return sb.toString();
+        String sb =
+//                StringUtil.getClassName(ste.getClassName()) +
+//                "::" +
+//                ste.getMethodName() +
+//                "(" +
+//                ste.getLineNumber() +
+//                ")" +
+                ste.getClassName() +
+                "." +
+                ste.getMethodName() +
+                "(" +
+                ste.getFileName() +
+                ":" +
+                ste.getLineNumber() +
+                ")";
+        return sb;
     }
 
     /**
-     * このクラスのの呼び出し元メソッドを返します．
+     * Returns the calling method of this class.
      */
     private static StackTraceElement getStackTraceElement(int depth) {
         Throwable t = new Throwable();
@@ -358,9 +356,9 @@ public final class Debug {
     }
 
     /**
-     * 指定されたパッケージ名の呼び出し元メソッドの最上位の文字列を返します．
-     * <code>vavi.xxx</code> パッケージを例とすれば <code>
-     * getTopCallerMethod("vavi")</code> と指定します．
+     * Returns the top-level string of the calling method with the specified package name.
+     * Using the <code>vavi.xxx</code> package as an example,
+     * specify <code>getTopCallerMethod("vavi")</code>.
      */
     public static String getTopCallerMethod(String packageName) {
 

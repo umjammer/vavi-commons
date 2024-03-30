@@ -45,8 +45,7 @@ import java.nio.channels.SelectableChannel;
 public class ChannelInputStream extends InputStream {
 
     public static int read(ReadableByteChannel ch, ByteBuffer bb, boolean block) throws IOException {
-        if (ch instanceof SelectableChannel) {
-            SelectableChannel sc = (SelectableChannel) ch;
+        if (ch instanceof SelectableChannel sc) {
             synchronized (sc.blockingLock()) {
                 boolean bm = sc.isBlocking();
                 if (!bm)
@@ -107,8 +106,7 @@ public class ChannelInputStream extends InputStream {
     @Override
     public int available() throws IOException {
         // special case where the channel is to a file
-        if (ch instanceof SeekableByteChannel) {
-            SeekableByteChannel sbc = (SeekableByteChannel) ch;
+        if (ch instanceof SeekableByteChannel sbc) {
             long rem = Math.max(0, sbc.size() - sbc.position());
             return (rem > Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int) rem;
         }

@@ -8,12 +8,12 @@ package vavi.util.win32;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,9 +40,10 @@ class WAVETest {
 
     @Test
     void test2() throws Exception {
-        System.setProperty("vavi.util.win32.WAVE.data.notLoadData", "true");
+        Map<String, Object> context = new HashMap<>();
+        context.put("vavi.util.win32.WAVE.data.notLoadData", true);
         InputStream is = new BufferedInputStream(WAVETest.class.getResourceAsStream("/test.wav"));
-        WAVE wave = WAVE.readFrom(is, WAVE.class);
+        WAVE wave = WAVE.readFrom(is, WAVE.class, context);
         assertEquals(176470, wave.getLength());
         assertNull(wave.findChildOf(WAVE.data.class).getWave());
     }

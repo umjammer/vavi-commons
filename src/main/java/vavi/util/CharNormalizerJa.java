@@ -29,9 +29,10 @@ import java.util.Scanner;
 public enum CharNormalizerJa implements CharNormalizer {
 
     /**
-     * 平仮名をカタカナに変換変換する。
+     * Converts hiragana to katakana.
      */
     ToKatakana() {
+        @Override
         public String normalize(String str) {
 
             StringBuilder ret = new StringBuilder();
@@ -39,10 +40,10 @@ public enum CharNormalizerJa implements CharNormalizer {
             for (int i = 0; i < str.length(); i++) {
                 char code = str.charAt(i);
                 if ((code >= 0x3041) && (code <= 0x3093)) {
-                    // 平仮名のときカタカナに変換
+                    // when char is hiragana, converts to katakana
                     ret.append((char) (code + 0x60));
                 } else {
-                    // 平仮名以外は、そのまま
+                    // else hiragana, remains
                     ret.append(code);
                 }
             }
@@ -51,8 +52,8 @@ public enum CharNormalizerJa implements CharNormalizer {
         }
     },
     /**
-     * カタカナを平仮名に変換変換する。
-     * ただし、次の文字は、変換できない(ひらがなに対応する文字がない)
+     * Converts katakana to hiragana.
+     * but follows will be excluded (no corresponding hiragana)
      * <UL>
      *  <LI>ヴ(0x30f4)</LI>
      *  <LI>ヵ(0x30f5)</LI>
@@ -60,6 +61,7 @@ public enum CharNormalizerJa implements CharNormalizer {
      * </UL>
      */
     ToHiragana {
+        @Override
         public String normalize(String str) {
 
             StringBuilder ret = new StringBuilder();
@@ -67,10 +69,10 @@ public enum CharNormalizerJa implements CharNormalizer {
             for (int i = 0; i < str.length(); i++) {
                 char code = str.charAt(i);
                 if ((code >= 0x30a1) && (code <= 0x30f3)) {
-                    // カタカナのとき平仮名に変換
+                    // when char is katakana, converts to hiragana
                     ret.append((char) (code - 0x60));
                 } else {
-                    // カタカナ以外は、そのまま
+                    // else katakana, remains
                     ret.append(code);
                 }
             }
@@ -79,9 +81,10 @@ public enum CharNormalizerJa implements CharNormalizer {
         }
     },
     /**
-     * 全角英数記号を半角に変換する。
+     * Converts full-width alphanumeric symbols to half-width.
      */
     ToHalfANS {
+        @Override
         public String normalize(String str) {
 
             StringBuilder ret = new StringBuilder();
@@ -99,9 +102,10 @@ public enum CharNormalizerJa implements CharNormalizer {
         }
     },
     /**
-     * 全角数を半角に変換する。
+     * Converts full-width numbers to half-width numbers.
      */
     ToHalfDigit {
+        @Override
         public String normalize(String str) {
 
             StringBuilder ret = new StringBuilder();
@@ -119,25 +123,28 @@ public enum CharNormalizerJa implements CharNormalizer {
         }
     },
     /**
-     * 全角文字を可能な限り半角文字に変換する。
+     * Convert full-width characters to half-width characters whenever possible.
      */
     ToHalf {
+        @Override
         public String normalize(String str) {
             return ToHalfKana.normalize(ToHalfANS.normalize(str));
         }
     },
     /**
-     * 半角文字を可能な限り全角文字に変換する。
+     * Convert half-width characters to full-width characters whenever possible.
      */
     ToFull {
+        @Override
         public String normalize(String str) {
             return ToFullKana.normalize(ToFullANS.normalize(str));
         }
     },
     /**
-     * 半角英数記号を全角に変換する。
+     * Convert half-width alphanumeric symbols to full-width.
      */
     ToFullANS {
+        @Override
         public String normalize(String str) {
 
             StringBuilder ret = new StringBuilder();
@@ -156,9 +163,10 @@ public enum CharNormalizerJa implements CharNormalizer {
         }
     },
     /**
-     * 全角文字を半角文字に変換する。
+     * Convert full-width characters to half-width characters.
      */
     ToHalfKana {
+        @Override
         public String normalize(String str) {
 
             StringBuilder ret = new StringBuilder();
@@ -205,12 +213,13 @@ public enum CharNormalizerJa implements CharNormalizer {
         }
     },
     /**
-     * 半角カナを全角カタカナに変換する。<p>
-     *
-     * 濁点、半濁点が含まれる場合、前の文字に統合<br>
-     * 例「バ」→「バ」(「ハ゛」とならない)<br>
+     * Convert half-width kana to full-width katakana.
+     * <p>
+     * If a voiced or handakuten character is included, it will be merged into the previous character.<br>
+     * e.g.「バ」→「バ」(not 「ハ゛」)<br>
      */
     ToFullKana {
+        @Override
         public String normalize(String str) {
 
             StringBuilder ret = new StringBuilder();
@@ -221,23 +230,25 @@ public enum CharNormalizerJa implements CharNormalizer {
                 char code = str.charAt(i);
 
                 if ((code == 'ﾞ') && (kanaTableJa[prevBase].charAt(2) != '#')) {
-                    // 濁点を受理し、1つ前の文字が濁点付与可能な文字の場合
+                    // if a voiced mark is accepted and the previous character is a character
+                    // that can be given a voiced mark
 
-                    // 1文字削除
+                    // delete 1 character
                     ret.deleteCharAt(ret.length() - 1);
 
-                    // 濁点文字追加
+                    // added voiced characters
                     ret.append(kanaTableJa[prevBase].charAt(2));
 
                     prevBase = 0;
                     continue;
                 } else if ((code == 'ﾟ') && (kanaTableJa[prevBase].charAt(2) != '#')) {
-                    // 半濁点を受理し、1つ前の文字が濁点付与可能な文字の場合
+                    // If a handakuten is accepted and the previous character is a character
+                    // that can be given a voiced mark
 
-                    // 1文字削除
+                    // delete 1 character
                     ret.deleteCharAt(ret.length() - 1);
 
-                    // 半濁点文字追加
+                    // added handakuten characters
                     ret.append(kanaTableJa[prevBase].charAt(3));
 
                     prevBase = 0;
@@ -247,9 +258,9 @@ public enum CharNormalizerJa implements CharNormalizer {
                 boolean flag = false;
 
                 for (int j = 0; j < kanaTableJa.length; j++) {
-                    // テ−ブルを走査
+                    // scan table
                     if (code == kanaTableJa[j].charAt(0)) {
-                        // 文字が見つかれば追加
+                        // add characters if found
                         flag = true;
                         ret.append(kanaTableJa[j].charAt(1));
                         prevBase = j;
@@ -270,6 +281,7 @@ public enum CharNormalizerJa implements CharNormalizer {
      */
     ToFullAns2 {
         /** */
+        @Override
         public String normalize(String str) {
             for (int i = 0; i < halfTable.length(); i++) {
                 str = str.replace(halfTable.charAt(i), fullTable.charAt(i));
@@ -283,6 +295,7 @@ public enum CharNormalizerJa implements CharNormalizer {
      */
     ToHalfAns2 {
         /** */
+        @Override
         public String normalize(String str) {
             for (int i = 0; i < fullTable.length(); i++) {
                 str = str.replace(fullTable.charAt(i), halfTable.charAt(i));

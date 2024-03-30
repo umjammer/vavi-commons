@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
-import java.util.logging.Level;
-
-import vavi.util.Debug;
 
 
 /**

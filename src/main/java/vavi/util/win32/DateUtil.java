@@ -14,7 +14,7 @@ import java.util.TimeZone;
 
 
 /**
- * Win32 の日付関連の構造体を扱うためのクラスです．
+ * This is a class for handling Win32 date-related structures.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030211 nsano initial version <br>
@@ -37,7 +37,7 @@ public final class DateUtil {
     private DateUtil() {}
 
     /**
-     * FILETIME (long) から java long (msec since 1970/1/1) を取得します．
+     * Get java long (msec since 1970/1/1) from FILETIME (long).
      */
     public static long filetimeToLong(long filetime) {
 
@@ -60,7 +60,7 @@ public final class DateUtil {
     }
 
     /**
-     * DATE (double) から java long (msec since 1970/1/1) を取得します．
+     * Get java long (msec since 1970/1/1) from DATE (double).
      *
      * @param date OLE Automation date.
      */
@@ -73,11 +73,11 @@ public final class DateUtil {
     }
 
     /**
-     * DOS DATE (WORD) と DOS TIME (WORD) から java long (msec since 1970/1/1)
-     * を取得します．
+     * Get java long (msec since 1970/1/1) from DOS DATE (WORD) and DOS TIME (WORD).
      *
-     * @param date 上位から 7 bit が 1980 年からの年数，4 bit が月， 残りの 5 bit が日を表す
-     * @param time 上位から 5 bit が時間，6 bit が分， 残りの 5 bit が秒を 2 で割ったもの
+     * @param date The top 7 bits represent the year since 1980, 4 bits represent the month,
+     *            and the remaining 5 bits represent the day.
+     * @param time The top 5 bits are hours, 6 bits are minutes, and the remaining 5 bits are seconds divided by 2.
      */
     public static long dosDateTimeToLong(int date, int time) {
 

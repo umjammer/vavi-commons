@@ -22,7 +22,7 @@ public class AdvancedBinder extends DefaultBinder {
     /**
      * This method is able to set a {@link java.io.File}, {@link java.io.InputStream} and {@code enum} type field.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void bind(Object destBean, Field field, Class<?> fieldClass, String value, Object elseValue) {
         if (fieldClass.equals(File.class)) {

@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 
 
 /**
- * MSF フォーマットを扱うクラスです．
+ * This class handles MSF format.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 020423 nsano initial version <br>

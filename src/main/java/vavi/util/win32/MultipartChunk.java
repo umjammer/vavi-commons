@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.logging.Level;
 
 import vavi.io.LittleEndianDataInputStream;
@@ -21,6 +22,11 @@ import vavi.util.StringUtil;
 
 /**
  * MultipartChunk format.
+ * <p>
+ * system properties
+ * <ul>
+ *  <li>vavi.util.win32.MultipartChunk.strict ... not allowed broken structure, default false</li>
+ * </ul>
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030121 nsano initial version <br>
@@ -29,6 +35,13 @@ import vavi.util.StringUtil;
  *          0.12 030716 nsano add findChildOf() <br>
  */
 public abstract class MultipartChunk extends Chunk {
+
+    /** to set true makes this class not allowed broken structure */
+    public static final String MULTIPART_CHUNK_PARSE_STRICT_KEY = "vavi.util.win32.MultipartChunk.strict";
+
+    protected static boolean isStrictMultipart() {
+        return (boolean) Objects.requireNonNullElse(context.get().get(MULTIPART_CHUNK_PARSE_STRICT_KEY), false);
+    }
 
     /** foreCC for this multipart chunk */
     protected byte[] multipartId;
@@ -46,6 +59,9 @@ public abstract class MultipartChunk extends Chunk {
         return chunks;
     }
 
+    /**
+     * @throws IllegalArgumentException input is not wav or there is undefined chunk
+     */
     @Override
     public void setData(InputStream is) throws IOException {
         LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
@@ -59,17 +75,27 @@ Debug.println(Level.FINER, "multipart: " + StringUtil.getDump(tmp));
         setChildrenData(ledis);
     }
 
-    /** Creates children from a stream. */
+    /**
+     * Creates children from a stream.
+     * @throws IllegalArgumentException input is not wav or there is undefined chunk
+     */
     protected void setChildrenData(LittleEndianDataInputStream is) throws IOException {
         int l = getLength() - 4; // - len(length)
         while (l > 8) {
             Chunk chunk = Chunk.readFrom(is, this);
             chunks.add(chunk);
+Debug.println(Level.FINER, "add child chunk: " + chunk);
             l -= chunk.getLength() + (chunk.getLength() % 2) + 4 + 4; // + padding + len(name) + len(length)
 Debug.println(Level.FINER, getName() + "." + chunk.getName() + ", " + l + "/" + (getLength() - 4));
-            if (!parsing.get()) {
+            if (!(boolean) context.get().get(Chunk.CHUNK_PARSING_KEY)) {
 Debug.print(Level.FINER, "children chunk parsing canceled: " + getClass().getSimpleName());
                 break;
+            }
+        }
+
+        if (isStrictMultipart()) {
+            if (l < 0) {
+                throw new IllegalArgumentException("it seems the input is not wav");
             }
         }
 if (l != 0) {
@@ -81,7 +107,7 @@ if (l != 0) {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getName() + "(" + getMultipartName() + ")\n");
+        sb.append(getName()).append("(").append(getMultipartName()).append(")\n");
         chunks.stream().map(c -> " " + c + "\n").forEach(sb::append);
         return sb.toString();
     }

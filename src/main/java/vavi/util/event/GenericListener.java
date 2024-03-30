@@ -10,7 +10,7 @@ import java.util.EventListener;
 
 
 /**
- * 汎用のリスナインターフェースです．
+ * A general-purpose listener interface.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030318 nsano initial version <br>
@@ -19,9 +19,9 @@ import java.util.EventListener;
 public interface GenericListener extends EventListener {
 
     /**
-     * イベントが発行された時に呼ばれます．
+     * Called when an event is issued.
      *
-     * @param ev 汎用イベント
+     * @param ev generic event
      */
     void eventHappened(GenericEvent ev);
 }

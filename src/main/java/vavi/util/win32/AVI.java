@@ -8,7 +8,6 @@ package vavi.util.win32;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 import vavi.io.LittleEndianDataInputStream;
 
@@ -24,7 +23,7 @@ import vavi.io.LittleEndianDataInputStream;
  */
 public class AVI extends RIFF {
 
-    //-------------------------------------------------------------------------
+    //----
 
     public static class LIST extends MultipartChunk {
 
@@ -89,7 +88,6 @@ public class AVI extends RIFF {
             /** */
             int length;
 
-            /** */
             @Override
             public void setData(InputStream is) throws IOException {
                 LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);

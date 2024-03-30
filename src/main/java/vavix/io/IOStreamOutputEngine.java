@@ -27,13 +27,13 @@ public class IOStreamOutputEngine implements OutputEngine {
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 
     /** */
-    private InputStream in;
+    private final InputStream in;
 
     /** */
-    private OutputStreamFactory factory;
+    private final OutputStreamFactory factory;
 
     /** */
-    private byte[] buffer;
+    private final byte[] buffer;
 
     /** */
     private OutputStream out;

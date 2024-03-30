@@ -35,9 +35,9 @@ public class VaviInstrumentation {
     private static final String prefix = VaviInstrumentation.class.getName();
 
     /**
-     * System Properties に
-     * "vavix.lang.instrumentation.VaviInstrumentation." で始まる名前のプロパティに {@link VaviClassFileTransformer} を実装したクラスを指定します。
-     * "." 以降は識別子として利用されます。
+     * Specify a class that implements {@link VaviClassFileTransformer} for properties with names
+     * starting with "vavix.lang.instrumentation.VaviInstrumentation." in System Properties.
+     * Anything after "." is used as an identifier.
      * <pre>
      *  vavix.lang.instrumentation.VaviInstrumentation.0=vavix.lang.instrumentation.PassClassFileTransformer
      * </pre>

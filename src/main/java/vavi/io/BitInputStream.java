@@ -13,43 +13,43 @@ import java.nio.ByteOrder;
 
 
 /**
- * Bit 単位で読み込むストリームです．
+ * A stream to read bit by bit.
  *
- * TODO 中途半端なビット
+ * TODO odd bits
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030713 nsano initial version <br>
  *          0.01 030714 nsano fix available() <br>
- *          0.02 030715 nsano read() BitOrder 対応 <br>
- *          0.03 030716 nsano 2bit 対応 <br>
+ *          0.02 030715 nsano read() BitOrder support <br>
+ *          0.03 030716 nsano 2bit support <br>
  */
 public class BitInputStream extends FilterInputStream {
 
-    /** ビット数 */
+    /** bits number */
     private int bits = 4;
 
-    /** ビットオーダ */
+    /** bit order */
     private ByteOrder bitOrder = ByteOrder.BIG_ENDIAN;
 
     /**
-     * Bit 単位で読み込むストリームを作成します． 4Bit, ビッグエンディアン．
+     * Create a stream to read bit by bit. 4Bit, big endian．
      */
     public BitInputStream(InputStream in) {
         this(in, 4, ByteOrder.BIG_ENDIAN);
     }
 
     /**
-     * Bit 単位で読み込むストリームを作成します． ビッグエンディアン．
+     * Create a stream to read bit by bit. big endian.
      */
     public BitInputStream(InputStream in, int bits) {
         this(in, bits, ByteOrder.BIG_ENDIAN);
     }
 
-    /** MSB が立っています。 */
+    /** MSB is on */
     private int mask;
 
     /**
-     * Bit 単位で読み込むストリームを作成します．
+     * Create a stream to read bit by bit.
      */
     public BitInputStream(InputStream in, int bits, ByteOrder bitOrder) {
         super(in);
@@ -66,20 +66,22 @@ public class BitInputStream extends FilterInputStream {
 // Debug.println(bits + ", " + StringUtil.toBits(mask >> 4, 8));
     }
 
-    /** 残っているビット数 */
+    /** remaining bits for reading */
     private int restBits = 0;
 
-    /** ビッグエンディアン */
+    /** big endian */
     private int current;
 
     /** */
+    @Override
     public int available() throws IOException {
         return (in.available() * (8 / bits)) + (restBits / bits);
     }
 
     /**
-     * 指定した bit 読み込みます．
+     * Reads bits specified by {@link #bits}.
      */
+    @Override
     public int read() throws IOException {
 
         if (restBits == 0) {
@@ -129,8 +131,9 @@ public class BitInputStream extends FilterInputStream {
     }
 
     /**
-     * こいつがないとこのクラスの read を使用しない時がある。
+     * Without this, there are times when you won't be able to use this class's read function.
      */
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         if (b == null) {
             throw new NullPointerException();

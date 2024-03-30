@@ -62,21 +62,21 @@ public class FastByteArrayOutputStream extends OutputStream {
         return bytes;
     }
 
-    /* */
+    @Override
     public final void write(byte[] b) {
         verifyBufferSize(size + b.length);
         System.arraycopy(b, 0, buf, size, b.length);
         size += b.length;
     }
 
-    /* */
+    @Override
     public final void write(byte[] b, int off, int len) {
         verifyBufferSize(size + len);
         System.arraycopy(b, off, buf, size, len);
         size += len;
     }
 
-    /* */
+    @Override
     public final void write(int b) {
         verifyBufferSize(size + 1);
         buf[size++] = (byte) b;

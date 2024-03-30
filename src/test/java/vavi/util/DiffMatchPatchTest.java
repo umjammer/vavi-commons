@@ -784,9 +784,7 @@ class DiffMatchPatchTest {
         assertEquals("patch_fromText: Character decoding.", diffs, dmp.patch_fromText("@@ -1,21 +1,21 @@\n-%601234567890-=%5B%5D%5C;',./\n+~!@#$%25%5E&*()_+%7B%7D%7C:%22%3C%3E?\n").get(0).diffs);
 
         StringBuilder text11 = new StringBuilder();
-        for (int x = 0; x < 100; x++) {
-            text11.append("abcdef");
-        }
+        text11.append("abcdef".repeat(100));
         text2 = text11 + "123";
         expectedPatch = "@@ -573,28 +573,31 @@\n cdefabcdefabcdefabcdefabcdef\n+123\n";
         patches = dmp.patch_make(text11.toString(), text2);

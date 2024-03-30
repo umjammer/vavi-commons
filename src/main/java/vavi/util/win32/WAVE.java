@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.Objects;
 import java.util.Properties;
 
 import vavi.io.LittleEndianDataInputStream;
@@ -140,20 +141,20 @@ public class WAVE extends RIFF {
              String key = "format.id." + String.format("%04x", formatId);
              String type = pcmTypes.getProperty(key);
              return "formatId:\t" + (type == null ? String.format("%04x", formatId) : type) +
-                "numberChannels:\t" + numberChannels +
-                "samplingRate:\t"   + samplingRate +
-                "bytesPerSecond:\t" + bytesPerSecond +
-                "blockSize:\t"      + blockSize +
-                "samplingBits:\t"   + samplingBits +
-                "sizeofExtended:\t" + sizeofExtended +
-                "expanded:\t" + ((extended == null) ? "null" : "\n" + StringUtil.getDump(extended));
+                ", numberChannels:\t" + numberChannels +
+                ", samplingRate:\t"   + samplingRate +
+                ", bytesPerSecond:\t" + bytesPerSecond +
+                ", blockSize:\t"      + blockSize +
+                ", samplingBits:\t"   + samplingBits +
+                ", sizeofExtended:\t" + sizeofExtended +
+                ", expanded:\t" + ((extended == null) ? "null" : "\n" + StringUtil.getDump(extended));
         }
 
         @Override
         public void setData(InputStream is) throws IOException {
             LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
 
-            formatId       = ledis.readShort();
+            formatId       = ledis.readShort() & 0xffff;
             numberChannels = ledis.readShort();
             samplingRate   = ledis.readInt();
             bytesPerSecond = ledis.readInt();
@@ -169,6 +170,20 @@ public class WAVE extends RIFF {
 
     //----
 
+    /** use DataBuffer map for data handler */
+    public static final String WAVE_DATA_DEAL_BIG_SIZE_KEY = "vavi.util.win32.WAVE.data.dealBigSize";
+
+    /** to stop parsing before loading data or not */
+    public static final String WAVE_DATA_NOT_LOAD_KEY = "vavi.util.win32.WAVE.data.notLoadData";
+
+    private static boolean isDealBigSize() {
+        return (boolean) Objects.requireNonNullElse(context.get().get(WAVE_DATA_DEAL_BIG_SIZE_KEY), false);
+    }
+
+    private static boolean isNotLoadData() {
+        return (boolean) Objects.requireNonNullElse(context.get().get(WAVE_DATA_NOT_LOAD_KEY), false);
+    }
+
     /**
      * Represents wave data.
      * <p>
@@ -179,14 +194,6 @@ public class WAVE extends RIFF {
      * </ul>
      */
     public static class data extends Chunk {
-
-        /** TODO now construction */
-        private final boolean dealBigSize =
-                Boolean.parseBoolean(System.getProperty("vavi.util.win32.WAVE.data.dealBigSize", "false"));
-
-        /** to stop parsing before loading data or not */
-        private final boolean notLoadData =
-                Boolean.parseBoolean(System.getProperty("vavi.util.win32.WAVE.data.notLoadData", "false"));
 
         /** buffer for data */
         private byte[] wave;
@@ -199,7 +206,7 @@ public class WAVE extends RIFF {
          * getData() cannot be overridden
          */
         public byte[] getWave() {
-            if (dealBigSize && buffer != null) {
+            if (isDealBigSize() && buffer != null) {
                 return buffer.array();
             } else {
                 return wave;
@@ -208,10 +215,10 @@ public class WAVE extends RIFF {
 
         @Override
         public void setData(InputStream is) throws IOException {
-            if (notLoadData) {
+            if (isNotLoadData()) {
                 throw new ChunkParseStopException();
             }
-            if (dealBigSize && is instanceof FileInputStream) {
+            if (isDealBigSize() && is instanceof FileInputStream) {
                 FileChannel inputChannel = ((FileInputStream) is).getChannel();
                 buffer = inputChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) inputChannel.size());
             } else {
@@ -230,15 +237,15 @@ public class WAVE extends RIFF {
 
     /** */
     public static class fact extends Chunk {
-        int fileSize;
+        public int sampleCount;
         /** for debug */
         public String toString() {
-            return "fileSize: " + fileSize;
+            return "sampleCount: " + sampleCount;
         }
         @Override
         public void setData(InputStream is) throws IOException {
             LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
-            fileSize = ledis.readInt();
+            sampleCount = ledis.readInt();
         }
     }
 
@@ -260,7 +267,6 @@ public class WAVE extends RIFF {
     /** PCM types table */
     private static final Properties pcmTypes = new Properties();
 
-    /* */
     static {
         try {
             pcmTypes.load(WAVE.class.getResourceAsStream("wave.properties"));

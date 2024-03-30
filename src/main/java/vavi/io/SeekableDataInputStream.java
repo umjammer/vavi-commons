@@ -24,8 +24,8 @@ import java.nio.channels.SeekableByteChannel;
 public class SeekableDataInputStream extends InputStream
     implements SeekableDataInput<SeekableByteChannel> {
 
-    private SeekableByteChannel sbc;
-    private DataInputStream dis;
+    private final SeekableByteChannel sbc;
+    private final DataInputStream dis;
 
     public SeekableDataInputStream(SeekableByteChannel sbc) {
         this.sbc = sbc;

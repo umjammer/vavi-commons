@@ -22,12 +22,12 @@ import vavi.util.Debug;
 
 
 /**
- * .ini を扱うためのクラスです．
- *
- * Properties クラスの拡張クラスとして扱うためプロパティのキー名は
- * "セクション名" + "." + "キー名" として扱ってください．
- *
- * 注意：プロパティの順序、コメントは保存されません。
+ * This is a class for handling .ini.
+ * <p>
+ * Since it is treated as an extension class of the Properties class,
+ * the key name of the property should be treated as "section name" + "." + "key name".
+ * </p>
+ * Note: Property order and comments are not saved.
  *
  * TODO "http://ini4j.sourceforge.net/"
  *
@@ -38,10 +38,10 @@ import vavi.util.Debug;
 public class WindowsProperties extends Properties {
 
     /** The vector for section */
-    private Vector<String> sections = new Vector<>();
+    private final Vector<String> sections = new Vector<>();
 
     /**
-     * .ini のストリームを読み込みます．
+     * Reads the .ini stream.
      */
     @Override
     public void load(InputStream in) throws IOException {
@@ -82,10 +82,10 @@ Debug.println("outside section: " + s);
     }
 
     /**
-     * セクションを扱うためオーバーライドします．
+     * Overrides to handle sections.
      *
-     * @param key "セクション名" + "." + "キー名"
-     * @throws IllegalArgumentException セクション名が無いとき
+     * @param key "section name" + "." + "key name"
+     * @throws IllegalArgumentException When there is no section name
      */
     @Override
     public Object setProperty(String key, String value) {
@@ -102,8 +102,8 @@ Debug.println("outside section: " + s);
     }
 
     /**
-     * .ini 形式でストリームに書き込みます．
-     * 注意：プロパティの順序、コメントは保存されません。
+     * Writes to the stream in .ini format.
+     * Note: Property order and comments are not saved.
      */
     @Override
     public void store(OutputStream out, String header) throws IOException {
@@ -139,7 +139,7 @@ Debug.println("prop: " + key + "=" + value);
     }
 
     /**
-     * 該当セクションのプロパティをを削除します．
+     * Deletes the properties of the relevant section.
      */
     public void removePropertiesOfSection(String section) {
         Enumeration<?> e = this.propertyNames();

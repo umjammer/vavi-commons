@@ -8,10 +8,8 @@ package vavi.net.www.protocol;
 
 import java.net.URLStreamHandler;
 import java.net.spi.URLStreamHandlerProvider;
-import java.util.logging.Level;
 
 import vavi.net.www.protocol.classpath.Handler;
-import vavi.util.Debug;
 
 
 /**

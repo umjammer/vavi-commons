@@ -52,8 +52,8 @@ public abstract class PropertiesFactoryBase<K, V, Args> implements Iterable<Map.
     protected abstract V getStoreValue(String value);
 
     /**
-     * <V> オブジェクトのインスタンス集。
-     * インスタンスを使いまわすのでステートレスでなければならない。
+     * <V> A collection of object instances.
+     * Since instances are reused, it must be stateless.
      * TODO protected ぐぬぬ...
      */
     protected Map<String, V> instances = new HashMap<>();
@@ -61,6 +61,7 @@ public abstract class PropertiesFactoryBase<K, V, Args> implements Iterable<Map.
     /**
      * @param args set by the {@link #PropertiesFactoryBase(String, Object...)}
      */
+    @SuppressWarnings("unchecked")
     protected abstract void preInit(Args... args);
 
     /**

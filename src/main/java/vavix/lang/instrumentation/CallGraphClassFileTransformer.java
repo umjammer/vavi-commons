@@ -38,12 +38,12 @@ public class CallGraphClassFileTransformer implements VaviClassFileTransformer {
     /** never use before call #transform() */
     private String id;
 
-    /* */
+    @Override
     public String getId() {
         return id;
     }
 
-    /* */
+    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -55,6 +55,7 @@ public class CallGraphClassFileTransformer implements VaviClassFileTransformer {
      * vavix.lang.instrumentation.CallGraphClassFileTransformer.${id}.pattern ... class name matcher in regex
      * </pre>
      */
+    @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         if (pattern == null) {
             Properties props = System.getProperties();
@@ -108,8 +109,8 @@ System.err.println("CallGraphClassFileTransformer::transform: " + key + ": " + e
 
         public static CallLogger INSTANCE = new CallLogger();
 
-        private Stack<String> callStack = new Stack<>();
-        private Set<String> callLog = new HashSet<>();
+        private final Stack<String> callStack = new Stack<>();
+        private final Set<String> callLog = new HashSet<>();
 
         public void pushMethod(String s) {
             callStack.push(s);

@@ -39,7 +39,7 @@ public @interface Property {
     String value() default "";
 
     /**
-     * フィールドに値を代入する実装クラス
+     * Implementation class that assigns values to fields
      */
     Class<? extends Binder> binder() default AdvancedBinder.class;
 
@@ -49,7 +49,7 @@ public @interface Property {
     boolean useSystem() default false;
 
     /**
-     * TODO アノテーションがメソッド指定の場合
+     * TODO If the annotation is specified on a method
      */
     final class Util {
 

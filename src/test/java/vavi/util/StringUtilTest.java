@@ -70,12 +70,6 @@ class StringUtilTest {
 
     /** */
     public static void main(String[] args) throws IOException {
-/*
-        System.err.println("---- getDump(String) ----");
-        System.err.println(getDump("直佐秀野"));
-        System.err.println("---- getDump(InputStream) ----");
-        System.err.println(getDump(new FileInputStream("StringUtil.class")));
-*/
         System.err.println("---- toBits(int,int) ----");
         System.err.println(StringUtil.toBits(0x842173c6, 32));
         System.err.println("---- toBits(int,int) ----");
