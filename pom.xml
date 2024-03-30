@@ -211,6 +211,7 @@
                               excludes="META-INF/**"/>
                 </jar>
               </target>
+              <failOnError>true</failOnError>
             </configuration>
           </execution>
         </executions>
