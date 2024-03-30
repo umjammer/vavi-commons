@@ -76,11 +76,11 @@ public class PropertiesClassFileTransformer implements VaviClassFileTransformer 
     }
 
     /**
-     * "VaviInstrumentation.properties" をクラスパスが通った場所においてください。
+     * Place "VaviInstrumentation.properties" in a location that is included in the classpath.
      * <pre>
      * vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.class ... package/name/ClassName
      * vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.method ... method name ("*" means for all methods)
-     * vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.constructor ... constructor name ("vavix.lang.instrumentation.PropertiesClassFileTransformer.method" の方が優先する)
+     * vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.constructor ... constructor name ("vavix.lang.instrumentation.PropertiesClassFileTransformer.method" takes precedence)
      * vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.insertBefore ... ex. {System.err.println("args: " + $$);}
      * vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.insertAfter ... ex. {System.err.println("result: " + $_);}
      * </pre>

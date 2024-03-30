@@ -10,7 +10,7 @@ import java.util.EventObject;
 
 
 /**
- * 汎用のイベントです．
+ * This is a generic event.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030318 nsano initial version <br>

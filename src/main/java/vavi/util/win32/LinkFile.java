@@ -21,7 +21,7 @@ import vavi.util.StringUtil;
 
 
 /**
- * .lnk を扱うためのクラスです．
+ * This is a class for handling .lnk.
  *
  * <pre>
  * 00h   4  'L' 00 00 00 magic
@@ -37,8 +37,6 @@ import vavi.util.StringUtil;
  * 40h   4  hot key
  * 44h   8  unknown, always 0
  * </pre>
- *
- * @target 1.1
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 020507 nsano initial version <br>

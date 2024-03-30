@@ -12,7 +12,7 @@ import java.util.List;
 
 
 /**
- * 汎用イベント機構のの基本実装クラスです．
+ * This is the basic implementation class for the general-purpose event mechanism.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030318 nsano initial version <br>
@@ -22,17 +22,17 @@ public class GenericSupport implements Serializable {
     /** The generic listeners */
     private final List<GenericListener> listeners = new ArrayList<>();
 
-    /** GenericListener を追加します． */
+    /** Adds a generic listener. */
     public void addGenericListener(GenericListener l) {
         listeners.add(l);
     }
 
-    /** GenericListener を削除します． */
+    /** Removes a generic listener. */
     public void removeGenericListener(GenericListener l) {
         listeners.remove(l);
     }
 
-    /** 汎用イベントを発行します． */
+    /** Fires a generic event. */
     public void fireEventHappened(GenericEvent ev) {
         listeners.forEach(listener -> listener.eventHappened(ev));
     }

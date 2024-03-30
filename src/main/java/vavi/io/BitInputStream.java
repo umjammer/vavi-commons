@@ -20,8 +20,8 @@ import java.nio.ByteOrder;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030713 nsano initial version <br>
  *          0.01 030714 nsano fix available() <br>
- *          0.02 030715 nsano read() BitOrder 対応 <br>
- *          0.03 030716 nsano 2bit 対応 <br>
+ *          0.02 030715 nsano read() BitOrder support <br>
+ *          0.03 030716 nsano 2bit support <br>
  */
 public class BitInputStream extends FilterInputStream {
 

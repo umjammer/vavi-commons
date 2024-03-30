@@ -63,7 +63,7 @@ public class CDDA extends RIFF {
         return ((fmt) getChunks().get(0)).getLengthMSF();
     }
 
-    //-------------------------------------------------------------------------
+    //----
 
     /** */
     public static class fmt extends Chunk {
