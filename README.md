@@ -9,70 +9,112 @@ Swiss-Army Knife
 
 most functions are used by me for every development. so those are super reliable.
 
-## 🧰 Contents
+### 🧰 Contents
 
-### 🔧 Bit I/O
+#### 🔧 Bit I/O
 
   * BitInputStream
   * BitOutputStream
 
-### 🔧 LittleEndian I/O
+#### 🔧 LittleEndian I/O
 
   `DataInputStream`, `DataOutputStream` compatible
 
-### 🔧 Adaptive I/O Stream
+#### 🔧 Adaptive I/O Stream
 
   Decorating io streams easily
 
   * `OutputEngine`, `OutputEngineInputStream`, `InputEngine`, `InputEngineOutputStream`
 
-### 🔧 Bean Manipulation
+#### 🔧 Bean Manipulation
 
   Manipulate beans easily.
 
-### 🔧 Easy Logging
+#### 🔧 Easy Logging
 
   Colorized good logging easily.
 
-### 🔧 XML Utilities
+#### 🔧 XML Utilities
 
   * Pretty printer
   * XPath dumper
 
-### 🔧 Win32 Structures
+#### 🔧 Win32 Structures
 
   * useful win32 structures
     * wav, avi, datetime
 
-### 🔧 Easy Property Binding
+#### 🔧 Easy Property Binding
 
   * DI for properties and environment variables
 
-### 🔧 Generic Event
+#### 🔧 Generic Event
 
   * usable for any observer pattern
 
-### 🔧 Instrumentation
+#### 🔧 Instrumentation
 
   * easy instrumentation 
 
-### 🔧 String Utilities
+#### 🔧 String Utilities
 
   * Levenshtein distance
   * Google DiffMatchPatch
   * Hex dump
 
-### 🔧 Binary I/O
+#### 🔧 Binary I/O
 
   * ByteUtil
 
-### 🔧 Unit Test Helper
+#### 🔧 Unit Test Helper
 
   * Delayed Worker
 
-## License
+## Install
 
- * [Engineering Solution](https://www.ibm.com/developerworks/jp/java/library/j-io1/index.html)
+* [maven](https://jitpack.io/#umjammer/vavi-commons)
+
+## Usage
+
+### instrumentation
+
+install jar by pom.xml
+
+```xml
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>3.1.1</version>
+        <executions>
+          <execution>
+            <id>install-library</id>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <groupId>com.github.umjammer.vavi-commons</groupId>
+              <artifactId>vavi-instrumentation</artifactId>
+              <version>${project.version}</version>
+              <packaging>jar</packaging>
+              <file>${project.build.directory}/vavi-instrumentation-${project.version}.jar</file>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+```
+
+java runtime option
+
+```shell
+ $ java -javaagent ${project.build.directory}/vavi-instrumentation-${project.version}.jar ...
+```
+
+## References
+
+### License
+
+ * [Engineering Solution](https://web.archive.org/web/20190518145758/https://www.ibm.com/developerworks/jp/java/library/j-io1/index.html)
 
    * `OutputEngine.java`
    * `OutputEngineInputStream.java`
