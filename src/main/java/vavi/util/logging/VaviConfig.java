@@ -27,7 +27,11 @@ final class VaviConfig {
         try {
             PropsEntity.Util.bind(this);
         } catch (IOException e) {
-            e.printStackTrace(System.err);
+            if (e.getMessage().contains("logging.properties")) {
+                System.err.println("vavi.util.logging.VaviConfig::<clinit>: logging.properties not found in classpath");
+            } else {
+                e.printStackTrace(System.err);
+            }
         }
     }
 
