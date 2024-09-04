@@ -205,19 +205,21 @@ class ByteUtilTest {
         byte[] buf = new byte[3];
 
         ByteUtil.writeBe24(0xfedcba, buf, 0);
+        assertArrayEquals(new byte[] { (byte) 0xfe, (byte) 0xdc, (byte) 0xba }, buf);
         int v = ByteUtil.readBe24(buf, 0);
         assertEquals(0xfedcba, v);
 
-//        ByteUtil.writeLe24(0xfedcba, buf, 0);
-//        v = ByteUtil.readLe24(buf, 0);
-//        assertEquals(0xfedcba, v);
-
-        ByteUtil.writeBe24(0xfedcba, buf, 0);
-        v = ByteUtil.readBe24(buf, 0);
+        ByteUtil.writeLe24(0xfedcba, buf, 0);
+        assertArrayEquals(new byte[] { (byte) 0xba, (byte) 0xdc, (byte) 0xfe }, buf);
+        v = ByteUtil.readLe24(buf, 0);
         assertEquals(0xfedcba, v);
 
-//        ByteUtil.writeLe24(0xfedcba, buf, 0);
-//        v = ByteUtil.readLe24(buf, 0);
-//        assertEquals(0xfedcba, v);
+        ByteUtil.writeBe24(0x123456, buf, 0);
+        v = ByteUtil.readBe24(buf, 0);
+        assertEquals(0x123456, v);
+
+        ByteUtil.writeLe24(0x123456, buf, 0);
+        v = ByteUtil.readLe24(buf, 0);
+        assertEquals(0x123456, v);
     }
 }
