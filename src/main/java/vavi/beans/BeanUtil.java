@@ -162,29 +162,19 @@ logger.fine("no method: " + getSetterName(name));
     }
 
     /** Recurse super classes. */
-    public static Field getPrivateField(Class<?> clazz, String name) throws PrivilegedActionException {
-        return AccessController.doPrivileged(new PrivilegedExceptionAction<>() {
-            /** @throws NoSuchFieldException when no method found */
-            @Override public Field run() throws Exception {
-                Field field = getFieldByNameOf(clazz, name);
-                field.setAccessible(true);
-                return field;
-            }
-        });
+    public static Field getPrivateField(Class<?> clazz, String name) throws PrivilegedActionException, NoSuchFieldException {
+        Field field = getFieldByNameOf(clazz, name);
+        field.setAccessible(true);
+        return field;
     }
 
     /**
      * Recurse super classes.
      */
-    public static Method getPrivateMethod(Class<?> clazz, String name, Class<?>... argTypes) throws PrivilegedActionException {
-        return AccessController.doPrivileged(new PrivilegedExceptionAction<>() {
-            /** @throws NoSuchMethodException when no method found */
-            @Override public Method run() throws Exception {
-                Method method = getMethodByNameOf(clazz, name, argTypes);
-                method.setAccessible(true);
-                return method;
-            }
-        });
+    public static Method getPrivateMethod(Class<?> clazz, String name, Class<?>... argTypes) throws PrivilegedActionException, NoSuchMethodException {
+        Method method = getMethodByNameOf(clazz, name, argTypes);
+        method.setAccessible(true);
+        return method;
     }
 
     /** Recurse super classes. */
@@ -200,7 +190,8 @@ logger.fine("method access exception: " + method.getName());
         try {
             method = BeanUtil.getPrivateMethod(bean.getClass(), method.getName(), method.getParameterTypes());
             return method.invoke(bean, args);
-        } catch (PrivilegedActionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+        } catch (PrivilegedActionException | IllegalAccessException | IllegalArgumentException |
+                 InvocationTargetException | NoSuchMethodException e) {
             throw new IllegalStateException(e);
         }
     }
@@ -210,7 +201,7 @@ logger.fine("method access exception: " + method.getName());
         try {
             Field accessibleField = getPrivateField(field.getDeclaringClass(), field.getName());
             return accessibleField.get(bean);
-        } catch (IllegalAccessException | PrivilegedActionException e) {
+        } catch (IllegalAccessException | PrivilegedActionException | NoSuchFieldException e) {
             throw new IllegalStateException(e);
         }
     }
@@ -220,7 +211,7 @@ logger.fine("method access exception: " + method.getName());
         try {
             Field accessibleField = getPrivateField(field.getDeclaringClass(), field.getName());
             accessibleField.set(bean, value);
-        } catch (IllegalAccessException | PrivilegedActionException e) {
+        } catch (IllegalAccessException | PrivilegedActionException | NoSuchFieldException e) {
             throw new IllegalStateException(e);
         }
     }
