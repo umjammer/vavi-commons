@@ -35,21 +35,33 @@ public class ByteUtil {
     }
 
     /** */
+    public static byte[] getLeBytes(int value) {
+        byte[] bytes = new byte[Integer.BYTES];
+        writeLeInt(value, bytes);
+        return bytes;
+    }
+
+    /** */
     public static void writeLeShort(short value, byte[] buffer) {
         writeLeShort(value, buffer, 0);
     }
 
     /** */
     public static void writeLeShort(short value, byte[] buffer, int offset) {
-        buffer[offset] = (byte) (value & 0xFF);
-        buffer[offset + 1] = (byte) ((value >>> 8) & 0xFF);
+        buffer[offset] = (byte) (value & 0xff);
+        buffer[offset + 1] = (byte) ((value >>> 8) & 0xff);
     }
 
-    /** */
-    public static byte[] getLeBytes(int value) {
-        byte[] bytes = new byte[Integer.BYTES];
-        writeLeInt(value, bytes);
-        return bytes;
+    /** @since 1.1.14 */
+    public static void writeLe24(int value, byte[] buffer) {
+        writeLe24(value, buffer, 0);
+    }
+
+    /** @since 1.1.14 */
+    public static void writeLe24(int value, byte[] buffer, int offset) {
+        buffer[offset] = (byte) (value & 0xff);
+        buffer[offset + 1] = (byte) ((value >>> 8) & 0xff);
+        buffer[offset + 2] = (byte) (value >>> 16 & 0xff);
     }
 
     /** */
@@ -59,10 +71,10 @@ public class ByteUtil {
 
     /** */
     public static void writeLeInt(int value, byte[] buffer, int offset) {
-        buffer[offset] = (byte) (value & 0xFF);
-        buffer[offset + 1] = (byte) ((value >>> 8) & 0xFF);
-        buffer[offset + 2] = (byte) ((value >>> 16) & 0xFF);
-        buffer[offset + 3] = (byte) ((value >>> 24) & 0xFF);
+        buffer[offset] = (byte) (value & 0xff);
+        buffer[offset + 1] = (byte) ((value >>> 8) & 0xff);
+        buffer[offset + 2] = (byte) ((value >>> 16) & 0xff);
+        buffer[offset + 3] = (byte) ((value >>> 24) & 0xff);
     }
 
     /** */
@@ -72,14 +84,14 @@ public class ByteUtil {
 
     /** */
     public static void writeLeLong(long value, byte[] buffer, int offset) {
-        buffer[offset] = (byte) (value & 0xFF);
-        buffer[offset + 1] = (byte) ((value >>> 8) & 0xFF);
-        buffer[offset + 2] = (byte) ((value >>> 16) & 0xFF);
-        buffer[offset + 3] = (byte) ((value >>> 24) & 0xFF);
-        buffer[offset + 4] = (byte) ((value >>> 32) & 0xFF);
-        buffer[offset + 5] = (byte) ((value >>> 40) & 0xFF);
-        buffer[offset + 6] = (byte) ((value >>> 48) & 0xFF);
-        buffer[offset + 7] = (byte) ((value >>> 56) & 0xFF);
+        buffer[offset] = (byte) (value & 0xff);
+        buffer[offset + 1] = (byte) ((value >>> 8) & 0xff);
+        buffer[offset + 2] = (byte) ((value >>> 16) & 0xff);
+        buffer[offset + 3] = (byte) ((value >>> 24) & 0xff);
+        buffer[offset + 4] = (byte) ((value >>> 32) & 0xff);
+        buffer[offset + 5] = (byte) ((value >>> 40) & 0xff);
+        buffer[offset + 6] = (byte) ((value >>> 48) & 0xff);
+        buffer[offset + 7] = (byte) ((value >>> 56) & 0xff);
     }
 
     /** */
@@ -97,7 +109,7 @@ public class ByteUtil {
     /** */
     public static void writeBeShort(short value, byte[] buffer, int offset) {
         buffer[offset] = (byte) (value >>> 8);
-        buffer[offset + 1] = (byte) (value & 0xFF);
+        buffer[offset + 1] = (byte) (value & 0xff);
     }
 
     /** */
@@ -114,9 +126,9 @@ public class ByteUtil {
 
     /** @since 1.1.10 */
     public static void writeBe24(int value, byte[] buffer, int offset) {
-        buffer[offset] = (byte) ((value >>> 16) & 0xFF);
-        buffer[offset + 1] = (byte) ((value >>> 8) & 0xFF);
-        buffer[offset + 2] = (byte) (value & 0xFF);
+        buffer[offset] = (byte) ((value >>> 16) & 0xff);
+        buffer[offset + 1] = (byte) ((value >>> 8) & 0xff);
+        buffer[offset + 2] = (byte) (value & 0xff);
     }
 
     /** */
@@ -126,10 +138,10 @@ public class ByteUtil {
 
     /** */
     public static void writeBeInt(int value, byte[] buffer, int offset) {
-        buffer[offset] = (byte) ((value >>> 24) & 0xFF);
-        buffer[offset + 1] = (byte) ((value >>> 16) & 0xFF);
-        buffer[offset + 2] = (byte) ((value >>> 8) & 0xFF);
-        buffer[offset + 3] = (byte) (value & 0xFF);
+        buffer[offset] = (byte) ((value >>> 24) & 0xff);
+        buffer[offset + 1] = (byte) ((value >>> 16) & 0xff);
+        buffer[offset + 2] = (byte) ((value >>> 8) & 0xff);
+        buffer[offset + 3] = (byte) (value & 0xff);
     }
 
     /** */
@@ -139,14 +151,14 @@ public class ByteUtil {
 
     /** */
     public static void writeBeLong(long value, byte[] buffer, int offset) {
-        buffer[offset] = (byte) ((value >>> 56) & 0xFF);
-        buffer[offset + 1] = (byte) ((value >>> 48) & 0xFF);
-        buffer[offset + 2] = (byte) ((value >>> 40) & 0xFF);
-        buffer[offset + 3] = (byte) ((value >>> 32) & 0xFF);
-        buffer[offset + 4] = (byte) ((value >>> 24) & 0xFF);
-        buffer[offset + 5] = (byte) ((value >>> 16) & 0xFF);
-        buffer[offset + 6] = (byte) ((value >>> 8) & 0xFF);
-        buffer[offset + 7] = (byte) (value & 0xFF);
+        buffer[offset] = (byte) ((value >>> 56) & 0xff);
+        buffer[offset + 1] = (byte) ((value >>> 48) & 0xff);
+        buffer[offset + 2] = (byte) ((value >>> 40) & 0xff);
+        buffer[offset + 3] = (byte) ((value >>> 32) & 0xff);
+        buffer[offset + 4] = (byte) ((value >>> 24) & 0xff);
+        buffer[offset + 5] = (byte) ((value >>> 16) & 0xff);
+        buffer[offset + 6] = (byte) ((value >>> 8) & 0xff);
+        buffer[offset + 7] = (byte) (value & 0xff);
     }
 
     /** */
@@ -170,7 +182,19 @@ public class ByteUtil {
 
     /** */
     public static short readLeShort(byte[] buffer, int offset) {
-        return (short) (((buffer[offset + 1] << 8) & 0xFF00) | ((buffer[offset + 0] << 0) & 0x00FF));
+        return (short) (((buffer[offset + 1] << 8) & 0xff00) | ((buffer[offset + 0] << 0) & 0x00ff));
+    }
+
+    /** @since 1.1.14 */
+    public static int readLe24(byte[] buffer) {
+        return readLe24(buffer, 0);
+    }
+
+    /** @since 1.1.14 */
+    public static int readLe24(byte[] buffer, int offset) {
+        int value = (buffer[offset + 0] & 0xff) |
+                (buffer[offset + 1] & 0xff) << 8 | (buffer[offset + 2] & 0xff) << 16;
+        return value;
     }
 
     /** */
@@ -180,8 +204,8 @@ public class ByteUtil {
 
     /** */
     public static int readLeInt(byte[] buffer, int offset) {
-        return ((buffer[offset + 3] << 24) & 0xFF00_0000) | ((buffer[offset + 2] << 16) & 0x00FF_0000) |
-            ((buffer[offset + 1] << 8) & 0x0000_FF00) | ((buffer[offset + 0] << 0) & 0x000_000FF);
+        return ((buffer[offset + 3] << 24) & 0xff00_0000) | ((buffer[offset + 2] << 16) & 0x00ff_0000) |
+            ((buffer[offset + 1] << 8) & 0x0000_ff00) | ((buffer[offset + 0] << 0) & 0x000_000ff);
     }
 
     /** */
@@ -202,7 +226,7 @@ public class ByteUtil {
 
     /** */
     public static short readBeShort(byte[] buffer, int offset) {
-        return (short) (((buffer[offset] << 8) & 0xFF00) | ((buffer[offset + 1] << 0) & 0x00FF));
+        return (short) (((buffer[offset] << 8) & 0xff00) | ((buffer[offset + 1] << 0) & 0x00ff));
     }
 
     /** @since 1.1.10 */
@@ -212,8 +236,8 @@ public class ByteUtil {
 
     /** @since 1.1.10 */
     public static int readBe24(byte[] buffer, int offset) {
-        int value = ((buffer[offset + 0] << 16) & 0x00FF_0000) |
-                ((buffer[offset + 1] << 8) & 0x0000_FF00) | ((buffer[offset + 2] << 0) & 0x0000_00FF);
+        int value = ((buffer[offset + 0] << 16) & 0x00ff_0000) |
+                ((buffer[offset + 1] << 8) & 0x0000_ff00) | ((buffer[offset + 2] << 0) & 0x0000_00ff);
         return value;
     }
 
@@ -224,8 +248,8 @@ public class ByteUtil {
 
     /** */
     public static int readBeInt(byte[] buffer, int offset) {
-        int value = ((buffer[offset + 0] << 24) & 0xFF00_0000) | ((buffer[offset + 1] << 16) & 0x00FF_0000) |
-            ((buffer[offset + 2] << 8) & 0x0000_FF00) | ((buffer[offset + 3] << 0) & 0x0000_00FF);
+        int value = ((buffer[offset + 0] << 24) & 0xff00_0000) | ((buffer[offset + 1] << 16) & 0x00ff_0000) |
+            ((buffer[offset + 2] << 8) & 0x0000_ff00) | ((buffer[offset + 3] << 0) & 0x0000_00ff);
         return value;
     }
 

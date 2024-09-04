@@ -320,7 +320,7 @@ Debug.print(Level.FINEST, chunk);
         if (clazz != null) {
             return clazz;
         } else {
-Debug.println(Level.FINE, "no chunk class for: " + name);
+Debug.println(Level.FINER, "no chunk class for: " + name);
             throw new NoSuchElementException("no chunk class for: " + name);
         }
     }
