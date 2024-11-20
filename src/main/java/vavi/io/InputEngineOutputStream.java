@@ -70,7 +70,7 @@ public class InputEngineOutputStream extends OutputStream {
      */
     @Override
     public void write(byte[] data, int offset, int length) throws IOException {
-//Debug.println("offset: " + offset + ", length: " + length + "\n" + StringUtil.getDump(data, offset, length));
+//logger.log(Level.TRACE, "offset: " + offset + ", length: " + length + "\n" + StringUtil.getDump(data, offset, length));
         if (data == null) {
             throw new NullPointerException();
         } else if ((offset < 0) || (offset + length > data.length) || (length < 0)) {
@@ -125,7 +125,7 @@ public class InputEngineOutputStream extends OutputStream {
                 limit = 0;
             }
             System.arraycopy(data, offset, buffer, limit, length);
-//Debug.println(StringUtil.getDump(buffer, limit, length));
+//logger.log(Level.TRACE, StringUtil.getDump(buffer, limit, length));
             limit += length;
         }
     }
@@ -156,7 +156,7 @@ public class InputEngineOutputStream extends OutputStream {
         } else if (length > limit - index) {
             length = limit - index;
         }
-//Debug.println("\n" + StringUtil.getDump(buffer, 0, index));
+//logger.log(Level.TRACE, "\n" + StringUtil.getDump(buffer, 0, index));
         System.arraycopy(buffer, index, data, offset, length);
         index += length;
         if (index == capacity) {

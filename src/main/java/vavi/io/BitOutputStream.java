@@ -9,9 +9,11 @@ package vavi.io;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.ByteOrder;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
 
 
 /**
@@ -21,6 +23,8 @@ import vavi.util.Debug;
  * @version 0.00 030713 nsano initial version <br>
  */
 public class BitOutputStream extends FilterOutputStream {
+
+    private static final Logger logger = getLogger(BitOutputStream.class.getName());
 
     /** bits number */
     private int bits = 4;
@@ -60,8 +64,8 @@ if (bits != 4 && bits != 2) {
         for (int i = 0; i < bits; i++) {
             mask |= (0x01 << i);
         }
-//Debug.println(bits + ", " + StringUtil.toBits(mask, 8));
-//Debug.println(bits + ", " + StringUtil.toBits(mask << 4, 8));
+//logger.log(Level.TRACE, bits + ", " + StringUtil.toBits(mask, 8));
+//logger.log(Level.TRACE, bits + ", " + StringUtil.toBits(mask << 4, 8));
     }
 
     /** stacked bits */
@@ -98,18 +102,18 @@ if (bits != 4 && bits != 2) {
     public void write(int b) throws IOException {
 
         b &= mask;
-//Debug.println(StringUtil.toHex4(b) + ": " + StringUtil.toBits(b, 8));
+//logger.log(Level.TRACE, StringUtil.toHex4(b) + ": " + StringUtil.toBits(b, 8));
         current |= b << (8 - stackedBits - bits);
 
         stackedBits += bits;
 
         if (stackedBits == 8) {
             if (ByteOrder.LITTLE_ENDIAN.equals(bitOrder)) {
-//Debug.println("B: " + StringUtil.toHex4(current) + ": " + StringUtil.toBits(current, 8));
+//logger.log(Level.TRACE, "B: " + StringUtil.toHex4(current) + ": " + StringUtil.toBits(current, 8));
                 current = convertEndian(current);
-//Debug.println("A: " + StringUtil.toHex4(current) + ": " + StringUtil.toBits(current, 8));
+//logger.log(Level.TRACE, "A: " + StringUtil.toHex4(current) + ": " + StringUtil.toBits(current, 8));
             }
-//Debug.println(StringUtil.toHex4(current) + ": " + StringUtil.toBits(current, 8));
+//logger.log(Level.TRACE, StringUtil.toHex4(current) + ": " + StringUtil.toBits(current, 8));
             out.write(current);
             stackedBits= 0;
             current = 0;
@@ -118,10 +122,10 @@ if (bits != 4 && bits != 2) {
 
     @Override
     public void flush() throws IOException {
-//Debug.println("stacked bits: " + stackedBits);
+//logger.log(Level.TRACE, "stacked bits: " + stackedBits);
         super.flush();
         if (stackedBits != 0) {
-Debug.println("stacked bits: " + stackedBits + " flushed.");
+logger.log(Level.DEBUG, "stacked bits: " + stackedBits + " flushed.");
             out.write(current);
         }
     }

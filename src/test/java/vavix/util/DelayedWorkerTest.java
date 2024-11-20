@@ -6,6 +6,7 @@
 
 package vavix.util;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import vavi.util.Debug;
@@ -48,6 +49,7 @@ Debug.println("time: " + t);
     }
 
     @Test
+    @DisplayName("execute multiply")
     synchronized void test2() throws Exception {
         long w = System.getProperty("vavi.test", "").equals("ide") ? 10 * 1000 : 5 * 1000;
         long s = System.currentTimeMillis();

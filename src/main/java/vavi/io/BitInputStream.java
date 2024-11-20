@@ -62,8 +62,8 @@ public class BitInputStream extends FilterInputStream {
         for (int i = 0; i < bits; i++) {
             mask |= (0x80 >> i);
         }
-// Debug.println(bits + ", " + StringUtil.toBits(mask, 8));
-// Debug.println(bits + ", " + StringUtil.toBits(mask >> 4, 8));
+//logger.log(Level.TRACE, bits + ", " + StringUtil.toBits(mask, 8));
+//logger.log(Level.TRACE, bits + ", " + StringUtil.toBits(mask >> 4, 8));
     }
 
     /** remaining bits for reading */

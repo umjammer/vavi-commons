@@ -6,9 +6,10 @@
 
 package vavi.util.properties;
 
-import java.util.logging.Level;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
 
 
 /**
@@ -20,6 +21,8 @@ import vavi.util.Debug;
  * @version 0.00 2012/10/05 umjammer initial version <br>
  */
 public class PrefixedClassPropertiesFactory<K, V> extends PrefixedPropertiesFactory<K, V> {
+
+    private static final Logger logger = getLogger(PrefixedClassPropertiesFactory.class.getName());
 
     /**
      * @param path properties file
@@ -40,12 +43,10 @@ public class PrefixedClassPropertiesFactory<K, V> extends PrefixedPropertiesFact
             Class<V> clazz = (Class<V>) Class.forName(value);
             return clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-Debug.println(Level.SEVERE, value);
-Debug.printStackTrace(Level.SEVERE, e);
+logger.log(Level.ERROR, value, e);
             throw new IllegalStateException(e);
         } catch (Error e) {
-Debug.println(Level.SEVERE, value);
-Debug.printStackTrace(Level.SEVERE, e);
+logger.log(Level.ERROR, value, e);
             throw e;
         }
     }

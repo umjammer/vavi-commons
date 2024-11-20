@@ -16,6 +16,8 @@ import java.io.PrintStream;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.security.NoSuchAlgorithmException;
@@ -31,9 +33,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -60,6 +63,8 @@ import java.util.regex.Pattern;
  *          0.17 040212 nsano add ignoreInnerClasses property <br>
  */
 public final class StringUtil {
+
+    private static final Logger logger = getLogger(StringUtil.class.getName());
 
     /** */
     private StringUtil() {}
@@ -96,7 +101,7 @@ public final class StringUtil {
         }
 
         Class<?> clazz = object.getClass();
-//Debug.println("class: " + clazz);
+//logger.log(Level.TRACE, "class: " + clazz);
 
         return paramString(clazz, object, depth);
     }
@@ -159,7 +164,7 @@ public final class StringUtil {
         // uses getDeclared...
         // to get private methods and fields.
         Field[] fields = clazz.getDeclaredFields();
-// Debug.println("fialds: " + fields.length);
+//logger.log(Level.TRACE, "fialds: " + fields.length);
         boolean isFirst = true;
 
         for (Field field : fields) {
@@ -168,7 +173,7 @@ public final class StringUtil {
             field.setAccessible(true);
 
             String name = field.getName();
-// Debug.println("fiald name: " + name);
+//logger.log(Level.TRACE, "fiald name: " + name);
             Object value = null;
             try {
                 if (depth > 0) {
@@ -183,26 +188,26 @@ public final class StringUtil {
             } catch (IllegalAccessException e) {
                 value = "*";
             }
-// Debug.println("field: " + name + ": type: " + field.getDeclaringClass() + ": " + (value != null ? value.getClass() : null));
+//logger.log(Level.TRACE, "field: " + name + ": type: " + field.getDeclaringClass() + ": " + (value != null ? value.getClass() : null));
 
             int modifiers = field.getModifiers();
             if (ignoredStatics && Modifier.isStatic(modifiers)) {
                 // ignore static
-// Debug.println("ignore statics: " + modifiers);
+//logger.log(Level.TRACE, "ignore statics: " + modifiers);
             } else if (ignoredFinals && Modifier.isFinal(modifiers)) {
                 // ignore final
 //         if (name.startsWith("this$")) {
                 // outer class object of non-static inner class
-// Debug.println("value: " + value);
+//logger.log(Level.TRACE, "value: " + value);
 //             } else {
-// Debug.println("ignore final: " + modifiers);
+//logger.log(Level.TRACE, "ignore final: " + modifiers);
 //             }
             } else if (ignoredInnerClasses &&
 //                       value != null &&
                     (value instanceof Class<?> || value instanceof String) &&
                     name.startsWith("class$")) {
                 // ignore inner classes TODO `class$` may depend on SUN j2se
-// Debug.println("ignore innerclass: " + value.getClass());
+//logger.log(Level.TRACE, "ignore innerclass: " + value.getClass());
             } else {
                 if (isFirst) {
                     isFirst = false;
@@ -231,7 +236,7 @@ public final class StringUtil {
                 if (depth > 0 && depth <= recursiveDepth + 1) {
                     value = paramString(superClass, object, depth - 1);
                 } else {
-//Debug.println("depth: " + depth + ", super: " + superClass + ", object: " + object + ", recursiveDepth: " + recursiveDepth);
+//logger.log(Level.TRACE, "depth: " + depth + ", super: " + superClass + ", object: " + object + ", recursiveDepth: " + recursiveDepth);
                     value = paramString(superClass, object, recursiveDepth + 1);
                 }
 
@@ -257,7 +262,7 @@ public final class StringUtil {
      * @see "StringUtil.properties#vavi.util.StringUtil.isNotExpanded.*"
      */
     private static boolean isNotExpanded(Class<?> clazz) {
-//Debug.println(clazz + ": " + classesIgnored.contains(clazz.getName()));
+//logger.log(Level.TRACE, clazz + ": " + classesIgnored.contains(clazz.getName()));
         return classesNotExpanded.contains(clazz.getName());
     }
 
@@ -266,7 +271,7 @@ public final class StringUtil {
      * @see "StringUtil.properties#vavi.util.StringUtil.isIgnored.*"
      */
     private static boolean isIgnored(Class<?> clazz) {
-//Debug.println(clazz + ": " + classesIgnored.contains(clazz.getName()));
+//logger.log(Level.TRACE, clazz + ": " + classesIgnored.contains(clazz.getName()));
         return classesIgnored.contains(clazz.getName());
     }
 
@@ -277,6 +282,7 @@ public final class StringUtil {
      * @return class name with package name removed
      * @deprecated use {@link Class#getSimpleName()}
      */
+    @Deprecated
     public static String getClassName(String name) {
         return name.substring(name.lastIndexOf(".") + 1);
     }
@@ -359,14 +365,14 @@ public final class StringUtil {
      */
     @Deprecated
     public static String expand(List<?> list) {
-//Debug.println(list.getClass() + ", " + list.hashCode());
+//logger.log(Level.TRACE, list.getClass() + ", " + list.hashCode());
         StringBuilder sb = new StringBuilder(list.getClass().getName());
         sb.append("[");
         sb.append(list.size());
         sb.append("]");
         sb.append("{");
         for (Object object : list) {
-            //Debug.println(object.getClass() + ", " + object.hashCode());
+            //logger.log(object.getClass() + ", " + object.hashCode());
             sb.append(paramString(object, 0));
             sb.append(",");
         }
@@ -546,13 +552,13 @@ top:
                 ps.println();
             }
         } catch (IOException e) {
-Debug.printStackTrace(e);
+logger.log(Level.ERROR, e.getMessage(), e);
         } finally {
             if (is.markSupported()) {
                 try {
                     is.reset();
                 } catch (IOException e) {
-Debug.printStackTrace(e);
+logger.log(Level.ERROR, e.getMessage(), e);
                 }
             }
         }
@@ -589,7 +595,7 @@ Debug.printStackTrace(e);
             if (is.markSupported()) {
                 is.mark(is.available());
             } else {
-Debug.println(Level.FINER, "mark is not supported");
+logger.log(Level.TRACE, "mark is not supported");
                 is = new BufferedInputStream(is);
                 is.mark(is.available());
             }
@@ -637,14 +643,14 @@ Debug.println(Level.FINER, "mark is not supported");
                 ps.println();
             }
         } catch (IOException e) {
-Debug.printStackTrace(e);
+logger.log(Level.ERROR, e.getMessage(), e);
             return null;
         } finally {
             if (is.markSupported()) {
                 try {
                     is.reset();
                 } catch (IOException e) {
-Debug.printStackTrace(e);
+logger.log(Level.ERROR, e.getMessage(), e);
                 }
             }
         }
@@ -676,7 +682,7 @@ Debug.printStackTrace(e);
             }
             return sb.toString();
         } catch (UnsupportedEncodingException e) {
-e.printStackTrace(System.err);
+logger.log(Level.ERROR, e.getMessage(), e);
             return getDump(s);
         }
     }
@@ -751,11 +757,11 @@ e.printStackTrace(System.err);
      */
     public static String toBits(int b, int n) {
         int mask = 0x0001 << (n - 1);
-//Debug.println(toHex8(mask));
+//logger.log(Level.TRACE, toHex8(mask));
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             sb.append((b & (mask >>> i)) != 0 ? onBit : offBit);
-//Debug.println(toHex8(mask >>> i));
+//logger.log(Level.TRACE, toHex8(mask >>> i));
         }
         return sb.toString();
     }
@@ -932,7 +938,7 @@ e.printStackTrace(System.err);
 
             StringBuilder buf = new StringBuilder();
             for (byte aByte : bytes) {
-                buf.append(String.format("%02x", aByte));
+                buf.append("%02x".formatted(aByte));
             }
             return buf.toString();
         } catch (NoSuchAlgorithmException e) {
@@ -957,7 +963,7 @@ e.printStackTrace(System.err);
                 if (key.startsWith("vavi.util.StringUtil.isNotExpanded.")) {
                     String className = props.getProperty(key);
                     classesNotExpanded.add(className);
-//Debug.println(classesNotExpanded.size() + ", class: " + className);
+//logger.log(Level.TRACE, classesNotExpanded.size() + ", class: " + className);
                 }
             }
 
@@ -968,7 +974,7 @@ e.printStackTrace(System.err);
                 if (key.startsWith("vavi.util.StringUtil.isIgnored.")) {
                     String className = props.getProperty(key);
                     classesNotExpanded.add(className);
-//Debug.println(classesIgnored.size() + ", class: " + className);
+//logger.log(Level.TRACE, classesIgnored.size() + ", class: " + className);
                 }
             }
 
@@ -977,39 +983,39 @@ e.printStackTrace(System.err);
             // recursive depth
             value = props.getProperty("vavi.util.StringUtil.recursiveDepth");
             recursiveDepth = Integer.parseInt(value);
-//Debug.println("recursiveDepth: " + recursiveDepth);
+//logger.log(Level.TRACE, "recursiveDepth: " + recursiveDepth);
 
             // bytes expand
             value = props.getProperty("vavi.util.StringUtil.bytesExpand");
             bytesExpand = Integer.parseInt(value);
-//Debug.println("bytesExpand: " + bytesExpand);
+//logger.log(Level.TRACE, "bytesExpand: " + bytesExpand);
 
             // ignore static
             value = props.getProperty("vavi.util.StringUtil.isIgnored.static");
             ignoredStatics = Boolean.parseBoolean(value);
-//Debug.println("ignoredStatics: " + ignoredStatics);
+//logger.log(Level.TRACE, "ignoredStatics: " + ignoredStatics);
 
             // ignore final
             value = props.getProperty("vavi.util.StringUtil.isIgnored.final");
             ignoredFinals = Boolean.parseBoolean(value);
-//Debug.println("ignoredFinals: " + ignoredFinals);
+//logger.log(Level.TRACE, "ignoredFinals: " + ignoredFinals);
 
             // ignore inner class
             value = props.getProperty("vavi.util.StringUtil.isIgnored.inner");
             ignoredInnerClasses = Boolean.parseBoolean(value);
-//Debug.println("ignoredInnerClasses: " + ignoredInnerClasses);
+//logger.log(Level.TRACE, "ignoredInnerClasses: " + ignoredInnerClasses);
 
             // ignore super class
             value = props.getProperty("vavi.util.StringUtil.isIgnored.super");
             ignoredSuperClass = Boolean.parseBoolean(value);
-//Debug.println("ignoredSuperClass: " + ignoredSuperClass);
+//logger.log(Level.TRACE, "ignoredSuperClass: " + ignoredSuperClass);
 
             // hex case upper
             value = props.getProperty("vavi.util.StringUtil.toHex.upperCase");
             hexUpperCase = Boolean.parseBoolean(value);
-//Debug.println("hexUpperCase: " + hexUpperCase);
+//logger.log(Level.TRACE, "hexUpperCase: " + hexUpperCase);
         } catch (Exception e) {
-Debug.printStackTrace(e);
+logger.log(Level.ERROR, e.getMessage(), e);
         }
     }
 }

@@ -70,7 +70,7 @@ public class IOStreamInputEngine implements InputEngine {
             throw new IOException("Not yet initialized");
         } else {
             int amount = in.read(buffer, 0, buffer.length);
-//Debug.println("amount: " + amount + ", in: " + in + "\n" + StringUtil.getDump(buffer, 0, amount));
+//logger.log(Level.TRACE, "amount: " + amount + ", in: " + in + "\n" + StringUtil.getDump(buffer, 0, amount));
             if (amount < 0) {
                 in.close();
             } else {

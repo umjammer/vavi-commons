@@ -9,6 +9,8 @@ package vavi.util.win32;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,8 +18,10 @@ import java.util.Date;
 import java.util.Vector;
 
 import vavi.io.LittleEndianDataInputStream;
-import vavi.util.Debug;
 import vavi.util.StringUtil;
+
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.getLogger;
 
 
 /**
@@ -42,6 +46,8 @@ import vavi.util.StringUtil;
  * @version 0.00 020507 nsano initial version <br>
  */
 public class LinkFile {
+
+    private static final Logger logger = getLogger(LinkFile.class.getName());
 
     private long guid;
     private int flags;
@@ -143,13 +149,13 @@ public class LinkFile {
         ledis.readInt();
         ledis.readInt();
 
-Debug.println(lf);
+logger.log(DEBUG, lf);
 
         // Shell item ID list
         if ((lf.flags & FLAG_THE_SHELL_ITEM_ID_LIST_IS_PRESENT) != 0) {
-Debug.println("---- the shell item id list ----");
+logger.log(DEBUG, "---- the shell item id list ----");
             int length = ledis.readShort();
-Debug.println(": " + length);
+logger.log(DEBUG, ": " + length);
 
             int len;
             while (true) {
@@ -158,7 +164,7 @@ Debug.println(": " + length);
                     break;
                 }
                 len -= 2;
-Debug.println(" len: " + len);
+logger.log(DEBUG, " len: " + len);
                 byte[] buf = new byte[len];
                 int l = 0;
                 while (l < len) {
@@ -174,7 +180,7 @@ if (buf[0] == 0x4c && buf[1] == 0x50) {
   if (s2 == null && f2) {
    break;
   } else {
-Debug.println(" s2: " + s2);
+logger.log(DEBUG, " s2: " + s2);
   }
   s2 = readString(is2);
   if (s2 == null) {
@@ -182,7 +188,7 @@ Debug.println(" s2: " + s2);
   }
  }
 } else {
- Debug.println(StringUtil.getDump(buf));
+ logger.log(DEBUG, StringUtil.getDump(buf));
 }
             }
 
@@ -193,9 +199,9 @@ Debug.println(" s2: " + s2);
 
         // File location info
         if ((lf.flags & FLAG_POINT_TO_A_FILE_OR_DIRECTORY) != 0) {
-Debug.println("---- file location info ----");
+logger.log(DEBUG, "---- file location info ----");
             int length = ledis.readInt();
-Debug.println(": " + length);
+logger.log(DEBUG, ": " + length);
 
             int offset = ledis.readInt(); // 0x1c
             int flags = ledis.readInt();
@@ -203,12 +209,12 @@ Debug.println(": " + length);
             int offsetOfBasePathnameOnLocalSystem = ledis.readInt();
             int offsetOfNetworkVolumeInfo = ledis.readInt();
             int offsetOfRemainingPathname = ledis.readInt();
-Debug.println(" offset: " + offset);
-Debug.println(" flags: " + flags);
-Debug.println(" offsetOfLocalVolumeInfo: " + offsetOfLocalVolumeInfo);
-Debug.println(" offsetOfBasePathnameOnLocalSystem: " + offsetOfBasePathnameOnLocalSystem);
-Debug.println(" offsetOfNetworkVolumeInfo: " + offsetOfNetworkVolumeInfo);
-Debug.println(" offsetOfRemainingPathname: " + offsetOfRemainingPathname);
+logger.log(DEBUG, " offset: " + offset);
+logger.log(DEBUG, " flags: " + flags);
+logger.log(DEBUG, " offsetOfLocalVolumeInfo: " + offsetOfLocalVolumeInfo);
+logger.log(DEBUG, " offsetOfBasePathnameOnLocalSystem: " + offsetOfBasePathnameOnLocalSystem);
+logger.log(DEBUG, " offsetOfNetworkVolumeInfo: " + offsetOfNetworkVolumeInfo);
+logger.log(DEBUG, " offsetOfRemainingPathname: " + offsetOfRemainingPathname);
             read += 4 * 7;
 
             if ((flags & FLAG_AVAILABLE_ON_A_LOCAL_VOLUME) != 0) {
@@ -221,16 +227,16 @@ Debug.println(" offsetOfRemainingPathname: " + offsetOfRemainingPathname);
                 byte[] buf = readAsciiz(is);
                 read += buf.length + 1;
                 String s1_label = new String(buf, "JISAutoDetect");
-Debug.println(" s1_length: " + s1_length);
-Debug.println(" s1_type: " + s1_type);
-Debug.printf(" s1_serial: %08x%n", s1_serial);
-Debug.println(" s1_offset: " + s1_offset);
-Debug.println(" s1_label: " + s1_label);
+logger.log(DEBUG, " s1_length: " + s1_length);
+logger.log(DEBUG, " s1_type: " + s1_type);
+logger.log(DEBUG, " s1_serial: %08x".formatted(s1_serial));
+logger.log(DEBUG, " s1_offset: " + s1_offset);
+logger.log(DEBUG, " s1_label: " + s1_label);
 
                 buf = readAsciiz(is);
                 read += buf.length + 1;
                 String s2_label = new String(buf, "JISAutoDetect");
-Debug.println(" s2_label: " + s2_label);
+logger.log(DEBUG, " s2_label: " + s2_label);
 
                 lf.path = s1_label + (!s1_label.isEmpty() ? "\\" : "") + s2_label;
             }
@@ -244,65 +250,65 @@ Debug.println(" s2_label: " + s2_label);
                 byte[] buf = readAsciiz(is);
                 read += buf.length + 1;
                 String s1_name = new String(buf, "JISAutoDetect");
-Debug.println(" s1_length: " + s1_length);
-Debug.println(" s1_unknown: " + s1_unknown);
-Debug.println(" s1_offset: " + s1_offset);
-Debug.println(" s1_unknown2: " + s1_unknown2);
-Debug.printf(" s1_unknown3: %08x%n", s1_unknown3);
-Debug.println(" s1_name: " + s1_name);
+logger.log(DEBUG, " s1_length: " + s1_length);
+logger.log(DEBUG, " s1_unknown: " + s1_unknown);
+logger.log(DEBUG, " s1_offset: " + s1_offset);
+logger.log(DEBUG, " s1_unknown2: " + s1_unknown2);
+logger.log(DEBUG, " s1_unknown3: %08x".formatted(s1_unknown3));
+logger.log(DEBUG, " s1_name: " + s1_name);
 
                 buf = readAsciiz(is);
                 read += buf.length + 1;
                 String s2_label = new String(buf, "JISAutoDetect");
-Debug.println(" s2_label: " + s2_label);
+logger.log(DEBUG, " s2_label: " + s2_label);
 
                 lf.path = s1_name + "\\" + s2_label;
             }
 
-Debug.println(" length - read: " + (length - read));
+logger.log(DEBUG, " length - read: " + (length - read));
             ledis.skipBytes(length - read);
         }
 
         // Description string
         if ((lf.flags & FLAG_HAS_A_DESCRIPTION_STRING) != 0) {
-            Debug.println("---- description string ----");
-Debug.println(": " + readString(ledis));
+logger.log(DEBUG, "---- description string ----");
+logger.log(DEBUG, ": " + readString(ledis));
         }
 
         // Relative path string
         if ((lf.flags & FLAG_HAS_A_RELATIVE_PATH_STRING) != 0) {
-Debug.println("---- relative path string ----");
-Debug.println(": " + readString(ledis));
+logger.log(DEBUG, "---- relative path string ----");
+logger.log(DEBUG, ": " + readString(ledis));
         }
 
         // Working directory string
         if ((lf.flags & FLAG_HAS_A_WORKING_DIRECTORY) != 0) {
-Debug.println("---- working directory string ----");
-Debug.println(": " + readString(ledis));
+logger.log(DEBUG, "---- working directory string ----");
+logger.log(DEBUG, ": " + readString(ledis));
         }
 
         // Command line string
         if ((lf.flags & FLAG_HAS_COMMAND_LINE_ARGUMENTS) != 0) {
-Debug.println("---- command line string ----");
-Debug.println(": " + readString(ledis));
+logger.log(DEBUG, "---- command line string ----");
+logger.log(DEBUG, ": " + readString(ledis));
         }
 
         // Icon filename string
         if ((lf.flags & FLAG_HAS_A_CUSTOM_ICON) != 0) {
-Debug.println("---- icon filename string ----");
-Debug.println(": " + readString(ledis));
+logger.log(DEBUG, "---- icon filename string ----");
+logger.log(DEBUG, ": " + readString(ledis));
         }
 
         // Extra stuff
         int e1_length = ledis.readInt();
-Debug.println("---- extra stuff: " + e1_length + " ----");
+logger.log(DEBUG, "---- extra stuff: " + e1_length + " ----");
         byte[] buf = new byte[e1_length];
         int l = 0;
         while (l < e1_length) {
             l += is.read(buf, l, e1_length - l);
         }
 if (e1_length != 0) {
- Debug.println(StringUtil.getDump(buf));
+ logger.log(DEBUG, StringUtil.getDump(buf));
 }
         return lf;
     }
@@ -315,7 +321,7 @@ if (e1_length != 0) {
         if (length == 0) {
             return null;
         }
-Debug.println("string len: " + length);
+logger.log(DEBUG, "string len: " + length);
         byte[] buf = new byte[length];
         int l = 0;
         while (l < length) {
@@ -356,11 +362,11 @@ Debug.println("string len: " + length);
         sb.append("guid: ").append(guid).append(", ");
         sb.append("flags: ").append(flags).append(", ");
         sb.append("attributes: ").append(attributes).append(", ");
-        sb.append("time1: ").append(time1).append(": ").append(String.format("%02x", time1)).append(", ");
+        sb.append("time1: ").append(time1).append(": ").append("%02x".formatted(time1)).append(", ");
         sb.append("time1: ").append(sdf.format(new Date(DateUtil.filetimeToLong(time1)))).append(", ");
-        sb.append("time2: ").append(time2).append(": ").append(String.format("%02x", time2)).append(", ");
+        sb.append("time2: ").append(time2).append(": ").append("%02x".formatted(time2)).append(", ");
         sb.append("time2: ").append(sdf.format(new Date(DateUtil.filetimeToLong(time2)))).append(", ");
-        sb.append("time3: ").append(time3).append(": ").append(String.format("%16x", time3)).append(", ");
+        sb.append("time3: ").append(time3).append(": ").append("%16x".formatted(time3)).append(", ");
         sb.append("time3: ").append(sdf.format(new Date(DateUtil.filetimeToLong(time3)))).append(", ");
         sb.append("length: ").append(length).append(", ");
         sb.append("iconNumber: ").append(iconNumber).append(", ");

@@ -24,53 +24,53 @@ class InstanceCreateStepTest {
 
     static class Base {
         static {
-            log.add(String.format("%s - %s - %s", "base", "static", "block"));
+            log.add("%s - %s - %s".formatted("base", "static", "block"));
         }
         static {
-            log.add(String.format("%s - %s - %s", "base", "instance", "block"));
+            log.add("%s - %s - %s".formatted("base", "instance", "block"));
         }
 
         public Base() {
-            log.add(String.format("%s - %s", "base", "constructor"));
+            log.add("%s - %s".formatted("base", "constructor"));
         }
 
         public void init() {
-            log.add(String.format("%s - %s", "base", "PostConstruct"));
+            log.add("%s - %s".formatted("base", "PostConstruct"));
         }
 
         public void hello() {
-            log.add(String.format("%s - %s", "base", "method"));
+            log.add("%s - %s".formatted("base", "method"));
         }
     }
 
     static class Sub extends Base {
         static {
-            log.add(String.format("%s - %s - %s", "sub", "static", "block"));
+            log.add("%s - %s - %s".formatted("sub", "static", "block"));
         }
         static {
-            log.add(String.format("%s - %s - %s", "sub", "instance", "block"));
+            log.add("%s - %s - %s".formatted("sub", "instance", "block"));
         }
 
         public Sub() {
-            log.add(String.format("%s - %s", "sub", "constructor"));
+            log.add("%s - %s".formatted("sub", "constructor"));
         }
 
         @Override
         public void init() {
-            log.add(String.format("%s - %s", "sub", "PostConstruct"));
+            log.add("%s - %s".formatted("sub", "PostConstruct"));
         }
 
         @Override
         public void hello() {
             // super.hello());
-            log.add(String.format("%s - %s", "sub", "method"));
+            log.add("%s - %s".formatted("sub", "method"));
         }
     }
 
     @Test
     void test() {
         new Sub().hello();
-        log.add(String.format("%s", "------------"));
+        log.add("%s".formatted("------------"));
         new Sub().hello();
 
         String[] exepected = {

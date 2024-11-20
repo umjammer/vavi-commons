@@ -13,12 +13,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
 
 
 /**
@@ -37,6 +39,8 @@ import vavi.util.Debug;
  */
 public class WindowsProperties extends Properties {
 
+    private static final Logger logger = getLogger(WindowsProperties.class.getName());
+
     /** The vector for section */
     private final Vector<String> sections = new Vector<>();
 
@@ -51,17 +55,17 @@ public class WindowsProperties extends Properties {
         this.clear();
 
         BufferedReader r = new BufferedReader(new InputStreamReader(in));
-Debug.println("---- loading ----");
+logger.log(Level.DEBUG, "---- loading ----");
         while (r.ready()) {
             String s = r.readLine().trim();
 
             if (s.startsWith(";")) {
                 // comment
-Debug.println("comment: " + s);
+logger.log(Level.DEBUG, "comment: " + s);
             } else if (s.startsWith("[") && s.endsWith("]")) {
                 // start a section
                 section = s.substring(1, s.length() - 1);
-//Debug.println("start section: " + section);
+//logger.log(Level.TRACE, "start section: " + section);
             } else {
                 // inside a section
                 if (section != null) {
@@ -69,13 +73,13 @@ Debug.println("comment: " + s);
                     if (p != -1) {
                         String key = s.substring(0, p);
                         String value = s.substring(p + 1);
-//System.err.println("set prop: " + section + "." + key + "=" + value);
+//logger.log(Level.TRACE, "set prop: " + section + "." + key + "=" + value);
                         this.setProperty(section + "." + key, value);
                     } else {
-Debug.println("bad line: " + s);
+logger.log(Level.DEBUG, "bad line: " + s);
                     }
                 } else {
-Debug.println("outside section: " + s);
+logger.log(Level.DEBUG, "outside section: " + s);
                 }
             }
         }
@@ -96,7 +100,7 @@ Debug.println("outside section: " + s);
         String section = key.substring(0, p);
         if (!sections.contains(section)) {
             sections.addElement(section);
-//Debug.println("add section: " + section);
+//logger.log(Level.TRACE, "add section: " + section);
         }
         return super.setProperty(key, value);
     }
@@ -110,7 +114,7 @@ Debug.println("outside section: " + s);
 
         BufferedWriter w = new BufferedWriter(new OutputStreamWriter(out));
 
-Debug.println("---- storing ----");
+logger.log(Level.DEBUG, "---- storing ----");
         w.write(";" + header);
         w.newLine();
         w.write(";" + new Date());
@@ -118,7 +122,7 @@ Debug.println("---- storing ----");
 
         for (int i = 0; i < sections.size(); i++) {
             String section = sections.elementAt(i);
-Debug.println("start section: " + section);
+logger.log(Level.DEBUG, "start section: " + section);
             w.write("[" + section + "]");
             w.newLine();
 
@@ -128,7 +132,7 @@ Debug.println("start section: " + section);
                 if (key.startsWith(section + ".")) {
                     String value = this.getProperty(key);
                     key = key.substring(key.indexOf('.') + 1);
-Debug.println("prop: " + key + "=" + value);
+logger.log(Level.DEBUG, "prop: " + key + "=" + value);
                     w.write(key + "=" + value);
                     w.newLine();
                 }
@@ -147,7 +151,7 @@ Debug.println("prop: " + key + "=" + value);
             String key = (String) e.nextElement();
             if (key.startsWith(section + ".")) {
                 this.remove(key);
-Debug.println("delete: " + key);
+logger.log(Level.DEBUG, "delete: " + key);
             }
         }
         sections.removeElement(section);

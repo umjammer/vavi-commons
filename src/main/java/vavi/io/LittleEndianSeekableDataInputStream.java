@@ -8,10 +8,11 @@ package vavi.io;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.channels.SeekableByteChannel;
-import java.util.logging.Level;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
 
 
 /**
@@ -22,6 +23,8 @@ import vavi.util.Debug;
  */
 public class LittleEndianSeekableDataInputStream extends InputStream
     implements LittleEndianDataInput, SeekableDataInput<SeekableByteChannel> {
+
+    private static final Logger logger = getLogger(LittleEndianSeekableDataInputStream.class.getName());
 
     private final SeekableByteChannel sbc;
     private final LittleEndianDataInputStream ledis;
@@ -34,7 +37,7 @@ public class LittleEndianSeekableDataInputStream extends InputStream
     @Override
     public void position(long pos) throws IOException {
         sbc.position(pos);
-Debug.printf(Level.FINER, "%d, %d", pos, position());
+logger.log(Level.TRACE, "%d, %d".formatted(pos, position()));
     }
 
     @Override
@@ -81,7 +84,7 @@ Debug.printf(Level.FINER, "%d, %d", pos, position());
     @Override
     public void readFully(byte[] b, int offset, int len) throws IOException {
         ledis.readFully(b, offset, len); // TODO maybe different from spec.
-Debug.printf(Level.FINER, "%d, %d", len, ledis.available());
+logger.log(Level.TRACE, "%d, %d".formatted(len, ledis.available()));
     }
 
     @Override

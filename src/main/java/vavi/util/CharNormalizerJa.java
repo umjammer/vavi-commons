@@ -153,7 +153,7 @@ public enum CharNormalizerJa implements CharNormalizer {
                 int code = str.charAt(i);
                 if ((code >= 0x21) && (code <= 0x7e)) {
                     ret.append((char) (code + 0xfee0));
-//Debug.println((int) ret.charAt(i));
+//logger.log(Level.TRACE, (int) ret.charAt(i));
                 } else {
                     ret.append((char) code);
                 }
@@ -329,8 +329,8 @@ public enum CharNormalizerJa implements CharNormalizer {
             p.load(CharNormalizerJa.class.getResourceAsStream("ans2.properties"));
             fullTable = p.getProperty("fullTable");
             halfTable = p.getProperty("halfTable");
-//Debug.println("fullTable: " + fullTable.length());
-//Debug.println("halfTable: " + halfTable.length());
+//logger.log(Level.TRACE, "fullTable: " + fullTable.length());
+//logger.log(Level.TRACE, "halfTable: " + halfTable.length());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

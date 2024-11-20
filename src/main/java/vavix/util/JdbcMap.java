@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,11 +25,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
-import vavi.util.Debug;
 import vavi.util.properties.annotation.Property;
 import vavi.util.properties.annotation.PropsEntity;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -44,6 +46,8 @@ import vavi.util.properties.annotation.PropsEntity;
  */
 @PropsEntity(useSystem = true)
 public class JdbcMap<K, V> implements Map<K, V> {
+
+    private static final Logger logger = getLogger(JdbcMap.class.getName());
 
     @Property(name = "vavix.util.JdbcMap.url")
     private String url = "jdbc:sqlite:file:tmp/myDb";
@@ -71,9 +75,9 @@ public class JdbcMap<K, V> implements Map<K, V> {
 
             Statement statement = connection.createStatement();
             int r = statement.executeUpdate("DROP TABLE IF EXISTS " + table);
-Debug.println(Level.FINE, "drop table: " + r);
+logger.log(Level.DEBUG, "drop table: " + r);
             r = statement.executeUpdate("CREATE TABLE " + table + " (i integer primary key, k blob, v blob)");
-Debug.println(Level.FINE, "create table: " + r);
+logger.log(Level.DEBUG, "create table: " + r);
 
         } catch (SQLException | IOException e) {
             throw new IllegalStateException(e);
@@ -101,7 +105,7 @@ Debug.println(Level.FINE, "create table: " + r);
         try (PreparedStatement statement = connection.prepareStatement("SELECT COUNT(i) FROM " + table + " WHERE i = ?")) {
             statement.setInt(1, key.hashCode());
             try (ResultSet resultSet = statement.executeQuery()) {
-Debug.println(Level.FINE, "containsKey: " + resultSet.getInt(1));
+logger.log(Level.DEBUG, "containsKey: " + resultSet.getInt(1));
                 return resultSet.getInt(1) == 1;
             }
         } catch (SQLException e) {
@@ -150,7 +154,7 @@ Debug.println(Level.FINE, "containsKey: " + resultSet.getInt(1));
                 statement.setBytes(3, baos.toByteArray());
             }
             int result = statement.executeUpdate();
-Debug.println(Level.FINE, "put: " + result);
+logger.log(Level.DEBUG, "put: " + result);
             return result == 1 ? oldValue : null;
         } catch (SQLException | IOException e) {
             throw new IllegalStateException(e);
@@ -163,7 +167,7 @@ Debug.println(Level.FINE, "put: " + result);
         try (PreparedStatement statement = connection.prepareStatement("DELETE FROM " + table + " WHERE i = ?")) {
             statement.setInt(1, key.hashCode());
             int result = statement.executeUpdate();
-Debug.println(Level.FINE, "remove: " + result);
+logger.log(Level.DEBUG, "remove: " + result);
             return result == 1 ? value : null;
         } catch (SQLException e) {
             throw new IllegalStateException(e);
@@ -180,7 +184,7 @@ Debug.println(Level.FINE, "remove: " + result);
         try (
             Statement statement = connection.createStatement()) {
             int result = statement.executeUpdate("DELETE FROM x");
-Debug.println(Level.FINE, "clear: " + result);
+logger.log(Level.DEBUG, "clear: " + result);
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }
@@ -243,10 +247,5 @@ Debug.println(Level.FINE, "clear: " + result);
         int h = 0;
         for (Entry<K, V> kvEntry : entrySet()) h += kvEntry.hashCode();
         return h;
-    }
-
-    @Override
-    protected void finalize() throws Exception {
-        connection.close();
     }
 }

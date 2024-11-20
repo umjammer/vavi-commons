@@ -8,16 +8,18 @@ package vavi.util.win32;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.logging.Level;
 
 import vavi.io.LittleEndianDataInputStream;
-import vavi.util.Debug;
 import vavi.util.StringUtil;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -35,6 +37,8 @@ import vavi.util.StringUtil;
  *          0.12 030716 nsano add findChildOf() <br>
  */
 public abstract class MultipartChunk extends Chunk {
+
+    private static final Logger logger = getLogger(MultipartChunk.class.getName());
 
     /** to set true makes this class not allowed broken structure */
     public static final String MULTIPART_CHUNK_PARSE_STRICT_KEY = "vavi.util.win32.MultipartChunk.strict";
@@ -68,10 +72,10 @@ public abstract class MultipartChunk extends Chunk {
 
         byte[] tmp = new byte[4];
         ledis.readFully(tmp);
-Debug.println(Level.FINER, "multipart: " + StringUtil.getDump(tmp));
+logger.log(Level.TRACE, "multipart: " + StringUtil.getDump(tmp));
 
         multipartId = tmp;
-//Debug.println(Level.FINEST, this);
+//logger.log(Level.TRACE, this);
         setChildrenData(ledis);
     }
 
@@ -84,11 +88,11 @@ Debug.println(Level.FINER, "multipart: " + StringUtil.getDump(tmp));
         while (l > 8) {
             Chunk chunk = Chunk.readFrom(is, this);
             chunks.add(chunk);
-Debug.println(Level.FINER, "add child chunk: " + chunk);
+logger.log(Level.TRACE, "add child chunk: " + chunk);
             l -= chunk.getLength() + (chunk.getLength() % 2) + 4 + 4; // + padding + len(name) + len(length)
-Debug.println(Level.FINER, getName() + "." + chunk.getName() + ", " + l + "/" + (getLength() - 4));
+logger.log(Level.TRACE, getName() + "." + chunk.getName() + ", " + l + "/" + (getLength() - 4));
             if (!(boolean) context.get().get(Chunk.CHUNK_PARSING_KEY)) {
-Debug.print(Level.FINER, "children chunk parsing canceled: " + getClass().getSimpleName());
+logger.log(Level.TRACE, "children chunk parsing canceled: " + getClass().getSimpleName());
                 break;
             }
         }
@@ -99,7 +103,7 @@ Debug.print(Level.FINER, "children chunk parsing canceled: " + getClass().getSim
             }
         }
 if (l != 0) {
- Debug.println(Level.WARNING, getName() + ", " + l + " bytes left");
+ logger.log(Level.WARNING, getName() + ", " + l + " bytes left");
 }
         is.skipBytes(l);
     }
