@@ -340,4 +340,27 @@ public class PropsEntityTest {
         PropsEntity.Util.bind(bean);
         assertEquals("bye!!", bean.data1); // use defined
     }
+
+    @PropsEntity(url = "classpath:root.properties")
+    public static class Test18Base {
+        @Property(name = "test.18.a")
+        protected String a;
+    }
+
+    public static class Test18 extends Test18Base {
+        @Property(name = "test.18.b")
+        private String b;
+        @Property(name = "test.18.c")
+        private String c;
+    }
+
+    @Test
+    @DisplayName("set @PropsEntity at super class")
+    public void test18() throws Exception {
+        Test18 bean = new Test18();
+        PropsEntity.Util.bind(bean);
+        assertEquals("🍏", bean.a);
+        assertEquals("🍓", bean.b);
+        assertEquals("🍊", bean.c);
+    }
 }

@@ -7,14 +7,15 @@
 package vavi.util.properties;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Level;
 
-import vavi.util.Debug;
+import static java.lang.System.getLogger;
 
 
 /**
@@ -30,6 +31,8 @@ import vavi.util.Debug;
  * @version 0.00 2012/10/04 umjammer initial version <br>
  */
 public abstract class PropertiesFactoryBase<K, V, Args> implements Iterable<Map.Entry<String, V>> {
+
+    private static final Logger logger = getLogger(PropertiesFactoryBase.class.getName());
 
     /**
      * @param key property key
@@ -75,26 +78,24 @@ public abstract class PropertiesFactoryBase<K, V, Args> implements Iterable<Map.
         try {
             // props
             Properties props = new Properties();
-Debug.println(Level.FINER, "path: " + path);
+logger.log(Level.TRACE, "path: " + path);
             props.load(PropertiesFactoryBase.class.getResourceAsStream(path));
 
             //
             for (Object o : props.keySet()) {
                 String key = (String) o;
                 if (match(key)) {
-Debug.println(Level.FINER, "matched: " + key + "=" + props.getProperty(key));
+logger.log(Level.TRACE, "matched: " + key + "=" + props.getProperty(key));
                     instances.put(getStoreKey(key), getStoreValue(props.getProperty(key)));
                 }
             }
         } catch (IOException e) {
-Debug.print(Level.SEVERE, "path: " + path);
-Arrays.asList(args).forEach(Debug::print);
-Debug.printStackTrace(Level.SEVERE, e);
+logger.log(Level.ERROR, "path: " + path);
+logger.log(Level.ERROR, Arrays.toString(args), e);
             throw new IllegalStateException(e);
         } catch (Throwable e) {
-Debug.print(Level.SEVERE, "path: " + path);
-Arrays.asList(args).forEach(Debug::print);
-Debug.printStackTrace(Level.SEVERE, e);
+logger.log(Level.ERROR, "path: " + path);
+logger.log(Level.ERROR, Arrays.toString(args), e);
             throw e;
         }
     }
@@ -107,7 +108,7 @@ Debug.printStackTrace(Level.SEVERE, e);
         if (instances.containsKey(getRestoreKey(partOfAKey))) {
             return instances.get(getRestoreKey(partOfAKey));
         } else {
-Debug.print(Level.FINER, "key: [" + getRestoreKey(partOfAKey) + "], [" + partOfAKey + "]");
+logger.log(Level.TRACE, "key: [" + getRestoreKey(partOfAKey) + "], [" + partOfAKey + "]");
             return null;
         }
     }

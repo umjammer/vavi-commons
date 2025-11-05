@@ -7,6 +7,7 @@
 package vavi.util.properties.annotation;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -60,9 +61,23 @@ public @interface PropsEntity {
         private Util() {
         }
 
+        static <T extends Annotation> T getAnnotationDeeply(Object bean, Class<T> annotaionClass) {
+            Class<?> clazz = bean.getClass();
+            while (clazz != null) {
+                T annotation = clazz.getAnnotation(annotaionClass);
+                if (annotation != null) {
+                    return annotation;
+                }
+
+                clazz = clazz.getSuperclass();
+            }
+
+            return null;
+        }
+
         /** */
         private static String getUrl(Object bean) {
-            PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
+            PropsEntity propsEntity = getAnnotationDeeply(bean, PropsEntity.class);
             if (propsEntity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
             }
@@ -72,7 +87,7 @@ public @interface PropsEntity {
 
         /** */
         private static boolean useSystem(Object bean) {
-            PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
+            PropsEntity propsEntity = getAnnotationDeeply(bean, PropsEntity.class);
             if (propsEntity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
             }
@@ -85,7 +100,7 @@ public @interface PropsEntity {
          */
         private static Set<Field> getPropertyFields(Object bean) {
             //
-            PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
+            PropsEntity propsEntity = getAnnotationDeeply(bean, PropsEntity.class);
             if (propsEntity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
             }
@@ -112,7 +127,7 @@ public @interface PropsEntity {
          */
         private static Set<Field> getEnvFields(Object bean) {
             //
-            PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
+            PropsEntity propsEntity = getAnnotationDeeply(bean, PropsEntity.class);
             if (propsEntity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
             }
@@ -199,8 +214,7 @@ logger.finest("replace: " + name + ", " + key + ", " + args[i]);
          * @throws IOException when {@link PropsEntity#url()} is wrong, but after all default value will be set.
          */
         public static void bind(Object bean, String... args) throws IOException {
-            // TODO check super classes
-            PropsEntity propsEntity = bean.getClass().getAnnotation(PropsEntity.class);
+            PropsEntity propsEntity = getAnnotationDeeply(bean, PropsEntity.class);
             if (propsEntity == null) {
                 throw new IllegalArgumentException("bean is not annotated with @PropsEntity");
             }

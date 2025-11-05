@@ -46,13 +46,6 @@ public class Test1 {
         }
     }
 
-    static class GZIPOutputStreamFactory implements IOStreamOutputEngine.OutputStreamFactory {
-        @Override
-        public OutputStream getOutputStream(OutputStream out) throws IOException {
-            return new GZIPOutputStream(out);
-        }
-    }
-
     /**
      * GZIP encode w/ FastByteArrayInputStream
      *
@@ -70,7 +63,7 @@ public class Test1 {
         String s = "aHello Naohide Sano";
         byte[] bytes = s.getBytes();
         InputStream in = new FastByteArrayInputStream(bytes, 1, bytes.length - 1);
-        InputStream is = new OutputEngineInputStream(new IOStreamOutputEngine(in, new GZIPOutputStreamFactory()));
+        InputStream is = new OutputEngineInputStream(new IOStreamOutputEngine(in, GZIPOutputStream::new));
         GZIPInputStream gis = new GZIPInputStream(is);
         int l = 0;
         byte[] b = new byte[100];
@@ -92,6 +85,7 @@ Debug.println(r);
         public InputStream getInputStream(InputStream in) throws IOException {
             // IOStreamInputEngine needs to read some bytes before initialize()
             // for reading header (*1)
+Debug.println(in.getClass() + ", " + in.available());
             return new GZIPInputStream(in);
         }
     }
@@ -135,13 +129,6 @@ Debug.println(r);
         assertEquals(s, r);
     }
 
-    static class Rot13OutputStreamFactory implements IOStreamOutputEngine.OutputStreamFactory {
-        @Override
-        public OutputStream getOutputStream(OutputStream out) throws IOException {
-            return new Rot13.OutputStream(out);
-        }
-    }
-
     /**
      * rot13 encode w/ AdvancedByteArrayInputStream
      */
@@ -151,7 +138,7 @@ Debug.println(r);
         String s = "Hello Naohide Sano";
         byte[] bytes = s.getBytes();
         InputStream in = new AdvancedByteArrayInputStream(bytes);
-        InputStream is = new OutputEngineInputStream(new IOStreamOutputEngine(in, new Rot13OutputStreamFactory()));
+        InputStream is = new OutputEngineInputStream(new IOStreamOutputEngine(in, Rot13.OutputStream::new));
         Rot13.InputStream ris = new Rot13.InputStream(is);
         int l = 0;
         byte[] b = new byte[100];
@@ -168,13 +155,6 @@ System.err.println(r);
         assertEquals(s, r);
     }
 
-    static class Rot13InputStreamFactory implements IOStreamInputEngine.InputStreamFactory {
-        @Override
-        public InputStream getInputStream(InputStream in) throws IOException {
-              return new Rot13.InputStream(in);
-        }
-    }
-
     /**
      * rot13 decode w/ FastByteArrayOutputStream, FastByteArrayInputStream
      * <pre>
@@ -188,7 +168,7 @@ System.err.println(r);
         String s = "Hello Naohide Sano";
         byte[] bytes = s.getBytes();
         FastByteArrayOutputStream baos = new FastByteArrayOutputStream();
-        OutputStream os = new InputEngineOutputStream(new IOStreamInputEngine(baos, new Rot13InputStreamFactory()));
+        OutputStream os = new InputEngineOutputStream(new IOStreamInputEngine(baos, Rot13.InputStream::new));
         os.write(bytes);
         os.flush();
         os.close();
@@ -220,13 +200,13 @@ System.err.println(r);
     @Test
     public void test005() throws Exception {
 
-        File inFile = new File("src/test/java/vavi/io/Test1.java");
+        File inFile = new File("src/test/java/vavix/io/Test1.java");
 Debug.println(inFile.length());
         InputStream fis = new BufferedInputStream(Files.newInputStream(inFile.toPath()));
-        InputStream is = new OutputEngineInputStream(new IOStreamOutputEngine(fis, new Rot13OutputStreamFactory()));
+        InputStream is = new OutputEngineInputStream(new IOStreamOutputEngine(fis, Rot13.OutputStream::new));
         File outFile = new File("tmp/out.txt");
         OutputStream fos = new BufferedOutputStream(Files.newOutputStream(outFile.toPath()));
-        OutputStream os = new InputEngineOutputStream(new IOStreamInputEngine(fos, new Rot13InputStreamFactory()));
+        OutputStream os = new InputEngineOutputStream(new IOStreamInputEngine(fos, Rot13.InputStream::new));
         byte[] buf = new byte[8192];
         while (true) {
             int r = is.read(buf);
@@ -253,7 +233,7 @@ Debug.println(inFile.length() + ", " + outFile.length());
     @Test
     public void test006() throws Exception {
 
-        File inFile = new File("src/test/java/vavi/io/Test1.java");
+        File inFile = new File("src/test/java/vavix/io/Test1.java");
 Debug.println(inFile.length());
         final InputStream in = new Rot13.InputStream(new BufferedInputStream(Files.newInputStream(inFile.toPath())));
         final File outFile = new File("tmp/out.txt");

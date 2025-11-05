@@ -138,9 +138,9 @@ public class WAVE extends RIFF {
 
         /** for debug */
         public String toString() {
-             String key = "format.id." + String.format("%04x", formatId);
+             String key = "format.id." + "%04x".formatted(formatId);
              String type = pcmTypes.getProperty(key);
-             return "formatId:\t" + (type == null ? String.format("%04x", formatId) : type) +
+             return "formatId:\t" + (type == null ? "%04x".formatted(formatId) : type) +
                 ", numberChannels:\t" + numberChannels +
                 ", samplingRate:\t"   + samplingRate +
                 ", bytesPerSecond:\t" + bytesPerSecond +

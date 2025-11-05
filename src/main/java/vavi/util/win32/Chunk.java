@@ -10,6 +10,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,12 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.logging.Level;
 
 import vavi.io.LittleEndianDataInputStream;
 import vavi.io.LittleEndianDataOutputStream;
-import vavi.util.Debug;
 import vavi.util.StringUtil;
+
+import static java.lang.System.getLogger;
 
 
 /**
@@ -43,6 +45,8 @@ import vavi.util.StringUtil;
  *          1.03 030711 nsano change #readFrom <br>
  */
 public class Chunk {
+
+    private static final Logger logger = getLogger(Chunk.class.getName());
 
     /** to set true makes this class allows undefined chunk in a chunk class */
     public static final String CHUNK_PARSE_STRICT_KEY = "vavi.util.win32.Chunk.strict";
@@ -122,7 +126,7 @@ public class Chunk {
      * {@link Chunk} class implementation does not fill {@link #data}.
      */
     public void setData(InputStream is) throws IOException {
-Debug.println(Level.FINER, getName() + ": " + length + " / " + is.available());
+logger.log(Level.TRACE, getName() + ": " + length + " / " + is.available());
           data = new byte[length];
 
           LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(is);
@@ -154,7 +158,7 @@ Debug.println(Level.FINER, getName() + ": " + length + " / " + is.available());
             if (!context.containsKey(key)) {
                 context.put(key, chunkClass);
             }
-Debug.println(Level.FINEST, "predefined class: " + key + ", " + chunkClass);
+logger.log(Level.TRACE, "predefined class: " + key + ", " + chunkClass);
         });
     }
 
@@ -178,11 +182,11 @@ Debug.println(Level.FINEST, "predefined class: " + key + ", " + chunkClass);
 
         byte[] fourcc = new byte[4];
         ledis.readFully(fourcc);
-Debug.println(Level.FINER, "start chunk: " + new String(fourcc, StandardCharsets.US_ASCII));
+logger.log(Level.TRACE, "start chunk: " + new String(fourcc, StandardCharsets.US_ASCII));
 
         int length = ledis.readInt();
         int p1 = is.available();
-Debug.println(Level.FINER, StringUtil.getDump(fourcc));
+logger.log(Level.TRACE, StringUtil.getDump(fourcc));
 
         Class<? extends Chunk> chunkClass = getClassOf(clazz.getSimpleName());
 
@@ -199,13 +203,13 @@ Debug.println(Level.FINER, StringUtil.getDump(fourcc));
         if ((boolean) context.get(CHUNK_PARSING_KEY)) {
             int p2 = is.available();
             if (p1 != length + p2) {
-Debug.print(Level.FINEST, "correction: " + (length - (p1 - p2)) + ", 1: " + p1 + ", 2: " + p2 + ", l: " + length);
+logger.log(Level.TRACE, "correction: " + (length - (p1 - p2)) + ", 1: " + p1 + ", 2: " + p2 + ", l: " + length);
                 ledis.skipBytes(length - (p1 - p2)); // correction
             }
             ledis.skipBytes(length % 2); // padding
-Debug.print(Level.FINEST, chunk);
+logger.log(Level.TRACE, chunk);
         } else {
-Debug.print(Level.FINEST, "parse stop because strict is set");
+logger.log(Level.TRACE, "parse stop because strict is set");
         }
         return chunk;
     }
@@ -224,7 +228,7 @@ Debug.print(Level.FINEST, "parse stop because strict is set");
 
         int length = ledis.readInt();
         int p1 = is.available();
-Debug.println(Level.FINER, StringUtil.getDump(fourcc) + ", " + length);
+logger.log(Level.TRACE, StringUtil.getDump(fourcc) + ", " + length);
 
         Chunk chunk = null;
 
@@ -233,10 +237,10 @@ Debug.println(Level.FINER, StringUtil.getDump(fourcc) + ", " + length);
             chunk = chunkClass.getDeclaredConstructor().newInstance();
         } catch (NoSuchElementException e) {
             if (isStrict()) {
-Debug.print(Level.FINEST, "exception because strict is set");
+logger.log(Level.TRACE, "exception because strict is set");
                 throw new IllegalArgumentException("undefined chunk: " + name);
             }
-Debug.println(Level.FINER, e);
+logger.log(Level.TRACE, e);
             chunk = new Chunk();
         } catch (Exception e) {
             throw new IllegalStateException(e);
@@ -249,15 +253,15 @@ Debug.println(Level.FINER, e);
             chunk.setData(is);
             int p2 = is.available();
             if (p1 != length + p2) {
-Debug.print(Level.FINEST, "correction: " + (length - (p1 - p2)) + ", 1: " + p1 + ", 2: " + p2 + ", l: " + length);
+logger.log(Level.TRACE, "correction: " + (length - (p1 - p2)) + ", 1: " + p1 + ", 2: " + p2 + ", l: " + length);
                 ledis.skipBytes(length - (p1 - p2)); // correction
             }
             ledis.skipBytes(length % 2); // padding
         } catch (ChunkParseStopException e) {
-Debug.print(Level.FINER, "chunk parsing canceled: " + chunk.getClass().getSimpleName());
+logger.log(Level.TRACE, "chunk parsing canceled: " + chunk.getClass().getSimpleName());
             context.get().put(CHUNK_PARSING_KEY, false);
         }
-Debug.print(Level.FINEST, chunk);
+logger.log(Level.TRACE, chunk);
         return chunk;
     }
 
@@ -320,7 +324,7 @@ Debug.print(Level.FINEST, chunk);
         if (clazz != null) {
             return clazz;
         } else {
-Debug.println(Level.FINER, "no chunk class for: " + name);
+logger.log(Level.TRACE, "no chunk class for: " + name);
             throw new NoSuchElementException("no chunk class for: " + name);
         }
     }

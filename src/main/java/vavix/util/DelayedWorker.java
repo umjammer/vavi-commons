@@ -6,12 +6,13 @@
 
 package vavix.util;
 
+import java.lang.System.Logger;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
-import vavi.util.Debug;
+import static java.lang.System.Logger.Level.TRACE;
+import static java.lang.System.getLogger;
 
 
 /**
@@ -21,6 +22,8 @@ import vavi.util.Debug;
  * @version 0.00 2022/02/13 umjammer initial version <br>
  */
 public final class DelayedWorker {
+
+    private static final Logger logger = getLogger(DelayedWorker.class.getName());
 
     private DelayedWorker() {}
 
@@ -55,7 +58,7 @@ public final class DelayedWorker {
                 @Override public boolean come() {
                     if (!exec) {
                         later(millis, this::exec);
-Debug.println(Level.FINEST, "exec after: " + millis + " [ms], @" + this.hashCode() + ", " + Thread.currentThread().getId());
+logger.log(TRACE, "exec after: " + millis + " [ms], @" + this.hashCode() + ", " + Thread.currentThread().getId());
                         exec = true;
                     }
                     if (flag) {
@@ -65,10 +68,10 @@ Debug.println(Level.FINEST, "exec after: " + millis + " [ms], @" + this.hashCode
                 }
                 private void exec() {
                     flag = true;
-Debug.println(Level.FINEST, "time to come: @" + this.hashCode() + ", " + Thread.currentThread().getId());
+logger.log(TRACE, "time to come: @" + this.hashCode() + ", " + Thread.currentThread().getId());
                 }
             };
-Debug.println(Level.FINEST, "new detector: @" + detector.hashCode());
+logger.log(TRACE, "new detector: @" + detector.hashCode());
             detectors.set(detector);
         }
         return detector;
@@ -78,7 +81,7 @@ Debug.println(Level.FINEST, "new detector: @" + detector.hashCode());
      * clean up if stop checking come() before schedule
      */
     public static void cleanup() {
-Debug.println(Level.FINEST, "cleanup: @" + detectors.get().hashCode() + ", " + Thread.currentThread().getId());
+logger.log(TRACE, "cleanup: @" + detectors.get().hashCode() + ", " + Thread.currentThread().getId());
         detectors.remove();
     }
 }
