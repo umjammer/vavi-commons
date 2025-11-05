@@ -134,4 +134,6 @@ java runtime option
  * use jpl for Debug
  * urlstreamhandler
    * ~~use java11 urlstreamhandler spi~~
-   * import image:data:base64 from jwinzip 
+   * import image:data:base64 from jwinzip
+ * ~~PropsEntity ... detect in super classes~~
+ * ByteUtil 48bit rw
