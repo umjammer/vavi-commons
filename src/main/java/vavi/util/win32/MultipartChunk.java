@@ -90,7 +90,7 @@ logger.log(Level.TRACE, "multipart: " + StringUtil.getDump(tmp));
             chunks.add(chunk);
 logger.log(Level.TRACE, "add child chunk: " + chunk);
             l -= chunk.getLength() + (chunk.getLength() % 2) + 4 + 4; // + padding + len(name) + len(length)
-logger.log(Level.TRACE, getName() + "." + chunk.getName() + ", " + l + "/" + (getLength() - 4));
+logger.log(Level.TRACE, getName() + "." + chunk.getName() + ", " + l + "/" + (getLength() - 4) + "/" + is.available());
             if (!(boolean) context.get().get(Chunk.CHUNK_PARSING_KEY)) {
 logger.log(Level.TRACE, "children chunk parsing canceled: " + getClass().getSimpleName());
                 break;
