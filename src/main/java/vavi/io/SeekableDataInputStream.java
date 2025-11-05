@@ -48,6 +48,11 @@ public class SeekableDataInputStream extends InputStream
     }
 
     @Override
+    public int available() throws IOException {
+        return dis.available();
+    }
+
+    @Override
     public int read() throws IOException {
         return dis.read();
     }

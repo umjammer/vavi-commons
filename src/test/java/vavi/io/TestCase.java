@@ -13,7 +13,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import vavix.util.Rot13;
@@ -22,14 +25,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
- * Test1.
+ * TestCase.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2020/05/16 umjammer initial version <br>
  */
-class Test1 {
+class TestCase {
 
     @Test
+    @DisplayName("engine io")
     void test01() throws Exception {
 
         final String data = "Naohide Sano 1970";
@@ -90,5 +94,13 @@ class Test1 {
         os.close();
 
         assertEquals(data, baos.toString());
+    }
+
+    @Test
+    @DisplayName("seekable available")
+    void test2() throws Exception {
+        Path path = Path.of(TestCase.class.getResource("/test.xml").toURI());
+        SeekableDataInputStream sdis = new SeekableDataInputStream(Files.newByteChannel(path));
+        assertEquals(9948, sdis.available());
     }
 }
