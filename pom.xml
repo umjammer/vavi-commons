@@ -8,7 +8,7 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-commons</artifactId>
-  <version>1.1.14</version>
+  <version>1.1.15</version>
 
   <name>Vavi Commons API</name>
   <developers>
