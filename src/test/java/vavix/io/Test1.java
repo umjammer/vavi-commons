@@ -200,7 +200,7 @@ System.err.println(r);
     @Test
     public void test005() throws Exception {
 
-        File inFile = new File("src/test/java/vavi/io/Test1.java");
+        File inFile = new File("src/test/java/vavix/io/Test1.java");
 Debug.println(inFile.length());
         InputStream fis = new BufferedInputStream(Files.newInputStream(inFile.toPath()));
         InputStream is = new OutputEngineInputStream(new IOStreamOutputEngine(fis, Rot13.OutputStream::new));
@@ -233,7 +233,7 @@ Debug.println(inFile.length() + ", " + outFile.length());
     @Test
     public void test006() throws Exception {
 
-        File inFile = new File("src/test/java/vavi/io/Test1.java");
+        File inFile = new File("src/test/java/vavix/io/Test1.java");
 Debug.println(inFile.length());
         final InputStream in = new Rot13.InputStream(new BufferedInputStream(Files.newInputStream(inFile.toPath())));
         final File outFile = new File("tmp/out.txt");
