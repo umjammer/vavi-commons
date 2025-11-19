@@ -27,15 +27,15 @@ public class LittleEndianDataOutputStream extends FilterOutputStream
         super(out);
     }
 
+    /** @see "https://en.wikipedia.org/wiki/Endianness#Floating_point" */
     @Override
     public void writeDouble(double d) throws IOException {
-        // @see "https://en.wikipedia.org/wiki/Endianness#Floating_point"
         writeLong(Double.doubleToLongBits(d));
     }
 
+    /** @see "https://en.wikipedia.org/wiki/Endianness#Floating_point" */
     @Override
     public void writeFloat(float f) throws IOException {
-        // @see "https://en.wikipedia.org/wiki/Endianness#Floating_point"
         writeInt(Float.floatToIntBits(f));
     }
 
@@ -46,7 +46,7 @@ public class LittleEndianDataOutputStream extends FilterOutputStream
 
     @Override
     public void writeChar(int c) throws IOException {
-        throw new UnsupportedOperationException("not implemented");
+        writeShort(c);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class LittleEndianDataOutputStream extends FilterOutputStream
 
     @Override
     public void writeBoolean(boolean b) throws IOException {
-        throw new UnsupportedOperationException("not implemented");
+        writeByte(b ? 1 : 0);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class LittleEndianDataOutputStream extends FilterOutputStream
 
     @Override
     public void writeChars(String s) throws IOException {
-        throw new UnsupportedOperationException("not implemented");
+       for (char c : s.toCharArray()) writeChar(c);
     }
 
     @Override
