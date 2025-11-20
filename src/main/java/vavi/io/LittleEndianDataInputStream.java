@@ -76,7 +76,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
     @Override
     public void readFully(byte[] b, int offset, int len) throws IOException {
         int l = in.read(b, offset, len);
-        if (l == -1) { // TODO maybe different from spec.
+        if (l == -1) {
             throw new EOFException();
         }
     }
@@ -93,7 +93,7 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
 
     @Override
     public boolean readBoolean() throws IOException {
-        throw new UnsupportedOperationException("not implemented"); // TODO not implemented
+        return readUnsignedByte() != 0;
     }
 
     @Override
@@ -119,21 +119,21 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
         }
     }
 
+    /** @see "https://en.wikipedia.org/wiki/Endianness#Floating_point" */
     @Override
     public float readFloat() throws IOException {
-        // @see "https://en.wikipedia.org/wiki/Endianness#Floating_point"
         return Float.intBitsToFloat(readInt());
     }
 
+    /** @see "https://en.wikipedia.org/wiki/Endianness#Floating_point" */
     @Override
     public double readDouble() throws IOException {
-        // @see "https://en.wikipedia.org/wiki/Endianness#Floating_point"
         return Double.longBitsToDouble(readLong());
     }
 
     @Override
     public char readChar() throws IOException {
-        throw new UnsupportedOperationException("not implemented"); // TODO not implemented
+        return (char) readShort();
     }
 
     @Override

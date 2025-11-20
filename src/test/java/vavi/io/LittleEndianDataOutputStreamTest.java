@@ -13,6 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
@@ -94,5 +96,29 @@ public class LittleEndianDataOutputStreamTest {
         ledos.writeLong(0x1122334455667788L);
         byte[] result = baos.toByteArray();
         assertArrayEquals(sample, result);
+    }
+
+    @Test
+    public void testReadBoolean() throws Exception {
+        boolean[] bools = new boolean[] {false, true, true, false, true};
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        LittleEndianDataOutputStream ledos = new LittleEndianDataOutputStream(baos);
+        for (boolean b : bools) {
+            ledos.writeBoolean(b);
+        }
+        byte[] bytes = baos.toByteArray();
+        assertFalse(bytes[0] != 0);
+        assertTrue(bytes[1] != 0);
+        assertTrue(bytes[2] != 0);
+        assertFalse(bytes[3] != 0);
+        assertTrue(bytes[4] != 0);
+    }
+
+    @Test
+    public void testReadChar() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        LittleEndianDataOutputStream ledos = new LittleEndianDataOutputStream(baos);
+        ledos.writeChar('佐');
+        assertArrayEquals(new byte[] {0x50, 0x4f}, baos.toByteArray());
     }
 }

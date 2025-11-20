@@ -7,14 +7,19 @@
 package vavi.io;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import vavi.util.Debug;
+import vavi.util.StringUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
@@ -120,5 +125,24 @@ Debug.printf("%04x%n", actual);
     public void testReadLong2() throws Exception  {
         long actual = ledis2.readLong();
         assertEquals(0xf8f7f6f5_f4f3f2f1L, actual);
+    }
+
+    @Test
+    public void testReadBoolean() throws Exception {
+        byte[] bools = new byte[] {0, 1, 1, -10, 0};
+        ByteArrayInputStream bais = new ByteArrayInputStream(bools);
+        LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(bais);
+        assertFalse(ledis.readBoolean());
+        assertTrue(ledis.readBoolean());
+        assertTrue(ledis.readBoolean());
+        assertTrue(ledis.readBoolean());
+        assertFalse(ledis.readBoolean());
+    }
+
+    @Test
+    public void testReadChar() throws Exception {
+        ByteArrayInputStream bais = new ByteArrayInputStream(new byte[] {0x50, 0x4f});
+        LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(bais);
+        assertEquals('佐', ledis.readChar());
     }
 }
