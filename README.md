@@ -5,7 +5,9 @@
 
 # vavi-commons
 
-Swiss-Army Knife
+<img alt="logo" src="src/test/resources/duke_sak.png" width="160" />
+
+🇨🇭 Swiss-Army Knife
 
 most functions are used by me for every development. so those are super reliable.
 
@@ -137,3 +139,7 @@ java runtime option
    * import image:data:base64 from jwinzip
  * ~~PropsEntity ... detect in super classes~~
  * ByteUtil 48bit rw
+
+---
+
+<sub>image designed by @umjammer, drawn by nano banana</sub>
