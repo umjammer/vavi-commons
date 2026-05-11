@@ -31,6 +31,10 @@ import javassist.CtMethod;
  * vavix.lang.instrumentation.PropertiesClassFileTransformer.2.class=your/package/YourClass
  * vavix.lang.instrumentation.PropertiesClassFileTransformer.2.method=yourMethod
  * vavix.lang.instrumentation.PropertiesClassFileTransformer.2.insertAfter={ System.err.println($_.toString()); }
+ *
+ * vavix.lang.instrumentation.PropertiesClassFileTransformer.3.class=your/package/AnotherClass
+ * vavix.lang.instrumentation.PropertiesClassFileTransformer.3.method=anotherMethod
+ * vavix.lang.instrumentation.PropertiesClassFileTransformer.3.setBody={ return true; }
  * </pre>
  * <ul>
  *  <li><code>vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.class</code> is not regex.
@@ -83,7 +87,9 @@ public class PropertiesClassFileTransformer implements VaviClassFileTransformer 
      * vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.constructor ... constructor name ("vavix.lang.instrumentation.PropertiesClassFileTransformer.method" takes precedence)
      * vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.insertBefore ... ex. {System.err.println("args: " + $$);}
      * vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.insertAfter ... ex. {System.err.println("result: " + $_);}
+     * vavix.lang.instrumentation.PropertiesClassFileTransformer.${id}.setBody ... ex. {return true;}
      * </pre>
+     * if {@code setBody} is used, {@code insertBefore} and {@code insertAfter} are ignored.
      */
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
@@ -111,12 +117,29 @@ e.printStackTrace(System.err);
                 String constructor = props.getProperty(prefix + "." + id + "." + "constructor");
                 String insertBefore = props.getProperty(prefix + "." + id + "." + "insertBefore");
                 String insertAfter = props.getProperty(prefix + "." + id + "." + "insertAfter");
+                String setBody = props.getProperty(prefix + "." + id + "." + "setBody");
 
                 // TODO regex match
                 if (method != null) {
                     if ("*".equals(method)) {
                         CtMethod[] ctMethods = ctClass.getDeclaredMethods();
                         for (CtMethod ctMethod : ctMethods) {
+                            if (setBody != null) {
+                                ctMethod.setBody(setBody);
+                            } else {
+                                if (insertBefore != null) {
+                                    ctMethod.insertBefore(insertBefore);
+                                }
+                                if (insertAfter != null) {
+                                    ctMethod.insertAfter(insertAfter);
+                                }
+                            }
+                        }
+                    } else {
+                        CtMethod ctMethod = ctClass.getDeclaredMethod(method);
+                        if (setBody != null) {
+                            ctMethod.setBody(setBody);
+                        } else {
                             if (insertBefore != null) {
                                 ctMethod.insertBefore(insertBefore);
                             }
@@ -124,33 +147,33 @@ e.printStackTrace(System.err);
                                 ctMethod.insertAfter(insertAfter);
                             }
                         }
-                    } else {
-                        CtMethod ctMethod = ctClass.getDeclaredMethod(method);
-                        if (insertBefore != null) {
-                            ctMethod.insertBefore(insertBefore);
-                        }
-                        if (insertAfter != null) {
-                            ctMethod.insertAfter(insertAfter);
-                        }
                     }
                 } else if (constructor != null) {
                     if ("*".equals(constructor)) {
                         CtConstructor[] ctConstructors = ctClass.getConstructors();
                         for (CtConstructor ctConstructor : ctConstructors) {
+                            if (setBody != null) {
+                                ctConstructor.setBody(setBody);
+                            } else {
+                                if (insertBefore != null) {
+                                    ctConstructor.insertBefore(insertBefore);
+                                }
+                                if (insertAfter != null) {
+                                    ctConstructor.insertAfter(insertAfter);
+                                }
+                            }
+                        }
+                    } else {
+                        CtConstructor ctConstructor = ctClass.getConstructor(constructor);
+                        if (setBody != null) {
+                            ctConstructor.setBody(setBody);
+                        } else {
                             if (insertBefore != null) {
                                 ctConstructor.insertBefore(insertBefore);
                             }
                             if (insertAfter != null) {
                                 ctConstructor.insertAfter(insertAfter);
                             }
-                        }
-                    } else {
-                        CtConstructor ctConstructor = ctClass.getConstructor(constructor);
-                        if (insertBefore != null) {
-                            ctConstructor.insertBefore(insertBefore);
-                        }
-                        if (insertAfter != null) {
-                            ctConstructor.insertAfter(insertAfter);
                         }
                     }
                 }
