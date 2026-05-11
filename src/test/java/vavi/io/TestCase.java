@@ -36,9 +36,9 @@ class TestCase {
     @DisplayName("engine io")
     void test01() throws Exception {
 
-        final String data = "Naohide Sano 1970";
+        final String plain = "Naohide Sano 1970";
 
-        ByteArrayInputStream bais = new ByteArrayInputStream(data.getBytes());
+        ByteArrayInputStream bais = new ByteArrayInputStream(plain.getBytes());
 
         // encode
         DataInputStream is = new DataInputStream(new OutputEngineInputStream(new OutputEngine() {
@@ -62,8 +62,8 @@ class TestCase {
             }
         }));
 
-        byte[] result = new byte[data.length()];
-        is.readFully(result);
+        byte[] rot13 = new byte[plain.length()];
+        is.readFully(rot13);
         is.close();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -90,10 +90,10 @@ class TestCase {
             }
         }));
 
-        os.write(result);
+        os.write(rot13);
         os.close();
 
-        assertEquals(data, baos.toString());
+        assertEquals(plain, baos.toString());
     }
 
     @Test
