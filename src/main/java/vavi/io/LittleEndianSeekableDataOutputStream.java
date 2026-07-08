@@ -29,6 +29,16 @@ public class LittleEndianSeekableDataOutputStream extends OutputStream
     }
 
     @Override
+    public void write(byte[] b) throws IOException {
+        ledos.write(b, 0, b.length);
+    }
+
+    @Override
+    public void write(byte[] b, int off, int len) throws IOException {
+        ledos.write(b, off, len);
+    }
+
+    @Override
     public void write(int b) throws IOException {
         ledos.write(b);
     }
