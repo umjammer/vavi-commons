@@ -179,7 +179,7 @@ public class InputEngineOutputStream extends OutputStream {
             if (r != 1) {
                 return -1;
             } else {
-                return one[0];
+                return one[0] & 0xff;
             }
         }
 
