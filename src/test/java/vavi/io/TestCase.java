@@ -15,12 +15,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Random;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import vavix.util.Rot13;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -94,6 +96,45 @@ class TestCase {
         os.close();
 
         assertEquals(plain, baos.toString());
+    }
+
+    @Test
+    @DisplayName("engine io, a byte at a time, crossing the buffer boundary")
+    void test03() throws Exception {
+
+        byte[] plain = new byte[8192 * 2 + 100];
+        new Random(0).nextBytes(plain);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        OutputStream os = new InputEngineOutputStream(new InputEngine() {
+            InputStream in;
+
+            @Override
+            public void initialize(InputStream in) throws IOException {
+                this.in = in;
+            }
+
+            @Override
+            public void execute() throws IOException {
+                int b;
+                while ((b = in.read()) != -1) {
+                    baos.write(b);
+                }
+            }
+
+            @Override
+            public void finish() throws IOException {
+            }
+        });
+
+        for (byte b : plain) {
+            os.write(b);
+        }
+        os.flush();
+        os.close();
+
+        assertArrayEquals(plain, baos.toByteArray());
     }
 
     @Test
