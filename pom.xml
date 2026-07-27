@@ -257,7 +257,7 @@
     <dependency>
       <groupId>org.javassist</groupId>
       <artifactId>javassist</artifactId>
-      <version>3.31.0-GA</version>
+      <version>3.32.0-GA</version>
       <scope>provided</scope> <!-- don't touch to avoid not showing this as a dependency at another project -->
     </dependency>
 
@@ -280,7 +280,7 @@
     <dependency>
       <groupId>org.xerial</groupId>
       <artifactId>sqlite-jdbc</artifactId>
-      <version>3.53.1.0</version>
+      <version>3.53.2.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
