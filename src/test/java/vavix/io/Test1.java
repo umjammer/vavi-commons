@@ -18,7 +18,6 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import vavi.io.InputEngineOutputStream;
@@ -83,8 +82,8 @@ Debug.println(r);
     static class GZIPInputStreamFactory implements IOStreamInputEngine.InputStreamFactory {
         @Override
         public InputStream getInputStream(InputStream in) throws IOException {
-            // IOStreamInputEngine needs to read some bytes before initialize()
-            // for reading header (*1)
+            // GZIPInputStream reads the header on construction, so IOStreamInputEngine
+            // must call this after some bytes are written, not at initialize()
 Debug.println(in.getClass() + ", " + in.available());
             return new GZIPInputStream(in);
         }
@@ -93,26 +92,26 @@ Debug.println(in.getClass() + ", " + in.available());
     /**
      * GZIP decode. w/ FastByteArrayOutputStream
      *
-     * TODO incomplete (*1)
      * <pre>
      *
+     * gzipped -> gunzip engine output -> baos (plain)
      *
      * </pre>
      */
-    @Disabled
     @Test
     public void test002() throws Exception {
         String s = "Hello Naohide Sano";
-        byte[] bytes = s.getBytes();
+        FastByteArrayOutputStream gzipped = new FastByteArrayOutputStream();
+        OutputStream gos = new GZIPOutputStream(gzipped);
+        gos.write(s.getBytes());
+        gos.close();
+Debug.println(gzipped.getSize());
         FastByteArrayOutputStream baos = new FastByteArrayOutputStream();
-        OutputStream os = new InputEngineOutputStream(new IOStreamInputEngine(baos, new GZIPInputStreamFactory()));
-        os.write(bytes);
+        OutputStream os = new InputEngineOutputStream(new IOStreamInputEngine(baos, new GZIPInputStreamFactory(), true));
+        os.write(gzipped.getByteArray());
         os.flush();
         os.close();
-Debug.println(baos.getByteArray().length);
-        FastByteArrayInputStream bais = new FastByteArrayInputStream(baos.getByteArray());
-        InputStream is = new GZIPInputStream(bais);
-//        InputStream is = bais;
+        InputStream is = new FastByteArrayInputStream(baos.getByteArray());
         int l = 0;
         byte[] b = new byte[100];
         while (true) {

@@ -30,8 +30,18 @@ public class IOStreamInputEngine implements InputEngine {
     /** */
     private final InputStreamFactory factory;
 
+    /**
+     * when true, {@link InputStreamFactory#getInputStream(InputStream)} is deferred
+     * until the first {@link #execute()}, for streams like GZIPInputStream that
+     * read a header on construction, when no data is available yet at {@link #initialize(InputStream)}
+     */
+    private final boolean lazy;
+
     /** */
     private final byte[] buffer;
+
+    /** the source stream given at {@link #initialize(InputStream)} */
+    private InputStream source;
 
     /** @see InputStreamFactory#getInputStream(InputStream) */
     private InputStream in;
@@ -40,15 +50,32 @@ public class IOStreamInputEngine implements InputEngine {
      * @param out the stream to actually write out
      */
     public IOStreamInputEngine(OutputStream out, InputStreamFactory factory) {
-        this(out, factory, DEFAULT_BUFFER_SIZE);
+        this(out, factory, DEFAULT_BUFFER_SIZE, false);
     }
 
     /**
      * @param out the stream to actually write out
      */
     public IOStreamInputEngine(OutputStream out, InputStreamFactory factory, int bufferSize) {
+        this(out, factory, bufferSize, false);
+    }
+
+    /**
+     * @param out the stream to actually write out
+     * @param lazy see {@link #lazy}
+     */
+    public IOStreamInputEngine(OutputStream out, InputStreamFactory factory, boolean lazy) {
+        this(out, factory, DEFAULT_BUFFER_SIZE, lazy);
+    }
+
+    /**
+     * @param out the stream to actually write out
+     * @param lazy see {@link #lazy}
+     */
+    public IOStreamInputEngine(OutputStream out, InputStreamFactory factory, int bufferSize, boolean lazy) {
         this.out = out;
         this.factory = factory;
+        this.lazy = lazy;
         buffer = new byte[bufferSize];
     }
 
@@ -57,18 +84,24 @@ public class IOStreamInputEngine implements InputEngine {
      */
     @Override
     public void initialize(InputStream in) throws IOException {
-        if (this.in != null) {
+        if (this.source != null) {
             throw new IOException("Already initialized");
         } else {
-            this.in = factory.getInputStream(in);
+            this.source = in;
+            if (!lazy) {
+                this.in = factory.getInputStream(in);
+            }
         }
     }
 
     @Override
     public void execute() throws IOException {
-        if (in == null) {
+        if (source == null) {
             throw new IOException("Not yet initialized");
         } else {
+            if (in == null) {
+                in = factory.getInputStream(source);
+            }
             int amount = in.read(buffer, 0, buffer.length);
 //logger.log(Level.TRACE, "amount: " + amount + ", in: " + in + "\n" + StringUtil.getDump(buffer, 0, amount));
             if (amount < 0) {

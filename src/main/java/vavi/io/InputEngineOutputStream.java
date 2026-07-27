@@ -47,7 +47,7 @@ public class InputEngineOutputStream extends OutputStream {
         engine.initialize(new InputStreamImpl());
     }
 
-    /** */
+    /** scratch for {@link #write(int)}, must not be shared with the reader side */
     private final byte[] one = new byte[1];
 
     @Override
@@ -168,6 +168,15 @@ public class InputEngineOutputStream extends OutputStream {
 
     /** */
     private class InputStreamImpl extends InputStream {
+
+        /**
+         * scratch for {@link #read()}. it must not be {@link InputEngineOutputStream#one},
+         * because {@link InputEngineOutputStream#write(int)} passes that array down to
+         * {@link InputEngineOutputStream#write(byte[], int, int)}, which may run the engine
+         * (and hence this reader) before copying the byte into the buffer.
+         */
+        private final byte[] readOne = new byte[1];
+
         @Override
         public int available() {
             return index;
@@ -175,11 +184,11 @@ public class InputEngineOutputStream extends OutputStream {
 
         @Override
         public int read() throws IOException {
-            int r = read(one, 0, 1);
+            int r = read(readOne, 0, 1);
             if (r != 1) {
                 return -1;
             } else {
-                return one[0];
+                return readOne[0] & 0xff;
             }
         }
 
