@@ -10,6 +10,7 @@ import java.io.EOFException;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 
 /**
@@ -73,11 +74,21 @@ public class LittleEndianDataInputStream extends FilterInputStream implements Li
         throw new UnsupportedOperationException("not implemented");
     }
 
+    /**
+     * {@link InputStream#read(byte[], int, int)} might read less bytes than
+     * requested, so repeat until the requested length is filled.
+     * @throws EOFException the stream reaches the end before filling len bytes
+     */
     @Override
     public void readFully(byte[] b, int offset, int len) throws IOException {
-        int l = in.read(b, offset, len);
-        if (l == -1) {
-            throw new EOFException();
+        Objects.checkFromIndexSize(offset, len, b.length);
+        int n = 0;
+        while (n < len) {
+            int l = in.read(b, offset + n, len - n);
+            if (l < 0) {
+                throw new EOFException();
+            }
+            n += l;
         }
     }
 

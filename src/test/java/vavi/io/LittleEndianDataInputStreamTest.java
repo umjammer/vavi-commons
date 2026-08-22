@@ -9,6 +9,10 @@ package vavi.io;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +21,11 @@ import org.junit.jupiter.api.Test;
 import vavi.util.Debug;
 import vavi.util.StringUtil;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -144,5 +151,44 @@ Debug.printf("%04x%n", actual);
         ByteArrayInputStream bais = new ByteArrayInputStream(new byte[] {0x50, 0x4f});
         LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(bais);
         assertEquals('佐', ledis.readChar());
+    }
+
+    /** an input stream which gives back less bytes than requested */
+    static class ShortReadInputStream extends FilterInputStream {
+        ShortReadInputStream(InputStream in) {
+            super(in);
+        }
+        @Override
+        public int read(byte[] b, int off, int len) throws IOException {
+            return super.read(b, off, Math.min(len, 3));
+        }
+    }
+
+    @Test
+    public void testReadFullyRepeatsWhileShortRead() throws Exception {
+        byte[] expected = new byte[100];
+        for (int i = 0; i < expected.length; i++) {
+            expected[i] = (byte) i;
+        }
+        LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(new ShortReadInputStream(new ByteArrayInputStream(expected)));
+
+        byte[] actual = new byte[expected.length];
+        ledis.readFully(actual);
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testReadFullyZeroLengthAtEndOfStream() throws Exception {
+        LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(new ByteArrayInputStream(new byte[0]));
+
+        assertDoesNotThrow(() -> ledis.readFully(new byte[0]));
+    }
+
+    @Test
+    public void testReadFullyThrowsEofWhenTooShort() throws Exception {
+        LittleEndianDataInputStream ledis = new LittleEndianDataInputStream(new ByteArrayInputStream(new byte[] {1, 2, 3}));
+
+        assertThrows(EOFException.class, () -> ledis.readFully(new byte[4]));
     }
 }
