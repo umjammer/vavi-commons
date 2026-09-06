@@ -27,12 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
- * Test2.
+ * TestRot13.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2020/05/16 umjammer initial version <br>
  */
-class Test2 {
+class TestRot13 {
 
     @Test
     void test02() throws Exception {

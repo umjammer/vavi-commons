@@ -6,14 +6,13 @@
 
 package vavi.beans;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.security.AccessController;
 import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.Arrays;
-import java.util.logging.Logger;
 
 
 /**
@@ -24,7 +23,7 @@ import java.util.logging.Logger;
  */
 public abstract class BeanUtil {
 
-    private static final Logger logger = Logger.getLogger(BeanUtil.class.getName());
+    private static final Logger logger = System.getLogger(BeanUtil.class.getName());
 
     /**
      * First, try to get by a normal field.
@@ -43,32 +42,32 @@ public abstract class BeanUtil {
         try {
             return field.get(bean);
         } catch (IllegalAccessException e) {
-logger.fine("no field: " + field.getName());
+logger.log(Level.DEBUG, "no field: " + field.getName());
         }
 
         try {
             return getPrivateFieldValue(field, bean);
         } catch (IllegalStateException e) {
-logger.fine("no private field: " + field.getName());
+logger.log(Level.DEBUG, "no private field: " + field.getName());
         }
 
         try {
             return getByMethod(bean, name);
         } catch (NoSuchMethodException e) {
-logger.fine("no method: " + name);
+logger.log(Level.DEBUG, "no method: " + name);
         }
 
         try {
             return getByMethod(bean, getGetterName(name));
         } catch (NoSuchMethodException e) {
-logger.fine("no method: " + getGetterName(name));
+logger.log(Level.DEBUG, "no method: " + getGetterName(name));
         }
 
         if (Boolean.TYPE.equals(field.getType())) {
             try {
                 return getByMethod(bean, getBooleanGetterName(name));
             } catch (NoSuchMethodException e) {
-logger.fine("no method: " + getBooleanGetterName(name));
+logger.log(Level.DEBUG, "no method: " + getBooleanGetterName(name));
             }
         }
 
@@ -116,28 +115,28 @@ logger.fine("no method: " + getBooleanGetterName(name));
             field.set(bean, value);
             return;
         } catch (IllegalAccessException e) {
-logger.fine("no field: " + name);
+logger.log(Level.DEBUG, "no field: " + name);
         }
 
         try {
             setPrivateFieldValue(field, bean, value);
             return;
         } catch (IllegalStateException e) {
-logger.fine("no private field: " + name);
+logger.log(Level.DEBUG, "no private field: " + name);
         }
 
         try {
             setByMethod(bean, name, valueClass, value);
             return;
         } catch (NoSuchMethodException e) {
-logger.fine("no method: " + name);
+logger.log(Level.DEBUG, "no method: " + name);
         }
 
         try {
             setByMethod(bean, getSetterName(name), valueClass, value);
             return;
         } catch (NoSuchMethodException e) {
-logger.fine("no method: " + getSetterName(name));
+logger.log(Level.DEBUG, "no method: " + getSetterName(name));
         }
 
         throw new IllegalArgumentException(field.getName());
@@ -182,7 +181,7 @@ logger.fine("no method: " + getSetterName(name));
         try {
             return method.invoke(bean, args);
         } catch (IllegalAccessException e) {
-logger.fine("method access exception: " + method.getName());
+logger.log(Level.DEBUG, "method access exception: " + method.getName());
         } catch (InvocationTargetException e) {
             throw new IllegalStateException(e);
         }
@@ -267,7 +266,7 @@ logger.fine("method access exception: " + method.getName());
             Field field = getFieldByNameOf(bean.getClass(), name);
             return getFieldValue(field, bean);
         } catch (NoSuchFieldException e) {
-logger.fine("no field: " + name);
+logger.log(Level.DEBUG, "no field: " + name);
         }
 
 
@@ -275,25 +274,25 @@ logger.fine("no field: " + name);
             Field field = getFieldByNameOf(bean.getClass(), name);
             return getPrivateFieldValue(field, bean);
         } catch (NoSuchFieldException e) {
-logger.fine("no private field: " + name);
+logger.log(Level.DEBUG, "no private field: " + name);
         }
 
         try {
             return getByMethod(bean, name);
         } catch (NoSuchMethodException e) {
-logger.fine("no method: " + name);
+logger.log(Level.DEBUG, "no method: " + name);
         }
 
         try {
             return getByMethod(bean, getGetterName(name));
         } catch (NoSuchMethodException e) {
-logger.fine("no method: " + getGetterName(name));
+logger.log(Level.DEBUG, "no method: " + getGetterName(name));
         }
 
         try {
             return getByMethod(bean, getBooleanGetterName(name));
         } catch (NoSuchMethodException e) {
-logger.fine("no method: " + getBooleanGetterName(name));
+logger.log(Level.DEBUG, "no method: " + getBooleanGetterName(name));
         }
 
         throw new IllegalArgumentException(name);

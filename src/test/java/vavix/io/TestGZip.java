@@ -31,12 +31,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
- * Test1.
+ * TestGZip.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/10/15 umjammer initial version <br>
  */
-public class Test1 {
+public class TestGZip {
 
     @BeforeAll
     static void setup() throws IOException {
@@ -199,7 +199,7 @@ System.err.println(r);
     @Test
     public void test005() throws Exception {
 
-        File inFile = new File("src/test/java/vavix/io/Test1.java");
+        File inFile = new File("src/test/java/vavix/io/TestRot13.java");
 Debug.println(inFile.length());
         InputStream fis = new BufferedInputStream(Files.newInputStream(inFile.toPath()));
         InputStream is = new OutputEngineInputStream(new IOStreamOutputEngine(fis, Rot13.OutputStream::new));
@@ -232,7 +232,7 @@ Debug.println(inFile.length() + ", " + outFile.length());
     @Test
     public void test006() throws Exception {
 
-        File inFile = new File("src/test/java/vavix/io/Test1.java");
+        File inFile = new File("src/test/java/vavix/io/TestRot13.java");
 Debug.println(inFile.length());
         final InputStream in = new Rot13.InputStream(new BufferedInputStream(Files.newInputStream(inFile.toPath())));
         final File outFile = new File("tmp/out.txt");
