@@ -6,9 +6,10 @@
 
 package vavi.net.www.content;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.net.ContentHandler;
 import java.util.ServiceLoader;
-import java.util.logging.Logger;
 
 
 /**
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class ContentHandlerUtil {
 
-    private static final Logger logger = Logger.getLogger(ContentHandlerUtil.class.getName());
+    private static final Logger logger = System.getLogger(ContentHandlerUtil.class.getName());
 
     private ContentHandlerUtil() {
     }
@@ -33,9 +34,9 @@ public class ContentHandlerUtil {
     public static void loadService() {
         ServiceLoader<ContentHandler> loader = ServiceLoader.load(ContentHandler.class);
         StringBuilder packages = new StringBuilder(System.getProperty("java.content.handler.pkgs", ""));
-logger.info("java.content.handler.pkgs: before: " + packages);
+logger.log(Level.INFO, "java.content.handler.pkgs: before: " + packages);
         for (ContentHandler handler : loader) {
-logger.info("content: " + handler.getClass().getName());
+logger.log(Level.INFO, "content: " + handler.getClass().getName());
             String packageName = handler.getClass().getPackage().getName();
             String superPackageName = packageName.substring(0, packageName.lastIndexOf('.'));
             if (packages.indexOf(superPackageName) < 0) {
@@ -45,7 +46,7 @@ logger.info("content: " + handler.getClass().getName());
                 packages.append(superPackageName);
             }
         }
-logger.info("java.content.handler.pkgs: after: " + packages);
+logger.log(Level.INFO, "java.content.handler.pkgs: after: " + packages);
         System.setProperty("java.content.handler.pkgs", packages.toString());
     }
 }
