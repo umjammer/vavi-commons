@@ -7,6 +7,7 @@
 package vavi.util.properties.annotation;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.lang.annotation.Annotation;
@@ -15,6 +16,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -230,7 +232,7 @@ logger.log(Level.TRACE, "replace: " + name + ", " + key + ", " + args[i]);
                 String url = replaceWithArgs(replaceWithEnvOrProps(baseUrl), args);
 logger.log(Level.TRACE, "url: finally: " + url);
                 try {
-                    props.load(new URL(url).openStream());
+                    props.load(new InputStreamReader(new URL(url).openStream(), StandardCharsets.UTF_8));
                 } catch (IOException e) {
                     if (useSystem(bean)) {
 logger.log(Level.TRACE, "url: useSystem is enabled");

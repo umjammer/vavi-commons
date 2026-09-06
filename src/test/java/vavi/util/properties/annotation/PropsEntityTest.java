@@ -363,4 +363,18 @@ public class PropsEntityTest {
         assertEquals("🍓", bean.b);
         assertEquals("🍊", bean.c);
     }
+
+    @PropsEntity(url = "classpath:vavi/util/properties/annotation/propsEntityTest.properties")
+    public static class Test19 {
+        @Property
+        String utf8data;
+    }
+
+    @Test
+    @DisplayName("utf8")
+    public void test19() throws Exception {
+        Test19 bean = new Test19();
+        PropsEntity.Util.bind(bean);
+        assertEquals("日本語OK", bean.utf8data);
+    }
 }
