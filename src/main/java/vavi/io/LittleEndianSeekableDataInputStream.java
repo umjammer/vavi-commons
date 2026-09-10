@@ -55,6 +55,16 @@ logger.log(Level.TRACE, "%d, %d".formatted(pos, position()));
         return ledis.read();
     }
 
+    /**
+     * Without this, {@link InputStream}'s default implementation is used, which loops on
+     * {@link #read()} and so costs one channel read per byte. Delegating keeps it a single
+     * bulk read on the channel.
+     */
+    @Override
+    public int read(byte[] b, int offset, int len) throws IOException {
+        return ledis.read(b, offset, len);
+    }
+
     @Override
     public short readShort() throws IOException {
         return ledis.readShort();
