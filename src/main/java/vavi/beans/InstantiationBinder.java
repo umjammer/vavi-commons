@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 200227 nsano initial version <br>
  */
-public class InstanciationBinder extends DefaultBinder {
+public class InstantiationBinder extends DefaultBinder {
 
     @Override
     public void bind(Object destBean, Field field, Class<?> fieldClass, String value, Object elseValue) {

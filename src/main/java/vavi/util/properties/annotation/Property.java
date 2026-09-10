@@ -100,7 +100,7 @@ public @interface Property {
         /**
          * @param field @{@link Property} annotated field.
          */
-        static <T> Binder getBinder(Field field) {
+        static Binder getBinder(Field field) {
             Property target = field.getAnnotation(Property.class);
             if (target == null) {
                 throw new IllegalArgumentException("bean is not annotated with @Property");
