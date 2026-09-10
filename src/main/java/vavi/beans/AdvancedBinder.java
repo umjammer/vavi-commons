@@ -9,6 +9,7 @@ package vavi.beans;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.nio.file.Path;
 
 
 /**
@@ -20,13 +21,18 @@ import java.lang.reflect.Field;
 public class AdvancedBinder extends DefaultBinder {
 
     /**
-     * This method is able to set a {@link java.io.File}, {@link java.io.InputStream} and {@code enum} type field.
+     * This method is able to set a {@link File}, {@link Path}, {@link InputStream} and {@code enum} type field.
+     * <p>
+     * {@link InputStream} is made by {@link Class#getResourceAsStream}.
+     * </p>
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void bind(Object destBean, Field field, Class<?> fieldClass, String value, Object elseValue) {
         if (fieldClass.equals(File.class)) {
             BeanUtil.setFieldValue(field, destBean, value == null || value.isEmpty() ? null : new File(value));
+        } else if (fieldClass.equals(Path.class)) {
+            BeanUtil.setFieldValue(field, destBean, value == null || value.isEmpty() ? null : Path.of(value));
         } else if (fieldClass.equals(InputStream.class)) {
             BeanUtil.setFieldValue(field, destBean, value == null || value.isEmpty() ? null : AdvancedBinder.class.getResourceAsStream(value));
         } else if (fieldClass.isEnum()) {

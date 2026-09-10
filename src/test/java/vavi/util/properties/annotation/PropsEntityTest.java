@@ -206,7 +206,7 @@ public class PropsEntityTest {
 
     @PropsEntity(url = "classpath:vavi/util/properties/annotation/propsEntityTest.properties")
     public static class Test10 {
-        @Property(binder = vavi.beans.InstanciationBinder.class)
+        @Property(binder = vavi.beans.InstantiationBinder.class)
         Binder data4;
     }
 
