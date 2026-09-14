@@ -14,22 +14,25 @@ import java.nio.ByteOrder;
 
 /**
  * A stream to read bit by bit.
- *
- * TODO odd bits
+ * <p>
+ * bits are 1 ~ 8, a value may span over byte boundaries.
+ * big endian reads from MSB of each byte, little endian reads from LSB of each byte.
+ * trailing bits that are fewer than {@link #bits} at the end of the stream are discarded.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030713 nsano initial version <br>
  *          0.01 030714 nsano fix available() <br>
  *          0.02 030715 nsano read() BitOrder support <br>
  *          0.03 030716 nsano 2bit support <br>
+ *          0.04 260915 nsano odd bits support <br>
  */
 public class BitInputStream extends FilterInputStream {
 
     /** bits number */
-    private int bits = 4;
+    private final int bits;
 
     /** bit order */
-    private ByteOrder bitOrder = ByteOrder.BIG_ENDIAN;
+    private final ByteOrder bitOrder;
 
     /**
      * Create a stream to read bit by bit. 4Bit, big endian．
@@ -45,37 +48,33 @@ public class BitInputStream extends FilterInputStream {
         this(in, bits, ByteOrder.BIG_ENDIAN);
     }
 
-    /** MSB is on */
-    private int mask;
+    /** lower {@link #bits} bits are on */
+    private final int mask;
 
     /**
      * Create a stream to read bit by bit.
+     *
+     * @param bits 1 ~ 8
      */
     public BitInputStream(InputStream in, int bits, ByteOrder bitOrder) {
         super(in);
-        if (bits != 4 && bits != 2) {
-            throw new IllegalArgumentException("currently, only supported 2, 4 bit reading");
+        if (bits < 1 || bits > 8) {
+            throw new IllegalArgumentException("bits must be 1 ~ 8: " + bits);
         }
         this.bits = bits;
         this.bitOrder = bitOrder;
-
-        for (int i = 0; i < bits; i++) {
-            mask |= (0x80 >> i);
-        }
-//logger.log(Level.TRACE, bits + ", " + StringUtil.toBits(mask, 8));
-//logger.log(Level.TRACE, bits + ", " + StringUtil.toBits(mask >> 4, 8));
+        this.mask = (1 << bits) - 1;
     }
 
     /** remaining bits for reading */
     private int restBits = 0;
 
-    /** big endian */
+    /** bit buffer, valid bits are lower {@link #restBits} bits */
     private int current;
 
-    /** */
     @Override
     public int available() throws IOException {
-        return (in.available() * (8 / bits)) + (restBits / bits);
+        return (in.available() * 8 + restBits) / bits;
     }
 
     /**
@@ -84,50 +83,31 @@ public class BitInputStream extends FilterInputStream {
     @Override
     public int read() throws IOException {
 
-        if (restBits == 0) {
-            current = in.read();
-            if (current == -1) {
+        while (restBits < bits) {
+            int c = in.read();
+            if (c == -1) {
                 return -1;
             }
 
             if (ByteOrder.LITTLE_ENDIAN.equals(bitOrder)) {
-// Debug.println("B: " + StringUtil.toHex2(current) + ": " +
-// StringUtil.toBits(current, 8));
-                current = convertEndian(current);
-// Debug.println("A: " + StringUtil.toHex2(current) + ": " +
-// StringUtil.toBits(current, 8));
+                current |= c << restBits;
+            } else {
+                current = (current << 8) | c;
             }
-            restBits = 8;
+            restBits += 8;
         }
 
-        int c = (current & (mask >> (8 - restBits))) >> (restBits - bits);
+        int c;
+        if (ByteOrder.LITTLE_ENDIAN.equals(bitOrder)) {
+            c = current & mask;
+            current >>>= bits;
+        } else {
+            c = (current >> (restBits - bits)) & mask;
+        }
         restBits -= bits;
+        current &= (1 << restBits) - 1;
 
-// Debug.println("R: " + StringUtil.toHex2(c) + ": " +
-// StringUtil.toBits(c, 4));
         return c;
-    }
-
-    /**
-     * <pre>
-     *  2Bit
-     *    1    2    3    4       4    3    2    1
-     *  | 01 | 11 | 10 | 01 | -&gt; | 01 | 10 | 11 | 01 |
-     * </pre>
-     *
-     * @param c 8bit
-     */
-    private int convertEndian(int c) {
-        int max = 8 / bits;
-        int r = 0;
-        for (int i = 0; i < max; i++) {
-            int s1 = i * bits;
-            int m = mask >> s1;
-            int s2 = (max - 1 - i) * bits;
-            int v = (c & m) >> s2;
-            r |= v << s1;
-        }
-        return r;
     }
 
     /**
@@ -156,9 +136,7 @@ public class BitInputStream extends FilterInputStream {
                 if (c == -1) {
                     break;
                 }
-                if (b != null) {
-                    b[off + i] = (byte) c;
-                }
+                b[off + i] = (byte) c;
             }
         } catch (IOException e) {
             e.printStackTrace(System.err);

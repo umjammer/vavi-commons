@@ -18,18 +18,23 @@ import static java.lang.System.getLogger;
 
 /**
  * A stream to write bit by bit.
+ * <p>
+ * bits are 1 ~ 8, a value may span over byte boundaries.
+ * big endian writes from MSB of each byte, little endian writes from LSB of each byte.
+ * {@link #flush()} writes stacked bits that are fewer than 8 as a byte padded with 0.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 030713 nsano initial version <br>
+ *          0.01 260915 nsano odd bits support <br>
  */
 public class BitOutputStream extends FilterOutputStream {
 
     private static final Logger logger = getLogger(BitOutputStream.class.getName());
 
     /** bits number */
-    private int bits = 4;
+    private final int bits;
     /** bit order */
-    private ByteOrder bitOrder = ByteOrder.BIG_ENDIAN;
+    private final ByteOrder bitOrder;
 
     /**
      * Creates a stream to write bit by bit.
@@ -47,91 +52,67 @@ public class BitOutputStream extends FilterOutputStream {
         this(out, bits, ByteOrder.BIG_ENDIAN);
     }
 
-    /** LSB is on */
-    private int mask;
+    /** lower {@link #bits} bits are on */
+    private final int mask;
 
     /**
      * Creates a stream to write bit by bit.
+     *
+     * @param bits 1 ~ 8
      */
     public BitOutputStream(OutputStream out, int bits, ByteOrder bitOrder) {
         super(out);
-if (bits != 4 && bits != 2) {
- throw new IllegalArgumentException("currently, only supported 2, 4 bit reading");
-}
+        if (bits < 1 || bits > 8) {
+            throw new IllegalArgumentException("bits must be 1 ~ 8: " + bits);
+        }
         this.bits = bits;
         this.bitOrder = bitOrder;
-
-        for (int i = 0; i < bits; i++) {
-            mask |= (0x01 << i);
-        }
-//logger.log(Level.TRACE, bits + ", " + StringUtil.toBits(mask, 8));
-//logger.log(Level.TRACE, bits + ", " + StringUtil.toBits(mask << 4, 8));
+        this.mask = (1 << bits) - 1;
     }
 
     /** stacked bits */
     private int stackedBits = 0;
-    /** stuck in big endian */
+    /** bit buffer, valid bits are lower {@link #stackedBits} bits */
     private int current = 0;
-
-    /**
-     * convert 8bits to little endian.
-     * <pre>
-     * 2Bit
-     *   1    2    3    4         4    3    2    1
-     * | 01 | 11 | 10 | 01 | -> | 01 | 10 | 11 | 01 |
-     * </pre>
-     * @param c 8bit
-     */
-    private int convertEndian(int c) {
-        int max = 8 / bits;
-        int r = 0;
-        for (int i = 0; i < max; i++) {
-            int s1 = (max - 1 - i) * bits;
-            int m = mask << s1;
-            int v = (c & m) >> s1;
-            int s2 = i * bits;
-            r |= v << s2;
-        }
-        return r;
-    }
 
     /**
      * Writes bits specified by {@link #bits}.
      */
     @Override
     public void write(int b) throws IOException {
-
         b &= mask;
-//logger.log(Level.TRACE, StringUtil.toHex4(b) + ": " + StringUtil.toBits(b, 8));
-        current |= b << (8 - stackedBits - bits);
 
+        if (ByteOrder.LITTLE_ENDIAN.equals(bitOrder)) {
+            current |= b << stackedBits;
+        } else {
+            current = (current << bits) | b;
+        }
         stackedBits += bits;
 
-        if (stackedBits == 8) {
+        while (stackedBits >= 8) {
+            stackedBits -= 8;
             if (ByteOrder.LITTLE_ENDIAN.equals(bitOrder)) {
-//logger.log(Level.TRACE, "B: " + StringUtil.toHex4(current) + ": " + StringUtil.toBits(current, 8));
-                current = convertEndian(current);
-//logger.log(Level.TRACE, "A: " + StringUtil.toHex4(current) + ": " + StringUtil.toBits(current, 8));
+                out.write(current & 0xff);
+                current >>>= 8;
+            } else {
+                out.write((current >> stackedBits) & 0xff);
+                current &= (1 << stackedBits) - 1;
             }
-//logger.log(Level.TRACE, StringUtil.toHex4(current) + ": " + StringUtil.toBits(current, 8));
-            out.write(current);
-            stackedBits= 0;
-            current = 0;
         }
     }
 
     @Override
     public void flush() throws IOException {
-//logger.log(Level.TRACE, "stacked bits: " + stackedBits);
-        super.flush();
         if (stackedBits != 0) {
 logger.log(Level.DEBUG, "stacked bits: " + stackedBits + " flushed.");
-            out.write(current);
+            if (ByteOrder.LITTLE_ENDIAN.equals(bitOrder)) {
+                out.write(current & 0xff);
+            } else {
+                out.write((current << (8 - stackedBits)) & 0xff);
+            }
+            stackedBits = 0;
+            current = 0;
         }
-    }
-
-    @Override
-    public void close() throws IOException {
-        super.close();
+        super.flush();
     }
 }

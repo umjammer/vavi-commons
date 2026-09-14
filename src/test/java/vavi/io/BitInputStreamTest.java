@@ -103,6 +103,72 @@ public class BitInputStreamTest {
         }
     }
 
+    /** 10110110 01101101 */
+    @Test
+    public void test_3Bit_BE() throws Exception {
+        ByteArrayInputStream bais = new ByteArrayInputStream(new byte[] { (byte) 0xb6, (byte) 0x6d });
+        try (BitInputStream bis = new BitInputStream(bais, 3)) { // 3bit BigEndian
+            assertEquals(5, bis.available());
+            assertEquals(0b101, bis.read());
+            assertEquals(0b101, bis.read());
+            assertEquals(0b100, bis.read());
+            assertEquals(0b110, bis.read());
+            assertEquals(0b110, bis.read());
+            assertEquals(0, bis.available());
+            assertEquals(-1, bis.read());
+        }
+    }
+
+    /** 10110110 01101101 */
+    @Test
+    public void test_3Bit_LE() throws Exception {
+        ByteArrayInputStream bais = new ByteArrayInputStream(new byte[] { (byte) 0xb6, (byte) 0x6d });
+        try (BitInputStream bis = new BitInputStream(bais, 3, ByteOrder.LITTLE_ENDIAN)) { // 3bit LittleEndian
+            assertEquals(0b110, bis.read());
+            assertEquals(0b110, bis.read());
+            assertEquals(0b110, bis.read()); // 1 of 0x6d + 10 of 0xb6
+            assertEquals(0b110, bis.read());
+            assertEquals(0b110, bis.read());
+            assertEquals(0, bis.available());
+            assertEquals(-1, bis.read());
+        }
+    }
+
+    /** 10110110 01101101 */
+    @Test
+    public void test_5Bit_BE() throws Exception {
+        ByteArrayInputStream bais = new ByteArrayInputStream(new byte[] { (byte) 0xb6, (byte) 0x6d });
+        try (BitInputStream bis = new BitInputStream(bais, 5)) { // 5bit BigEndian
+            assertEquals(0b10110, bis.read());
+            assertEquals(0b11001, bis.read());
+            assertEquals(0b10110, bis.read());
+            assertEquals(-1, bis.read());
+        }
+    }
+
+    /** 10110110 01101101 */
+    @Test
+    public void test_5Bit_LE() throws Exception {
+        ByteArrayInputStream bais = new ByteArrayInputStream(new byte[] { (byte) 0xb6, (byte) 0x6d });
+        try (BitInputStream bis = new BitInputStream(bais, 5, ByteOrder.LITTLE_ENDIAN)) { // 5bit LittleEndian
+            assertEquals(0b10110, bis.read());
+            assertEquals(0b01101, bis.read()); // 01 of 0x6d + 101 of 0xb6
+            assertEquals(0b11011, bis.read());
+            assertEquals(-1, bis.read());
+        }
+    }
+
+    /** */
+    @Test
+    public void test_8Bit_BE() throws Exception {
+        ByteArrayInputStream bais = new ByteArrayInputStream(new byte[] { (byte) 0xb6, (byte) 0x6d });
+        try (BitInputStream bis = new BitInputStream(bais, 8)) {
+            assertEquals(0xb6, bis.read());
+            assertEquals(0x6d, bis.read());
+            assertEquals(-1, bis.read());
+        }
+    }
+
     // -------------------------------------------------------------------------
 
     /** */
