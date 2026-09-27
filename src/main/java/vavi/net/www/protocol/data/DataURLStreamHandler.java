@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2024-02-24 nsano initial version <br>
  */
-public class DataURLStreamHandler extends URLStreamHandler {
+class DataURLStreamHandler extends URLStreamHandler {
 
     /**
      * A URLConnection for use with URLs returned by MemoryClassLoader.getResource.

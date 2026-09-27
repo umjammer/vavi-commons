@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2016 by Naohide Sano, All rights reserved.
+ * Copyright (c) 2026 by Naohide Sano, All rights reserved.
  *
  * Programmed by Naohide Sano
  */
 
-package vavi.net.www.content.application;
+package vavi.net.www.content.application.ini;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -47,7 +47,7 @@ System.err.println(content);
         URLConnection.setContentHandlerFactory(mimetype -> { // TODO <--
 System.err.println(mimetype); // got 
             if (mimetype.equalsIgnoreCase("application/ini"))
-                return new vavi.net.www.content.application.ini();
+                return new ini();
             else
                 return null;
         });

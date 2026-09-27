@@ -1,15 +1,13 @@
 /*
- * Copyright (c) 2024 by Naohide Sano, All rights reserved.
+ * Copyright (c) 2026 by Naohide Sano, All rights reserved.
  *
  * Programmed by Naohide Sano
  */
 
-package vavi.net.www.protocol;
+package vavi.net.www.protocol.classpath;
 
 import java.net.URLStreamHandler;
 import java.net.spi.URLStreamHandlerProvider;
-
-import vavi.net.www.protocol.classpath.Handler;
 
 
 /**

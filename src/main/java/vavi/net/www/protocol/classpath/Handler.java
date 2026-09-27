@@ -22,7 +22,7 @@ import java.net.URLStreamHandler;
  * @author http://stackoverflow.com/users/37193/stephen
  * @see "http://stackoverflow.com/questions/861500/url-to-load-resources-from-the-classpath-in-java"
  */
-public class Handler extends URLStreamHandler {
+class Handler extends URLStreamHandler {
 
     /** The classloader to find resources from. */
     private final ClassLoader classLoader;

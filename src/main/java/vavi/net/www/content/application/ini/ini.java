@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2016 by Naohide Sano, All rights reserved.
+ * Copyright (c) 2026 by Naohide Sano, All rights reserved.
  *
  * Programmed by Naohide Sano
  */
 
-package vavi.net.www.content.application;
+package vavi.net.www.content.application.ini;
 
 import java.io.IOException;
 import java.io.InputStream;
