@@ -1,1 +1,2 @@
-vavi.net.www.protocol.ClasspathURLStreamHandlerProvider
+vavi.net.www.protocol.classpath.ClasspathURLStreamHandlerProvider
+vavi.net.www.protocol.data.DataURLStreamHandlerProvider
