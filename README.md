@@ -134,9 +134,9 @@ java runtime option
  * jar in jar loader
  * ~~native jar~~ -> [NLL](https://github.com/scijava/native-lib-loader)
  * use jpl for Debug
- * urlstreamhandler
+ * ~~urlstreamhandler~~
    * ~~use java11 urlstreamhandler spi~~
-   * import image:data:base64 from jwinzip
+   * ~~import image:data:base64 from jwinzip~~
  * ~~PropsEntity ... detect in super classes~~
  * ByteUtil 48bit rw
 
